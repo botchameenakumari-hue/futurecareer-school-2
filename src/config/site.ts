@@ -528,6 +528,21 @@ export const LIVE_INDEXABLE_ROUTES = ([
     priority: '0.7',
   },
   {
+    path: '/tools/career-counselling-form',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/student-mentoring-form-and-report',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/life-skills-workbook-pdf',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
     path: '/tools/career-decision-journal',
     changefreq: 'monthly',
     priority: '0.8',

@@ -357,6 +357,11 @@ export const bundle: SkillTestBundle = {
     ],
     related: [
       {
+        href: '/tools/life-skills-workbook-pdf/',
+        title: 'Life Skills Workbook (PDF)',
+        description: 'Reflection questions and a 7-day practice for each of the ten WHO life skills.',
+      },
+      {
         href: '/services/assessments/time-management-self-assessment/',
         title: 'Time Management Self-Assessment',
         description: 'How you plan, prioritise and protect your hours, scored by area.',

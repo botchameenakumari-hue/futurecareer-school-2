@@ -1,0 +1,492 @@
+---
+import { SCALE, SCALE_TIPS } from '../config/scalability.mjs';
+
+const scaleData = {
+  labels: { high: SCALE.high.label, mid: SCALE.mid.label, low: SCALE.low.label },
+  tips: { high: SCALE_TIPS.high, mid: SCALE_TIPS.mid, low: SCALE_TIPS.low },
+};
+const actionRows = [0, 1, 2, 3];
+---
+
+<section class="smr" id="student-mentoring-form" aria-labelledby="smr-title">
+  <h2 id="smr-title">Mentoring session record and report builder</h2>
+  <p class="smr-note"><b>Private by design:</b> everything you type stays in this browser. The tool asks for no names, phone numbers or email addresses, and it sends nothing to this site. On a shared school or college computer, press Clear all saved data when you finish.</p>
+
+  <div class="smr-tabs" role="tablist" aria-label="Choose the form or the report">
+    <button type="button" role="tab" id="smr-tab-record" aria-controls="smr-panel-record" aria-selected="true" data-smr-tab="record">1. Session record</button>
+    <button type="button" role="tab" id="smr-tab-report" aria-controls="smr-panel-report" aria-selected="false" data-smr-tab="report" tabindex="-1">2. Mentoring report</button>
+  </div>
+
+  <div id="smr-panel-record" role="tabpanel" aria-labelledby="smr-tab-record" class="smr-panel">
+    <form class="smr-form" id="smr-form-record" novalidate onsubmit="return false">
+      <div class="smr-screen">
+        <fieldset class="smr-box">
+          <legend>Who is filling this in</legend>
+          <div class="smr-grid">
+            <label>Role
+              <select data-k="role">
+                <option value="teacher">Teacher or school mentor</option>
+                <option value="college">College mentor or faculty</option>
+                <option value="senior">Senior student mentoring a junior</option>
+                <option value="student">Student keeping a personal record</option>
+              </select>
+            </label>
+            <label>Initials (optional)
+              <input type="text" data-k="initials" maxlength="6" autocomplete="off" placeholder="For example AB" />
+            </label>
+            <label>Session number
+              <input type="number" data-k="no" min="1" max="99" inputmode="numeric" />
+            </label>
+            <label>Session date
+              <input type="date" data-k="date" />
+            </label>
+          </div>
+          <p class="smr-hint">Use initials only, or leave the field empty. Do not type a full name, phone number, email address or any health or family detail.</p>
+        </fieldset>
+
+        <fieldset class="smr-box">
+          <legend>What happened in the session</legend>
+          <label>1. Goal of this session
+            <textarea data-k="goal" rows="3" maxlength="600" placeholder="What did we want to get out of this session?"></textarea>
+          </label>
+          <label>2. Progress since the last session
+            <textarea data-k="progress" rows="3" maxlength="600" placeholder="What changed, what was finished, what was not?"></textarea>
+          </label>
+          <label>3. Obstacles
+            <textarea data-k="obstacles" rows="3" maxlength="600" placeholder="What is getting in the way? Time, money, marks, confidence, information, distance"></textarea>
+          </label>
+        </fieldset>
+
+        <fieldset class="smr-box">
+          <legend>4. Agreed actions with dates</legend>
+          <p class="smr-hint">Write each action so that someone could tell, on the date, whether it was done. Leave unused rows empty.</p>
+          {actionRows.map((i) => (
+            <div class="smr-action">
+              <label class="smr-action-text">Action {i + 1}
+                <input type="text" data-act={i} data-f="t" maxlength="200" autocomplete="off" placeholder="For example: read the official eligibility page for one course" />
+              </label>
+              <label>Due date
+                <input type="date" data-act={i} data-f="due" />
+              </label>
+              <label>Status
+                <select data-act={i} data-f="status">
+                  <option value="open">Open</option>
+                  <option value="done">Done</option>
+                  <option value="moved">Moved to a new date</option>
+                  <option value="dropped">Dropped</option>
+                </select>
+              </label>
+            </div>
+          ))}
+        </fieldset>
+
+        <fieldset class="smr-box">
+          <legend>5. Follow-up</legend>
+          <div class="smr-grid smr-grid--2">
+            <label>Next session or check date
+              <input type="date" data-k="followDate" />
+            </label>
+            <label>How will progress be checked?
+              <input type="text" data-k="followHow" maxlength="200" autocomplete="off" placeholder="For example: bring the notes and review them together" />
+            </label>
+          </div>
+        </fieldset>
+
+        <fieldset class="smr-box">
+          <legend>6. Option or route suggested (optional)</legend>
+          <p class="smr-hint">If the mentor suggested a course, route, skill or job, name it and mark it for growth. The marks are explained below the tool.</p>
+          <div class="smr-grid smr-grid--2">
+            <label>Option suggested
+              <input type="text" data-k="option" maxlength="160" autocomplete="off" placeholder="A course, route, skill or job" />
+            </label>
+            <label>Growth mark
+              <select data-k="mark">
+                <option value="unchecked">Not yet checked</option>
+                <option value="high">Scalable</option>
+                <option value="mid">Scalable with a business layer</option>
+                <option value="low">Not so scalable</option>
+              </select>
+            </label>
+          </div>
+          <label>Risk to remember
+            <input type="text" data-k="risk" maxlength="200" autocomplete="off" placeholder="For example: very competitive, long wait before pay grows" />
+          </label>
+        </fieldset>
+
+        <fieldset class="smr-box">
+          <legend>7. Career guidance feedback form (student side, optional)</legend>
+          <label>What was most useful in this session?
+            <textarea data-k="useful" rows="2" maxlength="400"></textarea>
+          </label>
+          <label>What was unclear or did not fit?
+            <textarea data-k="unclear" rows="2" maxlength="400"></textarea>
+          </label>
+          <label>How clear was the advice?
+            <select data-k="clarity">
+              <option value="unset">Not recorded</option>
+              <option value="clear">Very clear</option>
+              <option value="mostly">Mostly clear</option>
+              <option value="unclear">Unclear</option>
+            </select>
+          </label>
+        </fieldset>
+
+        <div class="smr-actions">
+          <button type="button" class="smr-btn smr-btn--primary" data-smr="save" id="smr-save">Save to report log</button>
+          <button type="button" class="smr-btn" data-smr="pdf-record">Download record PDF</button>
+          <button type="button" class="smr-btn" data-smr="print-record">Print record</button>
+          <button type="button" class="smr-btn" data-smr="new">Start a new record</button>
+        </div>
+        <p class="smr-status" id="smr-status-record" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+
+    <div class="smr-previewhead smr-screen">
+      <h3>Preview of the record</h3>
+      <p class="smr-hint">The PDF and the printout use exactly this content. Leave fields empty and the preview shows ruled lines, so you can print a blank form and write by hand.</p>
+    </div>
+    <article class="smr-doc" id="smr-doc-record" aria-label="Preview of the session record"></article>
+  </div>
+
+  <div id="smr-panel-report" role="tabpanel" aria-labelledby="smr-tab-report" class="smr-panel" hidden>
+    <div class="smr-screen">
+      <fieldset class="smr-box">
+        <legend>Report details</legend>
+        <label>Period covered
+          <input type="text" data-r="period" maxlength="80" autocomplete="off" placeholder="For example: Term 2, or August to November" />
+        </label>
+        <label>Focus of the mentoring
+          <textarea data-r="focus" rows="3" maxlength="600" placeholder="What was the mentoring about? For example: choosing a stream, building a project, preparing for an entrance exam"></textarea>
+        </label>
+        <label>Mentor observations
+          <textarea data-r="observations" rows="3" maxlength="600" placeholder="What stood out across these sessions? Stay with what you saw and what was done"></textarea>
+        </label>
+        <label>Recommended next steps
+          <textarea data-r="next" rows="3" maxlength="600" placeholder="What should happen next, and who will do it?"></textarea>
+        </label>
+      </fieldset>
+
+      <div class="smr-box">
+        <h3 class="smr-loghead">Saved sessions</h3>
+        <p class="smr-hint" id="smr-logcount"></p>
+        <ol class="smr-log" id="smr-log"></ol>
+      </div>
+
+      <div class="smr-actions">
+        <button type="button" class="smr-btn smr-btn--primary" data-smr="pdf-report">Download report PDF</button>
+        <button type="button" class="smr-btn" data-smr="print-report">Print report</button>
+        <button type="button" class="smr-btn smr-btn--warn" data-smr="clear-all">Clear all saved data</button>
+      </div>
+      <p class="smr-status" id="smr-status-report" role="status" aria-live="polite"></p>
+    </div>
+
+    <div class="smr-previewhead smr-screen">
+      <h3>Preview of the report</h3>
+      <p class="smr-hint">The report is built only from the sessions you saved and the text you typed above. Nothing is added or scored.</p>
+    </div>
+    <article class="smr-doc" id="smr-doc-report" aria-label="Preview of the mentoring report"></article>
+  </div>
+
+  <noscript><p class="smr-note">This tool needs JavaScript. You can copy the headings above onto paper and use them as a handwritten form.</p></noscript>
+  <script is:inline type="application/json" id="smr-scale-data" set:html={JSON.stringify(scaleData)} />
+</section>
+
+<script>
+  // @ts-nocheck
+  import {
+    STORAGE_KEY, MAX_SESSIONS, blankDraft, blankReport, normaliseDraft, nextSessionNo, todayISO, fmtDate,
+    recordModel, reportModel, modelToHtml, esc, buildPdf, hasUnsupportedText, DEFAULT_SCALE,
+  } from '../scripts/studentMentoring';
+
+  const root = document.getElementById('student-mentoring-form');
+  if (root) {
+    let scale = DEFAULT_SCALE;
+    try { scale = JSON.parse(document.getElementById('smr-scale-data').textContent) || DEFAULT_SCALE; } catch (e) {}
+
+    const state = { draft: blankDraft(1), sessions: [], report: blankReport(), editingId: null };
+    try {
+      const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+      if (raw && typeof raw === 'object') {
+        if (Array.isArray(raw.sessions)) state.sessions = raw.sessions.slice(0, MAX_SESSIONS).map((s) => Object.assign(normaliseDraft(s), { id: String(s.id || Math.random()) }));
+        state.report = Object.assign(blankReport(), raw.report || {});
+        state.draft = normaliseDraft(raw.draft, nextSessionNo(state.sessions));
+        state.editingId = raw.editingId || null;
+        if (state.editingId && !state.sessions.some((s) => s.id === state.editingId)) state.editingId = null;
+      }
+    } catch (e) {}
+
+    const $ = (sel) => root.querySelector(sel);
+    const docRecord = $('#smr-doc-record');
+    const docReport = $('#smr-doc-report');
+    const saveBtn = $('#smr-save');
+    const statusEl = { record: $('#smr-status-record'), report: $('#smr-status-report') };
+    let tab = 'record';
+
+    const persist = () => {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+    };
+    const say = (which, text) => { statusEl[which].textContent = text; };
+
+    function fillForm() {
+      root.querySelectorAll('[data-k]').forEach((el) => { el.value = state.draft[el.getAttribute('data-k')] || ''; });
+      root.querySelectorAll('[data-act]').forEach((el) => {
+        const a = state.draft.actions[Number(el.getAttribute('data-act'))];
+        el.value = a ? a[el.getAttribute('data-f')] || '' : '';
+      });
+      root.querySelectorAll('[data-r]').forEach((el) => { el.value = state.report[el.getAttribute('data-r')] || ''; });
+      saveBtn.textContent = state.editingId ? 'Update saved session' : 'Save to report log';
+    }
+
+    function renderLog() {
+      const list = $('#smr-log');
+      const n = state.sessions.length;
+      $('#smr-logcount').textContent = n
+        ? n + (n === 1 ? ' session saved' : ' sessions saved') + ' in this browser (up to ' + MAX_SESSIONS + ').'
+        : 'No sessions saved yet. Fill in the session record and press Save to report log.';
+      const sorted = state.sessions.slice().sort((a, b) => String(a.date).localeCompare(String(b.date)) || (parseInt(a.no, 10) || 0) - (parseInt(b.no, 10) || 0));
+      list.innerHTML = sorted.map((s) => {
+        const goal = (s.goal || '').trim();
+        const short = goal.length > 90 ? goal.slice(0, 87) + '...' : goal;
+        return '<li><span class="smr-log-text"><b>Session ' + esc(s.no) + '</b>, ' + esc(fmtDate(s.date)) + (short ? ': ' + esc(short) : '') + '</span><span class="smr-log-btns"><button type="button" class="smr-mini" data-smr="edit" data-id="' + esc(s.id) + '">Edit</button><button type="button" class="smr-mini" data-smr="remove" data-id="' + esc(s.id) + '">Remove</button></span></li>';
+      }).join('');
+    }
+
+    function renderDocs() {
+      docRecord.innerHTML = modelToHtml(recordModel(state.draft));
+      docReport.innerHTML = modelToHtml(reportModel(state, todayISO(), scale));
+    }
+    const refresh = () => { renderDocs(); renderLog(); };
+
+    function showTab(name) {
+      tab = name;
+      ['record', 'report'].forEach((t) => {
+        const on = t === name;
+        const btn = $('#smr-tab-' + t);
+        btn.setAttribute('aria-selected', on ? 'true' : 'false');
+        btn.tabIndex = on ? 0 : -1;
+        $('#smr-panel-' + t).hidden = !on;
+      });
+    }
+    root.querySelectorAll('[data-smr-tab]').forEach((btn) => {
+      btn.addEventListener('click', () => showTab(btn.getAttribute('data-smr-tab')));
+      btn.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const next = tab === 'record' ? 'report' : 'record'; showTab(next); $('#smr-tab-' + next).focus(); }
+      });
+    });
+
+    function onField(e) {
+      const el = e.target;
+      if (el.hasAttribute('data-k')) state.draft[el.getAttribute('data-k')] = el.value;
+      else if (el.hasAttribute('data-act')) state.draft.actions[Number(el.getAttribute('data-act'))][el.getAttribute('data-f')] = el.value;
+      else if (el.hasAttribute('data-r')) state.report[el.getAttribute('data-r')] = el.value;
+      else return;
+      persist();
+      renderDocs();
+    }
+    root.addEventListener('input', onField);
+    root.addEventListener('change', onField);
+
+    function saveSession() {
+      const d = state.draft;
+      if (!d.date || !d.goal.trim()) {
+        say('record', 'Add the session date and the goal of the session before saving.');
+        const target = !d.date ? $('[data-k="date"]') : $('[data-k="goal"]');
+        if (target) target.focus();
+        return;
+      }
+      const copy = JSON.parse(JSON.stringify(d));
+      if (state.editingId) {
+        const idx = state.sessions.findIndex((s) => s.id === state.editingId);
+        copy.id = state.editingId;
+        if (idx >= 0) state.sessions[idx] = copy; else state.sessions.push(copy);
+      } else {
+        if (state.sessions.length >= MAX_SESSIONS) { say('record', 'The log holds ' + MAX_SESSIONS + ' sessions. Download the report, then clear the saved data to start a new log.'); return; }
+        copy.id = String(Date.now()) + String(Math.floor(Math.random() * 1000));
+        state.sessions.push(copy);
+      }
+      const wasEditing = !!state.editingId;
+      const role = d.role; const initials = d.initials;
+      state.editingId = null;
+      state.draft = Object.assign(blankDraft(nextSessionNo(state.sessions)), { role, initials });
+      persist(); fillForm(); refresh();
+      say('record', (wasEditing ? 'Session updated.' : 'Session saved to the report log.') + ' The form is ready for session ' + state.draft.no + '. Open the Mentoring report tab to see the summary.');
+    }
+
+    function newRecord() {
+      if (state.draft.goal.trim() && !window.confirm('Clear the form? Sessions already saved in the log are not affected.')) return;
+      const role = state.draft.role; const initials = state.draft.initials;
+      state.editingId = null;
+      state.draft = Object.assign(blankDraft(nextSessionNo(state.sessions)), { role, initials });
+      persist(); fillForm(); refresh();
+      say('record', 'The form is clear and ready for session ' + state.draft.no + '.');
+    }
+
+    function editSession(id) {
+      const s = state.sessions.find((x) => x.id === id);
+      if (!s) return;
+      state.draft = normaliseDraft(JSON.parse(JSON.stringify(s)));
+      state.editingId = id;
+      persist(); fillForm(); refresh(); showTab('record');
+      say('record', 'Editing session ' + s.no + '. Press Update saved session to keep your changes.');
+      $('#smr-form-record').scrollIntoView({ block: 'start' });
+    }
+
+    function removeSession(id) {
+      const s = state.sessions.find((x) => x.id === id);
+      if (!s || !window.confirm('Remove session ' + s.no + ' from the log?')) return;
+      state.sessions = state.sessions.filter((x) => x.id !== id);
+      if (state.editingId === id) state.editingId = null;
+      persist(); fillForm(); refresh();
+      say('report', 'Session removed from the log.');
+    }
+
+    function clearAll() {
+      if (!window.confirm('Clear the form, the saved sessions and the report text from this browser? This cannot be undone.')) return;
+      state.sessions = []; state.report = blankReport(); state.editingId = null; state.draft = blankDraft(1);
+      try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+      fillForm(); refresh();
+      say('report', 'All saved data was cleared from this browser.');
+      say('record', '');
+    }
+
+    async function downloadPdf(kind) {
+      const model = kind === 'record' ? recordModel(state.draft) : reportModel(state, todayISO(), scale);
+      const out = kind;
+      if (hasUnsupportedText(model)) {
+        say(out, 'The PDF font cannot draw some characters you typed, such as Telugu or Hindi letters. Use Print and choose Save as PDF instead, which keeps every script.');
+        return;
+      }
+      say(out, 'Preparing the PDF...');
+      try {
+        const mod = await import('jspdf');
+        const pdf = buildPdf(mod.jsPDF, model);
+        pdf.save(model.fileName);
+        say(out, 'PDF downloaded. It was made in this browser and not uploaded.');
+      } catch (err) {
+        say(out, 'The PDF could not be made. Use Print and choose Save as PDF instead.');
+      }
+    }
+
+    function printDoc(kind) {
+      if (tab !== kind) showTab(kind);
+      renderDocs();
+      document.body.setAttribute('data-smr-print', kind);
+      const done = () => { document.body.removeAttribute('data-smr-print'); window.removeEventListener('afterprint', done); };
+      window.addEventListener('afterprint', done);
+      window.print();
+    }
+
+    root.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-smr]');
+      if (!btn) return;
+      const action = btn.getAttribute('data-smr');
+      if (action === 'save') saveSession();
+      else if (action === 'new') newRecord();
+      else if (action === 'pdf-record') downloadPdf('record');
+      else if (action === 'pdf-report') downloadPdf('report');
+      else if (action === 'print-record') printDoc('record');
+      else if (action === 'print-report') printDoc('report');
+      else if (action === 'edit') editSession(btn.getAttribute('data-id'));
+      else if (action === 'remove') removeSession(btn.getAttribute('data-id'));
+      else if (action === 'clear-all') clearAll();
+    });
+
+    fillForm();
+    refresh();
+    persist();
+  }
+</script>
+
+<style is:global>
+  .smr{margin:2rem 0;padding:1.3rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05);min-width:0}
+  .smr h2{margin:0 0 .6rem}
+  .smr p,.smr li{line-height:1.65}
+  .smr-note,.smr-hint,.smr-status{font-size:.86rem;color:rgba(255,255,255,.72)}
+  .smr-hint{margin:.2rem 0 .7rem}
+  .smr-status{min-height:1.4em;color:#9ff3e6;margin:.6rem 0 0}
+  .smr-tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0}
+  .smr-tabs button{flex:1 1 11rem;min-height:46px;padding:.55rem .9rem;border:1px solid rgba(255,255,255,.22);border-radius:10px;background:rgba(255,255,255,.05);color:#fff;font:700 .95rem inherit;cursor:pointer}
+  .smr-tabs button[aria-selected="true"]{background:#129a8d;border-color:#129a8d}
+  .smr-panel[hidden]{display:none}
+  .smr-form{display:grid;gap:1rem}
+  .smr-box{min-width:0;margin:0 0 1rem;padding:1rem;border:1px solid rgba(255,255,255,.17);border-radius:12px}
+  .smr-box legend{padding:0 .4rem;font-weight:700}
+  .smr label{display:grid;gap:.35rem;margin:.65rem 0;font-size:.9rem;font-weight:600;min-width:0}
+  .smr input,.smr textarea,.smr select{width:100%;min-width:0;max-width:100%;box-sizing:border-box;min-height:44px;padding:.55rem .7rem;border:1px solid rgba(255,255,255,.22);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400}
+  .smr textarea{resize:vertical;min-height:76px}
+  .smr select option{color:#111;background:#fff}
+  .smr-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.2rem .9rem}
+  .smr-grid--2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .smr-action{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,1.1fr) minmax(0,1.2fr);gap:.2rem .8rem;padding:.4rem 0;border-top:1px dashed rgba(255,255,255,.14)}
+  .smr-actions{display:flex;flex-wrap:wrap;gap:.6rem}
+  .smr-btn{min-height:46px;padding:.55rem .95rem;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:700 .92rem inherit;cursor:pointer}
+  .smr-btn--primary{background:linear-gradient(135deg,#129a8d,#0b766d);border-color:#129a8d}
+  .smr-btn--warn{border-color:rgba(255,140,120,.6);color:#ffd1c8}
+  .smr-mini{min-height:36px;padding:.25rem .7rem;border:1px solid rgba(255,255,255,.24);border-radius:8px;background:rgba(255,255,255,.07);color:#fff;font:600 .82rem inherit;cursor:pointer}
+  .smr select:focus-visible,.smr input:focus-visible,.smr textarea:focus-visible,.smr button:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}
+  .smr-loghead{margin:.1rem 0 .3rem}
+  .smr-log{margin:.4rem 0 0;padding:0;list-style:none;display:grid;gap:.5rem}
+  .smr-log li{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:.5rem;padding:.55rem .7rem;border:1px solid rgba(255,255,255,.14);border-radius:10px}
+  .smr-log-text{min-width:0;flex:1 1 14rem;overflow-wrap:anywhere}
+  .smr-log-btns{display:flex;gap:.4rem}
+  .smr-previewhead h3{margin:1.2rem 0 .2rem}
+  .smr-doc{margin-top:.6rem;padding:1.3rem;border:1px solid rgba(229,184,74,.42);border-radius:14px;background:#fff;color:#1c2026;min-width:0;overflow-wrap:anywhere}
+  .smr-doc *{color:inherit}
+  .smr-doc-brand{margin:0;font-size:.72rem;font-weight:800;letter-spacing:.08em;color:#0b766d!important}
+  .smr-doc-title{margin:.1rem 0 .1rem;font-size:1.5rem;color:#1c2026}
+  .smr-doc-sub{margin:0 0 .6rem;color:#606870!important}
+  .smr-doc-head{border-bottom:3px solid #0b766d;margin-bottom:.8rem}
+  .smr-doc-h{margin:1.1rem 0 .4rem;padding-bottom:.25rem;border-bottom:1px solid #cfd6da;font-size:1.02rem;color:#0b766d!important}
+  .smr-doc-p{margin:.3rem 0;line-height:1.55}
+  .smr-pre{white-space:pre-wrap}
+  .smr-meta{display:grid;gap:.25rem;margin:.4rem 0}
+  .smr-meta div{display:grid;grid-template-columns:minmax(9rem,13rem) minmax(0,1fr);gap:.5rem;align-items:end}
+  .smr-meta dt{font-weight:700}
+  .smr-meta dd{margin:0}
+  .smr-blank-line{display:block;height:1.2rem;border-bottom:1px solid #9aa2aa}
+  .smr-field{margin:.5rem 0}
+  .smr-field>b{display:block;font-size:.86rem;color:#606870!important}
+  .smr-field ul{margin:.3rem 0 .3rem 1.2rem;padding:0}
+  .smr-rule{display:block;height:1.7rem;border-bottom:1px solid #9aa2aa}
+  .smr-tablewrap{margin:.5rem 0;max-width:100%}
+  .smr-table{width:100%;border-collapse:collapse;font-size:.86rem;table-layout:fixed}
+  .smr-table th,.smr-table td{padding:.4rem .5rem;border:1px solid #9aa2aa;text-align:left;vertical-align:top;overflow-wrap:anywhere}
+  .smr-table th{background:#e2f0ee;font-weight:700}
+  .smr-table td{height:2.3rem}
+  .smr-sign{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:1.6rem 0 .4rem}
+  .smr-sign p{margin:0;font-size:.82rem;color:#606870!important}
+  .smr-sign-line{display:block;height:1.6rem;border-bottom:1px solid #1c2026;margin-bottom:.25rem}
+  .smr-doc-note{margin:.9rem 0 0;font-size:.78rem;font-style:italic;color:#606870!important}
+  @media(max-width:800px){.smr-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.smr-action{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.smr-action-text{grid-column:1 / -1}}
+  @media(max-width:560px){
+    .smr{padding:.9rem}
+    .smr-grid,.smr-grid--2{grid-template-columns:minmax(0,1fr)}
+    .smr-doc{padding:.9rem}
+    .smr-meta div{grid-template-columns:minmax(0,1fr);gap:0}
+    .smr-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+    .smr-table,.smr-table tbody,.smr-table tr,.smr-table td{display:block;width:100%}
+    .smr-table tr{margin:0 0 .6rem;border:1px solid #9aa2aa;border-radius:8px;overflow:hidden}
+    .smr-table td{border:0;border-bottom:1px solid #dde2e5;height:auto}
+    .smr-table td::before{content:attr(data-label);display:block;font-size:.72rem;font-weight:700;color:#606870}
+    .smr-table td.smr-empty{display:none}
+    .smr-sign{grid-template-columns:minmax(0,1fr)}
+    .smr-actions .smr-btn{flex:1 1 100%}
+  }
+  @media print{
+    @page{size:A4;margin:14mm}
+    body[data-smr-print]{background:#fff!important}
+    body[data-smr-print]{background:#fff!important}
+    body[data-smr-print] > *:not(main){display:none!important}
+    body[data-smr-print] main > *:not(.smr-shell){display:none!important}
+    body[data-smr-print] .smr-shell{max-width:none;padding:0;margin:0}
+    body[data-smr-print] .smr{margin:0;padding:0;border:0;background:#fff}
+    body[data-smr-print] .smr > *:not(.smr-panel){display:none!important}
+    body[data-smr-print="record"] #smr-panel-report,body[data-smr-print="report"] #smr-panel-record{display:none!important}
+    body[data-smr-print] .smr-screen{display:none!important}
+    body[data-smr-print] .smr-doc{display:block;margin:0;padding:0;border:0;border-radius:0}
+    body[data-smr-print] .smr-table{font-size:10pt}
+    body[data-smr-print] .smr-table tr,body[data-smr-print] .smr-sign,body[data-smr-print] .smr-field{break-inside:avoid}
+    body[data-smr-print] .smr-doc-h{break-after:avoid}
+    body[data-smr-print] .smr-doc-brand,body[data-smr-print] .smr-doc-h,body[data-smr-print] .smr-table th{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>

@@ -1,0 +1,301 @@
+---
+import { SCALE_RULE } from '../config/scalability.mjs';
+
+const generalRoutes = [
+  { route: 'Software, data or cloud roles', mark: 'Scalable', risk: 'Entry roles are crowded and tools change fast, so certificates without built work count for little.', step: 'Show finished work to the people who hire or pay, then ask past colleagues for introductions.' },
+  { route: 'Digital marketing or design', mark: 'Scalable', risk: 'Easy to enter, so standing out needs a clear niche and a small portfolio.', step: 'Pick one niche, show two or three finished pieces and follow up with every past client.' },
+  { route: 'Counselling, nursing, HR or other people-facing work', mark: 'Scalable with a business layer', risk: 'A job is the entry. Growth needs a practice, clinic or consulting layer, and the qualification rules for the route must be checked on the official source.', step: 'Decide who will pay you directly, how they will find and trust you, and what proof you can show.' },
+  { route: 'Government exam routes', mark: 'Not so scalable', risk: 'Few seats, many attempts and a fixed pay ladder. Effort alone does not guarantee a result.', step: 'Keep a second skill that you can sell while you prepare.' },
+  { route: 'MBBS or BDS', mark: 'Not so scalable', risk: 'Competition at several stages, limited seats and many years before pay grows.', step: 'Write a second route and add a skill such as health-tech or data beside the degree.' },
+];
+
+const itRoutes = [
+  { route: 'Software product development or engineering', mark: 'Scalable', risk: 'Entry level is crowded and tools, including AI coding assistants, change what employers test. Shipped work counts for more than course certificates.', step: 'Keep a shareable record of work and tell past colleagues which role you are aiming for.' },
+  { route: 'Data analysis or data engineering', mark: 'Scalable', risk: 'Tied to tools and to the business area you know. A dashboard without a business question rarely shows impact.', step: 'Pick one business problem, show the before and after, and offer it as a small paid project.' },
+  { route: 'Cloud, DevOps or cybersecurity', mark: 'Scalable', risk: 'Certificates alone do not show hands-on skill, and security work depends on trust and track record.', step: 'Build a lab or case study, write it up and ask for introductions to teams that hire.' },
+  { route: 'Freelance or consulting in one tech skill', mark: 'Scalable with a business layer', risk: 'Income is uneven at first, and clients need to find you and trust you before they pay.', step: 'Name who pays, how they find you, one proof piece and a follow-up habit with every past client.' },
+  { route: 'Business analyst or product roles', mark: 'Scalable with a business layer', risk: 'Depends on domain knowledge and on how the employer defines the role, so titles vary.', step: 'Show one requirement or product document you wrote and what changed because of it.' },
+  { route: 'Long people-manager ladder inside one IT employer', mark: 'Not so scalable', risk: 'Few seats at each step, pay follows one employer ladder and the skills may not move with you.', step: 'Keep one technical or advisory skill that you can sell outside the employer.' },
+];
+---
+
+<section class="cc" id="cc-tool" aria-labelledby="cc-title" data-cc-mode="general">
+  <div class="cc-head">
+    <p class="eyebrow">FILL IT IN, THEN DOWNLOAD OR PRINT</p>
+    <h2 id="cc-title">Your <span id="cc-title-mode">career counselling form</span></h2>
+    <p>Choose the version that fits, answer in a few lines per box, and take the result to your session. Switching version changes the prompts and the example options, and keeps your answers.</p>
+    <div class="cc-toggle" role="group" aria-label="Choose the form version">
+      <button type="button" class="cc-tab" data-cc-mode-btn="general" aria-pressed="true">General form</button>
+      <button type="button" class="cc-tab" data-cc-mode-btn="it" aria-pressed="false">IT / tech professional form</button>
+    </div>
+    <p class="cc-note"><b>Privacy:</b> your answers stay in this browser. The form does not ask for your name or contact details, does not send anything to the site and builds the PDF on your own device. Do not type employer secrets, ID numbers or account numbers.</p>
+  </div>
+
+  <div id="cc-app"></div>
+  <noscript><p class="cc-note">The fillable form needs JavaScript. You can still copy the questions into a notebook and answer them by hand before your session.</p></noscript>
+
+  <div class="cc-routes">
+    <h3>Options people bring to a session, with a growth mark</h3>
+    <p class="cc-note">{SCALE_RULE}</p>
+    <div data-cc-routes="general">
+      <table class="cc-table">
+        <caption class="cc-sr">Example routes with growth marks and risks</caption>
+        <thead><tr><th scope="col">Route</th><th scope="col">Growth mark</th><th scope="col">Main risk</th><th scope="col">Sales and marketing step</th></tr></thead>
+        <tbody>
+          {generalRoutes.map((r) => (
+            <tr><td data-label="Route">{r.route}</td><td data-label="Growth mark"><b>{r.mark}</b></td><td data-label="Main risk">{r.risk}</td><td data-label="Sales and marketing step">{r.step}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <div data-cc-routes="it" hidden>
+      <table class="cc-table">
+        <caption class="cc-sr">Example IT routes with growth marks and risks</caption>
+        <thead><tr><th scope="col">Route</th><th scope="col">Growth mark</th><th scope="col">Main risk</th><th scope="col">Sales and marketing step</th></tr></thead>
+        <tbody>
+          {itRoutes.map((r) => (
+            <tr><td data-label="Route">{r.route}</td><td data-label="Growth mark"><b>{r.mark}</b></td><td data-label="Main risk">{r.risk}</td><td data-label="Sales and marketing step">{r.step}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="cc-note">These marks describe how growth works in each route. They do not predict your result, and no income is promised.</p>
+  </div>
+</section>
+
+<script>
+  // @ts-nocheck
+  import {
+    STAGES, STAGE_QUESTION, PROMPTS, MARKS, OPTIONS_HEADING, OPTIONS_HINT,
+    requestNote, sheetHtml, buildPdf, hasUnsupportedText,
+  } from '../scripts/careerCounsellingFormKit';
+
+  const root = document.getElementById('cc-tool');
+  const app = document.getElementById('cc-app');
+  const KEY = 'fcs-career-counselling-form-v1';
+  const blank = () => ({ mode: 'general', stage: STAGES.general[0][0], values: {}, options: [0, 1, 2].map(() => ({ name: '', mark: 'unsure', worry: '' })) });
+  let state = blank();
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) {
+      const saved = JSON.parse(raw);
+      state = Object.assign(blank(), saved);
+      if (!Array.isArray(state.options) || state.options.length !== 3) state.options = blank().options;
+      if (!state.values || typeof state.values !== 'object') state.values = {};
+    }
+  } catch (e) {}
+  if (location.hash === '#it') state.mode = 'it';
+  if (state.mode !== 'it') state.mode = 'general';
+  if (!STAGES[state.mode].some(([v]) => v === state.stage)) state.stage = STAGES[state.mode][0][0];
+
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
+  const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  const SERVICE = {
+    general: { href: '/services/career-counselling-and-career-guidance/career-counselling/', label: 'See how career counselling with us works' },
+    it: { href: '/services/career-counselling-and-career-guidance/career-counselling-for-it-professionals/', label: 'See career counselling for IT professionals' },
+  };
+
+  function formHtml() {
+    const mode = state.mode;
+    const stageOptions = STAGES[mode].map(([v, t]) => '<option value="' + esc(v) + '"' + (state.stage === v ? ' selected' : '') + '>' + esc(t) + '</option>').join('');
+    const fields = PROMPTS[mode].map((p) =>
+      '<label class="cc-field"><span class="cc-label">' + esc(p.label) + '</span><small class="cc-hint" id="cc-h-' + p.key + '">' + esc(p.hint) + '</small>' +
+      '<textarea data-cc-field="' + p.key + '" rows="' + p.rows + '" maxlength="700" aria-describedby="cc-h-' + p.key + '">' + esc(state.values[p.key] || '') + '</textarea></label>'
+    ).join('');
+    const rows = state.options.map((o, i) =>
+      '<div class="cc-option"><label><span class="cc-sub">Option ' + (i + 1) + '</span><input type="text" data-cc-opt="' + i + '" data-cc-opt-key="name" maxlength="120" value="' + esc(o.name) + '" placeholder="A course, role or route" /></label>' +
+      '<label><span class="cc-sub">Growth mark</span><select data-cc-opt="' + i + '" data-cc-opt-key="mark">' + Object.keys(MARKS).map((k) => '<option value="' + k + '"' + (o.mark === k ? ' selected' : '') + '>' + esc(MARKS[k]) + '</option>').join('') + '</select></label>' +
+      '<label><span class="cc-sub">Main risk or worry</span><input type="text" data-cc-opt="' + i + '" data-cc-opt-key="worry" maxlength="200" value="' + esc(o.worry) + '" placeholder="What could go wrong?" /></label></div>'
+    ).join('');
+    return '<form class="cc-form" novalidate onsubmit="return false">' +
+      '<label class="cc-field"><span class="cc-label">' + esc(STAGE_QUESTION[mode]) + '</span><select data-cc-stage>' + stageOptions + '</select></label>' +
+      fields +
+      '<fieldset class="cc-options"><legend>' + esc(OPTIONS_HEADING) + '</legend><p class="cc-hint">' + esc(OPTIONS_HINT) + '</p>' + rows + '</fieldset>' +
+      '<div class="cc-actions" role="group" aria-label="Download and print">' +
+      '<button type="button" class="cc-btn cc-btn--primary" data-cc-action="pdf">Download my form (PDF)</button>' +
+      '<button type="button" class="cc-btn" data-cc-action="pdf-blank">Download blank form (PDF)</button>' +
+      '<button type="button" class="cc-btn" data-cc-action="print">Print my form</button>' +
+      '<button type="button" class="cc-btn" data-cc-action="print-blank">Print blank form</button>' +
+      '<button type="button" class="cc-btn cc-btn--quiet" data-cc-action="clear">Clear my answers</button></div>' +
+      '<p class="cc-status" id="cc-status" role="status" aria-live="polite"></p></form>';
+  }
+
+  function panelHtml() {
+    const note = requestNote(state);
+    const missing = [];
+    const v = state.values;
+    if (!(v.goal || '').trim()) missing.push('the decision you want help with');
+    if (!(v.evidence || '').trim()) missing.push('the evidence you can bring');
+    if (!(v.constraints || '').trim()) missing.push('what limits your choices');
+    if (!(v.questions || '').trim()) missing.push('your questions for the counsellor');
+    if (!state.options.some((o) => o.name.trim())) missing.push('at least one option with a growth mark');
+    const ready = missing.length === 0
+      ? 'The main boxes are filled. Download or print the form and take it to your session.'
+      : 'Before the session, still add: ' + missing.join('; ') + '.';
+    const svc = SERVICE[state.mode];
+    return '<div class="cc-panel"><h3>Booking note you can copy</h3><p class="cc-hint">A short note to ask a counsellor for a session. It uses your answers and contains no name or phone number, so add those yourself if you choose.</p>' +
+      '<pre class="cc-note-text" id="cc-note-text">' + esc(note) + '</pre>' +
+      '<button type="button" class="cc-btn" data-cc-action="copy">Copy note</button>' +
+      '<p class="cc-ready" id="cc-ready">' + esc(ready) + '</p>' +
+      '<p><a class="cc-link" id="cc-service-link" href="' + svc.href + '">' + esc(svc.label) + ' &rarr;</a></p></div>';
+  }
+
+  function applyModeUi() {
+    root.setAttribute('data-cc-mode', state.mode);
+    root.querySelectorAll('[data-cc-mode-btn]').forEach((b) => b.setAttribute('aria-pressed', String(b.getAttribute('data-cc-mode-btn') === state.mode)));
+    root.querySelectorAll('[data-cc-routes]').forEach((el) => { el.hidden = el.getAttribute('data-cc-routes') !== state.mode; });
+    const title = document.getElementById('cc-title-mode');
+    if (title) title.textContent = state.mode === 'it' ? 'IT career counselling form' : 'career counselling form';
+  }
+
+  function render() {
+    app.innerHTML = formHtml() + '<div id="cc-panel-slot">' + panelHtml() + '</div>';
+    applyModeUi();
+  }
+  function refreshPanel() {
+    const slot = document.getElementById('cc-panel-slot');
+    if (slot) slot.innerHTML = panelHtml();
+  }
+  const setStatus = (text) => { const el = document.getElementById('cc-status'); if (el) el.textContent = text; };
+
+  app.addEventListener('input', (event) => {
+    const t = event.target;
+    if (t.hasAttribute('data-cc-field')) state.values[t.getAttribute('data-cc-field')] = t.value;
+    else if (t.hasAttribute('data-cc-opt')) state.options[Number(t.getAttribute('data-cc-opt'))][t.getAttribute('data-cc-opt-key')] = t.value;
+    else if (t.hasAttribute('data-cc-stage')) state.stage = t.value;
+    else return;
+    save();
+    refreshPanel();
+    setStatus('Saved in this browser.');
+  });
+
+  root.querySelectorAll('[data-cc-mode-btn]').forEach((btn) => btn.addEventListener('click', () => {
+    const mode = btn.getAttribute('data-cc-mode-btn');
+    if (mode === state.mode) return;
+    state.mode = mode;
+    if (!STAGES[mode].some(([v]) => v === state.stage)) state.stage = STAGES[mode][0][0];
+    save();
+    try { history.replaceState(null, '', mode === 'it' ? '#it' : location.pathname + location.search); } catch (e) {}
+    render();
+  }));
+
+  function snapshot() { return JSON.parse(JSON.stringify(state)); }
+
+  function printSheet(isBlank) {
+    let sheet = document.getElementById('cc-print-sheet');
+    if (!sheet) { sheet = document.createElement('div'); sheet.id = 'cc-print-sheet'; document.body.appendChild(sheet); }
+    sheet.innerHTML = sheetHtml(snapshot(), isBlank);
+    document.body.classList.add('cc-printing');
+    window.print();
+  }
+  window.addEventListener('afterprint', () => document.body.classList.remove('cc-printing'));
+
+  async function download(isBlank, button) {
+    const data = snapshot();
+    if (!isBlank && hasUnsupportedText(data)) {
+      setStatus('Some of your text uses a script that the PDF font cannot draw. Use Print my form and choose Save as PDF instead, so every letter appears.');
+      return;
+    }
+    const original = button.textContent;
+    button.disabled = true;
+    button.textContent = 'Preparing PDF';
+    setStatus('Preparing your PDF on this device.');
+    try {
+      const { jsPDF } = await import('jspdf');
+      const pdf = buildPdf(jsPDF, data, isBlank);
+      pdf.save((data.mode === 'it' ? 'it-career-counselling-form' : 'career-counselling-form') + (isBlank ? '-blank' : '') + '.pdf');
+      setStatus(isBlank ? 'Blank form downloaded.' : 'Your form was downloaded. Keep it somewhere private.');
+    } catch (error) {
+      console.error('Unable to create the career counselling form PDF:', error);
+      setStatus('The PDF could not be created. Try Print my form and choose Save as PDF.');
+    }
+    button.disabled = false;
+    button.textContent = original;
+  }
+
+  app.addEventListener('click', async (event) => {
+    const button = event.target.closest('[data-cc-action]');
+    if (!button) return;
+    const action = button.getAttribute('data-cc-action');
+    if (action === 'pdf') download(false, button);
+    else if (action === 'pdf-blank') download(true, button);
+    else if (action === 'print') { save(); printSheet(false); }
+    else if (action === 'print-blank') printSheet(true);
+    else if (action === 'clear') { state = Object.assign(blank(), { mode: state.mode, stage: STAGES[state.mode][0][0] }); save(); render(); setStatus('Your answers were cleared from this browser.'); }
+    else if (action === 'copy') {
+      const text = requestNote(state);
+      try { await navigator.clipboard.writeText(text); setStatus('Note copied.'); }
+      catch (e) { const pre = document.getElementById('cc-note-text'); if (pre) { const range = document.createRange(); range.selectNodeContents(pre); const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range); } setStatus('Select the note and copy it with your device menu.'); }
+    }
+  });
+
+  render();
+</script>
+
+<style is:global>
+  .cc{margin:2.2rem 0;padding:1.4rem;border:1px solid rgba(18,154,141,.38);border-radius:18px;background:rgba(18,154,141,.045);min-width:0}
+  .cc *{box-sizing:border-box;min-width:0}
+  .cc h2{margin:.2rem 0 .5rem}.cc h2 span{color:var(--gold,#e5b84a)}.cc p,.cc li{line-height:1.65}
+  .cc-note,.cc-hint{font-size:.86rem;color:rgba(255,255,255,.72)}
+  .cc-toggle{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0 .6rem}
+  .cc-tab{min-height:44px;padding:.5rem .95rem;border:1px solid rgba(255,255,255,.24);border-radius:999px;background:rgba(255,255,255,.06);color:#fff;font:600 .92rem inherit;cursor:pointer}
+  .cc-tab[aria-pressed="true"]{background:linear-gradient(135deg,#129a8d,#0b766d);border-color:#129a8d}
+  .cc-form{display:grid;gap:.9rem;margin:1.1rem 0}
+  .cc-field{display:grid;gap:.3rem}.cc-label{font-weight:700;font-size:.95rem}.cc-hint{display:block;margin:0}
+  .cc-form input,.cc-form textarea,.cc-form select{width:100%;max-width:100%;padding:.55rem .7rem;min-height:44px;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400;resize:vertical}
+  .cc-form select option{color:#111;background:#fff}
+  .cc-form textarea{min-height:78px}
+  .cc-options{border:1px solid rgba(255,255,255,.17);border-radius:12px;padding:1rem;display:grid;gap:.8rem}
+  .cc-options legend{font-weight:700;padding:0 .3rem}
+  .cc-option{display:grid;grid-template-columns:1.1fr 1fr 1.3fr;gap:.6rem;padding-bottom:.7rem;border-bottom:1px dashed rgba(255,255,255,.14)}
+  .cc-option label{display:grid;gap:.25rem}.cc-sub{font-size:.8rem;font-weight:600;color:rgba(255,255,255,.8)}
+  .cc-actions{display:flex;flex-wrap:wrap;gap:.6rem}
+  .cc-btn{min-height:44px;padding:.5rem .85rem;border:1px solid rgba(255,255,255,.22);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:600 .9rem inherit;cursor:pointer}
+  .cc-btn--primary{background:linear-gradient(135deg,#129a8d,#0b766d);border:0}
+  .cc-btn--quiet{background:transparent}
+  .cc-btn[disabled]{opacity:.6;cursor:wait}
+  .cc-status{min-height:1.3em;color:#9ff3e6;font-size:.88rem;margin:0}
+  .cc-panel{padding:1rem 1.1rem;border:1px solid rgba(229,184,74,.4);border-radius:14px;background:rgba(229,184,74,.08);margin-bottom:1.4rem}
+  .cc-panel h3{margin:.1rem 0 .4rem}
+  .cc-note-text{white-space:pre-wrap;overflow-wrap:anywhere;margin:.6rem 0;padding:.8rem;border-radius:10px;background:rgba(0,0,0,.25);font:inherit;font-size:.9rem;line-height:1.6}
+  .cc-ready{font-weight:600}
+  .cc-link{color:#f3cf70;font-weight:700}
+  .cc-routes h3{margin:.2rem 0 .4rem}
+  .cc-table{width:100%;border-collapse:collapse;font-size:.9rem}
+  .cc-table th,.cc-table td{padding:.6rem .7rem;border:1px solid rgba(255,255,255,.14);text-align:left;vertical-align:top;line-height:1.55;overflow-wrap:anywhere}
+  .cc-table th{background:rgba(255,255,255,.06)}
+  .cc-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .cc-tab:focus-visible,.cc-btn:focus-visible,.cc-link:focus-visible,.cc-form input:focus-visible,.cc-form textarea:focus-visible,.cc-form select:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}
+  @media(max-width:700px){
+    .cc{padding:1rem}
+    .cc-option{grid-template-columns:1fr}
+    .cc-actions .cc-btn{flex:1 1 100%}
+    .cc-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+    .cc-table,.cc-table tbody,.cc-table tr,.cc-table td{display:block;width:100%}
+    .cc-table tr{margin-bottom:.8rem;border:1px solid rgba(255,255,255,.14);border-radius:10px;overflow:hidden}
+    .cc-table td{border:0;border-bottom:1px solid rgba(255,255,255,.1)}
+    .cc-table td::before{content:attr(data-label);display:block;font-size:.75rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:#f3cf70;margin-bottom:.15rem}
+  }
+
+  #cc-print-sheet{display:none}
+  @media print{
+    body.cc-printing > *:not(#cc-print-sheet){display:none !important}
+    body.cc-printing{background:#fff !important}
+    body.cc-printing #cc-print-sheet{display:block;padding:0;color:#111;background:#fff;font:11pt/1.5 Arial,Helvetica,sans-serif}
+    @page{margin:14mm}
+    #cc-print-sheet .ccs-title{font-size:20pt;font-weight:700;margin:0 0 .2rem;color:#111}
+    #cc-print-sheet .ccs-sub,#cc-print-sheet .ccs-meta{margin:.1rem 0 .5rem;color:#444}
+    #cc-print-sheet h2{font-size:11.5pt;margin:.9rem 0 .15rem;color:#0b766d}
+    #cc-print-sheet h2.ccs-part{font-size:15pt}
+    #cc-print-sheet .ccs-block{break-inside:avoid}
+    #cc-print-sheet .ccs-newpage{break-before:page;margin-top:0}
+    #cc-print-sheet .ccs-hint{font-size:8.5pt;font-style:italic;color:#555;margin:0 0 .2rem}
+    #cc-print-sheet .ccs-answer{margin:.1rem 0;color:#111;white-space:normal;overflow-wrap:anywhere}
+    #cc-print-sheet .ccs-line{border-bottom:1px solid #999;height:8mm}
+    #cc-print-sheet .ccs-table{width:100%;border-collapse:collapse;margin-top:.3rem}
+    #cc-print-sheet .ccs-table th,#cc-print-sheet .ccs-table td{border:1px solid #888;padding:.35rem .45rem;text-align:left;vertical-align:top;height:10mm;font-size:10pt;color:#111}
+    #cc-print-sheet .ccs-table th{background:#e8f0ef;height:auto}
+    #cc-print-sheet .ccs-foot{margin-top:1rem;font-size:8pt;color:#555}
+  }
+</style>

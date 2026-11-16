@@ -1,0 +1,341 @@
+---
+import { SKILLS, RATING_LABELS, WHO_SOURCE } from '../data/lifeSkillsWorkbook.mjs';
+
+const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS, source: WHO_SOURCE }).replace(/</g, '\\u003c');
+---
+
+<section class="lsw" id="life-skills-workbook" aria-labelledby="lsw-title">
+  <div class="lsw-print-only">
+    <p class="lsw-print-title">Life Skills Workbook</p>
+    <p>Based on the ten core life skills named by the World Health Organization. FutureCareerSchool.com. For personal reflection, not medical advice.</p>
+  </div>
+
+  <div class="lsw-noprint">
+    <h2 id="lsw-title">Build your life skills workbook</h2>
+    <p>Tick the skills you want, answer the questions in the boxes, follow the 7-day practice and download one combined PDF. You can also print the page.</p>
+    <p class="lsw-note"><b>Privacy:</b> everything you type stays in this browser. It asks for no name or contact details, and the PDF is made on your device without any upload.</p>
+
+    <fieldset class="lsw-pick">
+      <legend>Step 1. Choose the skills to include</legend>
+      <div class="lsw-chips">
+        {SKILLS.map((skill, index) => (
+          <label class="lsw-chip">
+            <input type="checkbox" data-lsw-pick={skill.id} checked />
+            <span>{index + 1}. {skill.name}</span>
+          </label>
+        ))}
+      </div>
+      <div class="lsw-actions">
+        <button type="button" class="lsw-btn" data-lsw-action="all">Select all ten</button>
+        <button type="button" class="lsw-btn" data-lsw-action="none">Clear selection</button>
+      </div>
+      <p class="lsw-count" id="lsw-count" role="status" aria-live="polite"></p>
+    </fieldset>
+  </div>
+
+  <div id="lsw-cards" class="lsw-cards">
+    {SKILLS.map((skill, index) => (
+      <article class="lsw-card" data-lsw-card={skill.id} aria-labelledby={`lsw-h-${skill.id}`}>
+        <h3 id={`lsw-h-${skill.id}`}>{index + 1}. {skill.name}</h3>
+
+        <h4>What it means</h4>
+        <p>{skill.definition}</p>
+
+        <h4>Why it matters in study and work in India</h4>
+        {skill.why.map((paragraph) => <p>{paragraph}</p>)}
+
+        <div class="lsw-rate">
+          <label>
+            <span>My rating today (your own view, not a test)</span>
+            <select data-lsw-rating={skill.id}>
+              {RATING_LABELS.map((label, value) => <option value={String(value)}>{label}</option>)}
+            </select>
+          </label>
+          <p class="lsw-print-only lsw-print-rating" data-lsw-rating-print={skill.id}></p>
+        </div>
+
+        <h4>Reflection questions</h4>
+        {skill.questions.map((question, qIndex) => (
+          <div class="lsw-q">
+            <label>
+              <span>Q{qIndex + 1}. {question}</span>
+              <textarea data-lsw-q={skill.id} data-lsw-i={String(qIndex)} rows="3" maxlength="800" placeholder="Write in your own words"></textarea>
+            </label>
+            <div class="lsw-print-ans" data-lsw-print={`${skill.id}-${qIndex}`}></div>
+          </div>
+        ))}
+
+        <h4>7-day practice: {skill.activity.title}</h4>
+        <p>{skill.activity.intro}</p>
+        <ol class="lsw-days">
+          {skill.activity.days.map((dayText, dIndex) => (
+            <li>
+              <label>
+                <input type="checkbox" data-lsw-day={skill.id} data-lsw-i={String(dIndex)} />
+                <span><b>Day {dIndex + 1}.</b> {dayText}</span>
+              </label>
+            </li>
+          ))}
+        </ol>
+
+        <h4>Questions and answers</h4>
+        {skill.qa.map((item) => (
+          <div class="lsw-qa">
+            <p class="lsw-qa-q">Q. {item.q}</p>
+            <p>A. {item.a}</p>
+          </div>
+        ))}
+      </article>
+    ))}
+  </div>
+
+  <p class="lsw-empty" id="lsw-empty" hidden>No skill is selected. Tick at least one skill above to see its pages.</p>
+
+  <div class="lsw-noprint lsw-final">
+    <h3>Step 2. Save your workbook</h3>
+    <div class="lsw-actions">
+      <button type="button" class="lsw-btn lsw-btn--primary" data-lsw-action="pdf" id="lsw-pdf-btn">Download PDF</button>
+      <button type="button" class="lsw-btn" data-lsw-action="print">Print this page</button>
+      <button type="button" class="lsw-btn" data-lsw-action="clear">Clear my answers</button>
+    </div>
+    <p class="lsw-status" id="lsw-status" role="status" aria-live="polite"></p>
+    <p class="lsw-note">The PDF holds English letters and numbers. If you wrote answers in Telugu, Hindi or another script, use Print and choose "Save as PDF" so every letter is kept.</p>
+  </div>
+
+  <noscript><p class="lsw-note">The workbook needs JavaScript to save answers and make the PDF. Without it you can still read every skill and print the page.</p></noscript>
+
+  <script is:inline type="application/json" id="lsw-data" set:html={clientData}></script>
+</section>
+
+<script>
+  // @ts-nocheck
+  import { createLifeSkillsPdf } from '../scripts/lifeSkillsWorkbookPdf.mjs';
+
+  const root = document.getElementById('life-skills-workbook');
+  const dataEl = document.getElementById('lsw-data');
+  if (root && dataEl) {
+    const data = JSON.parse(dataEl.textContent || '{}');
+    const SK = (data.skills || []).map((skill, index) => Object.assign({ number: index + 1 }, skill));
+    const ids = SK.map((s) => s.id);
+    const KEY = 'fcs-life-skills-workbook-v1';
+    const blank = () => ({ selected: ids.slice(), answers: {}, rating: {}, days: {} });
+    let state = blank();
+    try {
+      const raw = localStorage.getItem(KEY);
+      if (raw) {
+        const saved = JSON.parse(raw);
+        if (saved && typeof saved === 'object') {
+          state = Object.assign(blank(), saved);
+          state.selected = (Array.isArray(saved.selected) ? saved.selected : ids).filter((id) => ids.includes(id));
+        }
+      }
+    } catch (e) {}
+    const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
+    const statusEl = document.getElementById('lsw-status');
+    const countEl = document.getElementById('lsw-count');
+    const emptyEl = document.getElementById('lsw-empty');
+    const say = (text) => { if (statusEl) statusEl.textContent = text; };
+    const ratingLabels = data.ratingLabels || [];
+
+    function ensureAnswers(id) {
+      if (!Array.isArray(state.answers[id])) state.answers[id] = ['', '', ''];
+      if (!Array.isArray(state.days[id])) state.days[id] = [false, false, false, false, false, false, false];
+    }
+
+    function refreshCount() {
+      const chosen = state.selected.length;
+      let answered = 0;
+      let total = 0;
+      state.selected.forEach((id) => {
+        const list = state.answers[id] || [];
+        total += 3;
+        answered += [0, 1, 2].filter((i) => String(list[i] || '').trim()).length;
+      });
+      if (countEl) countEl.textContent = chosen + ' of ' + ids.length + ' skills chosen. ' + answered + ' of ' + total + ' reflection questions answered.';
+      if (emptyEl) emptyEl.hidden = chosen > 0;
+    }
+
+    function paint() {
+      root.querySelectorAll('[data-lsw-pick]').forEach((box) => { box.checked = state.selected.includes(box.getAttribute('data-lsw-pick')); });
+      let firstShown = true;
+      root.querySelectorAll('[data-lsw-card]').forEach((card) => {
+        const show = state.selected.includes(card.getAttribute('data-lsw-card'));
+        card.hidden = !show;
+        card.classList.toggle('lsw-first', show && firstShown);
+        if (show) firstShown = false;
+      });
+      root.querySelectorAll('[data-lsw-q]').forEach((area) => {
+        const id = area.getAttribute('data-lsw-q');
+        const i = Number(area.getAttribute('data-lsw-i'));
+        const value = (state.answers[id] && state.answers[id][i]) || '';
+        area.value = value;
+        const mirror = root.querySelector('[data-lsw-print="' + id + '-' + i + '"]');
+        if (mirror) mirror.textContent = value;
+      });
+      root.querySelectorAll('[data-lsw-rating]').forEach((select) => {
+        const id = select.getAttribute('data-lsw-rating');
+        const value = String(state.rating[id] || 0);
+        select.value = value;
+        const print = root.querySelector('[data-lsw-rating-print="' + id + '"]');
+        if (print) print.textContent = 'My rating today: ' + (ratingLabels[Number(value)] || ratingLabels[0]);
+      });
+      root.querySelectorAll('[data-lsw-day]').forEach((box) => {
+        const id = box.getAttribute('data-lsw-day');
+        const i = Number(box.getAttribute('data-lsw-i'));
+        box.checked = Boolean(state.days[id] && state.days[id][i]);
+      });
+      refreshCount();
+    }
+
+    root.addEventListener('change', (event) => {
+      const target = event.target;
+      if (!target || !target.getAttribute) return;
+      const pick = target.getAttribute('data-lsw-pick');
+      if (pick) {
+        const next = new Set(state.selected);
+        if (target.checked) next.add(pick); else next.delete(pick);
+        state.selected = ids.filter((id) => next.has(id));
+        save(); paint(); say('Selection saved in this browser.');
+        return;
+      }
+      const ratingId = target.getAttribute('data-lsw-rating');
+      if (ratingId) {
+        state.rating[ratingId] = Number(target.value) || 0;
+        save(); paint(); say('Saved in this browser.');
+        return;
+      }
+      const dayId = target.getAttribute('data-lsw-day');
+      if (dayId) {
+        ensureAnswers(dayId);
+        state.days[dayId][Number(target.getAttribute('data-lsw-i'))] = Boolean(target.checked);
+        save(); say('Saved in this browser.');
+      }
+    });
+
+    root.addEventListener('input', (event) => {
+      const target = event.target;
+      if (!target || !target.getAttribute) return;
+      const id = target.getAttribute('data-lsw-q');
+      if (!id) return;
+      const i = Number(target.getAttribute('data-lsw-i'));
+      ensureAnswers(id);
+      state.answers[id][i] = target.value;
+      const mirror = root.querySelector('[data-lsw-print="' + id + '-' + i + '"]');
+      if (mirror) mirror.textContent = target.value;
+      save(); refreshCount(); say('Saved in this browser.');
+    });
+
+    async function downloadPdf(button) {
+      const chosen = SK.filter((skill) => state.selected.includes(skill.id));
+      if (!chosen.length) { say('Tick at least one skill before you download.'); return; }
+      const label = button.textContent;
+      button.disabled = true;
+      button.textContent = 'Preparing PDF...';
+      say('Preparing your PDF.');
+      try {
+        await new Promise((resolve) => requestAnimationFrame(() => resolve()));
+        const { jsPDF } = await import('jspdf');
+        chosen.forEach((skill) => ensureAnswers(skill.id));
+        const { pdf, lossy } = createLifeSkillsPdf(jsPDF, chosen, state, {
+          dateText: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }),
+          ratingLabels,
+          sourceLabel: data.source.label,
+          sourceUrl: data.source.url,
+          definition: data.source.definition,
+        });
+        pdf.save('life-skills-workbook.pdf');
+        say(lossy
+          ? 'PDF downloaded. Letters outside English were shown as "?". Use Print and Save as PDF to keep every letter.'
+          : 'PDF downloaded with ' + chosen.length + ' skill' + (chosen.length === 1 ? '' : 's') + '.');
+      } catch (error) {
+        console.error('Unable to create the life skills workbook PDF:', error);
+        say('The PDF could not be made on this device. Use Print and choose Save as PDF instead.');
+      } finally {
+        button.disabled = false;
+        button.textContent = label;
+      }
+    }
+
+    root.addEventListener('click', (event) => {
+      const button = event.target.closest ? event.target.closest('[data-lsw-action]') : null;
+      if (!button) return;
+      const action = button.getAttribute('data-lsw-action');
+      if (action === 'all') { state.selected = ids.slice(); save(); paint(); say('All ten skills chosen.'); }
+      if (action === 'none') { state.selected = []; save(); paint(); say('No skill chosen.'); }
+      if (action === 'print') {
+        if (!state.selected.length) { say('Tick at least one skill before you print.'); return; }
+        save(); paint(); window.print();
+      }
+      if (action === 'pdf') downloadPdf(button);
+      if (action === 'clear') {
+        if (!window.confirm('Clear all answers, ratings and ticks from this browser?')) return;
+        state = blank(); save(); paint(); say('Answers cleared from this browser.');
+      }
+    });
+
+    paint();
+  }
+</script>
+
+<style is:global>
+  .lsw{margin:2.2rem 0;padding:1.4rem;border:1px solid rgba(18,154,141,.38);border-radius:18px;background:rgba(18,154,141,.045);min-width:0}
+  .lsw h2{margin-top:0}
+  .lsw p,.lsw li{line-height:1.65;overflow-wrap:anywhere}
+  .lsw-note,.lsw-count{font-size:.86rem;color:rgba(255,255,255,.72)}
+  .lsw-pick{border:1px solid rgba(255,255,255,.17);border-radius:12px;padding:1rem;margin:1.1rem 0 0;min-width:0}
+  .lsw-pick legend{font-weight:700;padding:0 .3rem}
+  .lsw-chips{display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin-bottom:.9rem}
+  .lsw-chip{display:flex;align-items:center;gap:.6rem;min-height:44px;padding:.45rem .7rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.05);cursor:pointer;font-weight:600;font-size:.92rem;min-width:0}
+  .lsw-chip input{width:20px;height:20px;flex:0 0 auto;accent-color:#129a8d}
+  .lsw-chip span{min-width:0;overflow-wrap:anywhere}
+  .lsw-actions{display:flex;flex-wrap:wrap;gap:.6rem}
+  .lsw-btn{min-height:44px;padding:.5rem .95rem;border:1px solid rgba(255,255,255,.22);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:600 .9rem inherit;cursor:pointer}
+  .lsw-btn--primary{background:linear-gradient(135deg,#129a8d,#0b766d);border:0;color:#fff}
+  .lsw-btn[disabled]{opacity:.6;cursor:wait}
+  .lsw-cards{display:grid;gap:1.1rem;margin-top:1.3rem}
+  .lsw-card{padding:1.1rem;border:1px solid rgba(255,255,255,.16);border-radius:14px;background:rgba(255,255,255,.03);min-width:0}
+  .lsw-card[hidden],.lsw-empty[hidden]{display:none}
+  .lsw-card h3{margin:.1rem 0 .5rem;color:#f3cf70}
+  .lsw-card h4{margin:1.1rem 0 .4rem;font-size:1rem;color:#9ff3e6}
+  .lsw-rate label,.lsw-q label{display:grid;gap:.35rem;font-size:.9rem;font-weight:600;margin:.6rem 0}
+  .lsw-card select,.lsw-card textarea{width:100%;max-width:100%;padding:.55rem .7rem;min-height:44px;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400;box-sizing:border-box}
+  .lsw-card select option{color:#111;background:#fff}
+  .lsw-card textarea{min-height:84px;resize:vertical}
+  .lsw-days{list-style:none;margin:.4rem 0 0;padding:0;display:grid;gap:.5rem}
+  .lsw-days label{display:flex;align-items:flex-start;gap:.65rem;min-height:44px;padding:.45rem .6rem;border:1px solid rgba(255,255,255,.12);border-radius:10px;cursor:pointer}
+  .lsw-days input{width:22px;height:22px;flex:0 0 auto;margin-top:.1rem;accent-color:#129a8d}
+  .lsw-days span{min-width:0;line-height:1.55}
+  .lsw-qa{margin:.5rem 0}
+  .lsw-qa p{margin:.15rem 0}
+  .lsw-qa-q{font-weight:700}
+  .lsw-final{margin-top:1.3rem;padding:1rem 1.1rem;border:1px solid rgba(229,184,74,.4);border-radius:14px;background:rgba(229,184,74,.08)}
+  .lsw-final h3{margin:.1rem 0 .7rem}
+  .lsw-status{min-height:1.3em;color:#9ff3e6;font-size:.88rem}
+  .lsw-empty{margin-top:1rem;padding:1rem;border:1px dashed rgba(255,255,255,.3);border-radius:12px}
+  .lsw-print-only{display:none}
+  .lsw-print-ans{display:none}
+  .lsw-chip:focus-within,.lsw-days label:focus-within{outline:3px solid #e5b84a;outline-offset:2px}
+  .lsw-card select:focus-visible,.lsw-card textarea:focus-visible,.lsw-btn:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}
+  @media(max-width:560px){.lsw{padding:1rem}.lsw-chips{grid-template-columns:1fr}.lsw-card{padding:.9rem}.lsw-btn{flex:1 1 100%}}
+  @media print{
+    header#nav,footer,#analytics-consent-banner,.business-perspective-note,.tool-hero,.tool-explainer,.lsw-noprint,.lsw-actions,.lsw-empty,.lsw-card textarea,.lsw-rate label{display:none!important}
+    body{background:#fff!important;color:#111!important}
+    .lsw,.lsw *{color:#111!important;background:transparent!important}
+    .lsw{margin:0;padding:0;border:0}
+    .lsw-print-only{display:block!important}
+    .lsw-print-title{font-size:1.5rem;font-weight:800}
+    .lsw-cards{display:block;margin:0}
+    .lsw-card{border:0;padding:0;margin:0 0 1rem;break-before:page;page-break-before:always}
+    .lsw-card.lsw-first{break-before:auto;page-break-before:auto}
+    .lsw-card[hidden]{display:none!important}
+    .lsw-card h3{font-size:1.35rem;margin-top:0;border-bottom:2px solid #444}
+    .lsw-card h4{font-size:1.02rem;margin:.9rem 0 .3rem;break-after:avoid}
+    .lsw-q,.lsw-qa,.lsw-days li{break-inside:avoid;page-break-inside:avoid}
+    .lsw-print-ans{display:block;white-space:pre-wrap;overflow-wrap:anywhere;min-height:4.6rem;margin:.2rem 0 .8rem;padding:.3rem .5rem;border:1px solid #999;border-radius:4px}
+    .lsw-q label span{font-weight:700}
+    .lsw-days label{border:0;padding:.15rem 0;min-height:0}
+    .lsw-days input{accent-color:#111}
+    .lsw-print-rating{font-weight:700}
+    a{color:#111!important;text-decoration:none}
+  }
+</style>

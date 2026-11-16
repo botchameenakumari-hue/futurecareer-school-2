@@ -205,6 +205,11 @@ export const bundle: SkillTestBundle = {
     ],
     related: [
       {
+        href: '/tools/life-skills-workbook-pdf/',
+        title: 'Life Skills Workbook (PDF)',
+        description: 'Reflection questions and a 7-day practice for each of the ten WHO life skills.',
+      },
+      {
         href: '/services/assessments/soft-skills-self-assessment/',
         title: 'Soft Skills Self-Assessment',
         description: 'Leadership, teamwork, adaptability, ownership and problem solving, scored separately.',
