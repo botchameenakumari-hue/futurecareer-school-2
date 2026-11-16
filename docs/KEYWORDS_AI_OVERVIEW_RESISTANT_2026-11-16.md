@@ -68,3 +68,16 @@ All "salary vs salary", "X vs Y", "is X a good career", "scope of X", "best cour
 - Brand and visa terms in the same tab (ACS, VETASSESS, LinkedIn assessment, Engineers Australia): not our audience and no way to rank.
 - "career test / aptitude test / quiz for students" and the "choose your career quiz" family: the site already has the pages (`career-test-online`, `career-aptitude-test-online`, the 10th and 12th tests). The data shows they get impressions but few clicks, so the work there is page-one ranking, not new pages.
 - Calculators: the sheets contain almost none. Candidate calculators will need a volume check outside the sheets before building.
+
+## Build status (16 November 2026)
+
+Tier 1, built and live on main: all seven tests (commit `67a9ee412a`).
+
+Tier 2, built and live on main (commit `e4a81540e0`):
+- `/tools/career-counselling-form/` (career counselling form, IT career counselling form, career counselling report sample, invitation letter for career counselling)
+- `/tools/student-mentoring-form-and-report/` (student mentoring form, student mentoring report format, career guidance feedback form)
+- `/tools/life-skills-workbook-pdf/` (life skills pdf family). The WHO ten-skill list was verified through the CBSE note; the WHO record itself could not be opened from the build environment, so open it once and confirm the title and number.
+
+Known limit on the three tools: the PDF font cannot draw Telugu, Hindi or other non-Latin scripts. The pages say so and point to Print then Save as PDF.
+
+Still to build: career guidance after 12th and 10th PDF pages, real PDF downloads on the three career chart pages, the career guidance questionnaire PDF, then the Tier 3 local pages.
