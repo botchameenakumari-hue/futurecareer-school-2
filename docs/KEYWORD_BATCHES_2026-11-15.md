@@ -1,3 +1,5 @@
+> **Superseded on 16 November 2026** by `KEYWORDS_AI_OVERVIEW_RESISTANT_2026-11-16.md`. Search Console shows these informational keywords receive no clicks; the new plan uses test, download and local-service intent.
+
 # Keyword batches — 15 November 2026
 
 Source: both Google Sheets (`keywords 2026 -1`: 21 tabs, `Keywords 2026-2`: 14 tabs; top 250 rows of each tab by volume, plus the full Search Console query tab) checked against the 910 blog slugs, the 121 service pages, the assessment routes and the tools in `main`.
