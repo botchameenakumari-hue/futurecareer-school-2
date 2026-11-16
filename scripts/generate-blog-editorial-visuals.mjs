@@ -1,9 +1,5 @@
-/*
- * Generate page-specific editorial visuals from the rendered page and the
- * Round 9 needs register. The register is the source of truth for tables,
- * figures, checklists, chains, and section summaries; no invented fallback
- * copy is emitted.
- */
+/* Round 10 source-driven visual generator. Every generated visual is a
+ * readable 2:3 portrait and every page receives at most five visuals. */
 import { readFile, readdir, mkdir, rm, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { parse } from 'parse5';
@@ -11,14 +7,14 @@ import sharp from '../node_modules/.pnpm/sharp@0.33.5/node_modules/sharp/lib/ind
 
 sharp.concurrency(8);
 const DIST = 'dist';
-const OUT = 'public/images/blog/generated';
-const needsFile = process.argv.find((arg) => arg.startsWith('--needs-csv='))?.slice(12) || 'C:\\Users\\Jack Sparrow\\Downloads\\infographic_needs_v9.csv';
-const force = process.argv.includes('--force');
+const OUT = 'public/images/blog/generated-r10';
+const needsFile = process.argv.find((arg) => arg.startsWith('--needs-csv='))?.slice(12) || 'C:\\Users\\Jack Sparrow\\Downloads\\infographic_needs_v10.csv';
 const allServicePages = process.argv.includes('--all-service-pages');
 const shard = Number(process.argv.find((arg) => arg.startsWith('--shard='))?.slice(8) || 0);
 const shards = Number(process.argv.find((arg) => arg.startsWith('--shards='))?.slice(9) || 1);
 const routeFilter = process.argv.find((arg) => arg.startsWith('--route='))?.slice(8);
-
+const PHONE = { width: 900, height: 1350 };
+const DESKTOP = { width: 1000, height: 1500 };
 const palettes = [
   ['#f5efe3', '#17324d', '#c45e48', '#718763', '#d5aa59'],
   ['#eef1e8', '#203b3b', '#b95b4d', '#788c67', '#d7ae57'],
@@ -27,240 +23,106 @@ const palettes = [
 ];
 const esc = (value) => String(value ?? '').replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
 const hash = (value) => { let n = 0; for (const c of value) n = (n * 31 + c.charCodeAt(0)) >>> 0; return n; };
-const clean = (value) => String(value ?? '').replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&quot;|&#34;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&nbsp;/g, ' ').replace(/[“”‘’]/g, '').replace(/…|\.\.\./g, '').replace(/(?:career counselling and guidance|career counselling|growth:\s*the decisions that unlock|our scalability view|short answer:|what to verify:|this is our scalability view|This point needs evidence before choosing|Point [123]|Test the path with one project|Check realistic pay before choosing|Compare options before you commit|In short 01 02|undefined)/gi, '').replace(/\b(tbd|lorem|scalability|checkpoint|gate|leverage|cohort|heuristic)\b/gi, '').replace(/\s+/g, ' ').trim();
+const badEnd = new Set(['a', 'an', 'the', 'to', 'of', 'and', 'for', 'in', 'on', 'with', 'can', 'you', 'how', 'is', 'at', 'by', 'or']);
+const clean = (value) => String(value ?? '')
+  .replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&quot;|&#34;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&nbsp;/g, ' ')
+  .replace(/[“”‘’]/g, "'").replace(/…|\.\.\./g, '')
+  .replace(/(?:career counselling and guidance|career counselling|growth:\s*the decisions that unlock|our scalability view|short answer:|what to verify:|this is our scalability view|this point needs evidence before choosing|point [123]|test the path with one project|check realistic pay before choosing|compare options before you commit|in short 01 02)/gi, '')
+  .replace(/\b(undefined|tbd|lorem)\b/gi, '')
+  .replace(/\bgate\b/gi, 'step').replace(/\bcheckpoint\b/gi, 'review point').replace(/\bleverage\b/gi, 'use').replace(/\bcohort\b/gi, 'group').replace(/\bheuristic\b/gi, 'rule of thumb')
+  .replace(/\s+/g, ' ').trim();
 const words = (value) => clean(value).split(/\s+/).filter(Boolean);
 const lastWord = (value) => words(value).at(-1)?.toLowerCase().replace(/[.,:;!?]+$/, '');
-const badEnd = new Set(['a', 'an', 'the', 'to', 'of', 'and', 'for', 'in', 'on', 'with', 'can', 'you', 'how', 'is', 'at', 'by', 'or']);
 const titleCase = (value) => words(value).map((word, index) => {
   const prefix = word.match(/^[^a-z0-9]*/i)?.[0] || ''; const core = word.slice(prefix.length); const lower = core.toLowerCase();
-  if (/^(ai|it|bca|bba|mba|neet|upsc|ssc|ca|cs|ui|ux|hr)$/.test(lower)) return lower.toUpperCase();
-  if (index && /^(and|or|of|for|in|on|to|with|the)$/.test(lower)) return prefix + lower;
+  if (/^(ai|it|bca|bba|mba|neet|upsc|ssc|ca|cs|ui|ux|hr|wef|bls|upi|gdp|gw|ev|lpa|nasscom|esg|soc|grc)$/.test(lower)) return prefix + lower.toUpperCase();
+  if (index && /^(and|or|of|for|in|on|to|with|the|a|an)$/.test(lower)) return prefix + lower;
   return prefix + lower.charAt(0).toUpperCase() + lower.slice(1);
 }).join(' ');
 function sentence(value, max = 9) {
-  const source = clean(value);
+  let source = clean(value).replace(/\brun a stall(?: matters)?\.?/gi, 'Run a small campaign in college.').replace(/\bbuild a small project matters\.?/gi, 'Build a small project.').replace(/\bmatters\.?$/i, '.');
   if (!source) return '';
   const candidates = (source.match(/[^.!?]+[.!?]+/g) || [source]).map((part) => part.trim());
   const exact = candidates.find((part) => words(part).length <= max && !badEnd.has(lastWord(part)));
-  if (exact) return exact;
+  if (exact) return `${exact.replace(/[.!?]+$/, '')}.`.replace(/^([a-z])/, (_, c) => c.toUpperCase());
   const clauses = candidates.flatMap((part) => part.split(/[,;:]\s+/).map((item) => item.trim())).filter(Boolean);
   const clause = clauses.find((part) => words(part).length >= 3 && words(part).length <= max && !badEnd.has(lastWord(part)));
-  if (clause) { const value = clause.replace(/[.,:;!?]+$/, ''); return `${value.charAt(0).toUpperCase()}${value.slice(1)}.`; }
-  return '';
+  if (clause) return `${clause.replace(/[.!?]+$/, '').replace(/^([a-z])/, (_, c) => c.toUpperCase())}.`;
+  const picked = words(source).slice(0, max); while (picked.length && badEnd.has(lastWord(picked.join(' ')))) picked.pop();
+  return picked.length >= 2 ? `${picked.join(' ').replace(/^([a-z])/, (_, c) => c.toUpperCase())}.` : '';
 }
-function phrase(value, max = 8) {
-  const source = clean(value);
-  if (!source) return '';
-  const first = source.split(/[.!?]/)[0].trim();
-  const picked = words(first).slice(0, max);
-  while (picked.length && badEnd.has(lastWord(picked.join(' ')))) picked.pop();
-  return picked.join(' ');
-}
-function wrap(value, maxChars) {
-  const out = []; let line = '';
-  for (const word of words(value)) {
-    if (line && `${line} ${word}`.length > maxChars) { out.push(line); line = word; }
-    else line = `${line} ${word}`.trim();
-  }
-  if (line) out.push(line);
-  return out;
-}
-function textLines(value, x, y, size, maxChars, fill, maxLines = 5, weight = 600) {
-  return wrap(value, maxChars).slice(0, maxLines).map((line, i) => `<text x="${x}" y="${y + (i * size * 1.18)}" font-family="Arial,Helvetica,sans-serif" font-size="${size}" font-weight="${weight}" fill="${fill}">${esc(line)}</text>`).join('');
-}
-function shortCell(value) {
-  const source = clean(value);
-  if (words(source).length <= 6) return source;
-  return sentence(source, 6);
-}
-function figureLabel(value, index = 0) {
-  const source = clean(value);
-  if (/cost|fee|tuition|price/i.test(source)) return 'Course Cost Estimate';
-  if (/₹|\$|lpa|lakh|crore|salary|pay|income/i.test(source)) return ['Starting Pay Signal', 'Career Pay Range', 'Upper Pay Range'][index % 3];
-  if (/%|jobs|demand|growth|rise|fall/i.test(source)) return 'Demand Growth Signal';
-  if (/year|month|week|hour|duration|time/i.test(source)) return 'Time To Reach';
-  return ['Entry Route Signal', 'Skill Focus Area', 'Market Signal'][index % 3];
-}
-function topicIcon(topic, palette) {
-  const value = topic.toLowerCase(); const stroke = palette[2]; const frame = (svg) => `<g transform="translate(700 0) scale(.45)">${svg}</g>`;
-  if (/medicine|medical|health|doctor|nursing|clinical|pharmacy/.test(value)) return frame(`<path d="M900 240c-35 0-55 24-55 55v75h-75v55h75v75c0 35 20 55 55 55s55-20 55-55v-75h75v-55h-75v-75c0-31-20-55-55-55z" fill="none" stroke="${stroke}" stroke-width="14" stroke-linejoin="round"/><circle cx="900" cy="470" r="110" fill="none" stroke="${palette[3]}" stroke-width="10"/>`);
-  if (/law|legal|advocate|court/.test(value)) return frame(`<path d="M900 250v310M780 300h240M820 300l-70 150h140l-70-150zm160 0-70 150h140l-70-150zM780 560h240" fill="none" stroke="${stroke}" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>`);
-  if (/abroad|overseas|foreign|study/.test(value)) return frame(`<path d="M760 500l300-130-130 300-54-116-116-54z" fill="none" stroke="${stroke}" stroke-width="14" stroke-linejoin="round"/><path d="M860 550l-90 90m160-120 90-90" stroke="${palette[3]}" stroke-width="12" stroke-linecap="round"/>`);
-  if (/bank|finance|insurance|account|commerce|economics|investment/.test(value)) return frame(`<path d="M760 350l140-90 140 90M790 370h220M810 390v150m60-150v150m60-150v150m60-150v150M760 570h280" fill="none" stroke="${stroke}" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>`);
-  if (/it|software|data|ai|technology|coding|developer|computer|engineering/.test(value)) return frame(`<path d="M820 330l-110 140 110 140M980 330l110 140-110 140M930 300L870 640" fill="none" stroke="${stroke}" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>`);
-  return frame(`<circle cx="900" cy="470" r="125" fill="none" stroke="${stroke}" stroke-width="12"/><path d="M900 345v250M775 470h250M815 385l170 170M985 385L815 555" stroke="${palette[3]}" stroke-width="10" stroke-linecap="round"/>`);
-}
-function csvRows(text) {
-  const rows = []; let row = []; let cell = ''; let quote = false;
-  for (let i = 0; i < text.length; i += 1) {
-    const c = text[i];
-    if (c === '"' && text[i + 1] === '"' && quote) { cell += '"'; i += 1; continue; }
-    if (c === '"') { quote = !quote; continue; }
-    if (c === ',' && !quote) { row.push(cell); cell = ''; continue; }
-    if ((c === '\n' || c === '\r') && !quote) { if (c === '\r' && text[i + 1] === '\n') i += 1; row.push(cell); if (row.some(Boolean)) rows.push(row); row = []; cell = ''; continue; }
-    cell += c;
-  }
-  if (cell || row.length) { row.push(cell); rows.push(row); }
-  return rows;
-}
-async function loadNeeds() {
-  try {
-    const rows = csvRows(await readFile(needsFile, 'utf8'));
-    const header = rows.shift(); const map = new Map();
-    for (const row of rows) {
-      const item = Object.fromEntries(header.map((key, i) => [key, row[i] || '']));
-      if (!item.page) continue;
-      const type = item.infographic_needed.startsWith('COMPARISON') ? 'matrix' : item.infographic_needed.startsWith('NUMBERS') ? 'proof' : item.infographic_needed.startsWith('CHECKLIST') ? 'checklist' : item.infographic_needed.startsWith('STEP') ? 'chain' : item.infographic_needed.startsWith('TEXT') ? 'detail' : '';
-      if (!type) continue;
-      if (!map.has(item.page)) map.set(item.page, []);
-      map.get(item.page).push({ ...item, type });
-    }
-    return map;
-  } catch { return new Map(); }
-}
+function phrase(value, max = 8) { const picked = words(clean(value).split(/[.!?]/)[0]).slice(0, max); while (picked.length && badEnd.has(lastWord(picked.join(' ')))) picked.pop(); return picked.join(' '); }
+function wrap(value, maxChars) { const out = []; let line = ''; for (const word of words(value)) { if (line && `${line} ${word}`.length > maxChars) { out.push(line); line = word; } else line = `${line} ${word}`.trim(); } if (line) out.push(line); return out; }
+function textLines(value, x, y, size, maxChars, fill, maxLines = 4, weight = 600, anchor = 'start') { return wrap(value, maxChars).slice(0, maxLines).map((line, i) => `<text x="${x}" y="${y + (i * size * 1.16)}" text-anchor="${anchor}" font-family="Arial,Helvetica,sans-serif" font-size="${size}" font-weight="${weight}" fill="${fill}">${esc(line)}</text>`).join(''); }
+function shortCell(value) { const source = clean(value); return words(source).length <= 6 ? source : phrase(source, 6); }
+function csvRows(text) { const rows = []; let row = []; let cell = ''; let quote = false; for (let i = 0; i < text.length; i += 1) { const c = text[i]; if (c === '"' && text[i + 1] === '"' && quote) { cell += '"'; i += 1; continue; } if (c === '"') { quote = !quote; continue; } if (c === ',' && !quote) { row.push(cell); cell = ''; continue; } if ((c === '\n' || c === '\r') && !quote) { if (c === '\r' && text[i + 1] === '\n') i += 1; row.push(cell); if (row.some(Boolean)) rows.push(row); row = []; cell = ''; continue; } cell += c; } if (cell || row.length) { row.push(cell); rows.push(row); } return rows; }
+async function loadNeeds() { try { const rows = csvRows(await readFile(needsFile, 'utf8')); const header = rows.shift(); const map = new Map(); for (const row of rows) { const item = Object.fromEntries(header.map((key, i) => [key, row[i] || ''])); if (!item.page) continue; const type = item.infographic_needed.startsWith('COMPARISON') ? 'matrix' : item.infographic_needed.startsWith('NUMBERS') ? 'proof' : item.infographic_needed.startsWith('CHECKLIST') ? 'checklist' : item.infographic_needed.startsWith('STEP') ? 'chain' : item.infographic_needed.startsWith('TEXT') ? 'detail' : ''; if (!type) continue; if (!map.has(item.page)) map.set(item.page, []); map.get(item.page).push({ ...item, type }); } return map; } catch { return new Map(); } }
 function nodeText(node) { return (node.childNodes || []).map((child) => child.nodeName === '#text' ? child.value : nodeText(child)).join(' '); }
 function walk(node, fn, blocked = false) { if (!node || blocked) return; fn(node); const stop = ['aside', 'nav', 'header', 'footer', 'details'].includes(node.tagName); for (const child of node.childNodes || []) walk(child, fn, stop); }
-function pageData(html) {
-  const doc = parse(html); let root = null;
-  walk(doc, (node) => { if (!root && node.tagName === 'article') root = node; });
-  root ||= doc; const headings = []; const facts = []; const lists = []; const sections = []; let current = null;
-  walk(root, (node) => {
-    if (!node.tagName) return;
-    const value = clean(nodeText(node));
-    if ((node.tagName === 'h2' || node.tagName === 'h3') && value) { const h = titleCase(value); if (!headings.includes(h)) headings.push(h); if (node.tagName === 'h2') { current = { title: h, facts: [] }; sections.push(current); } }
-    if ((node.tagName === 'p' || node.tagName === 'li') && value.length > 24) { const s = sentence(value); if (s && !facts.includes(s)) { facts.push(s); if (node.tagName === 'li') lists.push(s); if (current) current.facts.push(s); } }
-  });
-  const numberFacts = facts.filter((fact) => /₹|\$|\d+(?:\.\d+)?\s*(?:%|lpa|lakh|crore|years?|months?|weeks?|hours?)/i.test(fact));
-  return { headings: headings.slice(0, 16), facts: facts.slice(0, 40), lists: lists.slice(0, 20), numberFacts, sections: sections.slice(0, 40) };
-}
-function baseSvg(body, palette, topic, label, width, height) {
-  const margin = 72; const title = titleCase(topic); const titleLines = wrap(title, width < 1000 ? 23 : 32).slice(0, 3);
-  const heading = titleLines.map((line, i) => `<text x="${margin}" y="${142 + i * 58}" font-family="Arial,Helvetica,sans-serif" font-size="${width < 1000 ? 48 : 56}" font-weight="700" fill="${palette[1]}">${esc(line)}</text>`).join('');
-  const topLabel = titleCase(words(label).slice(0, 4).join(' '));
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><rect width="${width}" height="${height}" fill="${palette[0]}"/><path d="M0 84H${width}" stroke="${palette[4]}" stroke-width="6"/><text x="${margin}" y="48" font-family="Arial,Helvetica,sans-serif" font-size="28" font-weight="700" letter-spacing="1" fill="${palette[1]}">${esc(topLabel.toUpperCase())}</text>${heading}<g transform="translate(0 ${titleLines.length * 58})">${body}</g></svg>`;
-}
-function card(x, y, w, n, content, palette, accent, heading = '') {
-  const lines = wrap(content, Math.max(18, Math.floor((w - 130) / 20))).slice(0, 5); const h = Math.max(150, 70 + lines.length * 42 + (heading ? 36 : 0));
-  const title = heading ? textLines(heading, x + 92, y + 39, 25, 24, palette[1], 1, 700) : '';
-  const bodyY = y + (heading ? 76 : 48);
-  return { h, svg: `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="18" fill="#fffaf0" stroke="${accent}" stroke-width="3"/><circle cx="${x + 40}" cy="${y + 40}" r="28" fill="${accent}"/><text x="${x + 40}" y="${y + 51}" text-anchor="middle" font-family="Arial" font-size="32" font-weight="700" fill="#fffaf0">${n}</text>${title}${textLines(lines.join(' '), x + 92, bodyY, 28, Math.max(18, Math.floor((w - 130) / 20)), palette[1], 5, 600)}` };
-}
-function cardVisual(topic, label, items, palette, mobile = false) {
-  const width = mobile ? 900 : 1200; const cardWidth = width - 144; let y = 250; let body = '';
-  for (let i = 0; i < items.length; i += 1) { const rendered = card(72, y, cardWidth, i + 1, items[i].text, palette, [palette[2], palette[3], palette[4]][i % 3], items[i].heading); body += rendered.svg; y += rendered.h + 28; }
-  return baseSvg(body, palette, topic, label, width, Math.max(700, y + 42));
-}
-function tableRows(content) {
-  const columns = (content.match(/^Columns:\s*([^|]+(?:\|[^|]+)*)\s*\|\|/i)?.[1] || '').split('|').map((v) => phrase(v, 8)).filter(Boolean);
-  const part = content.split(/\|\|\s*Rows:\s*/i)[1] || '';
-  const rows = part.split(/\s*##\s*/).map((r) => r.split(/\s+\/\s+/).map((v) => shortCell(v)).filter(Boolean)).filter((r) => r.length >= 2);
-  return { columns, rows };
-}
-function tableVisual(topic, label, content, palette, mobile = false) {
-  const width = mobile ? 900 : 1800; const { columns, rows } = tableRows(content); const cols = Math.max(columns.length, rows[0]?.length || 2); const colW = (width - 144) / cols; const lineSize = mobile ? 18 : 22; const cellChars = Math.max(8, Math.floor(colW / (lineSize * 0.62))); let y = 250; let body = '';
-  const headH = 96; body += `<rect x="72" y="${y}" width="${width - 144}" height="${headH}" fill="${palette[1]}"/>`;
-  for (let i = 0; i < cols; i += 1) body += textLines(columns[i] || `Column ${i + 1}`, 84 + i * colW, y + 37, lineSize, cellChars, '#fffaf0', 2, 700);
-  y += headH;
-  for (const row of rows) { const lines = row.map((cell) => wrap(cell, cellChars)); const maxLines = Math.max(...lines.map((v) => Math.min(4, v.length)), 1); const h = Math.max(88, maxLines * (lineSize + 7) + 30); body += `<rect x="72" y="${y}" width="${width - 144}" height="${h}" fill="#fffaf0" stroke="${palette[3]}" stroke-width="2"/>`; for (let i = 0; i < cols; i += 1) body += textLines((lines[i] || []).slice(0, 4).join(' '), 84 + i * colW, y + 34, lineSize, cellChars, palette[1], 4, 600); y += h; }
-  return baseSvg(body, palette, topic, label, width, Math.max(700, y + 48));
-}
-function heroVisual(topic, answer, figures, palette, mobile = false) {
-  const width = mobile ? 900 : 1400; const answerLines = wrap(answer, mobile ? 30 : 48).slice(0, 3); let body = `<text x="72" y="250" font-family="Arial" font-size="${mobile ? 36 : 48}" font-weight="700" fill="${palette[1]}">${answerLines.map((line, i) => `<tspan x="72" dy="${i ? 54 : 0}">${esc(line)}</tspan>`).join('')}</text>`;
-  const tileW = (width - 192) / 3; const nums = figures.slice(0, 3); for (let i = 0; i < nums.length; i += 1) { const x = 72 + i * (tileW + 24); const value = typeof nums[i] === 'string' ? nums[i] : nums[i].value; const label = typeof nums[i] === 'string' ? figureLabel(value, i) : nums[i].label; body += `<rect x="${x}" y="430" width="${tileW}" height="190" rx="18" fill="#fffaf0" stroke="${[palette[2], palette[3], palette[4]][i]}" stroke-width="4"/><text x="${x + 24}" y="505" font-family="Arial" font-size="${mobile ? 34 : 48}" font-weight="700" fill="${palette[1]}">${esc(value)}</text><text x="${x + 24}" y="560" font-family="Arial" font-size="${mobile ? 22 : 26}" fill="${palette[1]}">${esc(label)}</text>`; }
-  body += topicIcon(topic, palette);
-  return baseSvg(body, palette, topic, titleCase(words(topic).slice(0, 4).join(' ')), width, 760);
-}
-function figuresVisual(topic, label, values, palette, mobile = false) {
-  const width = mobile ? 900 : 1400; const tileW = (width - 192) / 3; let body = '';
-  values.slice(0, 3).forEach((item, i) => {
-    const value = typeof item === 'string' ? item : item.value; const figureText = typeof item === 'string' ? figureLabel(value, i) : item.label; const x = 72 + i * (tileW + 24);
-    body += `<rect x="${x}" y="300" width="${tileW}" height="250" rx="20" fill="#fffaf0" stroke="${[palette[2], palette[3], palette[4]][i]}" stroke-width="4"/><circle cx="${x + 44}" cy="348" r="28" fill="${[palette[2], palette[3], palette[4]][i]}"/><text x="${x + 44}" y="359" text-anchor="middle" font-family="Arial" font-size="32" font-weight="700" fill="#fffaf0">${i + 1}</text><text x="${x + 28}" y="435" font-family="Arial" font-size="${mobile ? 36 : 52}" font-weight="700" fill="${palette[1]}">${esc(value)}</text><text x="${x + 28}" y="490" font-family="Arial" font-size="${mobile ? 22 : 26}" fill="${palette[1]}">${esc(figureText)}</text>`;
-  });
-  return baseSvg(body, palette, topic, label, width, 680);
-}
-function keyFor(item) { return clean(item.text || item.content || item).toLowerCase().replace(/\W+/g, ' ').trim(); }
-function itemsFromNeed(need) {
-  if (need.type === 'matrix') { const table = tableRows(need.exact_page_content_to_use); return table.rows.map((row) => ({ text: row.join(' — '), heading: row[0] })); }
-  if (need.type === 'proof') return need.exact_page_content_to_use.split('|').map((v) => clean(v)).filter(Boolean).slice(0, 4).map((v) => ({ text: v }));
-  if (need.type === 'detail') {
-    const raw = clean(need.exact_page_content_to_use).replace(/^(?:Three practical points about .*?:|Key facts from .*? section \d+)/i, '').trim();
-    return raw.split(/(?<=[.!?])\s+|\s*##\s*/).map((v) => sentence(v, 9)).filter(Boolean).slice(0, 5).map((v) => ({ text: v }));
-  }
-  return need.exact_page_content_to_use.split(/\s*##\s*/).map((v) => sentence(v, 9)).filter(Boolean).slice(0, 6).map((v) => ({ text: v }));
-}
+function pageData(html) { const doc = parse(html); let root = null; walk(doc, (node) => { if (!root && node.tagName === 'article') root = node; }); root ||= doc; const headings = []; const facts = []; const lists = []; const sections = []; let current = null; walk(root, (node) => { if (!node.tagName) return; const raw = clean(nodeText(node)); if ((node.tagName === 'h2' || node.tagName === 'h3') && raw) { const h = titleCase(raw); if (!headings.includes(h)) headings.push(h); if (node.tagName === 'h2') { current = { title: h, facts: [] }; sections.push(current); } } const leaf = !((node.childNodes || []).some((child) => child.tagName)); const sourceTag = node.tagName === 'p' || node.tagName === 'li' || (leaf && ['div', 'span', 'strong', 'dt', 'dd', 'td'].includes(node.tagName)); if (sourceTag && raw.length > 24) { const text = sentence(raw); if (!text) return; const item = { text, raw, heading: current?.title || '' }; if (!facts.some((fact) => fact.raw === raw)) facts.push(item); if (node.tagName === 'li') lists.push(item); if (current && !current.facts.some((fact) => fact.raw === raw)) current.facts.push(item); } }); const numberFacts = facts.filter((fact) => /(?:₹|rs\.?|inr|\$)\s*[\d,.]+|\d+(?:\.\d+)?\s*(?:%|percent|lpa|lakh|crore|years?|months?|weeks?|hours?|days?|vacancies|students?|jobs?|applicants?)/i.test(fact.raw)); return { headings: headings.slice(0, 20), facts: facts.slice(0, 100), lists: lists.slice(0, 30), numberFacts, sections: sections.slice(0, 50) }; }
 function topicFrom(title) { const value = clean(title).replace(/^how to\s+/i, '').replace(/\s+(in|for|from|during|with)\s+.+$/i, ''); return titleCase(words(value).slice(0, 4).join(' ')) || 'Career Path'; }
-function routeKey(route) { const parts = route.split('/').filter(Boolean); return route; }
-async function writeSvg(dir, slug, type, index, desktop, mobile, social = false) {
-  const suffix = index ? `-${String(index).padStart(2, '0')}` : '';
-  const base = `${slug}-${type}${suffix}`;
-  await sharp(Buffer.from(desktop)).webp({ quality: 62, effort: 6 }).toFile(join(dir, `${base}.webp`));
-  await sharp(Buffer.from(mobile)).webp({ quality: 60, effort: 6 }).toFile(join(dir, `${base}-mobile.webp`));
-  if (social) await sharp(Buffer.from(desktop)).resize(1200, 630, { fit: 'cover' }).jpeg({ quality: 72, mozjpeg: true }).toFile(join(dir, `${slug}-social.jpg`));
+function shortHeading(value, fallback) { return titleCase(phrase(value || fallback, 7) || fallback || 'Career Evidence'); }
+function typeTopLabel(type) { return ({ hero: 'Career Snapshot', summary: 'Key Ideas', matrix: 'Compare Clearly', chain: 'Try The Path', checklist: 'Check First', proof: 'Numbers In Context', detail: 'Read The Evidence' })[type] || 'Career Evidence'; }
+function figureFromItem(item) {
+  const raw = clean(item?.raw || item?.text || '');
+  const match = raw.match(/(?:₹|rs\.?|inr|\$)\s*[\d,.]+(?:\s*[–-]\s*[\d,.]+)?(?:\s*\+)?(?:\s*(?:lakh|crore|lpa|k))?|\d+(?:\.\d+)?\s*(?:%|percent|lpa|lakh|crore|years?|months?|weeks?|hours?|days?|vacancies|students?|jobs?|applicants?)/i);
+  if (!match) return null;
+  const value = match[0].replace(/\s+/g, ' ').trim();
+  const after = clean(raw.slice((match.index || 0) + match[0].length)).replace(/^[,;:.\-–—+()]+\s*/, '');
+  const before = clean(raw.slice(0, match.index || 0)).replace(/^[,;:.\-–—+()]+\s*/, '');
+  const stop = new Set(['a', 'an', 'the', 'is', 'are', 'was', 'were', 'in', 'by', 'from', 'to', 'of', 'for', 'with', 'and', 'that', 'this', 'these', 'those', 'it', 'as', 'on']);
+  const labelWords = (value) => words(value).filter((word) => /[A-Za-z0-9₹$%]/.test(word)).filter((word) => !stop.has(word.toLowerCase()));
+  const candidates = [labelWords(after), labelWords(before)];
+  const chosen = candidates.find((list) => list.length >= 2) || [];
+  let label = titleCase(chosen.slice(0, 4).join(' ')).replace(/[^A-Za-z0-9₹$%&' -]/g, '').trim();
+  if (/lpa|salary/i.test(raw)) label = 'India Salary Range';
+  else if (words(label).length < 2 || label.toLowerCase() === value.toLowerCase()) {
+    if (/%/.test(value) && /wef|bls|projection|growth/i.test(raw)) label = 'Job Growth Projection';
+    else if (/crore|billion|million/i.test(raw)) label = 'Sector Value';
+    else if (/gw|capacity/i.test(raw)) label = 'Capacity Target';
+    else label = titleCase(item?.heading || 'Career Evidence');
+  }
+  const source = sentence(raw, 9) || sentence(item?.text, 9) || raw;
+  return { value, label, source, text: source };
 }
+function topicIcon(topic, palette, x, y, scale) { const value = topic.toLowerCase(); const stroke = palette[2]; const frame = (svg) => `<g transform="translate(${x} ${y}) scale(${scale})">${svg}</g>`; if (/medicine|medical|health|doctor|nursing|clinical|pharmacy/.test(value)) return frame(`<path d="M300 90c-35 0-55 24-55 55v75h-75v55h75v75c0 35 20 55 55 55s55-20 55-55v-75h75v-55h-75v-75c0-31-20-55-55-55z" fill="none" stroke="${stroke}" stroke-width="18"/><circle cx="300" cy="245" r="170" fill="none" stroke="${palette[3]}" stroke-width="13"/>`); if (/law|legal|advocate|court/.test(value)) return frame(`<path d="M300 80v340M160 140h280M200 140l-80 170h160l-80-170zm200 0-80 170h160l-80-170zM150 470h300" fill="none" stroke="${stroke}" stroke-width="18" stroke-linecap="round"/>`); if (/abroad|overseas|foreign|study/.test(value)) return frame(`<path d="M120 310l360-155-155 360-65-140-140-65z" fill="none" stroke="${stroke}" stroke-width="18"/><path d="M245 365l-115 115m205-150 115-115" stroke="${palette[3]}" stroke-width="16" stroke-linecap="round"/>`); if (/bank|finance|insurance|account|commerce|economics|investment/.test(value)) return frame(`<path d="M100 170l200-110 200 110M140 195h320M170 225v190m85-190v190m90-190v190m85-190v190M100 465h400" fill="none" stroke="${stroke}" stroke-width="18" stroke-linecap="round"/>`); if (/it|software|data|ai|technology|coding|developer|computer|engineering/.test(value)) return frame(`<path d="M185 135L60 250l125 115M415 135L540 250 415 365M350 105L250 395" fill="none" stroke="${stroke}" stroke-width="22" stroke-linecap="round"/>`); return frame(`<circle cx="300" cy="250" r="170" fill="none" stroke="${stroke}" stroke-width="16"/><path d="M300 80v340M130 250h340M185 135l230 230M415 135L185 365" stroke="${palette[3]}" stroke-width="14"/>`); }
+function baseSvg(body, palette, topLabel, heading, size) { const { width, height } = size; const margin = 72; const headingLines = wrap(titleCase(heading), 25).slice(0, 2); const headingSize = width === PHONE.width ? 60 : 66; const headingSvg = headingLines.map((line, i) => `<text x="${margin}" y="${156 + i * (headingSize * 1.1)}" font-family="Arial,Helvetica,sans-serif" font-size="${headingSize}" font-weight="700" fill="${palette[1]}">${esc(line)}</text>`).join(''); return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><rect width="${width}" height="${height}" fill="${palette[0]}"/><path d="M0 84H${width}" stroke="${palette[4]}" stroke-width="7"/><text x="${margin}" y="52" font-family="Arial,Helvetica,sans-serif" font-size="${width === PHONE.width ? 34 : 38}" font-weight="700" letter-spacing="1" fill="${palette[1]}">${esc(titleCase(topLabel).toUpperCase())}</text>${headingSvg}<g transform="translate(0 ${headingLines.length * 70})">${body}</g></svg>`; }
+function cardVisual(items, palette, type, heading, size) { const { width } = size; const accent = [palette[2], palette[3], palette[4]]; const bodyTop = 285; const gap = 24; const columns = items.length > 2 ? 2 : 1; const cardW = columns === 1 ? width - 144 : (width - 144 - gap) / 2; const font = width === PHONE.width ? 40 : 44; const titleSize = width === PHONE.width ? 38 : 42; const maxChars = columns === 1 ? 34 : 17; const cardHeight = columns === 1 ? 230 : 315; let body = ''; items.slice(0, 4).forEach((item, index) => { const row = Math.floor(index / columns); const col = index % columns; const x = 72 + col * (cardW + gap); const y = bodyTop + row * (cardHeight + gap); const itemHeading = titleCase(phrase(item.heading || '', 5)); body += `<rect x="${x}" y="${y}" width="${cardW}" height="${cardHeight}" rx="22" fill="#fffaf0" stroke="${accent[index % accent.length]}" stroke-width="5"/>`; if (type === 'checklist') body += `<rect x="${x + 28}" y="${y + 30}" width="36" height="36" rx="8" fill="${accent[index % accent.length]}"/><path d="M${x + 37} ${y + 48}l10 10 18-22" stroke="#fffaf0" stroke-width="7" fill="none"/>`; else body += `<circle cx="${x + 48}" cy="${y + 50}" r="30" fill="${accent[index % accent.length]}"/><text x="${x + 48}" y="${y + 61}" text-anchor="middle" font-family="Arial" font-size="34" font-weight="700" fill="#fffaf0">${index + 1}</text>`; if (itemHeading) body += textLines(itemHeading, x + 98, y + 58, titleSize, Math.max(12, maxChars - 3), palette[1], 1, 700); body += textLines(item.text, x + 28, y + (itemHeading ? 120 : 116), font, maxChars, palette[1], columns === 1 ? 3 : 4, 600); }); return baseSvg(body, palette, typeTopLabel(type), heading, size); }
+function tableRows(content) { const columns = (content.match(/^Columns:\s*([^|]+(?:\|[^|]+)*)\s*\|\|/i)?.[1] || '').split('|').map((v) => phrase(v, 6)).filter(Boolean).slice(0, 3); const part = content.split(/\|\|\s*Rows:\s*/i)[1] || ''; const rows = part.split(/\s*##\s*/).map((r) => r.split(/\s+\/\s+/).map((v) => shortCell(v)).filter(Boolean)).filter((r) => r.length >= 2).slice(0, 4); return { columns, rows }; }
+function tableVisual(content, palette, heading, size) { const { width } = size; const { columns, rows } = tableRows(content); const cols = Math.min(3, Math.max(columns.length, rows[0]?.length || 2)); const left = 72; const total = width - 144; const colW = total / cols; const headerSize = width === PHONE.width ? 42 : 46; const cellSize = width === PHONE.width ? 36 : 40; const cellChars = Math.max(8, Math.floor(colW / (cellSize * 0.56))); let y = 285; let body = `<rect x="${left}" y="${y}" width="${total}" height="110" rx="18" fill="${palette[1]}"/>`; for (let i = 0; i < cols; i += 1) body += textLines(columns[i] || `Option ${i + 1}`, left + i * colW + 20, y + 52, headerSize, Math.max(8, cellChars - 1), '#fffaf0', 2, 700); y += 130; rows.forEach((row, rowIndex) => { const rowH = 220; body += `<rect x="${left}" y="${y}" width="${total}" height="${rowH}" rx="14" fill="#fffaf0" stroke="${[palette[2], palette[3], palette[4]][rowIndex % 3]}" stroke-width="4"/>`; for (let i = 0; i < cols; i += 1) { const cell = row[i] || ''; body += `<path d="M${left + i * colW} ${y}v${rowH}" stroke="${palette[3]}" stroke-width="2"/>`; body += textLines(cell, left + i * colW + 20, y + 60, cellSize, Math.max(8, cellChars - 1), palette[1], 4, 600); } y += rowH + 20; }); return baseSvg(body, palette, typeTopLabel('matrix'), heading, size); }
+function figureTiles(figures, palette, size, tileY, tileHeight, includeSource = false) { const { width } = size; const gap = 20; const count = Math.max(1, Math.min(3, figures.length)); const tileW = (width - 144 - gap * (count - 1)) / count; const start = (width - (tileW * count + gap * (count - 1))) / 2; let body = ''; figures.slice(0, 3).forEach((item, i) => { const x = start + i * (tileW + gap); const accent = [palette[2], palette[3], palette[4]][i]; body += `<rect x="${x}" y="${tileY}" width="${tileW}" height="${tileHeight}" rx="22" fill="#fffaf0" stroke="${accent}" stroke-width="5"/>`; body += textLines(item.value, x + tileW / 2, tileY + 112, size.width === PHONE.width ? 82 : 92, Math.max(7, Math.floor(tileW / 31)), palette[1], 2, 700, 'middle'); body += textLines(item.label, x + tileW / 2, tileY + 270, size.width === PHONE.width ? 36 : 40, Math.max(9, Math.floor(tileW / 23)), palette[1], 3, 700, 'middle'); if (includeSource) body += textLines(item.source || item.text, x + tileW / 2, tileY + 470, size.width === PHONE.width ? 34 : 38, Math.max(10, Math.floor(tileW / 24)), palette[1], 3, 600, 'middle'); }); return body; }
+function heroVisual(answer, figures, topic, palette, size) { const { width } = size; const font = width === PHONE.width ? 52 : 58; const answerLines = wrap(answer, width === PHONE.width ? 18 : 22).slice(0, 4); let body = `<text x="72" y="255" font-family="Arial" font-size="${font}" font-weight="700" fill="${palette[1]}">${answerLines.map((line, i) => `<tspan x="72" dy="${i ? font * 1.12 : 0}">${esc(line)}</tspan>`).join('')}</text>`; body += topicIcon(topic, palette, width === PHONE.width ? 540 : 570, 205, width === PHONE.width ? 0.6 : 0.7); body += figureTiles(figures, palette, size, 650, 470); return baseSvg(body, palette, typeTopLabel('hero'), topic, size); }
+function proofVisual(items, palette, heading, size) { const figures = items.map(figureFromItem).filter(Boolean); let body = topicIcon(heading, palette, size.width === PHONE.width ? 540 : 570, 145, size.width === PHONE.width ? 0.58 : 0.66); body += figureTiles(figures, palette, size, 360, 800, true); return baseSvg(body, palette, typeTopLabel('proof'), heading, size); }
+function keyFor(item) { return clean(item?.text || item?.raw || item || '').toLowerCase().replace(/\W+/g, ' ').trim(); }
+function phraseKeys(value) { const tokens = words(value).map((word) => word.toLowerCase()); const keys = []; for (let i = 0; i <= tokens.length - 5; i += 1) keys.push(tokens.slice(i, i + 5).join(' ')); return keys; }
+function itemsFromNeed(need, data) { if (need.type === 'matrix') { const table = tableRows(need.exact_page_content_to_use); return table.rows.map((row) => ({ text: row.join(' — '), raw: row.join(' — '), heading: row[0] })); } if (need.type === 'proof') { const sectionKey = clean(need.section_title).toLowerCase(); const section = data.sections.find((item) => clean(item.title).toLowerCase() === sectionKey || clean(item.title).toLowerCase().includes(sectionKey) || sectionKey.includes(clean(item.title).toLowerCase())); const sectionFacts = section?.facts || data.numberFacts; const used = new Set(); return need.exact_page_content_to_use.split('|').map((value) => clean(value)).filter(Boolean).map((value) => { const match = sectionFacts.find((fact) => !used.has(keyFor(fact)) && clean(fact.raw).toLowerCase().includes(value.toLowerCase())); if (match) used.add(keyFor(match)); return match; }).filter(Boolean); } if (need.type === 'detail') { const raw = clean(need.exact_page_content_to_use).replace(/^(?:Three practical points about .*?:|Key facts from .*? section \d+)/i, '').trim(); return raw.split(/(?<=[.!?])\s+|\s*##\s*/).map((value) => ({ raw: value, text: sentence(value), heading: need.section_title })).filter((item) => item.text); } return need.exact_page_content_to_use.split(/\s*##\s*/).map((value) => ({ raw: value, text: sentence(value), heading: need.section_title })).filter((item) => item.text); }
+async function writeVisual(dir, slug, type, index, desktop, mobile, meta, social = false) { const suffix = index ? `-${String(index).padStart(2, '0')}` : ''; const base = `${slug}-${type}${suffix}`; await sharp(Buffer.from(desktop)).webp({ quality: 62, effort: 6 }).toFile(join(dir, `${base}.webp`)); await sharp(Buffer.from(mobile)).webp({ quality: 60, effort: 6 }).toFile(join(dir, `${base}-mobile.webp`)); if (social) await sharp(Buffer.from(desktop)).resize(1200, 630, { fit: 'cover' }).jpeg({ quality: 72, mozjpeg: true }).toFile(join(dir, `${slug}-social.jpg`)); return { file: `${base}.webp`, mobile: `${base}-mobile.webp`, ...meta }; }
+function uniqueAlt(value, used) { const base = clean(value).replace(/[.!?]+$/, '') || 'Editorial career visual'; let result = `${base}.`; let i = 2; while (used.has(result.toLowerCase())) result = `${base} (${i++}).`; used.add(result.toLowerCase()); return result; }
 
-const needs = await loadNeeds();
-const files = [];
-async function walkFiles(dir) { for (const entry of await readdir(dir, { withFileTypes: true })) { const full = join(dir, entry.name); if (entry.isDirectory()) await walkFiles(full); else if (entry.name === 'index.html') files.push(full); } }
-await walkFiles(DIST);
-const selected = files.filter((_, i) => i % shards === shard);
-let generated = 0; let visualCount = 0;
+const needs = await loadNeeds(); const files = []; async function walkFiles(dir) { for (const entry of await readdir(dir, { withFileTypes: true })) { const full = join(dir, entry.name); if (entry.isDirectory()) await walkFiles(full); else if (entry.name === 'index.html') files.push(full); } } await walkFiles(DIST);
+async function removeGeneratedDir(dir) { for (let attempt = 0; attempt < 12; attempt += 1) { try { await rm(dir, { recursive: true, force: true, maxRetries: 3, retryDelay: 250 }); return; } catch (error) { if (!['EPERM', 'EBUSY', 'ENOTEMPTY'].includes(error?.code) || attempt === 11) throw error; await new Promise((resolve) => setTimeout(resolve, 500)); } } }
+const selected = files.filter((_, i) => i % shards === shard); let generated = 0; let visualCount = 0;
 for (const file of selected) {
-  const route = `/${file.slice(DIST.length + 1).replaceAll('\\', '/').replace(/index\.html$/, '')}`;
-  if (routeFilter && route !== routeFilter) continue;
-  const isBlog = /^\/blog\/[^/]+\/[^/]+\/$/.test(route);
-  const isService = route.startsWith('/services/');
-  const isOther = route.startsWith('/career-resources/') || route.startsWith('/career-skills-compass/');
-  if (!isBlog && !(allServicePages && (isService || isOther))) continue;
-  const html = await readFile(file, 'utf8'); const parts = route.split('/').filter(Boolean); const slug = parts.at(-1); const category = isBlog ? parts[1] : parts.slice(0, -1).join('-'); const title = clean((html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [,'Career guide'])[1]); const data = pageData(html); const palette = palettes[hash(slug) % palettes.length]; const topic = topicFrom(title); const dir = join(OUT, String(hash(`${category}/${slug}`)).padStart(10, '0')); const preserved = []; if (route === '/blog/career-guidance/how-to-choose-a-career-after-12th/') { for (const name of ['how-to-choose-a-career-after-12th-decision-scorecard.webp', 'how-to-choose-a-career-after-12th-career-lane-map.webp']) { try { preserved.push([name, await readFile(join(dir, name))]); } catch {} } } await rm(dir, { recursive: true, force: true }); await mkdir(dir, { recursive: true }); for (const [name, buffer] of preserved) await writeFile(join(dir, name), buffer);
-  const pageNeeds = needs.get(route) || []; const used = new Set(); const usedPhrases = new Set(); const reserved = new Set(); const reservedPhrases = new Set(); const visuals = [];
-  const needItems = (need) => {
-    const items = itemsFromNeed(need);
-    if (items.length || need.type !== 'detail') return items;
-    const target = clean(need.section_title || '').toLowerCase();
-    const section = data.sections.find((item) => clean(item.title).toLowerCase() === target)
-      || data.sections.find((item) => target && clean(item.title).toLowerCase().includes(target));
-    return section?.facts.slice(0, 5).map((text) => ({ text, heading: section.title })) || [];
-  };
-  const phraseKeys = (value) => {
-    const tokens = words(value).map((word) => word.toLowerCase()); const keys = [];
-    for (let i = 0; i <= tokens.length - 5; i += 1) keys.push(tokens.slice(i, i + 5).join(' '));
-    return keys;
-  };
-  const overlapsUsed = (value) => used.has(keyFor(value)) || phraseKeys(value).some((key) => usedPhrases.has(key));
-  const markUsed = (value) => { used.add(keyFor(value)); for (const key of phraseKeys(value)) usedPhrases.add(key); };
-  for (const need of pageNeeds) for (const item of needItems(need)) { reserved.add(keyFor(item)); for (const key of phraseKeys(item)) reservedPhrases.add(key); }
-  const overlapsReserved = (value) => reserved.has(keyFor(value)) || phraseKeys(value).some((key) => reservedPhrases.has(key));
-  const take = (values, limit = 3, allowReserved = false) => values.map((value) => ({ text: typeof value === 'string' ? value : value.text, heading: value.heading })).filter((value) => value.text && !overlapsUsed(value) && (allowReserved || !overlapsReserved(value))).filter((value, i, arr) => arr.findIndex((other) => keyFor(other) === keyFor(value)) === i).slice(0, limit).map((value) => { markUsed(value); return value; });
-  const answer = take(data.facts, 1)[0]?.text || take(pageNeeds.flatMap(needItems), 1)[0]?.text || '';
-  const needFigures = pageNeeds.filter((need) => need.type === 'proof').flatMap(needItems).map((item) => item.text).filter(Boolean);
-  if (answer) { const figures = (needFigures.length ? needFigures : data.numberFacts).slice(0, 3).map((value, i) => ({ value: typeof value === 'string' ? phrase(value, 5) : phrase(value.text, 5), label: figureLabel(typeof value === 'string' ? value : value.text, i) })).filter((item) => item.value); const desktop = heroVisual(topic, answer, figures, palette); const mobile = heroVisual(topic, answer, figures, palette, true); await writeSvg(dir, slug, 'hero', 0, desktop, mobile, true); visuals.push('hero'); }
-  const firstNeed = (type) => pageNeeds.find((need) => need.type === type);
-  const sectionItems = data.sections.slice(0, 3).flatMap((section) => section.facts.slice(0, 1).map((fact) => ({ text: fact, heading: section.title })));
-  const summaryItems = take(sectionItems.length ? sectionItems : data.facts, 3); if (summaryItems.length) { await writeSvg(dir, slug, 'summary', 0, cardVisual(topic, 'What To Notice', summaryItems, palette), cardVisual(topic, 'What To Notice', summaryItems, palette, true)); visuals.push('summary'); }
-  const baseTypes = ['matrix', 'chain', 'checklist', 'proof'];
-  for (const type of baseTypes) {
-    const need = firstNeed(type); let desktop = ''; let mobile = ''; let items = [];
-    if (need) items = take(needItems(need), type === 'matrix' ? 6 : 5, true);
-    if (type === 'matrix' && need) { desktop = tableVisual(topic, 'Compare The Options', need.exact_page_content_to_use, palette); mobile = tableVisual(topic, 'Compare The Options', need.exact_page_content_to_use, palette, true); }
-    else { if (!items.length) { if (type === 'chain') { items = take(data.lists, 4); if (!items.length) items = take(data.sections.map((section) => ({ text: phrase(section.title, 4) })), 4); } else items = take(type === 'proof' ? data.numberFacts : data.facts, type === 'proof' ? 3 : 4); } if (items.length) { if (type === 'proof') { const figures = items.map((item, i) => ({ value: phrase(item.text, 5), label: figureLabel(item.text, i) })); desktop = figuresVisual(topic, 'Key Figures', figures, palette); mobile = figuresVisual(topic, 'Key Figures', figures, palette, true); } else { desktop = cardVisual(topic, type === 'chain' ? 'A Practical Sequence' : type === 'checklist' ? 'Questions To Check' : 'Key Figures', items, palette); mobile = cardVisual(topic, type === 'chain' ? 'A Practical Sequence' : type === 'checklist' ? 'Questions To Check' : 'Key Figures', items, palette, true); } } }
-    if (desktop) { await writeSvg(dir, slug, type, 0, desktop, mobile); visuals.push(type); }
-  }
-  for (const need of pageNeeds) {
-    const items = take(needItems(need), need.type === 'matrix' ? 6 : 5, true); if (!items.length) continue;
-    const index = visuals.filter((value) => value === need.type).length;
-    let desktop; let mobile;
-    if (need.type === 'matrix') { desktop = tableVisual(topic, 'Comparison Table', need.exact_page_content_to_use, palette); mobile = tableVisual(topic, 'Comparison Table', need.exact_page_content_to_use, palette, true); }
-    else { const label = need.type === 'detail' ? titleCase(phrase(need.section_title || topic, 7)) : need.type === 'chain' ? 'Step By Step' : need.type === 'checklist' ? 'Check Before Choosing' : 'Page Figures'; const visualTopic = need.type === 'detail' ? titleCase(phrase(need.section_title || topic, 7)) : topic; if (need.type === 'proof') { const figures = items.map((item, i) => ({ value: phrase(item.text, 5), label: figureLabel(item.text, i) })); desktop = figuresVisual(visualTopic, label, figures, palette); mobile = figuresVisual(visualTopic, label, figures, palette, true); } else { desktop = cardVisual(visualTopic, label, items, palette); mobile = cardVisual(visualTopic, label, items, palette, true); } }
-    await writeSvg(dir, slug, need.type, index, desktop, mobile); visuals.push(need.type); visualCount += 1;
-  }
-  if (visuals.length < 6) {
-    const extra = take(data.facts, 3);
-    if (extra.length) {
-      const index = visuals.filter((value) => value === 'detail').length;
-      await writeSvg(dir, slug, 'detail', index, cardVisual(topic, 'Additional Page Fact', extra, palette), cardVisual(topic, 'Additional Page Fact', extra, palette, true));
-      visuals.push('detail');
-    }
-  }
-  generated += 1;
+  const route = `/${file.slice(DIST.length + 1).replaceAll('\\', '/').replace(/index\.html$/, '')}`; if (routeFilter && route !== routeFilter) continue; const isBlog = /^\/blog\/[^/]+\/[^/]+\/$/.test(route); const isService = route.startsWith('/services/'); const isOther = route.startsWith('/career-resources/') || route.startsWith('/career-skills-compass/'); if (!isBlog && !(allServicePages && (isService || isOther))) continue;
+  const html = await readFile(file, 'utf8'); const parts = route.split('/').filter(Boolean); const slug = parts.at(-1); const category = isBlog ? parts[1] : parts.slice(0, -1).join('-'); const title = clean((html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [, 'Career guide'])[1]); const data = pageData(html); const palette = palettes[hash(slug) % palettes.length]; const topic = topicFrom(title); const dir = join(OUT, String(hash(`${category}/${slug}`)).padStart(10, '0')); const preserved = [];
+  if (route === '/blog/career-guidance/how-to-choose-a-career-after-12th/') for (const name of ['how-to-choose-a-career-after-12th-decision-scorecard.webp', 'how-to-choose-a-career-after-12th-career-lane-map.webp']) { try { preserved.push([name, await readFile(join(dir, name))]); } catch {} }
+  await removeGeneratedDir(dir); await mkdir(dir, { recursive: true }); for (const [name, buffer] of preserved) await writeFile(join(dir, name), buffer);
+  const pageNeeds = needs.get(route) || []; const used = new Set(); const usedPhrases = new Set(); const manifest = []; const altUsed = new Set(); const markUsed = (item) => { used.add(keyFor(item)); for (const key of phraseKeys(item?.text || item)) usedPhrases.add(key); }; const take = (values, limit = 3) => values.map((value) => typeof value === 'string' ? { text: value, raw: value } : value).filter((value) => value?.text && !used.has(keyFor(value)) && !phraseKeys(value.text).some((key) => usedPhrases.has(key))).filter((value, i, arr) => arr.findIndex((other) => keyFor(other) === keyFor(value)) === i).slice(0, limit).map((value) => { markUsed(value); return value; });
+  const add = async (type, body, meta) => { const index = manifest.filter((item) => item.type === type).length; const result = await writeVisual(dir, slug, type, index, body.desktop, body.mobile, { ...meta, type, alt: uniqueAlt(meta.alt, altUsed), title: meta.title || meta.alt }); manifest.push(result); visualCount += 1; };
+  const answerItem = take(data.facts, 1)[0] || data.facts[0]; const answer = sentence(answerItem?.raw || answerItem?.text, 14) || sentence(title, 14); const figures = take(data.numberFacts, 3).map(figureFromItem).filter(Boolean);
+  if (answer) await add('hero', { desktop: heroVisual(answer, figures, topic, palette, DESKTOP), mobile: heroVisual(answer, figures, topic, palette, PHONE) }, { alt: `Portrait overview showing ${sentence(answer, 14)}`, caption: `The central decision shown for ${topic}.` });
+  const sectionItems = data.sections.slice(0, 3).flatMap((section) => section.facts.slice(0, 1)); const summaryItems = take(sectionItems.length ? sectionItems : data.facts, 3); if (summaryItems.length) { const heading = shortHeading(summaryItems[0].heading || data.headings[0], topic); await add('summary', { desktop: cardVisual(summaryItems, palette, 'summary', heading, DESKTOP), mobile: cardVisual(summaryItems, palette, 'summary', heading, PHONE) }, { alt: `Summary cards explaining ${heading}: ${summaryItems.map((item) => phrase(item.text, 5)).join(', ')}.`, caption: `Key ideas from ${heading}.` }); }
+  const firstNeed = (type) => pageNeeds.find((need) => need.type === type); const chosen = []; const matrix = firstNeed('matrix'); if (matrix) chosen.push(matrix); const chain = firstNeed('chain'); const detail = firstNeed('detail'); if (chain) chosen.push(chain); else if (detail) chosen.push(detail); const checklist = firstNeed('checklist'); const proof = firstNeed('proof'); if (checklist && proof) chosen.push(pageNeeds.indexOf(checklist) <= pageNeeds.indexOf(proof) ? checklist : proof); else if (checklist || proof) chosen.push(checklist || proof); else if (detail && !chosen.includes(detail)) chosen.push(detail);
+  for (const need of chosen.slice(0, 3)) { const items = take(itemsFromNeed(need, data), need.type === 'matrix' ? 4 : 4); if (!items.length && need.type !== 'matrix') continue; const heading = shortHeading(need.section_title, data.headings[0] || topic); let body; if (need.type === 'matrix') body = { desktop: tableVisual(need.exact_page_content_to_use, palette, heading, DESKTOP), mobile: tableVisual(need.exact_page_content_to_use, palette, heading, PHONE) }; else if (need.type === 'proof') body = { desktop: proofVisual(items, palette, heading, DESKTOP), mobile: proofVisual(items, palette, heading, PHONE) }; else body = { desktop: cardVisual(items, palette, need.type, heading, DESKTOP), mobile: cardVisual(items, palette, need.type, heading, PHONE) }; const description = need.type === 'matrix' ? `Comparison table showing ${heading}.` : need.type === 'proof' ? `Figure tiles showing ${heading}: ${items.map((item) => phrase(item.text, 4)).join(', ')}.` : `${titleCase(need.type)} visual explaining ${heading}: ${phrase(items[0]?.text, 8)}.`; await add(need.type, body, { alt: description, caption: `Evidence from ${heading}.` }); }
+  if (manifest.length < 2) { const fallback = take(data.lists.length ? data.lists : data.facts, 3); if (fallback.length) { const heading = shortHeading(fallback[0].heading || data.headings[0], topic); await add('detail', { desktop: cardVisual(fallback, palette, 'detail', heading, DESKTOP), mobile: cardVisual(fallback, palette, 'detail', heading, PHONE) }, { alt: `Evidence cards explaining ${heading}: ${phrase(fallback[0].text, 8)}.`, caption: `A concise evidence view for ${heading}.` }); } }
+  await writeFile(join(dir, 'index.json'), JSON.stringify({
+    version: 10,
+    route,
+    title,
+    canvas: { phone: PHONE, desktop: DESKTOP },
+    safeMargin: 72,
+    textContract: { topLabel: 34, heading: 60, body: 40, tableHeader: 42, tableCell: 36, tileFigure: 82, tileLabel: 36 },
+    visuals: manifest,
+  }, null, 2)); generated += 1;
 }
-console.log(`Generated ${visualCount} source-driven visuals for ${generated} pages.`);
+console.log(`Generated ${visualCount} Round 10 visuals for ${generated} pages.`);

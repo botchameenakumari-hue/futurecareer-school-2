@@ -108,7 +108,7 @@ for (const file of walk(dist)) {
     }
   }
   if (isBlog) {
-    if (imgs.length < 6) fail('blog page has fewer than hero + 5 images', route, `${imgs.length} images`);
+    if (imgs.length > 5) fail('blog page has more than five generated/editorial images', route, `${imgs.length} images`);
     const spread = [...body.matchAll(/<img\b[^>]*src="\/images\/blog\/[^"]*"/g)].map((m) => m.index / body.length);
     if (spread.length >= 3 && Math.min(...spread) > 0.8) fail('all images clustered after the article', route, '');
   }

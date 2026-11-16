@@ -227,7 +227,7 @@ function categoryFiles(publicDir, category, pageSlug) {
 }
 
 function generatedBlogFiles(publicDir, category, pageSlug) {
-  const root = path.join(publicDir, 'images', 'blog', 'generated', generatedBlogKey(category, pageSlug));
+  const root = path.join(publicDir, 'images', 'blog', 'generated-r10', generatedBlogKey(category, pageSlug));
   if (!fs.existsSync(root)) return [];
   const order = { hero: 0, summary: 1, matrix: 2, chain: 3, checklist: 4, proof: 5, detail: 6 };
   return fs.readdirSync(root)
@@ -236,6 +236,7 @@ function generatedBlogFiles(publicDir, category, pageSlug) {
       const type = (name) => name.match(/-(hero|summary|matrix|chain|checklist|proof|detail)(?:-\d{2})?\.webp$/)?.[1] || 'detail';
       return (order[type(a)] - order[type(b)]) || a.localeCompare(b);
     })
+    .slice(0, 5)
     .map((file) => '/' + path.relative(publicDir, path.join(root, file)).split(path.sep).join('/'));
 }
 
@@ -253,7 +254,7 @@ function generatedBlogKey(category, pageSlug) {
 }
 
 function generatedBlogSocial(publicDir, category, pageSlug) {
-  const file = path.join(publicDir, 'images', 'blog', 'generated', generatedBlogKey(category, pageSlug), `${pageSlug}-social.jpg`);
+  const file = path.join(publicDir, 'images', 'blog', 'generated-r10', generatedBlogKey(category, pageSlug), `${pageSlug}-social.jpg`);
   return fs.existsSync(file) ? '/' + path.relative(publicDir, file).split(path.sep).join('/') : null;
 }
 
@@ -274,10 +275,21 @@ function visualType(src) {
 }
 
 function generatedDetailFiles(publicDir, category, pageSlug) {
-  const root = path.join(publicDir, 'images', 'blog', 'generated', generatedBlogKey(category, pageSlug));
+  const root = path.join(publicDir, 'images', 'blog', 'generated-r10', generatedBlogKey(category, pageSlug));
   if (!fs.existsSync(root)) return [];
   return fs.readdirSync(root).filter((name) => new RegExp(`^${pageSlug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}-detail-\\d{2}\\.webp$`).test(name)).sort()
     .map((name) => '/' + path.relative(publicDir, path.join(root, name)).split(path.sep).join('/'));
+}
+
+function generatedVisualMeta(publicDir, src) {
+  const manifestPath = path.join(publicDir, path.dirname(src).replace(/^\//, ''), 'index.json');
+  if (!fs.existsSync(manifestPath)) return null;
+  try {
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+    return manifest.visuals?.find((visual) => visual.file === path.basename(src)) || null;
+  } catch {
+    return null;
+  }
 }
 
 function headingTargets(html) {
@@ -466,14 +478,24 @@ function replaceRouteVisualsLegacy(html, publicDir, route) {
 function visualDescriptor(src, publicDir, pageTitle) {
   const mobile = src.replace(/\.webp$/i, '-mobile.webp');
   const type = visualType(src);
-  return { src, type, mobile: fs.existsSync(path.join(publicDir, mobile.slice(1))) ? mobile : null, label: generatedVisualLabel(type, pageTitle), width: imageSize(publicDir, src)?.w || 1000, height: imageSize(publicDir, src)?.h || 900 };
+  const meta = generatedVisualMeta(publicDir, src);
+  return {
+    src,
+    type,
+    mobile: fs.existsSync(path.join(publicDir, mobile.slice(1))) ? mobile : null,
+    label: meta?.alt || generatedVisualLabel(type, pageTitle),
+    alt: meta?.alt || generatedVisualLabel(type, pageTitle),
+    title: meta?.title || `${pageTitle}: ${meta?.alt || generatedVisualLabel(type, pageTitle)}`,
+    caption: meta?.caption || meta?.alt || generatedVisualLabel(type, pageTitle),
+    width: imageSize(publicDir, src)?.w || 1000,
+    height: imageSize(publicDir, src)?.h || 1500,
+  };
 }
 
 function visualFigure(visual, pageTitle, index, className) {
-  const title = `${pageTitle}: ${visual.label}`;
-  const image = `<img src="${visual.src}" alt="${escapeAttr(visual.label)}" title="${escapeAttr(title)}" width="${visual.width}" height="${visual.height}" loading="${index === 0 ? 'eager' : 'lazy'}" decoding="async"${index === 0 ? ' fetchpriority="high"' : ''}>`;
+  const image = `<img src="${visual.src}" alt="${escapeAttr(visual.alt || visual.label)}" title="${escapeAttr(visual.title || visual.label)}" width="${visual.width}" height="${visual.height}" loading="${index === 0 ? 'eager' : 'lazy'}" decoding="async"${index === 0 ? ' fetchpriority="high"' : ''}>`;
   const picture = visual.mobile ? `<picture><source media="(max-width: 640px)" srcset="${visual.mobile}">${image}</picture>` : image;
-  return `<figure class="${className}" data-visual-type="${visual.type}">${picture}<figcaption>${escapeAttr(visual.label)}</figcaption></figure>`;
+  return `<figure class="${className}" data-visual-type="${visual.type}">${picture}<figcaption>${escapeAttr(visual.caption || visual.label)}</figcaption></figure>`;
 }
 
 function placeGeneratedVisuals(html, publicDir, generated, pageTitle, className, keywords) {
