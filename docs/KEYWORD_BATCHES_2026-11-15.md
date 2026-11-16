@@ -47,6 +47,28 @@ Batch 1, next 13 keywords:
 | high paying skills for commerce students | Exact match already live (/blog/skills/best-skills-for-commerce-students-to-learn/); no change |
 | which degree grows your salary the fastest | Exact match already live (/blog/salary-growth/salary-by-degree/); no change |
 
+Batch 2 (city pages): all 18 city counselling pages already exist. "career guidance in chennai", "career guidance in trivandrum" and "career coach bangalore" had their wording added to the existing city pages, but see the STEP 0 correction below.
+
+Batch 3, first 7 keywords (16 November 2026):
+
+| Keyword | Result |
+|---|---|
+| career guidance app | Existing page /services/career-counselling-and-career-guidance/best-career-guidance-website/ already has "App" in its title; added an honest "no app to download" line and shortened its title to 65 characters |
+| career guidance group, ai career coach, career and life coach, free online career counselling chat, career coach certification | Agents stopped on the usage limit before writing pages; to be rebuilt |
+| student mentor | Research and plan done (MOFU, service-page route; own page needed); page not yet written |
+
+## STEP 0 correction (16 November 2026)
+
+`COWORK_KICKOFF_PROMPT.md` STEP 0 treats a keyword as already covered only on a strict match (same substantive words; only order, singular/plural or punctuation differs) and sends every other case to its own page, including "counselling" vs "guidance" vs "coaching", "service" vs "platform", "cost" vs "package". The first agent briefs said to treat synonyms as the same concept, which was looser than the kickoff. Under the strict test these keywords need their own pages and are queued to be built:
+
+- humanities jobs list and salary (existing page says "paying", not "salary")
+- high paying skills for commerce students (existing page title has no "high paying")
+- which degree grows your salary the fastest (existing page is about the highest salary, with growth as a section)
+- lateral mba meaning and eligibility (existing page is "lateral entry MBA")
+- career guidance in chennai, career guidance in trivandrum, career coach bangalore (existing pages are "career counselling in <city>")
+
+Held as exact matches under the strict test: which factor is important while choosing a career, degree courses list for mpc students, how much does a content creator earn in india, career guidance app. Borderline and kept for now: what jobs are best for introverts in india.
+
 ## Batch 1 — GSC-proven gaps (queries already earning impressions with no matching page) + low-KD, high-volume decisions (25)
 
 | # | Keyword | Vol | KD | Competition | Type | Evidence / note |
