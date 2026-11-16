@@ -1347,7 +1347,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'best-career-options-with-high-salary',
     title: 'Best career options with high salary: what actually pays',
     description:
-      'Best career options with high salary usually combine scarce skill, leverage, regulation, or revenue ownership. See which paths fit and what to avoid.',
+      'Best career options with high salary usually combine scarce skill, reach, regulation, or revenue ownership. See which paths fit and what to avoid.',
     publishedAtISO: '2026-05-13',
     readTimeMinutes: 19,
   },
@@ -8556,7 +8556,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'mpt-salary-per-month-in-india',
     title: "MPT Salary per Month in India: What the MPT Really Changes",
     description:
-      "MPT salary per month in India has no official survey. Government posts start near Rs 35,400, private pay is negotiated, and teaching is where the MPT counts.",
+      "MPT salary per month in India has no official survey. One lecturer notice pays Rs 55,000 and a contract physio post Rs 35,000. See what the MPT changes.",
     publishedAtISO: '2026-11-15',
     readTimeMinutes: 11,
   },
