@@ -51,10 +51,10 @@ const Q_LIST: Q[] = [
   },
   {
     d: 'evidence',
-    text: 'I treat a forwarded message or a confident video as true if it sounds convincing.',
+    text: 'If many people repeat a claim, I take that as a sign that it is probably true.',
     reverse: true,
-    tip: 'Before you believe or forward something, find out who first said it and what they based it on. Make one rule for yourself: nothing gets shared until you have seen the source.',
-    up: 'Choose one forwarded message from this week and trace it back to its first source. Write whether the claim survived, and share what you found with the person who sent it.',
+    tip: 'Many copies of a claim can all come from one source. Pick a claim you have seen several times this week, find who said it first and what they based it on, and count how many separate sources there really are.',
+    up: 'Choose one popular claim from this week and trace it back to its first source. Write whether it survived, and share what you found with the person who passed it on to you.',
   },
   {
     d: 'structure',
@@ -335,11 +335,11 @@ export const bundle: SkillTestBundle = {
       },
       {
         q: 'How is the score worked out?',
-        a: 'Statements are rated from 1 to 5, and the ones worded in the negative are reversed. In the situation questions, each option carries a score from 0 to 100. Each area score is the average of its statements and situations, shown out of 100, and the overall score is the average of the five areas.',
+        a: 'You rate each statement from 1 (not true) to 5 (very true). A statement that describes a weak habit, such as dismissing evidence that goes against your view, is scored the other way round. Each situation option is worth 0 to 100 points, an area score is the average of everything asked about that area, and the overall score is the average of your five areas.',
       },
       {
         q: 'What is a good score on this test?',
-        a: 'There is no pass mark. Scores are not compared with other people, only with your own answers. A lower area is simply the place where a small habit will help most, and you can retake the test later to see whether it moved.',
+        a: 'There is no pass mark, so a good score here means that your five areas are fairly even and your answers in the situations agree with how you rate yourself. A lower area is where one small habit will help most. Retake the test after about four weeks of practice to see whether it moved.',
       },
       {
         q: 'How can I improve my analytical and critical thinking skills?',
@@ -351,7 +351,7 @@ export const bundle: SkillTestBundle = {
       },
       {
         q: 'Is the test free, and do I need to sign up?',
-        a: 'Yes, it is free and needs no sign-up. It takes about 8 minutes and gives an instant result that you can also download as a PDF.',
+        a: 'Yes, it is free with no sign-up, and the 42 questions take about 8 minutes. You see your five scores straight away and can keep a copy as a PDF.',
       },
     ],
     related: [
@@ -448,8 +448,8 @@ export const bundle: SkillTestBundle = {
       frame: {
         why: 'Much wasted effort comes from answering the wrong question well. A clear question tells you what to collect, what to ignore and when you are done. It also lets other people check whether you are solving what they need.',
         roles: [
-          'Research, reporting and any work where requests arrive in a vague form',
-          'Business analysis, operations and project coordination',
+          'Any reporting or research task where the request arrives in a vague form',
+          'Business analysis, operations and project coordination roles (Scalable with a business layer: a job is the entry, and consulting is the layer that can grow, though entry-level posts are crowded)',
           'Students handling projects, case questions and open assignments',
         ],
         routine: [
@@ -479,9 +479,11 @@ export const bundle: SkillTestBundle = {
       evidence: {
         why: 'Most of what you read, hear and forward is a claim, and many claims have no real basis. Asking what a statement rests on protects you from believing the wrong thing, and it makes your own arguments stronger. It also keeps you from mixing up things that happen together with things that cause each other.',
         roles: [
-          'Research, content, audit and compliance work where facts must hold up',
-          'Roles that compare vendors, courses or options, such as purchasing, operations and teaching',
-          'Freelance and small-business work such as checking facts, summarising research or reviewing claims for clients',
+          'Audit and compliance roles where facts must hold up (Scalable with a business layer: a job is the entry, and an advisory practice is the layer that can grow)',
+          'Content and editing work where facts must hold up (Scalable with a business layer: a job or freelance work is the entry, and a publication or service you run is the layer that can grow)',
+          'Research posts in universities and institutes (Not so scalable: they depend on a few seats, funding and a long ladder, so keep a second skill running beside them)',
+          'Purchasing, operations and teaching roles that compare vendors, courses or options (Scalable with a business layer: a job is the entry, and consulting or a training business is the layer that can grow)',
+          'Freelance fact-checking, research summaries and claim reviews for clients (Scalable with a business layer: you trade hours at first, so plan who pays, how they find and trust you, and how the work repeats)',
         ],
         routine: [
           'Days 1 to 3: For one claim a day, write what it is based on and rate the basis strong, weak or missing.',
@@ -510,8 +512,8 @@ export const bundle: SkillTestBundle = {
       structure: {
         why: 'A messy problem feels heavy because it is one lump. Splitting it into parts gives you a first small step and shows which part matters most. It also makes your reasoning easy for other people to follow and to correct.',
         roles: [
-          'Analysis, operations, engineering and support work where faults must be traced',
-          'Consulting-style, planning and project roles that break large goals into parts',
+          'Analysis, operations, engineering and support roles where faults must be traced (Scalable with a business layer: a job is the entry, and a service or consulting practice is the layer that can grow)',
+          'Consulting-style, planning and project roles that break large goals into parts (Scalable with a business layer, though many people compete for the same posts)',
           'Students facing long case questions, practicals and projects',
         ],
         routine: [
@@ -541,8 +543,8 @@ export const bundle: SkillTestBundle = {
       bias: {
         why: 'Everyone reads facts in the way that suits what they already think. Looking for evidence against your own view and naming your assumptions is the quickest way to catch an error before someone else does. People who can say “I was wrong, and here is the corrected view” are easier to trust.',
         roles: [
-          'Review, audit, quality, research and editing work',
-          'Leadership and mentoring roles where you must hear views that differ from yours',
+          'Review, audit, quality and editing roles (Scalable with a business layer: a job is the entry, and an advisory or editing service is the layer that can grow)',
+          'Leadership and mentoring roles where you must hear views that differ from yours (Scalable with a business layer: a team lead role can grow into coaching or consulting)',
           'Anyone preparing for interviews and group discussions where a good counter-point may arrive',
         ],
         routine: [
@@ -572,9 +574,9 @@ export const bundle: SkillTestBundle = {
       data: {
         why: 'Numbers look exact, so a poorly chosen percentage, average or chart can mislead people who do not ask how it was made. Small checks on the base, the unit and the period catch many errors. These checks are basic arithmetic and common sense, and they do not need advanced statistics.',
         roles: [
-          'Technical and digital roles that work with data, such as reporting, analysis and spreadsheets',
-          'Finance, accounts, sales and operations roles where figures are reviewed every month',
-          'Freelance and small-business work such as cleaning spreadsheets, checking figures and preparing simple reports for local businesses',
+          'Data analysis and reporting roles (Scalable when you add proof of work and clear communication, though entry-level posts are crowded)',
+          'Finance, accounts, sales and operations roles where figures are reviewed every month (Scalable with a business layer: a job is the entry, and consulting or a practice is the layer that can grow)',
+          'Freelance spreadsheet cleaning, figure checking and simple reports for local businesses (Scalable with a business layer: you trade hours at first, so plan who pays, how they find and trust you, and how the work repeats)',
         ],
         routine: [
           'Days 1 to 3: For each percentage you see, find the real count it comes from and the period it covers.',
@@ -655,107 +657,101 @@ export const bundle: SkillTestBundle = {
   },
 
   scenarios: [
-    // Framing
     sc('frame', 'A senior tells you, “Find out why sales dropped.” You have a sheet with six months of figures. What do you do first?', [
+      o('Chart total sales by month to see where the drop sits, and then narrow the question once you can see it', 67, 'A first chart is a fair start, but a total can hide where the drop sits. Narrow the question with the senior first, then chart the part that matters.'),
+      o('List every possible reason, from price changes to weather and competitors, and write a short note on each one so that nothing is missed', 33, 'Many reasons without a clear question spread your effort thin. Agree what exactly dropped and when, then test the likely reasons in order.'),
+      o('Send the whole sheet back and ask them what they can see in it', 17, 'This hands the thinking back and shows the question is still unclear. Ask two focused questions about the product, place and period instead.'),
       o('Ask which product, place and period they mean, and what they will do with the answer', 100, 'You turn a loose request into a question you can answer, and you learn how the answer will be used. Write the agreed question at the top of your sheet.'),
-      o('Draw a chart of total sales by month and look for the drop', 67, 'A first chart is a fair start, but a total can hide where the drop sits. Narrow the question first, then chart the part that matters.'),
-      o('List ten possible reasons from your own experience and write about all of them', 33, 'Many reasons without a clear question spread your effort thin. Agree what exactly dropped and when, then test the likely reasons in order.'),
-      o('Send the whole sheet back and ask what they can see in it', 17, 'This hands the thinking back and shows the question is still unclear. Ask two focused questions about the product, place and period instead.'),
     ]),
     sc('frame', 'You are asked to give a short talk on “Social media and young people”. How do you begin?', [
       o('Decide one specific question, such as how reels affect study time in your class, and then look for material', 100, 'A narrow, checkable question tells you what to collect and what to leave out. Write it in one line and test whether you could answer it in your time.'),
-      o('Collect as many articles as you can and see what stands out', 50, 'Reading widely can help, but without a question the pile grows and the talk becomes a list. Set a limit and write the question after the first hour.'),
-      o('Start designing the slides so that the talk looks good', 33, 'Good slides cannot fix a talk with no clear question. Decide what you are trying to show before you open the design.'),
+      o('Collect as many articles as you can for a while and see which theme appears most often, then choose your question', 50, 'Reading widely can help, but without a question the pile grows and the talk becomes a list. Set a limit and write the question after the first hour.'),
+      o('Start on the slides first, so that the talk looks good and you have a structure to fill', 33, 'Good slides cannot fix a talk with no clear question. Decide what you are trying to show before you open the design.'),
       o('Copy the outline of a popular talk on the same topic', 17, 'A copied outline answers the other person’s question, not yours. Use it only to see how a question can be narrowed.'),
     ]),
-    // Evidence
-    sc('evidence', 'A forwarded message says a new study proves that a certain food improves exam marks. What do you do?', [
-      o('Look for the study itself and check who was studied, how many people and who paid for it', 100, 'Tracing the claim to its source shows whether it is strong enough to believe. Write down what you found before you tell anyone.'),
-      o('Search whether other news sites carry the same story', 50, 'Several sites repeating a story can all be copying one source. Find the original study instead of counting repeats.'),
+    sc('evidence', 'A post shared by many classmates says a new study proves that a certain food improves exam marks. What do you do?', [
+      o('Search whether other news sites carry the same story, and trust it if several of them do', 50, 'Several sites repeating a story can all be copying one source. Find the original study instead of counting repeats.'),
+      o('Find the study itself and check who was studied, how many people and who paid for it', 100, 'Tracing the claim to its source shows whether it is strong enough to believe. Write down what you found before you tell anyone.'),
+      o('Ignore it, since forwarded messages are almost always false', 33, 'Doubt is healthy, but rejecting everything without a check is also a shortcut. Spend five minutes on the source and then decide.'),
       o('Share it with friends because it does no harm', 17, 'Sharing unchecked claims spreads them, and a false one can change what people do. Check the source first and share only what holds up.'),
-      o('Ignore it because forwarded messages are always false', 33, 'Doubt is healthy, but rejecting everything without a check is also a shortcut. Spend five minutes on the source and then decide.'),
     ]),
     sc('evidence', 'Two articles give different figures for the number of people employed in the same sector. What do you do?', [
+      o('Trust the one from the better-known website, because a large organisation is more likely to have checked its numbers carefully', 50, 'A well-known name helps, but it does not tell you how the figure was counted. Check the method on both before you rely on either.'),
+      o('Take the average of the two so that neither source is favoured', 33, 'An average of two differently counted figures has no clear meaning. Understand the difference first.'),
       o('Find how each figure was counted, the date and the source, then choose the one that fits your question', 100, 'Different definitions and dates often explain a gap between two honest figures. Note the difference in one line in your work.'),
-      o('Take the average of the two', 33, 'An average of two differently counted figures has no clear meaning. Understand the difference first.'),
-      o('Trust the one from the better-known website', 50, 'A well-known name helps, but it does not tell you how the figure was counted. Check the method on both before you rely on either.'),
       o('Use the one that supports your point', 17, 'Choosing the figure that suits you is a way of deciding first and checking never. Decide what would count as evidence before you look.'),
     ]),
-    // Structure
     sc('structure', 'A family shop’s monthly profit has fallen for three months, and everyone gives a different reason. How do you sort it out?', [
-      o('Split profit into sales and costs, find what changed in each, and test the most likely reason first', 100, 'Breaking the problem into parts shows where the change sits before you pick a cause. Keep a short note of each reason and what you found.'),
-      o('Go with the explanation of the most experienced person in the family', 50, 'Experience is useful, but it is still one view. Treat it as one reason to test, not as the answer.'),
-      o('Change several things at once so that something is bound to work', 17, 'If profit improves, you will not know what worked, and if it falls you will not know what hurt. Change one thing at a time where you can.'),
+      o('Go with the explanation of the most experienced person in the family, since they have run the shop for years and know the customers best', 50, 'Experience is useful, but it is still one view. Treat it as one reason to test, not as the answer.'),
       o('Wait another month to see whether it fixes itself', 33, 'Waiting can give more data, but without a list of reasons you will not know what to look for. Write the reasons now and decide what to track.'),
+      o('Split profit into sales and costs, find what changed in each, and test the most likely reason first', 100, 'Breaking the problem into parts shows where the change sits before you pick a cause. Keep a short note of each reason and what you found.'),
+      o('Change several things at once so that something is bound to work', 17, 'If profit improves, you will not know what worked, and if it falls you will not know what hurt. Change one thing at a time where you can.'),
     ]),
     sc('structure', 'You must explain a conclusion to a group in two minutes. How do you organise it?', [
-      o('State the conclusion first, then the two or three strongest reasons, then what you suggest doing', 100, 'Starting with the point lets people follow the reasons and respond to them. Practise it aloud once before you speak.'),
-      o('Tell the story in the order you worked it out', 50, 'Your path feels natural to you but makes people wait for the point. Move the conclusion to the start and keep the story for questions.'),
+      o('Tell the story in the order you worked it out, so that the group can see how careful the work was before you give the conclusion', 50, 'Your path feels natural to you but makes people wait for the point. Move the conclusion to the start and keep the story for questions.'),
       o('Show all the data you collected so that they can decide for themselves', 33, 'A pile of data hides your point and takes the group’s time. Choose the evidence that best supports your conclusion and keep the rest ready.'),
+      o('State the conclusion first, then the two or three strongest reasons, then what you suggest doing', 100, 'Starting with the point lets people follow the reasons and respond to them. Practise it aloud once before you speak.'),
       o('Begin with long background and hope the conclusion becomes obvious', 17, 'Background that comes before the point loses people. Give one line of context and then the conclusion.'),
     ]),
-    // Bias
     sc('bias', 'You are sure your approach is right. A teammate shows a case where it failed. What do you do?', [
-      o('Ask for the details, check whether that case is like yours and say what it changes', 100, 'You treat the case as evidence without either ignoring it or giving up your view at once. Write down what would make the cases similar or different.'),
+      o('Drop your approach at once and switch to your teammate’s, since one real failure is stronger evidence than your own belief', 50, 'One failure is a reason to look, not always a reason to quit. Check how much the case resembles yours before you change course.'),
       o('Explain why that case was a special exception and carry on', 33, 'Every opposing case can be called an exception, which leaves your view unchecked. Look at what the case shares with yours before you decide.'),
-      o('Drop your approach straight away', 50, 'One failure is a reason to look, not always a reason to quit. Check how much the case resembles yours before you change course.'),
+      o('Ask for the details, check whether that case is like yours, and say what it changes', 100, 'You treat the case as evidence without either ignoring it or giving up your view at once. Write down what would make the cases similar or different.'),
       o('Point out the failures of your teammate’s own approach', 17, 'This turns a chance to check your idea into an argument about who is right. Deal with the case first and compare approaches afterwards.'),
     ]),
     sc('bias', 'Your first answer to a puzzle, test question or forecast matches what you hoped for. What do you do?', [
-      o('Spend a few minutes looking for what would prove it wrong and test that first', 100, 'A result you like needs a check as much as one you dislike. Write down what would prove you wrong before you look.'),
-      o('Ask a friend to check it, but tell them the answer you are hoping for', 50, 'A second check is good, but telling them your hoped-for answer nudges them towards it. Ask for a check without saying what you expect.'),
+      o('Ask a friend to check it and tell them which answer you were hoping for, so that they know what to look at', 50, 'A second check is good, but telling them your hoped-for answer nudges them towards it. Ask for a check without saying what you expect.'),
       o('Collect a few more facts that support it so that you can defend it', 33, 'Searching only for support will usually find it, and that proves little. Include a search for facts against it.'),
       o('Accept it, since a result that matches your hope is probably right', 17, 'Hope makes an answer feel right, and feeling right is not evidence. Check it the way you would check an answer you disliked.'),
+      o('Spend a few minutes looking for what would prove it wrong, and test that first', 100, 'A result you like needs a check as much as one you dislike. Write down what would prove you wrong before you look.'),
     ]),
-    // Data
-    sc('data', 'A coaching advert says, “92% of our students scored above 80%.” What do you ask first?', [
-      o('How many students it covers, who was counted, and whether students who left are left out', 100, 'A percentage means little without the base and the people who were counted. Ask for the numbers and the years in writing before you decide.'),
-      o('Which exam and which year the figure comes from', 67, 'The exam and year are good questions. Add who was counted and how many, because a small or selected group can give a high percentage.'),
-      o('Whether the centre is well known', 33, 'Being well known is not the same as having strong results. Ask for the counts behind the percentage.'),
-      o('Nothing, since a high percentage means good results', 17, 'A high percentage can come from a small, chosen group. Ask what it is a percentage of.'),
+    sc('data', 'A college brochure says, “92% of students placed.” What do you ask first?', [
+      o('How many students that covers, whether it counts everyone or only those who sat for placements, and what “placed” means', 100, 'A percentage means little without the base and the definition. Ask for the numbers, the year and the meaning of “placed” in writing before you decide.'),
+      o('Which batch and year the figure comes from, and whether it is the same for every course', 67, 'The batch and year are good questions. Add who was counted and what “placed” means, because a small or selected group can give a high percentage.'),
+      o('Whether the college is well known and has good reviews online, since a good name suggests honest figures', 33, 'A good name is not the same as a clear count. Ask for the numbers behind the percentage, whatever the reviews say.'),
+      o('Nothing, since a high percentage means good results', 17, 'A high percentage can come from a small, chosen group or a loose definition. Ask what it is a percentage of.'),
     ]),
     sc('data', 'A notice says the average marks of a class is 70, but many students feel that they did badly. What do you do?', [
+      o('Compare only your own mark with the average to see whether you are above or below it', 50, 'That is a start, but one number can still hide how many students scored far below or above it. Look at the middle value and the range too.'),
+      o('Assume the notice is wrong, because so many students say they did badly that the average cannot be 70', 33, 'Feelings are a reason to check, not proof of an error. Ask for the spread and then compare.'),
       o('Ask for the range and the middle value, since a few very high marks can lift an average', 100, 'The spread behind an average often tells you more than the average itself. Compare your own mark with the middle value and the range.'),
       o('Accept 70 as a fair summary of the class', 17, 'An average can be the same for very different sets of marks. Ask how the marks are spread before you decide what it means.'),
-      o('Assume the notice is wrong because it does not match how students feel', 33, 'Feelings are a reason to check, not proof of an error. Ask for the spread and then compare.'),
-      o('Compare only your own mark with the average', 50, 'That is a start, but one number can still hide how many students scored far below or above it. Look at the middle value and the range too.'),
     ]),
-    // Stage specific
-    { ...sc('evidence', 'Student: for a project you find a blog post that answers your question neatly but names no source. What do you do?', [
-      o('Use it as a lead, find the original source or a second reliable one, and cite that', 100, 'A neat answer with no source is a starting point, not evidence. Citing the original keeps your project solid if a teacher asks.'),
-      o('Use it and mention that it comes from a blog', 67, 'Naming the blog is honest, but the claim may still be wrong. Look for one other source before you rely on it.'),
+    { ...sc('evidence', 'For a project you find a blog post that answers your question neatly but names no source. What do you do?', [
+      o('Use it, and state in your project that the information comes from a blog with no named source, so that the teacher can judge it', 67, 'Naming the blog is honest, but the claim may still be wrong. Look for one other source before you rely on it.'),
+      o('Use it as a lead, find the original or a second reliable source, and cite that', 100, 'A neat answer with no source is a starting point, not evidence. Citing the original keeps your project solid if a teacher asks.'),
       o('Drop the topic because the blog has no source', 33, 'A missing source is a reason to look, not to give up the topic. Search for the facts the blog mentions.'),
       o('Copy the points because it answers the question so well', 17, 'Copying unchecked points puts the blog’s mistakes in your work, and it may count as copying. Use it only as a lead.'),
     ]), stages: ['student'] },
-    { ...sc('frame', 'Student: an exam question says, “Discuss the effects of urbanisation.” How do you begin your answer?', [
-      o('Note what is asked, such as effects and for whom, plan three points with examples, and then write', 100, 'A minute of planning matches your answer to the question and the marks. Keep the plan in the margin and tick each point as you write it.'),
+    { ...sc('frame', 'An exam question says, “Discuss the effects of urbanisation.” How do you begin your answer?', [
+      o('Begin with a full definition and the history of urbanisation, then list the effects as they come to mind, so that the examiner sees how much you know', 50, 'A short definition can help, but a long one uses time and marks. Define in one line and move to the effects.'),
       o('Write everything you know about urbanisation as quickly as you can', 33, 'Writing all you know may miss what the question asks. Pick the points that answer the question and leave out the rest.'),
-      o('Start with a long definition and then see where the answer goes', 50, 'A short definition can help, but a long one uses time and marks. Define in one line and move to the effects.'),
       o('Skip it and return only if there is time left', 17, 'Skipping hard questions leaves marks behind. Spend a minute breaking it into parts and write what you can.'),
+      o('Note what is asked, such as effects and for whom, plan three points with examples, and then write', 100, 'A minute of planning matches your answer to the question and the marks. Keep the plan in the margin and tick each point as you write it.'),
     ]), stages: ['student'] },
-    { ...sc('data', 'Fresher: your sheet shows a monthly total that does not match the total in the report you were given. What do you do?', [
+    { ...sc('data', 'Your sheet shows a monthly total that does not match the total in the report you were given. What do you do?', [
       o('Trace both totals back to their sources, find the difference, and tell your manager what you found and which you used', 100, 'Finding the cause of a mismatch is part of the job, and telling your manager builds trust. Keep a note of the difference for the next report.'),
-      o('Use the report total because it came from your manager', 50, 'The report may be right, but you do not know until you check. Look at why the two differ before you choose.'),
+      o('Use the report total because it came from your manager and has probably been reviewed by someone senior', 50, 'The report may be right, but you do not know until you check. Look at why the two differ before you choose.'),
       o('Use your own total because you calculated it yourself', 33, 'Your own total can contain a mistake too. Compare the two methods before you decide which is right.'),
       o('Round both numbers until they look the same', 17, 'Rounding hides a real gap and can pass a mistake on to others. Find the cause and then report it.'),
     ]), stages: ['fresher'] },
-    { ...sc('bias', 'Fresher: in a group discussion for a job, you realise halfway that one of your points was wrong. What do you do?', [
+    { ...sc('bias', 'In a group discussion for a job, you realise halfway that one of your points was wrong. What do you do?', [
+      o('Quietly stop repeating the point and build on what others say, so that the discussion keeps its flow', 50, 'This avoids a bigger scene, but it leaves the wrong point standing. A brief correction is stronger.'),
+      o('Keep to your point and support it more firmly, since changing your view in front of observers may look weak', 33, 'Defending an error may look confident for a moment but costs credibility later. Correct it and continue.'),
       o('Say so briefly, give the corrected point and carry on', 100, 'Correcting yourself calmly shows careful thinking, and observers often notice it. Keep the correction short and move on.'),
-      o('Quietly stop repeating the point and build on what others say', 50, 'This avoids a bigger scene, but it leaves the wrong point standing. A brief correction is stronger.'),
-      o('Keep to your point so that you seem confident', 33, 'Defending an error may look confident for a moment but costs credibility later. Correct it and continue.'),
       o('Say that the group misunderstood what you meant', 17, 'Blaming others for your point rarely convinces anyone. State the corrected point clearly instead.'),
     ]), stages: ['fresher'] },
-    { ...sc('evidence', 'Professional: a vendor presents a case study showing large gains at another company and asks you to sign. What do you do?', [
+    { ...sc('evidence', 'A vendor presents a case study showing large gains at another company and asks you to sign. What do you do?', [
       o('Ask how the results were measured, what else changed in that time, and whether you can speak to that company', 100, 'A case study is evidence only when you know how it was measured and what else changed. Write the vendor’s answers down and compare them with your situation.'),
-      o('Ask for a free trial first', 67, 'A trial is a sensible step, but decide in advance what result would count as success. Otherwise any outcome can be explained as a win.'),
-      o('Compare only the price with two other vendors', 33, 'Price matters, but it does not tell you whether the product works. Ask for evidence from each vendor.'),
-      o('Sign because other companies have', 17, 'Other companies’ choices are not proof that it suits you. Ask what their results rested on.'),
+      o('Ask for a free trial first, before you sign anything', 67, 'A trial is a sensible step, but decide in advance what result would count as success. Otherwise any outcome can be explained as a win.'),
+      o('Compare the price and contract terms with two other vendors, and choose the one that costs the least for what is promised', 33, 'Price matters, but it does not tell you whether the product works. Ask for evidence from each vendor.'),
+      o('Sign, because other companies have', 17, 'Other companies’ choices are not proof that it suits you. Ask what their results rested on.'),
     ]), stages: ['professional'] },
-    { ...sc('bias', 'Professional: a project you backed is going badly, but you have already put months into it. What do you do?', [
-      o('Review the evidence as if you had just taken it over and decide what you would do from today', 100, 'Past effort is spent whatever you decide, so the useful question is what to do next. Write down what you would do as a new owner.'),
-      o('Give it another month because you have already invested so much', 50, 'A fixed extra period can be sensible, but not because of what has been spent. Set a clear test for what progress in that month would look like.'),
-      o('Ask only the people who supported the project what they think', 33, 'Asking only supporters keeps your view as it is. Include one person who doubted it.'),
-      o('Stop talking about the project and hope it recovers', 17, 'Silence leaves problems to grow. Review the facts and share your findings.'),
+    { ...sc('bias', 'A project you backed is going badly, but you have already put months into it. What do you do?', [
+      o('Give it another month, because stopping now would waste everything already put into it', 50, 'A fixed extra period can be sensible, but not because of what has been spent. Set a clear test for what progress in that month would look like.'),
+      o('Ask the people most involved in the project what they think, since they understand the work best', 33, 'The people closest to the project are often the least willing to question it. Include one person who doubted it.'),
+      o('Stop talking about the project and hope that it recovers', 17, 'Silence leaves problems to grow. Review the facts and share your findings.'),
+      o('Review the evidence as if you had just taken the project over, and decide what you would do from today', 100, 'Past effort is spent whatever you decide, so the useful question is what to do next. Write down what you would do as a new owner.'),
     ]), stages: ['professional'] },
   ],
 

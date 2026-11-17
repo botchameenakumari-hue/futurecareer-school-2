@@ -1,5 +1,8 @@
 // Builds the combined Life Skills Workbook PDF from the same data and answers that are on screen.
-// jsPDF standard fonts cover Latin-1 only, so other scripts are replaced with "?" and reported back.
+// jsPDF standard fonts cover Latin-1 only. Text in Telugu, Hindi and other scripts is drawn by the
+// browser and added as images (see pdfUnicodeText.mjs). If that is not possible, those letters are
+// replaced with "?" and reported back.
+import { createUnicodeText } from './pdfUnicodeText.mjs';
 
 const PAGE_W = 210;
 const PAGE_H = 297;
@@ -25,10 +28,25 @@ export function pdfSafe(value) {
   return { text: cleaned, lossy };
 }
 
+/** One plain line on where to begin, tied to the ratings the person gave. Skills not yet rated are not counted. */
+export function startWith(skills, rating, ratingLabels) {
+  const rated = skills
+    .map((skill) => ({ skill, value: Number(rating && rating[skill.id]) || 0 }))
+    .filter((item) => item.value > 0);
+  if (!rated.length) return 'Rate each skill honestly in its card. The skill you rate lowest is a good one to start with.';
+  const lowest = Math.min(...rated.map((item) => item.value));
+  if (lowest >= 4) return 'All your ratings are 4 or 5. Pick the skill with the least real evidence behind it, and ask someone you trust for honest feedback.';
+  const names = rated.filter((item) => item.value === lowest).slice(0, 2).map((item) => item.skill.name);
+  const label = String((ratingLabels && ratingLabels[lowest]) || '').replace(/^\d\s*/, '');
+  return 'Start with ' + names.join(' and ') + ', which you rated ' + lowest + (label ? ' (' + label + ')' : '') + '. Do the 7-day practice first, then rate it again.';
+}
+
 export function createLifeSkillsPdf(PdfDocument, skills, state, meta) {
   const pdf = new PdfDocument({ unit: 'mm', format: 'a4', compress: true });
+  const uni = meta.unicodeReady ? createUnicodeText(pdf) : null;
   let y = MARGIN;
   let lossy = false;
+  let drawnAsImages = false;
 
   const safe = (value) => {
     const result = pdfSafe(value);
@@ -46,15 +64,18 @@ export function createLifeSkillsPdf(PdfDocument, skills, state, meta) {
 
   function write(value, options = {}) {
     const { size = 10.5, bold = false, color = [30, 30, 30], indent = 0, gap = 1.6, italic = false } = options;
-    const text = safe(value);
-    pdf.setFont('helvetica', bold ? 'bold' : italic ? 'italic' : 'normal');
+    const style = bold ? 'bold' : italic ? 'italic' : 'normal';
+    const imageLines = uni ? uni.wrap(value, CONTENT_W - indent, size, style) : null;
+    pdf.setFont('helvetica', style);
     pdf.setFontSize(size);
     pdf.setTextColor(color[0], color[1], color[2]);
-    const lines = pdf.splitTextToSize(text, CONTENT_W - indent);
-    const step = lineHeight(size);
+    const lines = imageLines || pdf.splitTextToSize(safe(value), CONTENT_W - indent);
+    const step = lineHeight(size) * (imageLines ? 1.25 : 1);
+    if (imageLines) drawnAsImages = true;
     lines.forEach((line) => {
       ensure(step);
-      pdf.text(line, MARGIN + indent, y + step * 0.75);
+      if (imageLines) uni.draw(line, MARGIN + indent, y + step * 0.75, size, style, color);
+      else pdf.text(line, MARGIN + indent, y + step * 0.75);
       y += step;
     });
     y += gap;
@@ -105,6 +126,7 @@ export function createLifeSkillsPdf(PdfDocument, skills, state, meta) {
   write('Skills in this workbook', { size: 11.5, bold: true, color: [11, 118, 109], gap: 1 });
   write(skills.map((skill, index) => (skill.number || index + 1) + '. ' + skill.name).join('   '), { size: 10, gap: 3 });
   write('How to use it: read the notes, answer the three questions in your own words, rate yourself honestly and tick each day of the 7-day practice as you finish it. A self-rating is your own view, not a test result.', { size: 9.5, gap: 2.5 });
+  write('Where to start: ' + startWith(skills, state.rating, meta.ratingLabels), { size: 9.5, gap: 2.5 });
   write('This workbook is for personal reflection. It is not medical advice. If stress or low mood is heavy or lasts for weeks, talk to a doctor, a counsellor or a trusted adult.', { size: 9.5, gap: 2.5 });
   write('Source for the list: ' + meta.sourceLabel + '. WHO describes life skills as "' + meta.definition + '." Source link: ' + meta.sourceUrl, { size: 8.5, color: [90, 90, 90], gap: 2 });
   write('Your answers stay on your device. This file was created in your browser and nothing was uploaded.', { size: 8.5, color: [90, 90, 90], gap: 2 });
@@ -179,5 +201,5 @@ export function createLifeSkillsPdf(PdfDocument, skills, state, meta) {
     pdf.text('Page ' + page + ' of ' + total, PAGE_W - MARGIN, PAGE_H - 7.5, { align: 'right' });
   }
 
-  return { pdf, lossy };
+  return { pdf, lossy, drawnAsImages };
 }

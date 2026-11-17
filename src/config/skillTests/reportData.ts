@@ -113,6 +113,13 @@ export const TEST_FOCUS_SKILL: Record<string, string> = {
   'promotion-readiness-assessment': 'proof',
   'job-fit-self-assessment': 'marketing',
   'career-readiness-self-assessment': 'proof',
+  'writing-skills-assessment-test': 'english_write',
+  'employability-skills-assessment-test': 'proof',
+  'analytical-and-critical-thinking-skills-assessment': 'ai_use',
+  'presentation-skills-assessment': 'english_speak',
+  'skill-gap-assessment': 'proof',
+  'business-skills-quiz-for-college-students': 'sales',
+  'computer-skills-self-assessment-test': 'automate',
 };
 
 export const TRACKER_PATH = '/services/assessments/skill-portfolio-tracker/';

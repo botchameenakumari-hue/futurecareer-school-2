@@ -30,8 +30,11 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
         <button type="button" class="lsw-btn" data-lsw-action="none">Clear selection</button>
       </div>
       <p class="lsw-count" id="lsw-count" role="status" aria-live="polite"></p>
+      <p class="lsw-jump"><a href="#lsw-save">Jump to Step 2: download the PDF or print</a></p>
     </fieldset>
   </div>
+
+  <p class="lsw-start" id="lsw-start"></p>
 
   <div id="lsw-cards" class="lsw-cards">
     {SKILLS.map((skill, index) => (
@@ -47,7 +50,7 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
         <div class="lsw-rate">
           <label>
             <span>My rating today (your own view, not a test)</span>
-            <select data-lsw-rating={skill.id}>
+            <select data-lsw-rating={skill.id} aria-label={`My rating today for ${skill.name}`}>
               {RATING_LABELS.map((label, value) => <option value={String(value)}>{label}</option>)}
             </select>
           </label>
@@ -91,7 +94,7 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
 
   <p class="lsw-empty" id="lsw-empty" hidden>No skill is selected. Tick at least one skill above to see its pages.</p>
 
-  <div class="lsw-noprint lsw-final">
+  <div class="lsw-noprint lsw-final" id="lsw-save">
     <h3>Step 2. Save your workbook</h3>
     <div class="lsw-actions">
       <button type="button" class="lsw-btn lsw-btn--primary" data-lsw-action="pdf" id="lsw-pdf-btn">Download PDF</button>
@@ -99,7 +102,7 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
       <button type="button" class="lsw-btn" data-lsw-action="clear">Clear my answers</button>
     </div>
     <p class="lsw-status" id="lsw-status" role="status" aria-live="polite"></p>
-    <p class="lsw-note">The PDF holds English letters and numbers. If you wrote answers in Telugu, Hindi or another script, use Print and choose "Save as PDF" so every letter is kept.</p>
+    <p class="lsw-note">Answers in Telugu, Hindi or another script are kept in the PDF. Telugu and Hindi are drawn as pictures so the letters keep their shape, which means that text cannot be selected or copied there, and a small font file loads only when it is needed. If a letter shows as a box, use Print and choose "Save as PDF".</p>
   </div>
 
   <noscript><p class="lsw-note">The workbook needs JavaScript to save answers and make the PDF. Without it you can still read every skill and print the page.</p></noscript>
@@ -109,7 +112,8 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
 
 <script>
   // @ts-nocheck
-  import { createLifeSkillsPdf } from '../scripts/lifeSkillsWorkbookPdf.mjs';
+  import { createLifeSkillsPdf, startWith } from '../scripts/lifeSkillsWorkbookPdf.mjs';
+  import { flattenTexts, needsUnicode, prepareUnicodeText } from '../scripts/pdfUnicodeText.mjs';
 
   const root = document.getElementById('life-skills-workbook');
   const dataEl = document.getElementById('lsw-data');
@@ -134,6 +138,7 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
     const statusEl = document.getElementById('lsw-status');
     const countEl = document.getElementById('lsw-count');
     const emptyEl = document.getElementById('lsw-empty');
+    const startEl = document.getElementById('lsw-start');
     const say = (text) => { if (statusEl) statusEl.textContent = text; };
     const ratingLabels = data.ratingLabels || [];
 
@@ -153,6 +158,7 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
       });
       if (countEl) countEl.textContent = chosen + ' of ' + ids.length + ' skills chosen. ' + answered + ' of ' + total + ' reflection questions answered.';
       if (emptyEl) emptyEl.hidden = chosen > 0;
+      if (startEl) startEl.textContent = chosen > 0 ? 'Where to start: ' + startWith(SK.filter((skill) => state.selected.includes(skill.id)), state.rating, ratingLabels) : '';
     }
 
     function paint() {
@@ -236,17 +242,27 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
         await new Promise((resolve) => requestAnimationFrame(() => resolve()));
         const { jsPDF } = await import('jspdf');
         chosen.forEach((skill) => ensureAnswers(skill.id));
-        const { pdf, lossy } = createLifeSkillsPdf(jsPDF, chosen, state, {
+        const typed = flattenTexts(chosen.map((skill) => state.answers[skill.id]));
+        const needsFont = needsUnicode(typed.join('\n'));
+        let unicodeReady = false;
+        if (needsFont) {
+          say('Loading a font for your Telugu, Hindi or other text.');
+          unicodeReady = await prepareUnicodeText(typed);
+        }
+        const { pdf, lossy, drawnAsImages } = createLifeSkillsPdf(jsPDF, chosen, state, {
           dateText: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }),
           ratingLabels,
           sourceLabel: data.source.label,
           sourceUrl: data.source.url,
           definition: data.source.definition,
+          unicodeReady,
         });
         pdf.save('life-skills-workbook.pdf');
         say(lossy
-          ? 'PDF downloaded. Letters outside English were shown as "?". Use Print and Save as PDF to keep every letter.'
-          : 'PDF downloaded with ' + chosen.length + ' skill' + (chosen.length === 1 ? '' : 's') + '.');
+          ? 'PDF downloaded, but this device could not draw some of your letters, so they show as "?". Use Print and Save as PDF to keep every letter.'
+          : drawnAsImages
+            ? 'PDF downloaded with ' + chosen.length + ' skill' + (chosen.length === 1 ? '' : 's') + '. Text in Telugu, Hindi or other scripts is drawn as pictures so the letters keep their shape, so that text cannot be selected or copied from the PDF.'
+            : 'PDF downloaded with ' + chosen.length + ' skill' + (chosen.length === 1 ? '' : 's') + '.');
       } catch (error) {
         console.error('Unable to create the life skills workbook PDF:', error);
         say('The PDF could not be made on this device. Use Print and choose Save as PDF instead.');
@@ -289,8 +305,8 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
   .lsw-chip input{width:20px;height:20px;flex:0 0 auto;accent-color:#129a8d}
   .lsw-chip span{min-width:0;overflow-wrap:anywhere}
   .lsw-actions{display:flex;flex-wrap:wrap;gap:.6rem}
-  .lsw-btn{min-height:44px;padding:.5rem .95rem;border:1px solid rgba(255,255,255,.22);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:600 .9rem inherit;cursor:pointer}
-  .lsw-btn--primary{background:linear-gradient(135deg,#129a8d,#0b766d);border:0;color:#fff}
+  .lsw-btn{min-height:44px;padding:.5rem .95rem;border:1px solid rgba(255,255,255,.22);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font-family:inherit;font-weight:600;font-size:.9rem;cursor:pointer}
+  .lsw-btn--primary{background:#0b766d;border:1px solid #2dd4bf;color:#fff}
   .lsw-btn[disabled]{opacity:.6;cursor:wait}
   .lsw-cards{display:grid;gap:1.1rem;margin-top:1.3rem}
   .lsw-card{padding:1.1rem;border:1px solid rgba(255,255,255,.16);border-radius:14px;background:rgba(255,255,255,.03);min-width:0}
@@ -308,9 +324,11 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
   .lsw-qa{margin:.5rem 0}
   .lsw-qa p{margin:.15rem 0}
   .lsw-qa-q{font-weight:700}
-  .lsw-final{margin-top:1.3rem;padding:1rem 1.1rem;border:1px solid rgba(229,184,74,.4);border-radius:14px;background:rgba(229,184,74,.08)}
+  .lsw-final{scroll-margin-top:90px;margin-top:1.3rem;padding:1rem 1.1rem;border:1px solid rgba(229,184,74,.4);border-radius:14px;background:rgba(229,184,74,.08)}
   .lsw-final h3{margin:.1rem 0 .7rem}
   .lsw-status{min-height:1.3em;color:#9ff3e6;font-size:.88rem}
+  .lsw-start{margin:1.1rem 0 0;font-weight:600;color:#f3cf70}.lsw-start:empty{display:none}
+  .lsw-jump{margin:.3rem 0 0;font-size:.9rem}.lsw-jump a{color:#f3cf70;font-weight:700;text-decoration:underline}.lsw-jump a:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}
   .lsw-empty{margin-top:1rem;padding:1rem;border:1px dashed rgba(255,255,255,.3);border-radius:12px}
   .lsw-print-only{display:none}
   .lsw-print-ans{display:none}
@@ -318,7 +336,7 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
   .lsw-card select:focus-visible,.lsw-card textarea:focus-visible,.lsw-btn:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}
   @media(max-width:560px){.lsw{padding:1rem}.lsw-chips{grid-template-columns:1fr}.lsw-card{padding:.9rem}.lsw-btn{flex:1 1 100%}}
   @media print{
-    header#nav,footer,#analytics-consent-banner,.business-perspective-note,.tool-hero,.tool-explainer,.lsw-noprint,.lsw-actions,.lsw-empty,.lsw-card textarea,.lsw-rate label{display:none!important}
+    header#nav,footer,#analytics-consent-banner,#analytics-consent-manage,.business-perspective-note,.tool-hero,.tool-explainer,.lsw-noprint,.lsw-jump,.lsw-actions,.lsw-empty,.lsw-card textarea,.lsw-rate label{display:none!important}
     body{background:#fff!important;color:#111!important}
     .lsw,.lsw *{color:#111!important;background:transparent!important}
     .lsw{margin:0;padding:0;border:0}

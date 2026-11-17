@@ -2,10 +2,26 @@
 // Skill names follow the ten core life skills listed by the World Health Organization (WHO).
 // All wording below is original FutureCareerSchool copy. It contains no statistics, fees or pay figures.
 
+// Source check, 17 November 2026 (iris.who.int and cbse.gov.in were not reachable from the build sandbox, so the
+// title, document number, definition and list were read from the WHO document title page and its citations):
+// - WHO, Programme on Mental Health, Geneva: "Life skills education for children and adolescents in schools",
+//   document WHO/MNH/PSF/93.7A.Rev.2 (title page of the WHO text, as hosted at
+//   orientamentoirreer.it/sites/default/files/materiali/1994%20OMS%20lifeskills%20edizione%201994.pdf, and the
+//   citation in en.wikipedia.org/wiki/Life_skills-based_education). The WHO IRIS record for the same title is
+//   https://iris.who.int/handle/10665/63552.
+// - Wording of the definition: "Life skills are abilities for adaptive and positive behaviour, that enable
+//   individuals to deal effectively with the demands and challenges of everyday life" (same title page).
+// - CBSE, "Life Skills Education", p. 4: "The Ten core Life Skills as laid down by WHO are: 1. Self-awareness
+//   2. Empathy 3. Critical thinking 4. Creative thinking 5. Decision making 6. Problem Solving
+//   7. Effective communication 8. Interpersonal relationship 9. Coping with stress 10. Coping with emotion"
+//   (https://cbse.gov.in/cce/life_skills_cce.pdf, read through a web fetch on the same date).
+// Helpline check, 17 November 2026: Tele-MANAS toll-free numbers "14416 or 1-800-891-4416", launched by the Government
+// of India in October 2022 (Ministry of Health and Family Welfare, https://pib.gov.in/PressReleasePage.aspx?PRID=2022057;
+// IIT Kanpur counselling page https://iitk.ac.in/counsel/TeleManas.php also lists 24x7 and about 20 languages).
 export const WHO_SOURCE = {
-  label: 'World Health Organization, Life skills education for children and adolescents in schools (document WHO/MNH/PSF/93.7A Rev.2)',
-  url: 'https://iris.who.int/items/5d053e73-4b67-4456-9e9a-f3ae402863f2',
-  definition: 'the abilities for adaptive and positive behaviour that enable individuals to deal effectively with the demands and challenges of everyday life',
+  label: 'World Health Organization, Programme on Mental Health, Life skills education for children and adolescents in schools (document WHO/MNH/PSF/93.7A.Rev.2)',
+  url: 'https://iris.who.int/handle/10665/63552',
+  definition: 'abilities for adaptive and positive behaviour, that enable individuals to deal effectively with the demands and challenges of everyday life',
   listNote: 'CBSE, Life Skills Education (lists the ten core life skills as laid down by WHO)',
   listUrl: 'https://cbse.gov.in/cce/life_skills_cce.pdf',
 };
@@ -239,7 +255,7 @@ export const SKILLS = [
   },
   {
     id: 'interpersonal-relationships',
-    name: 'Interpersonal relationships',
+    name: 'Interpersonal relationship skills',
     definition: 'Building and keeping healthy relationships with family, friends, teachers and colleagues, and setting limits on those that harm you.',
     why: [
       'Classmates, seniors, teachers and mentors often share information about projects, internships and openings. Indian colleges and workplaces bring together people of many languages, regions and backgrounds, so working well with others is part of the job.',
@@ -296,7 +312,7 @@ export const SKILLS = [
     },
     qa: [
       { q: 'Is all stress bad?', a: 'No. A little pressure can sharpen focus. Stress that stays high and harms sleep, health or mood needs attention.' },
-      { q: 'When should I ask for help?', a: 'Ask when stress lasts, when sleep or eating is affected, or when you feel unsafe. Speak to a doctor, a counsellor or a trusted adult without waiting.' },
+      { q: 'When should I ask for help?', a: 'Ask when stress lasts, when sleep or eating is affected, or when you feel unsafe. Speak to a doctor, a counsellor or a trusted adult without waiting. In India you can also call Tele-MANAS, the government toll-free mental health helpline, on 14416 or 1-800-891-4416.' },
     ],
   },
   {

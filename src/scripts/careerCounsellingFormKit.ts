@@ -1,6 +1,7 @@
 // Shared content and renderers for the career counselling form tool.
 // One data model feeds the on-screen form, the printable sheet and the PDF,
 // so the three always say the same thing.
+import { createUnicodeText, isUnicodeLine, needsUnicode, prepareUnicodeText } from './pdfUnicodeText.mjs';
 
 export type FormMode = 'general' | 'it';
 
@@ -215,21 +216,31 @@ export function pdfText(value: string): string {
     .replace(/\r\n?/g, '\n');
 }
 
-/** True when any entry holds a character the PDF font cannot draw (for example Telugu or Hindi). */
-export function hasUnsupportedText(data: FormData): boolean {
-  const texts = [
+/** Every text the person typed, which the PDF may need to draw. */
+export function userTexts(data: FormData): string[] {
+  return [
     ...Object.values(data.values),
     ...data.options.flatMap((o) => [o.name, o.worry]),
-  ];
-  return texts.some((t) => /[^\u0000-ÿ]/.test(pdfText(t)));
+  ].filter((t) => typeof t === 'string' && t.trim() !== '');
+}
+
+/** True when any entry holds a character the standard PDF font cannot draw (for example Telugu or Hindi). */
+export function hasUnsupportedText(data: FormData): boolean {
+  return userTexts(data).some((t) => needsUnicode(t));
+}
+
+/** Loads the Telugu or Hindi font on demand. Call before buildPdf and pass the answer in. */
+export function prepareUnicodePdf(data: FormData): Promise<boolean> {
+  return prepareUnicodeText(userTexts(data));
 }
 
 type JsPdfCtor = new (options?: any) => any;
 
 /** Builds the PDF. Pass the jsPDF class so the library is loaded only on click. */
-export function buildPdf(PdfDocument: JsPdfCtor, data: FormData, blank: boolean): any {
+export function buildPdf(PdfDocument: JsPdfCtor, data: FormData, blank: boolean, unicodeReady = false): any {
   const model = sheetModel(data, blank);
   const pdf = new PdfDocument({ unit: 'mm', format: 'a4', compress: true });
+  const uni = unicodeReady ? createUnicodeText(pdf) : null;
   const W = 210;
   const H = 297;
   const M = 16;
@@ -248,16 +259,22 @@ export function buildPdf(PdfDocument: JsPdfCtor, data: FormData, blank: boolean)
   };
   const wrap = (text: string, width: number, size: number, style: 'normal' | 'bold' | 'italic'): string[] => {
     setText(size, style, ink);
-    return pdf.splitTextToSize(pdfText(text), width);
+    return (uni && uni.wrap(text, width, size, style)) || pdf.splitTextToSize(pdfText(text), width);
+  };
+  // Lines from the browser (Telugu, Hindi and so on) are drawn as images, plain English stays real text.
+  const put = (line: string, x: number, baseline: number, size: number, style: 'normal' | 'bold' | 'italic', color: readonly number[]) => {
+    if (uni && isUnicodeLine(line)) uni.draw(line, x, baseline, size, style, color);
+    else pdf.text(line, x, baseline);
   };
   const ensure = (height: number) => {
     if (y + height > bottom) { pdf.addPage(); y = M; }
   };
-  const writeLines = (lines: string[], size: number, style: 'normal' | 'bold' | 'italic', color: readonly number[], gap: number) => {
+  const writeLines = (lines: string[], size: number, style: 'normal' | 'bold' | 'italic', color: readonly number[], baseGap: number) => {
+    const gap = lines.some((line) => uni && isUnicodeLine(line)) ? baseGap * 1.25 : baseGap;
     setText(size, style, color);
     lines.forEach((line) => {
       ensure(gap);
-      pdf.text(line, M, y + gap * 0.72);
+      put(line, M, y + gap * 0.72, size, style, color);
       y += gap;
     });
   };
@@ -310,13 +327,14 @@ export function buildPdf(PdfDocument: JsPdfCtor, data: FormData, blank: boolean)
       y += 6.5;
       block.table.rows.forEach((row) => {
         const cells = row.map((cell, i) => wrap(cell, colW[i] - 3, 9.5, 'normal'));
-        const rowH = Math.max(11, Math.max(...cells.map((c: string[]) => c.length)) * 4.4 + 3);
+        const lineStep = cells.some((c: string[]) => c.some((line) => uni && isUnicodeLine(line))) ? 5.4 : 4.4;
+        const rowH = Math.max(11, Math.max(...cells.map((c: string[]) => c.length)) * lineStep + 3);
         ensure(rowH);
         let cx = M;
         setText(9.5, 'normal', ink);
         cells.forEach((lines: string[], i: number) => {
           pdf.rect(cx, y, colW[i], rowH);
-          lines.forEach((line, li) => pdf.text(line, cx + 1.5, y + 4.6 + li * 4.4));
+          lines.forEach((line, li) => put(line, cx + 1.5, y + 4.6 + li * lineStep, 9.5, 'normal', ink));
           cx += colW[i];
         });
         y += rowH;

@@ -304,6 +304,8 @@ const jsonLd = [
 </BaseLayout>
 
 <style is:global>
+  /* While a question is on screen, the fixed privacy pill would sit over the Next button on phones. */
+  body:has(#quiz-shell:not([hidden])) #analytics-consent-manage { display: none !important; }
   .sst{background:#080c18;color:rgba(255,255,255,.86)}
   .sst h1,.sst h2,.sst h3{color:#fff}
   .sst-hero{padding:128px 0 64px;background:linear-gradient(165deg,#07101f 0%,#0d1a33 60%,#1b1608 100%)}
@@ -574,7 +576,7 @@ const jsonLd = [
           var q = Q[i], chosen = q.opts[answers[i]];
           var best = q.opts.reduce(function (a, b) { return b.s > a.s ? b : a; });
           var dn = DOMS.filter(function (d) { return d.key === q.d; })[0].name;
-          return '<div class="sst-low-item"><p><b>Situation ' + (n + 1) + ' (' + esc(dn) + '):</b> ' + esc(q.text) + '</p><p><b>You chose:</b> ' + esc(chosen.t) + '</p><p><b>What this suggests:</b> ' + esc(chosen.a) + '</p>' + (chosen.s < 100 ? '<p><b>A stronger approach:</b> ' + esc(best.t) + '. ' + esc(best.a) + '</p>' : '') + '</div>';
+          return '<div class="sst-low-item"><p><b>Situation ' + (n + 1) + ' (' + esc(dn) + '):</b> ' + esc(q.text) + '</p><p><b>You chose:</b> ' + esc(chosen.t) + '</p><p><b>What this suggests:</b> ' + esc(chosen.a) + '</p>' + (chosen.s < 100 ? '<p><b>A stronger approach:</b> ' + esc(String(best.t).replace(/[.!?]+$/, '')) + '. ' + esc(best.a) + '</p>' : '') + '</div>';
         }).join('') + '</div>';
       }
 

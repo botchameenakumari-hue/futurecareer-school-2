@@ -18,7 +18,7 @@ export const bundle: SkillTestBundle = {
     h1Accent: 'Assessment',
     eyebrow: 'A speaking skills checklist for structure, slides, delivery, questions and nerves',
     heroSub:
-      'This free presentation skills assessment shows which part of presenting to work on first: structure, slides, delivery, handling questions, or nerves and preparation. Many people think they need to be more confident, when the real gap is a crowded slide or a talk with no clear main point. It works for class talks, interviews, team updates and client meetings.',
+      'This free presentation skills assessment shows which part of presenting to work on first: structure, slides, delivery, handling questions, or nerves and preparation. Often the gap is not confidence but a crowded slide or a talk with no clear main point. It works for class talks, interviews, team updates and client meetings.',
     stats: [
       { value: '41', label: 'questions' },
       { value: '5', label: 'presenting areas' },
@@ -28,7 +28,7 @@ export const bundle: SkillTestBundle = {
     mainChecks: [
       'Five presenting areas scored from your own ratings',
       'About 7 minutes, no sign-up',
-      'Advice for your stage and a 14-day practice routine',
+      'Advice for where you present and a 14-day practice plan',
     ],
     reportTitle: 'Presentation Skills Report',
     reportFile: 'future-career-school-presentation-skills-report.pdf',
@@ -152,7 +152,7 @@ export const bundle: SkillTestBundle = {
         title: 'Presenting and your career',
         body: [
           'Interviews, project reviews, client meetings and promotion discussions often include a moment where you explain your work aloud. Presenting well does not replace good work, and it does not promise a job or a raise.',
-          'What it can do is make your work easier to notice, understand and trust. People who explain clearly are often asked to explain again, which gives them more chances to be seen.',
+          'What it can do is make your work easier to notice, understand and trust. Someone who explains clearly can be asked to explain again, which gives more chances to be seen.',
         ],
       },
       {
@@ -166,9 +166,9 @@ export const bundle: SkillTestBundle = {
     limits: [
       'This is a self-rating tool. It shows how you describe your own habits and cannot see or hear you present.',
       'It is not a certificate, an official assessment or an examiner’s grade, and no school, employer or board recognises it as one.',
-      'Scores are not compared with other people, so there is no pass mark, ranking or ideal number.',
+      'Your scores are not set against anyone else’s, so 55 or 85 is not a pass or a fail. Use them to compare your own five areas with each other.',
       'It does not predict marks, interview results, selection or pay. It points to where your presenting habits need attention.',
-      'It is not a medical or mental health assessment. If fear of speaking in front of others is stopping you from daily life, talk to a doctor, a counsellor or someone you trust, and in India you can call Tele-MANAS (14416), a free national helpline.',
+      'It is not a medical or mental health assessment. If fear of speaking in front of others is stopping you from daily life, talk to a doctor, a counsellor or someone you trust. In India you can also call Tele-MANAS on 14416, the free national mental health helpline run by the health ministry.',
     ],
     faqs: [
       {
@@ -185,7 +185,7 @@ export const bundle: SkillTestBundle = {
       },
       {
         q: 'How is the score worked out?',
-        a: 'Statements are rated from 1 to 5, and the ones worded in the negative are reversed. In the situation questions, each option carries a score from 0 to 100. Each area score is the average of its statements and situations, and the overall score is the average of the five areas.',
+        a: 'You rate each statement from 1 (not true) to 5 (very true). Statements that describe a weak habit, such as reading slides silently, are turned around so that agreeing with them lowers the score. Each situation gives 0 to 100 points depending on the option you pick, and an area score is the average of its answers. Your overall score is the average of the five areas.',
       },
       {
         q: 'What is a good score on a presentation skills test?',
@@ -212,7 +212,7 @@ export const bundle: SkillTestBundle = {
       {
         href: '/services/assessments/communication-skills-assessment/',
         title: 'Communication Skills Assessment',
-        description: 'Listening, speaking, writing, feedback and presenting, scored separately.',
+        description: 'Five everyday communication areas, each with its own score, with presenting as one of them.',
       },
       {
         href: '/services/assessments/interview-readiness-self-assessment/',
@@ -235,7 +235,7 @@ export const bundle: SkillTestBundle = {
         description: 'A wider check of how ready you are for the next step in your career.',
       },
     ],
-    breadcrumbDescription: 'Free presentation skills assessment with five area scores and a 14-day practice routine.',
+    breadcrumbDescription: 'Free presentation skills test with scores for structure, slides, delivery, questions and nerves, and a 14-day practice plan.',
     webAppDescription:
       'A free original 41-question presentation skills assessment covering structure and message, slides and visuals, voice and pace, handling questions and the audience, and nerves and preparation, with five scores, an overall score, stage-based advice, a 14-day routine and a downloadable report.',
     indexDescription:
@@ -288,14 +288,14 @@ export const bundle: SkillTestBundle = {
     tips: [
       'Before you open any slide software, finish this sentence on paper: "After this talk, I want people to ...". If you cannot finish it in one line, the talk is not ready for slides yet.',
       'Look at your busiest slide and ask what single thing it should make people understand. Keep that line, add one picture or number, and move the rest into your speaking notes.',
-      'Record yourself on your phone for one minute and listen to it. Most people sound faster than they feel, so practise at a pace that feels slightly too slow.',
+      'Record yourself on your phone for one minute and listen to it. Many people sound faster than they feel, so practise at a pace that feels slightly too slow.',
       'After a question ends, count two beats in your head before you speak. The gap stops you from answering only the first half and shows people that you listened.',
       'Reading slides silently feels like practice, but your mouth and breath have not rehearsed anything. Stand up and say the full talk aloud once today, even if it goes badly.',
       'Write three headings on one page: opening, main points and closing. Limit the main points to three, and end by saying what you want people to remember or do.',
       'Cover the text on a slide and explain it from memory. If you cannot, the slide holds too much, or you are not clear yet on what it should say.',
       'Pick three friendly faces in different parts of the room and speak one full sentence to each in turn. Look at the screen only to check, then turn back to people.',
       'Start with "So the question is ..." and say it in your own words. This gives you time to think, makes sure the whole room heard it and shows that you understood.',
-      'Write your first two sentences and learn them by heart. Nerves are strongest in the first thirty seconds, so a fixed start gives you steady ground.',
+      'Write your first two sentences and learn them by heart. Nerves are often strongest at the start, so a fixed opening gives you steady ground.',
       'Open with why the topic matters to the people in the room, then give a short map such as "I will cover three things". People relax when they know where the talk is going.',
       'Open your deck, stand three metres from the screen and read each slide. Anything you cannot read from there needs bigger text, more contrast or fewer words.',
       'Practise one silent breath after each key point. The pause feels long to you but sounds thoughtful to the people listening.',
@@ -339,7 +339,7 @@ export const bundle: SkillTestBundle = {
       'Add one question to your talk, such as "Who here has faced this?", and watch how the room responds. Use the response to decide whether to go deeper or move on.',
       'Try two or three calming habits over your next talks and keep only the ones that seem to help. Write one line after each talk about what steadied you.',
     ],
-    strongTip: 'This is already a habit that works for you. Keep doing it, and note what makes it easy so that you can copy it in your weaker areas.',
+    strongTip: 'You already do this well in front of an audience. Note what makes it easy for you, then try the same move in your weaker areas.',
     domains: {
       structure: {
         why: 'A talk with one clear message is easier to prepare, easier to deliver and easier for people to remember. When structure is weak, even good content gets lost because the audience cannot tell what matters. An opening, three main points and a closing are enough shape for most talks.',
@@ -376,8 +376,8 @@ export const bundle: SkillTestBundle = {
         why: 'People can read faster than you can speak, so crowded slides pull attention away from you. Simple slides with one idea let people look, understand and go back to listening. Slides are there to support what you say, not to hold your script.',
         roles: [
           'College seminars, project reviews and final-year presentations',
-          'Business, analyst, consulting, marketing and sales roles that use decks every week',
-          'Teachers, trainers and anyone who shares ideas with slides on a screen or a call',
+          'Business, analyst, consulting, marketing and sales roles that use decks every week (Scalable with a business layer: consulting or an agency is the layer on top of the job)',
+          'Teachers, trainers and anyone who shares ideas with slides on a screen or a call (Scalable with a business layer: a salaried post has one employer, so training or coaching of your own is the layer)',
         ],
         routine: [
           'Days 1 to 3: Reduce your busiest slide to one heading and one picture, chart or number.',
@@ -408,7 +408,7 @@ export const bundle: SkillTestBundle = {
         roles: [
           'Interviews, group discussions and viva rounds, where the way you speak is part of the answer',
           'Meetings, calls and presentations to clients or senior leaders',
-          'Teaching, training, sales and any role where your voice carries the work',
+          'Teaching, training and sales roles where your voice carries the work (Scalable with a business layer: you need proof of results and a way to find paying clients)',
         ],
         routine: [
           'Days 1 to 3: Record a two-minute practice each day and listen once for pace and filler words.',
@@ -439,7 +439,7 @@ export const bundle: SkillTestBundle = {
         roles: [
           'Viva, seminar and project review rounds with questions from teachers or examiners',
           'Interview panels and client meetings where people test your thinking',
-          'Managers, consultants and team leads who present to groups that push back',
+          'Managers, consultants and team leads who present to groups that push back (Scalable with a business layer: promotion is slow and crowded, so consulting or training is the layer)',
         ],
         routine: [
           'Days 1 to 3: Wait two beats after each question you hear in any conversation, and say it back before answering.',
@@ -466,7 +466,7 @@ export const bundle: SkillTestBundle = {
         midStep: 'Before your next talk, ask one friend to act as a sceptic and ask the question you fear most.',
       },
       prepare: {
-        why: 'Most nervousness is easier to handle when you have practised in the right way. Saying the talk aloud, timing it and knowing your opening gives your mind fewer things to worry about. Preparation will not remove nerves completely, but it gives them less to work on.',
+        why: 'Nervousness is easier to handle when you have practised in the right way. Saying the talk aloud, timing it and knowing your opening gives your mind fewer things to worry about. Preparation will not remove nerves completely, but it gives them less to work on.',
         roles: [
           'Anyone with a viva, interview, seminar or placement presentation coming up',
           'Professionals who present rarely and feel the pressure more when they do',
@@ -498,10 +498,10 @@ export const bundle: SkillTestBundle = {
       },
     },
     thirtyDay: [
-      'Week 1: Start the first half of your lowest-area routine, record one practice run and write one line each evening on what you tried.',
-      'Week 2: Finish the 14-day routine for your lowest area and give one real talk or update, then ask one person for specific feedback.',
-      'Week 3: Move to your second-lowest area, use two steps from its list, and keep the habit from week one.',
-      'Week 4: Retake the assessment, compare each area with the first time and plan your next talk using the checklist in your result.',
+      'Week 1: Begin the routine for your lowest area, record one practice run on your phone and note one thing you will change.',
+      'Week 2: Finish that routine, give one real talk or update, and ask one listener what was clear and what was hard to follow.',
+      'Week 3: Turn to your second-lowest area, try two steps from its plan and keep the habit from week one going.',
+      'Week 4: Retake the assessment, compare each area with your first result and prepare your next talk with the checklist from the guide above.',
     ],
   },
 
@@ -552,82 +552,82 @@ export const bundle: SkillTestBundle = {
 
   scenarios: [
     sc('structure', 'You have ten minutes to present a project, and your notes hold twenty points. What do you do?', [
-      o('Choose the three points that serve one main message and move the rest to a backup slide for questions', 100, 'You protect the message and the time together. Keep the backup slide ready, because people often ask about exactly the points you cut.'),
-      o('Keep all twenty points and speak faster to fit them in', 15, 'Speed makes a crowded talk harder to follow, not shorter. Pick the three points that matter most and practise those slowly.'),
-      o('Cut from the end of the notes until the time fits, whatever remains', 45, 'Cutting the end can remove your conclusion. Choose what to keep by the main message, not by the order of your notes.'),
-      o('Begin by saying you have a lot to cover and start with the background', 30, 'Starting with background and an apology uses up your best minutes. Open with the message and why it matters to this audience.'),
+      o('Keep all twenty points and speak faster, because every point in your notes matters to someone in the room', 15, 'Speed makes a crowded talk harder to follow, not shorter. Pick the three points that matter most and practise those slowly.'),
+      o('Cut from the end of the notes until the time fits, since the last points are usually the least important', 45, 'Cutting from the end can remove your conclusion. Choose what to keep by the main message, not by the order of your notes.'),
+      o('Pick the three points that carry one main message and put the rest on a backup slide for questions', 100, 'You protect the message and the time together. Keep the backup slide ready, because people often ask about exactly the points you cut.'),
+      o('Begin by saying you have a lot to cover, and give the background first so people see the full picture', 30, 'Starting with background and an apology uses up your best minutes. Open with the message and why it matters to this audience.'),
     ]),
     sc('structure', 'A senior person gives you only five minutes to present a plan. Which opening works best?', [
+      o('Describe the history of the project first, so that the senior person has the full context before the plan arrives', 40, 'Background feels safe, but it spends your short time before the point. Give the recommendation first and keep history for questions.'),
+      o('Start with a light joke to relax the room, then go through your slides in the order you made them', 30, 'A light moment is fine if it fits you, but a joke alone does not give a busy person what they need. Lead with the message.'),
+      o('Read the agenda slide aloud and then follow it point by point, so nothing is left out of the five minutes', 55, 'An agenda helps a long talk, but in five minutes it takes time. A single sentence naming your recommendation does more.'),
       o('State your recommendation and the main reason first, then offer detail if they want it', 100, 'You respect their time and let them decide how deep to go. Practise this opening aloud until you can say it in twenty seconds.'),
-      o('Describe the history of the project first so the plan makes sense', 40, 'Background feels safe, but it spends your short time before the point. Give the recommendation first and keep history for questions.'),
-      o('Start with a joke to relax the room, then go through your slides in order', 30, 'A light moment is fine if it fits you, but a joke alone does not give a busy person what they need. Lead with the message.'),
-      o('Read the agenda slide aloud and then follow it point by point', 55, 'An agenda helps a long talk, but in five minutes it takes time. A single sentence naming your recommendation does more.'),
     ]),
     sc('slides', 'You finish your draft and see that slide four holds a hundred and twenty words. What do you do?', [
-      o('Reduce it to one main line and one visual or number, and keep the detail in your notes', 100, 'You turn the slide into a prompt for what you say. Do the same with any other slide above about thirty words.'),
-      o('Make the text smaller so that it all still fits', 10, 'Small text is unreadable from the back, and people will read it instead of listening. Cut words, not font size.'),
-      o('Keep the slide and read it carefully aloud so no one misses anything', 20, 'Reading aloud what people can already see is the most common reason talks feel dull. Explain the idea in your own words.'),
-      o('Split it into two slides that are each still crowded', 45, 'Splitting helps a little, but each slide still carries too much. Aim for one idea per slide and a short heading.'),
+      o('Make the text smaller so that everything still fits on the slide and nothing has to be removed', 10, 'Small text is unreadable from the back, and people will read it instead of listening. Cut words, not font size.'),
+      o('Cut it to one main line and one picture or number, and keep the detail in your notes', 100, 'You turn the slide into a prompt for what you say. Do the same with any other slide above about thirty words.'),
+      o('Keep the slide as it is and read it carefully aloud, so that no one in the room misses a word', 20, 'Reading aloud what people can already see is the most common reason talks feel dull. Explain the idea in your own words.'),
+      o('Split it into two slides of about sixty words each, and explain both of them one after the other', 45, 'Splitting helps a little, but each slide still carries too much. Aim for one idea per slide and a short heading.'),
     ]),
     sc('slides', 'Five minutes before your talk, your slides will not open properly on the room computer. What do you do?', [
-      o('Stay calm, open the backup PDF from your phone, pen drive or email, and if it fails, speak your main points with notes or a board', 100, 'A backup copy and a calm plan keep the talk going. Always carry a PDF and know your main message without the slides.'),
-      o('Keep trying to fix the cable and settings while people wait', 35, 'Some effort is fine, but a long delay costs more than the problem. Switch to your backup after a minute or two.'),
-      o('Apologise several times and read the slides from your laptop screen', 25, 'Repeated apologies and a small screen make the talk harder to follow. Speak to the room and let your message lead.'),
-      o('Ask to present on another day', 15, 'You would lose your chance over a fixable problem. Having a backup lets you go ahead.'),
+      o('Keep trying different cables and display settings until the slides appear, even if the start is delayed', 35, 'Some effort is fine, but a long delay costs more than the problem. Switch to your backup after a minute or two.'),
+      o('Apologise to the group, then read the slides from your laptop screen while people crowd around it', 25, 'Repeated apologies and a small screen make the talk harder to follow. Speak to the room and let your message lead.'),
+      o('Stay calm and open the backup PDF from your phone, pen drive or email, and speak from notes if that fails', 100, 'A backup copy and a calm plan keep the talk going. Always carry a PDF and know your main message without the slides.'),
+      o('Ask the organiser to move your talk to another day, so that you can fix the problem properly', 15, 'You would lose your chance over a fixable problem. Having a backup lets you go ahead.'),
     ]),
     sc('delivery', 'Halfway through, you notice you have used most of your time and have four slides left. What do you do?', [
-      o('Move to the slide that holds your main message, cover it clearly and offer the rest afterwards', 100, 'You protect the message and finish on time. Plan in advance which slides you can drop without losing the point.'),
-      o('Speed up and read all four slides quickly', 15, 'Speed makes the ending unclear and often leaves the main message unsaid. Choose what matters and give it time.'),
-      o('Ask whether you can go over time and continue as planned', 45, 'Asking is honest, but the answer may be no and you still lose the ending. Have a short ending ready to use.'),
-      o('Stop and say you ran out of time', 30, 'Stopping without the main message leaves people unsure. Say your closing sentence before you stop.'),
+      o('Speed up and read all four slides quickly, so that you cover everything on your list before time ends', 15, 'Speed makes the ending unclear and often leaves the main message unsaid. Choose what matters and give it time.'),
+      o('Jump to the slide with your main message, cover it clearly and offer the remaining slides afterwards', 100, 'You protect the message and finish on time. Plan in advance which slides you can drop without losing the point.'),
+      o('Ask whether you can go over time, and carry on as planned if the answer is yes', 45, 'Asking is honest, but the answer may be no and you still lose the ending. Have a short ending ready to use.'),
+      o('Stop where you are, tell the room that you ran out of time and thank them for listening', 30, 'Stopping without the main message leaves people unsure. Say your closing sentence before you stop.'),
     ]),
     sc('delivery', 'You hear yourself saying "um" and "so" a lot and speaking fast. What helps most in the moment?', [
-      o('Finish your sentence, take one breath and begin the next sentence slowly', 100, 'A breath resets your pace and replaces filler words with a pause. Practise this at every sentence end in your next run.'),
-      o('Speak even faster so the filler words are harder to notice', 10, 'Faster speech increases filler words and mistakes. Slow down instead.'),
-      o('Apologise to the audience for being nervous', 30, 'An apology draws attention to the problem and often makes it worse. Take a breath and carry on.'),
-      o('Look at the floor so you can concentrate on your words', 35, 'Looking down shuts out the audience and can lower your voice. Look at one friendly face for each sentence instead.'),
+      o('Speak even faster, so that the filler words become harder for the audience to notice', 10, 'Faster speech brings more filler words and more mistakes, and listeners lose the point. Finish the sentence, breathe and slow down instead.'),
+      o('Tell the audience you are a little nervous and ask them to be patient with you today', 30, 'An apology draws attention to the problem and often makes it worse. Take a breath and carry on.'),
+      o('Finish your sentence, take one breath and start the next sentence more slowly', 100, 'A breath resets your pace and replaces filler words with a pause. Practise this at every sentence end in your next run.'),
+      o('Look down at the floor or your notes so that you can concentrate on choosing your words', 35, 'Looking down shuts out the audience and can lower your voice. Look at one friendly face for each sentence instead.'),
     ]),
     sc('questions', 'Someone asks a long and unclear question. What do you do?', [
-      o('Listen to the end, say it back in one line, check you understood it and then answer', 100, 'You show you listened and give the room a clear question to hear answered. Use this for any question you are unsure about.'),
-      o('Answer the part you understood and hope it covers the rest', 45, 'You may be right, but the person can leave feeling unheard. A quick check costs ten seconds.'),
-      o('Ask them to make the question shorter', 25, 'This can sound like criticism. Say it back in your own words and let them correct you.'),
-      o('Answer a different question you prepared for', 15, 'Dodging a question usually shows and costs trust. Answer the real question, even if briefly.'),
+      o('Answer the part you understood and hope that it also covers the rest of what they asked', 45, 'You may be right, but the person can leave feeling unheard. A quick check costs ten seconds.'),
+      o('Politely ask them to make the question shorter so that everyone can follow what is being asked', 25, 'This can sound like criticism. Say it back in your own words and let them correct you.'),
+      o('Answer a different question that you prepared for, because you know that answer well and can give it with confidence', 15, 'Dodging a question usually shows and costs trust. Answer the real question, even if briefly.'),
+      o('Listen to the end, say the question back in one line, check you understood it and then answer', 100, 'You show you listened and give the room a clear question to hear answered. Use this for any question you are unsure about.'),
     ]),
     sc('questions', 'Someone points out a mistake in one of your numbers in front of the group. What do you do?', [
+      o('Defend the number firmly and move on, because changing it in front of the group would look weak', 15, 'If you are wrong, you lose trust twice. Check first, and answer after.'),
+      o('Say that a teammate or the original source made the error, since the data did not come from you', 20, 'Blaming others rarely helps and the slide is still yours. Own the correction and move on.'),
       o('Thank them, check the number calmly and correct it, or promise a confirmed figure by a clear time', 100, 'You show honesty and keep the talk moving. Being corrected calmly often builds more trust than being flawless.'),
-      o('Defend the number firmly without checking', 15, 'If you are wrong, you lose trust twice. Check first, and answer after.'),
-      o('Say a teammate or the source made the error', 20, 'Blaming others rarely helps and the slide is still yours. Own the correction and move on.'),
-      o('Ignore the comment and go on to the next slide', 35, 'Ignoring it leaves doubt about everything else on the slide. Acknowledge it in one sentence and say how you will fix it.'),
+      o('Ignore the comment for now and go on to the next slide so that the talk keeps its flow', 35, 'Ignoring it leaves doubt about everything else on the slide. Acknowledge it in one sentence and say how you will fix it.'),
     ]),
     sc('prepare', 'You have a talk in two days and feel your heart racing every time you think about it. What is the best use of your time?', [
-      o('Practise aloud twice, once with a timer, and write and learn the first two sentences', 100, 'Practice you can hear and time gives your nerves less to attach to. Add slow breathing on the day.'),
-      o('Read the slides silently many times until you feel sure', 35, 'Silent reading builds familiarity but not speech. Say the words aloud at least twice.'),
-      o('Memorise the whole talk word for word', 45, 'A memorised script can fall apart after one slip. Learn the opening and the key points, and speak the rest naturally.'),
-      o('Avoid thinking about it until the day so you do not get more nervous', 15, 'Avoiding it often adds to the worry and leaves no time to prepare. Schedule short practice sessions instead.'),
+      o('Read the slides silently many times until you feel completely sure of what is on each one', 35, 'Silent reading builds familiarity but not speech. Say the words aloud at least twice.'),
+      o('Memorise the whole talk word for word, so that nothing is left to chance on the day', 45, 'A memorised script can fall apart after one slip. Learn the opening and the key points, and speak the rest naturally.'),
+      o('Practise aloud twice, once with a timer, and write and learn your first two sentences', 100, 'Practice you can hear and time gives your nerves less to attach to. Add slow breathing on the day.'),
+      o('Avoid thinking about the talk until the day itself, so that you do not make yourself more nervous', 15, 'Avoiding it often adds to the worry and leaves no time to prepare. Schedule short practice sessions instead.'),
     ]),
     sc('prepare', 'You are asked at short notice to say a few words in a meeting. What do you do?', [
+      o('Say you are not ready and decline, then offer to speak at the next meeting instead', 20, 'Declining every time keeps the fear large. Even a short answer builds comfort.'),
+      o('Say everything you know about the topic, so that nothing important is left out of your answer', 35, 'Long, unplanned answers lose people and bury your main point. Choose one point, add one example and stop.'),
+      o('Start speaking with no plan and see where the first sentence takes you, trusting your instincts', 40, 'You may reach a point, but you are likely to wander. Ten seconds of planning helps a lot.'),
       o('Take ten seconds, choose one point and one example, say them in order and then stop', 100, 'A tiny structure makes short notice manageable. Practise this on small things so it comes naturally.'),
-      o('Say you are not ready and decline', 20, 'Declining every time keeps the fear large. Even a short answer builds comfort.'),
-      o('Say everything you know about the topic so that nothing is missed', 35, 'Long, unplanned answers lose people. Choose one point and stop.'),
-      o('Start speaking with no plan and see where it goes', 40, 'You may reach a point, but you are likely to wander. Ten seconds of planning helps a lot.'),
     ]),
     { ...sc('prepare', 'It is your first group presentation, and two group members have not finished their slides the night before. What do you do?', [
       o('Message the group now, agree who finishes what by when, and plan one timed practice run', 100, 'You turn worry into a plan with dates. A timed run together also fixes the handovers.'),
-      o('Finish their slides yourself without telling anyone', 40, 'You solve today’s problem but hide it, and the group learns nothing. Tell them and agree a fair split.'),
-      o('Wait and hope it comes together on the day', 15, 'Hoping leaves no time to fix problems. Fix the plan the same night.'),
-      o('Present only your own part and let the rest take care of itself', 25, 'A broken handover shows in front of the audience. Check the whole flow together at least once.'),
+      o('Finish their slides yourself without telling anyone, so that the group is not delayed and nobody feels blamed', 40, 'You solve today’s problem but hide it, and the group learns nothing. Tell them and agree a fair split.'),
+      o('Wait and hope it comes together on the day, since the group has always managed somehow before', 15, 'Hoping leaves no time to fix a problem once you find it. Agree a plan with dates the same night.'),
+      o('Present only your own part and let the others take care of theirs, because you cannot control their work', 25, 'A broken handover shows in front of the audience. Check the whole flow together at least once.'),
     ]), stages: ['student'] },
     { ...sc('structure', 'Your manager asks you to present a first project update to the team tomorrow. What do you do first?', [
       o('Ask how long you have and what the team needs to decide or know, then build a short update around that', 100, 'You aim at what people need, which keeps the update short and useful. Write the main message before opening any slides.'),
-      o('Copy a longer presentation from a senior and edit it', 45, 'A model is useful, but a long deck copied for someone else may not suit your update. Start from the team’s need.'),
-      o('Prepare every detail of the project in case anyone asks', 50, 'Preparation helps with questions, but put the detail in a backup, not in the talk. Lead with the message.'),
-      o('Ask a colleague to present it for you', 15, 'You lose a visible chance to show your work. Ask for help preparing, not for someone to speak for you.'),
+      o('Copy a longer presentation from a senior and edit it, because a tested format is safer than a new one', 45, 'A model is useful, but a long deck copied for someone else may not suit your update. Start from the team’s need.'),
+      o('Prepare every detail of the project in case anyone asks, and decide in the room what to include', 50, 'Preparation helps with questions, but put the detail in a backup, not in the talk. Lead with the message.'),
+      o('Ask a colleague to present it for you, and sit in to answer any questions about the work', 15, 'You lose a visible chance to show your work. Ask for help preparing, not for someone to speak for you.'),
     ]), stages: ['fresher'] },
     { ...sc('questions', 'You are presenting to senior leaders, and one of them keeps asking questions that take you away from your main point. What do you do?', [
+      o('Follow each question fully until your time runs out, since a senior person’s question deserves a full answer', 40, 'You show respect, but your main message may never be heard. Offer to return to it later.'),
       o('Answer briefly, offer to cover more at the end, and bring the group back to your main point', 100, 'You respect the question and protect the talk. Keep a phrase ready such as "Let me come back to that after the next point".'),
-      o('Follow each question fully until your time runs out', 40, 'You show respect, but your main message may never be heard. Offer to return to it later.'),
-      o('Tell them firmly to hold their questions until the end', 15, 'This can sound defensive with a senior audience. Invite them to come back to it, which is more respectful.'),
-      o('Skip your remaining slides and end the talk', 25, 'You lose the chance to deliver your recommendation. Move to your main message and close with it.'),
+      o('Tell them firmly to hold their questions until the end, so that you can finish your recommendation first', 15, 'This can sound defensive with a senior audience. Invite them to come back to it, which is more respectful.'),
+      o('Skip your remaining slides and end the talk early, so that the questions can take over the meeting', 25, 'You lose the chance to deliver your recommendation. Move to your main message and close with it.'),
     ]), stages: ['professional'] },
   ],
 
@@ -709,9 +709,9 @@ export const bundle: SkillTestBundle = {
   },
 
   talkTitles: {
-    strong: 'How to show this strength in an interview or on your CV',
-    weak: 'How to answer if you are asked about your lowest area',
-    intro: 'Presenting is shown through real examples. Prepare one true story for your strongest and your lowest area, with what you did and what happened.',
+    strong: 'Showing your strongest presenting habit in an interview or on your CV',
+    weak: 'If you are asked about your lowest presenting area',
+    intro: 'Interviewers believe real examples. Prepare one true story each for your strongest and your lowest area, covering what you did and what happened next.',
     mode: 'interview',
   },
 };

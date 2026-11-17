@@ -81,3 +81,44 @@ Tier 2, built and live on main (commit `e4a81540e0`):
 Known limit on the three tools: the PDF font cannot draw Telugu, Hindi or other non-Latin scripts. The pages say so and point to Print then Save as PDF.
 
 Still to build: career guidance after 12th and 10th PDF pages, real PDF downloads on the three career chart pages, the career guidance questionnaire PDF, then the Tier 3 local pages.
+
+
+## Improvement pass (17 November 2026)
+
+Applied to the 17 informational pages:
+- Blog descriptions in `blog.ts` now match the page descriptions (three had drifted).
+- Reading times corrected to about 220 words a minute (several were half the real length).
+- Scalability tags added for the two pages that fell back to a generic rating.
+- Every page now carries a "Try it now" link to a matching free test or tool, so a reader has something to click through to. These pages were getting almost no clicks; the test and tool pages are where the evidence says clicks come from.
+- The PCM career options page had a section with the same title as the coding vs PCM page. It is renamed and now links to the full page, so the two no longer compete for one query.
+
+Applied to the 7 tests (three independent reviewers, then browser runs on phone width):
+- Scenario answers rewritten so the best option is no longer the longest or always in the same slot (it was the longest in 13 of 13 in two tests).
+- Overlap between tests removed (employability vs computer skills, writing vs communication, analytical vs decision making), and copied FAQ boilerplate rewritten.
+- Helpline and fraud-report facts checked against official or news sources on 17 November 2026. The cybercrime portal address rests on a secondary source because the official page could not be opened.
+- The business quiz now says its rupee amounts are made-up teaching numbers.
+- Career lists carry Scalable, needs a business layer or Not so scalable, with the risk shown.
+- Report focus skill and portfolio audience added for all 7, so the report no longer defaults to "proof of work" for every stage.
+
+Applied to the 3 tools:
+- Telugu and Hindi now print correctly in the PDFs. The browser draws those lines as images, because the PDF library cannot shape those scripts. The text in those lines cannot be selected or copied, and the pages say so.
+- Contrast, button fonts, form-field labels and print layout fixed; a "where to start" line added to the life skills workbook.
+- WHO life skills citation corrected to the document number and the WHO wording of the definition. The IRIS link could not be opened from here, so please click it once.
+
+Sitewide fixes found on the way:
+- The business and growth note sat under the fixed menu on about 30 pages (blog home, services home, tools). It now has the right top margin.
+- On phones, the small "Privacy choices" pill covered the Next button on long test questions. It is hidden while a question is on screen.
+- The privacy pill no longer prints.
+- A double full stop in test result text is gone.
+
+Left as is, on purpose: FAQ answers on test pages stay collapsed like the 17 older tests; the "where to focus first" line still shows at a 100 percent score.
+
+## Decisions for you
+
+1. **Local "near me" pages (Tier 3).** The business is online-first and based in Visakhapatnam. Pages for Bangalore, Chennai, Hyderabad, Delhi or Mumbai would claim a local presence that does not exist. Recommended: build only Visakhapatnam, Vizag and online-for-that-city pages, and skip "near me" pages for cities you do not serve. Tell me if you do serve other cities.
+2. **Image register.** The strict image audit fails for the new pages until they are added to your Round 9 needs register, which was not available to me. Send that file, or tell me to give the new pages default images.
+3. **Telugu and Hindi PDFs.** The PDF font cannot draw those scripts, so the pages point to Print, then Save as PDF. Say if you want a font bundled; it adds page weight.
+4. **Informational pages.** Keep the 17 as supporting pages (now with test links), or stop writing more of that kind. Recommended: keep, write no more.
+5. **Build order for what remains.** Recommended: career guidance after 12th and 10th PDF pages, then real downloads on the three career chart pages, then the questionnaire PDF.
+6. **Figures to re-check.** Several pay and rule figures rest on secondary sources (listed in the page source notes). The WHO life skills record should be opened once to confirm the citation.
+7. **Zero AI Overview risk is a judgement.** I cannot read live search results, so check Search Console in four to six weeks before building more.

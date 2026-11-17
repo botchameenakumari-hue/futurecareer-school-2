@@ -185,7 +185,7 @@ const depthStages = [
     label: 'Running a side project or small business',
     description: 'Already selling a service, product or event while studying',
     title: 'Check your numbers and your customers every month',
-    body: 'Once you have sold something, the questions change to who comes back, what is left after costs and whether you can keep delivering. Selling your skill as a service (Scalable) can grow as proof and repeat customers build up. Tutoring or coaching (Scalable with a business layer) needs a system for finding students, and reselling goods (Not so scalable) is limited by your hours and the cash tied up in stock.',
+    body: 'Once you have sold something, the questions change to who comes back and what is left after costs. Selling a skill as a service (Scalable) grows with proof and repeat customers, though the first ones are slow to come. Tutoring or coaching (Scalable with a business layer) needs a way to find students, and reselling goods (Not so scalable) is capped by your hours and the cash tied up in stock.',
     actions: [
       'List your last ten customers, how each found you and whether they came back, and look for the source that works best.',
       'Test a slightly higher price on the next few customers and compare profit, not only the number of sales.',
@@ -211,7 +211,7 @@ const depthDomains = {
     why: 'Most failed ideas fail because nobody wanted them enough to pay, not because the product was poor. Talking to real customers early, and asking for the sale clearly, replaces guessing with evidence and costs almost nothing.',
     roles: [
       'Freelance and small-business work where you sell a skill directly to customers',
-      'Sales, business development and customer success roles inside companies',
+      'Sales, business development and customer success roles inside companies (Scalable with a business layer: consulting or a business of your own is the layer on top of a salaried job)',
       'Campus clubs, fests and internships that need you to pitch to members or sponsors',
     ],
     routine: [
@@ -242,8 +242,8 @@ const depthDomains = {
     why: 'A price that feels fair to you can still lose money once costs, fees and your own time are counted. Knowing what one sale leaves in your hand lets you decide on discounts, bundles and what to say no to.',
     roles: [
       'Freelance and small-business work where you set your own rates',
-      'Finance, analytics, product and category roles that watch margins',
-      'Family shops and businesses where prices are often set by habit',
+      'Finance, analytics, product and category roles that watch margins (Scalable with a business layer: salaried posts follow one employer’s pay ladder, so a consulting or advisory service is the layer)',
+      'Family shops and businesses where prices are often set by habit (Not so scalable when they only resell goods: your hours and the cash tied up in stock limit growth)',
     ],
     routine: [
       'Days 1 to 3: List everything you sell or could sell and the real cost of delivering one unit, including fees and your time.',
@@ -272,8 +272,8 @@ const depthDomains = {
   cash: {
     why: 'A business can look busy and still run short of money because customers pay late, stock sits unsold or costs arrive first. Watching cash, not only sales, is what lets a small project keep going while it learns.',
     roles: [
-      'Small-business work where one late payment can stop the month',
-      'Accounts, finance and operations roles in companies',
+      'Freelance and small-business work where one late payment can stop the month',
+      'Accounts, finance and operations roles in companies (Scalable with a business layer: a salaried post has a fixed pay ladder, so an accounting or advisory practice for small firms is the layer)',
       'Student ventures and fest stalls that spend before they earn',
     ],
     routine: [
@@ -304,7 +304,7 @@ const depthDomains = {
     why: 'People pay someone they believe will deliver. Samples, honest claims and the words of earlier customers build that belief faster than loud promises, and they tell you which message is actually bringing in enquiries.',
     roles: [
       'Freelance and small-business work that depends on referrals and reviews',
-      'Marketing, brand and content roles',
+      'Marketing, brand and content roles (Scalable once you have proof of work, but crowded at entry level)',
       'Placements and internships, where your CV and profile are your first marketing',
     ],
     routine: [
@@ -334,7 +334,7 @@ const depthDomains = {
   ops: {
     why: 'Winning a customer is only half the work. Delivering on the date you promised, keeping a team organised and fixing problems early is what brings the second order and the referral.',
     roles: [
-      'Operations, project and supply chain roles',
+      'Operations, project and supply chain roles (Scalable with a business layer: a salaried post grows by promotion, so consulting or a small service business is the layer)',
       'Freelance and small-business work that depends on delivering on time',
       'Group projects, fests and clubs that need many people to deliver together',
     ],
@@ -370,13 +370,13 @@ const depth = {
   stages: depthStages,
   tips,
   tipsUp,
-  strongTip: 'This is already a habit that works for you. Note what makes it easy so that you can copy the same move in your weaker areas.',
+  strongTip: 'This habit already works for you in business. Note what makes it easy, then use the same move where you are weaker.',
   domains: depthDomains,
   thirtyDay: [
-    'Week 1: Start the first half of the routine for your lowest area and write one line each evening on what you tried.',
+    'Week 1: Begin the routine for your lowest area and note what you tried and what a real person said about it.',
     'Week 2: Finish the 14-day routine and run one small real test with a customer, a classmate or a shopkeeper.',
-    'Week 3: Move to your second-lowest area and use two steps from its list while you keep the first habit going.',
-    'Week 4: Retake the quiz, compare each area with your first result and write your plan for the next month.',
+    'Week 3: Turn to your second-lowest area, try two steps from its plan and keep the first habit going.',
+    'Week 4: Retake the quiz, compare the areas with your first result and choose what to test next with a customer.',
   ],
 };
 
@@ -441,56 +441,56 @@ const stageAdvice = {
 const scenarios = [
   // Customers and selling
   sc('customers', 'You want to sell practice question sets that you wrote yourself to juniors in your department. What do you do first?', [
-    o('Print a full set for every subject so that juniors can see how much you offer, then sell the packs near the canteen', 17, 'Printing everything first puts your money in stock before you know what juniors want. Start with five juniors, ask which subject worries them most and print one sample set for it.'),
     o('Ask ten juniors which subject they struggle with and what they would pay, then print a sample for the top answer', 100, 'You are asking the people who will pay before you spend, which is the cheapest way to learn. Write their answers down and sell the first sample set to two of them this week.'),
+    o('Print a full set for every subject so that juniors can see how much you offer, then sell the packs near the canteen', 17, 'Printing everything first puts your money in stock before you know what juniors want. Start with five juniors, ask which subject worries them most and print one sample set for it.'),
     o('Copy the subjects a senior sold last year because they worked for that batch', 50, 'A senior’s sales are a useful clue, but another batch may worry about different subjects. Check with a few juniors before you print anything.'),
     o('Post in the batch group and wait to see how many people reply before you do anything else', 33, 'A post can help, but waiting turns it into a guess about demand. Message five juniors directly and ask what they would pay for.'),
   ]),
   sc('customers', 'A shop owner says your service is "too costly" and starts to walk away. What do you do?', [
     o('Run after them with a big discount so that you do not lose your first customer', 17, 'A quick big discount teaches the customer that your first price was not real. Ask what they were comparing you with before you change anything.'),
+    o('Thank them, ask what they were comparing it with and what budget they had, and write down the answers', 100, 'A calm question turns a no into information about price, value and competitors. Keep the notes and look for the reason that repeats over five conversations.'),
     o('Send a polite message after a week to ask whether they changed their mind, and offer to explain what the price includes', 67, 'A follow-up is a good habit and many sales come from it. Add one question about what budget or alternative they had in mind, so the message teaches you something too.'),
     o('Decide that shop owners are not serious customers and stop approaching shops', 33, 'One no does not prove a whole group of customers is wrong. Ask a few more owners the same question and look at what they say.'),
-    o('Thank them, ask what they were comparing it with and what budget they had, and write down the answers', 100, 'A calm question turns a no into information about price, value and competitors. Keep the notes and look for the reason that repeats over five conversations.'),
   ]),
   sc('customers', 'A customer asks you for something outside what you usually offer, such as a logo when you normally do social media posts. What do you do?', [
+    o('Ask what they need it for, then say whether you can do it, offer a smaller version, or name a person you trust who can', 100, 'You listen for the need behind the request and stay honest about your limits. Keep a short list of people you trust, so that a referral becomes an easy answer.'),
     o('Say yes to everything so that they stay happy, and learn it as you go', 33, 'Saying yes can win a customer but risks poor work and a late delivery. Be honest about what you can do and say what extra time you would need.'),
     o('Say you do not do it and end the chat there', 17, 'A flat refusal closes the door and teaches you nothing about what this customer needs. Ask what the logo is for first, because the real need may be smaller.'),
-    o('Ask what they need it for, then say whether you can do it, offer a smaller version, or name a person you trust who can', 100, 'You listen for the need behind the request and stay honest about your limits. Keep a short list of people you trust, so that a referral becomes an easy answer.'),
     o('Quote a very high price so that they go away if they were not serious, and say yes only if they accept it without arguing', 50, 'A high quote can protect your time, but it may also hide a customer who would have paid a fair price. Quote what the work is really worth and say what is included.'),
   ]),
   // Pricing and profit
-  sc('pricing', 'You make hand-painted phone covers, and a friend tells you to sell them at Rs 250. Materials cost Rs 120, packing and delivery Rs 40, and the payment app keeps about 2 percent. What do you do?', [
-    o('Add fees and your painting hours to the costs, then see if Rs 250 leaves a profit worth your time', 100, 'You count everything that leaves your hand, including your hours, before you choose a price. After this check, test Rs 250 and one higher price on a few customers and compare.'),
+  sc('pricing', 'You make hand-painted phone covers, and a friend tells you to sell them at Rs 250. Materials cost Rs 120, packing and delivery Rs 40, and the payment gateway keeps 2 percent in this example. What do you do? (Example amounts, not real prices.)', [
     o('Sell at Rs 250 because your friend knows the market', 50, 'A friend’s view is useful, but it may not count your fees and hours. Work out what is left after costs, then decide whether Rs 250 is enough.'),
     o('Sell at Rs 200 so that you sell more than anyone else', 17, 'A lower price brings sales but may leave almost nothing after costs and time. Check what is left per cover before you try to win on price.'),
     o('Charge Rs 400 because handmade work is special and customers who care about quality will pay for it', 33, 'A higher price can work when customers see the value, but a number chosen only because it feels special is a guess. Test it on a few customers and note how many say yes.'),
+    o('Add fees and your painting hours to the costs, then see if Rs 250 leaves a profit worth your time', 100, 'You count everything that leaves your hand, including your hours, before you choose a price. After this check, test Rs 250 and one higher price on a few customers and compare.'),
   ]),
   sc('pricing', 'A customer asks for 30 percent off for an order of ten items. What is the best reply?', [
+    o('Check the profit at that discount first, then offer a smaller discount or a bundle', 100, 'You decide from numbers and still leave room for the customer to feel they won something. Write down your lowest price for bulk orders so that you do not decide under pressure.'),
     o('Agree at once, since a bigger order is always good for the business', 17, 'A bigger order is not always more profit, because a deep discount can leave almost nothing per item. Work out the profit at the lower price before you agree.'),
     o('Refuse and say your price is fixed', 33, 'A firm price can be right, but a flat no loses a customer who may order again. Offer a smaller discount or an extra, such as faster delivery, instead.'),
-    o('Check the profit at that discount first, then offer a smaller discount or a bundle', 100, 'You decide from numbers and still leave room for the customer to feel they won something. Write down your lowest price for bulk orders so that you do not decide under pressure.'),
     o('Give the 30 percent but ask for half the money in advance', 67, 'Asking for money in advance is a smart protection, but the deep discount may still leave you with a thin profit. Check the profit first and then ask for the advance.'),
   ]),
-  sc('pricing', 'You charge Rs 500 for a two-hour tutoring session and spend one more hour travelling to the student. A parent asks you to lower the fee. What do you work out first?', [
-    o('Whether other tutors near you charge less', 50, 'Looking at other tutors is useful, but their costs and quality may differ from yours. Start with what you earn for each hour once travel is counted.'),
+  sc('pricing', 'You charge Rs 500 for a two-hour tutoring session and spend one more hour travelling to the student. A parent asks you to lower the fee. What do you work out first? (Example amounts, not real prices.)', [
     o('What you earn per hour once travel is counted, and your lowest worthwhile fee', 100, 'Counting travel shows that Rs 500 is spread over three hours, not two. Decide your lowest fee before the talk, so you can answer calmly.'),
+    o('Whether other tutors near you charge less', 50, 'Looking at other tutors is useful, but their costs and quality may differ from yours. Start with what you earn for each hour once travel is counted.'),
     o('Whether you could teach three students together so that each one pays less and you still earn more per hour', 67, 'Group sessions can raise your pay per hour while lowering each fee. Check that the group still suits the students, and compare earnings per hour with your single-student fee.'),
     o('Nothing, because a lower fee will bring more students', 17, 'More students at a lower fee can leave you busier and poorer. Work out your fee per hour before you lower it, and note that tutoring is Scalable with a business layer only when you add a way to find and keep students.'),
   ]),
   // Cash and costs
-  sc('cash', 'You are offered Rs 6,000 for a design project, but the customer will pay only after 45 days. You must buy a Rs 2,000 software plan to do the work. What do you do?', [
-    o('Ask for a part payment in advance to cover the software, and agree dates for the rest in writing', 100, 'You protect your cash and make the payment dates clear before work starts. Keep a copy of the message and note each date in your calendar.'),
+  sc('cash', 'You are offered Rs 6,000 for a design project, but the customer will pay only after 45 days. You must buy a Rs 2,000 software plan to do the work. What do you do? (Example amounts, not real prices.)', [
     o('Buy the plan from your pocket money and trust the customer to pay on time, since turning down a project may lose a good chance', 33, 'Trust is fine, but you carry the whole risk if the payment is late. Ask for part payment or choose a cheaper tool first.'),
+    o('Ask for a part payment in advance to cover the software, and agree dates for the rest in writing', 100, 'You protect your cash and make the payment dates clear before work starts. Keep a copy of the message and note each date in your calendar.'),
     o('Turn down the project because 45 days is too long', 50, 'Saying no may be right, but you can often change the terms instead. Ask whether half can be paid when you start.'),
     o('Do the work and borrow Rs 2,000 from a friend until you are paid', 17, 'Borrowing for a customer’s delay puts a friendship at risk and does not fix the terms. Agree an advance with the customer before you start.'),
   ]),
-  sc('cash', 'Your stall at a college fest brought in Rs 8,000 in sales. How do you decide whether it was a good result?', [
+  sc('cash', 'Your stall at a college fest brought in Rs 8,000 in sales. How do you decide whether it was a good result? (Example amounts, not real prices.)', [
     o('Be happy and plan a bigger stall next time, since Rs 8,000 is a lot of money for a student to earn in a day', 17, 'A big sale figure says nothing about what is left. Subtract all your costs before you decide how well you did.'),
     o('Take away the stock you bought and nothing else', 33, 'Stock is only one cost. Stall fees, helpers, packing, transport and your hours all reduce what you really kept.'),
     o('Subtract stock, stall fee, helpers and a fair value for your time, then compare with what you put in', 100, 'You count everything and compare profit with the effort and money you put in. Write the result down so that you can compare it with the next fest.'),
     o('Compare your sales with what another team earned at the same fest', 50, 'Comparing is useful, but their costs and effort may differ from yours. Look at your own profit first, then use the other team to learn.'),
   ]),
-  sc('cash', 'A supplier offers a big discount if you buy 500 units of a product that you have never sold. The 500 units cost Rs 18,000 and your savings are Rs 20,000. What do you do?', [
+  sc('cash', 'A supplier offers a big discount if you buy 500 units of a product that you have never sold. The 500 units cost Rs 18,000 and your savings are Rs 20,000. What do you do? (Example amounts, not real prices.)', [
     o('Buy all 500 because the discount is too good to miss', 17, 'A discount is not a saving if the units do not sell. You would put almost all your savings into one untested product.'),
     o('Buy 100 at the usual price, see how fast they sell, and order more only when the first batch has gone', 67, 'A small first batch limits the risk and tells you how fast the product moves. Taking pre-orders first can reduce the risk even further.'),
     o('Borrow from a relative so that you can buy 500 and sell the rest later', 33, 'Borrowing for an untested product puts someone else’s money at risk too. Test demand with a small batch before you borrow.'),
@@ -500,59 +500,59 @@ const scenarios = [
   sc('trust', 'You have no customers yet and want people to trust your video editing service. What do you do?', [
     o('Say you are the best editor in the city so that people feel safe', 17, 'A big claim without proof makes people more doubtful, not less. Show what you can do instead of saying it.'),
     o('Offer your first two customers a low price in return for an honest review that you can show to others', 67, 'A low first price in return for honest feedback is a fair way to start. Make sure you also keep a sample of the finished work to show others.'),
-    o('Edit two sample videos for people you know, with permission to share them, and show those', 100, 'Real samples let a stranger judge your work in a minute. Add one line on what the person needed and what you did.'),
     o('Wait until you have finished a paid course before telling anyone', 33, 'A course can help, but it is not proof that you can deliver for a customer. Start with a small real sample while you learn.'),
+    o('Edit two sample videos for people you know, with permission to share them, and show those', 100, 'Real samples let a stranger judge your work in a minute. Add one line on what the person needed and what you did.'),
   ]),
   sc('trust', 'A customer posts a harsh review because your delivery was late. What do you do?', [
-    o('Reply politely, accept what is true, say what you changed and offer a fix', 100, 'People reading the review judge you by your reply. A calm answer with a clear fix often earns more trust than a perfect record.'),
     o('Message the customer privately, apologise and ask them to remove the review', 50, 'A private apology is a good step, but asking for removal can look like pressure. Offer the fix first and let them decide.'),
     o('Ignore it, since a reply only makes it more visible', 33, 'Silence can look like you do not care. A short, honest reply helps the next customer who reads it.'),
+    o('Reply politely, accept what is true, say what you changed and offer a fix', 100, 'People reading the review judge you by your reply. A calm answer with a clear fix often earns more trust than a perfect record.'),
     o('Reply that the customer is lying and post the chat screenshots', 17, 'Arguing in public turns a small complaint into a bigger one. Accept what is true and say what you will change.'),
   ]),
-  sc('trust', 'You have Rs 3,000 to spend on finding your first customers for a coaching service. What do you do?', [
+  sc('trust', 'You have Rs 3,000 to spend on finding your first customers for a coaching service. What do you do? (Example amounts, not real prices.)', [
+    o('Run two small tests where students or parents already look, such as a school group, and count enquiries', 100, 'You spend a little, learn which place works and keep the rest of your money. Put your best-performing message in the better place next.'),
     o('Spend it all on a big ad across many platforms for a month so that as many people as possible see your name', 17, 'A broad ad spends your whole budget before you know where your customers are. Start with small tests in two places and count enquiries.'),
     o('Spend nothing and wait for word of mouth to bring people', 50, 'Word of mouth is powerful but slow when no one knows you yet. Spend a small amount on a few tests to speed up your learning.'),
     o('Print many pamphlets and hand them out anywhere you can', 33, 'Pamphlets given to anyone reach many people who do not need you. Choose places where your students or parents already gather.'),
-    o('Run two small tests where students or parents already look, such as a school group, and count enquiries', 100, 'You spend a little, learn which place works and keep the rest of your money. Put your best-performing message in the better place next.'),
   ]),
   // Operations and teamwork
   sc('ops', 'In a group project, one member has not done their part and the deadline is in two days. What do you do?', [
+    o('Ask the member privately what is blocking them, agree a smaller task with a time, and keep a backup ready', 100, 'You start with the cause and agree a clear next step, while a backup protects the deadline. Tell the group the new plan so that nobody is surprised.'),
     o('Do their part yourself quietly so that the group does not lose marks and nobody has to argue about it before the deadline', 33, 'This saves the deadline but hides the problem and makes you carry the load again next time. Ask what went wrong first.'),
     o('Message the group to complain about that member', 17, 'Public blame rarely brings the work back. Talk to the member first and focus on what can be done in two days.'),
-    o('Ask the member privately what is blocking them, agree a smaller task with a time, and keep a backup ready', 100, 'You start with the cause and agree a clear next step, while a backup protects the deadline. Tell the group the new plan so that nobody is surprised.'),
     o('Tell the faculty member straight away', 50, 'Faculty may need to know in the end, but going there first skips a chance to fix it as a team. Try a direct talk first and tell the faculty member if it does not work.'),
   ]),
   sc('ops', 'You promised a customer delivery by Friday, but your supplier says the goods will arrive on Saturday. What do you do?', [
     o('Wait and hope that the customer does not notice', 17, 'A late delivery that the customer finds out about alone damages trust far more than a warning would. Tell them as soon as you know.'),
-    o('Tell the customer today, give the new date and offer something small for the wait', 100, 'Early honesty gives the customer time to adjust and shows you take the promise seriously. Check the new date with your supplier before you share it.'),
     o('Pay extra for a courier from your own pocket and say nothing', 50, 'Fixing it quietly saves the date, but it costs you profit and does not solve the supplier problem. Tell the customer about the risk too.'),
+    o('Tell the customer today, give the new date and offer something small for the wait', 100, 'Early honesty gives the customer time to adjust and shows you take the promise seriously. Check the new date with your supplier before you share it.'),
     o('Tell the customer on Friday evening so that the news does not worry them early or spoil their week', 33, 'Waiting to share bad news makes the customer plan around a date that will not hold. Share it as soon as you know.'),
   ]),
   sc('ops', 'You and two friends run a small resale business. You do most of the work, but the profit is split equally. What do you do?', [
-    o('Suggest writing down who does what and how profit is shared, then agree changes together', 100, 'You turn a feeling of unfairness into a clear agreement that all three can see. Review it every month, as the work will change.'),
     o('Talk to one friend privately and ask them to speak to the other, so that the group chat stays calm', 50, 'A private talk can help, but passing a message through someone else may confuse it. Speak to both and bring a written suggestion.'),
+    o('Suggest writing down who does what and how profit is shared, then agree changes together', 100, 'You turn a feeling of unfairness into a clear agreement that all three can see. Review it every month, as the work will change.'),
     o('Keep going and hope the others notice your effort', 33, 'Hope is not a plan, and quiet resentment can end a business. Say what you see and suggest a fair split.'),
     o('Do less work and say nothing', 17, 'Doing less without a word hurts the business and the friendship, and gives no one a chance to fix the split. Name the problem and agree a change.'),
   ]),
   // Early years of college
   { ...sc('customers', 'Early years: you want to earn from a skill such as design, writing or spreadsheet work while you study. How do you find your first customer?', [
     o('Make a website first and wait for people to find it', 33, 'A website can help later, but nobody visits one that no one has heard of. Start with people you can speak to this week.'),
+    o('List ten people who could use the skill, offer each a small paid or trial job and ask for feedback', 100, 'Small real jobs for people who already know you are the fastest way to learn what customers value. Selling a skill as a service is a Scalable route when you keep adding proof and better customers.'),
     o('Post on every social page that you are available', 50, 'Posting widely costs little, but it tells you nothing about who would pay. Reaching out to ten specific people gives you replies you can learn from.'),
     o('Wait until you finish the course in that skill', 17, 'Waiting for a course to end delays the feedback that teaches you the most. Offer a small job while you learn.'),
-    o('List ten people who could use the skill, offer each a small paid or trial job and ask for feedback', 100, 'Small real jobs for people who already know you are the fastest way to learn what customers value. Selling a skill as a service is a Scalable route when you keep adding proof and better customers.'),
   ]), stages: ['early'] },
-  { ...sc('cash', 'Early years: you have Rs 5,000 of saved pocket money and want to start a small project. What is the wisest use?', [
+  { ...sc('cash', 'Early years: you have Rs 5,000 of saved pocket money and want to start a small project. What is the wisest use? (Example amounts, not real prices.)', [
     o('Spend all of it on tools and stock so that the project looks professional from day one', 17, 'Looking professional does not bring customers, and you would have nothing left if the idea needs to change. Spend only on what one real customer needs.'),
-    o('Keep most of it, spend only on what one real customer needs, and let the first earnings pay for the next step', 100, 'You limit the risk and let real customers fund the growth. Write down what you spent and what came back after each step.'),
     o('Spend half on ads to get many customers at once', 33, 'Ads bring attention, but you do not yet know what message or offer works. Run a tiny test first.'),
     o('Split it equally between three small ideas to see which one works', 67, 'Testing several ideas cheaply is a good instinct. Spread the money in smaller parts so that you keep a reserve, and stop the weakest idea first.'),
+    o('Keep most of it, spend only on what one real customer needs, and let the first earnings pay for the next step', 100, 'You limit the risk and let real customers fund the growth. Write down what you spent and what came back after each step.'),
   ]), stages: ['early'] },
   // Final year, MBA or placement season
   { ...sc('pricing', 'Final year or MBA: in a case round, you are asked whether a company should cut its price to beat a rival. What do you do first?', [
     o('Say yes, since lower prices bring more customers', 17, 'Lower prices bring more sales only if the profit per sale survives. Ask for costs and current profit first.'),
-    o('Ask for costs, current profit per unit and what customers care about, then test what the cut does to profit', 100, 'You check the numbers and the customer before choosing, which is what interviewers look for. State your assumption aloud and say what would change your answer.'),
     o('Say no, since low prices harm the brand', 33, 'Brand matters, but a flat no skips the numbers. Show the profit at both prices before you decide.'),
     o('Suggest matching the rival’s price exactly and adding a promotion', 50, 'Matching can protect sales but may squeeze profit. Check what the match costs before you suggest it.'),
+    o('Ask for costs, current profit per unit and what customers care about, then test what the cut does to profit', 100, 'You check the numbers and the customer before choosing, which is what interviewers look for. State your assumption aloud and say what would change your answer.'),
   ]), stages: ['senior'] },
   { ...sc('trust', 'Final year or MBA: an interviewer says, "Tell me about something you sold or organised." You have only run a college event. What do you say?', [
     o('Describe the event, including what you were responsible for, how you got people to join or pay, the numbers you can show and what you would improve', 100, 'A real example with your own part, proof and a lesson is more believable than a big title. Practise it aloud so that it takes under two minutes.'),
@@ -563,11 +563,11 @@ const scenarios = [
   // Running a side project or small business
   { ...sc('pricing', 'You run a small service on the side and customers keep asking for "a little extra" for the same price. What do you do?', [
     o('Give the extra every time to keep customers happy', 17, 'Free extras slowly eat your profit and your time. Decide what is included before the next order.'),
+    o('Write down what each price includes, charge for extras after that, and keep one small free extra as a thank-you', 100, 'A clear list ends arguments and keeps goodwill. Tell new customers the list before they pay.'),
     o('Say no every time', 33, 'A firm line protects your time but can feel cold. Offer extras at a clear small price.'),
     o('Raise your price for everyone at once', 50, 'A higher price may be right, but it does not fix the habit of asking for extras. Write what each price includes first.'),
-    o('Write down what each price includes, charge for extras after that, and keep one small free extra as a thank-you', 100, 'A clear list ends arguments and keeps goodwill. Tell new customers the list before they pay.'),
   ]), stages: ['starter'] },
-  { ...sc('cash', 'Your small business had a good month with Rs 25,000 in sales, and a friend says you should spend it on a bigger setup. What do you do?', [
+  { ...sc('cash', 'Your small business had a good month with Rs 25,000 in sales, and a friend says you should spend it on a bigger setup. What do you do? (Example amounts, not real prices.)', [
     o('Take out costs and a fixed amount for yourself, keep a few weeks of costs in reserve, and spend only on the item that would bring the next sales', 100, 'You separate sales from profit and protect the reserve before you grow. If your business is reselling goods (Not so scalable), growth is limited by your hours and the cash tied up in stock, so spend with extra care.'),
     o('Spend it all on the setup, since growth needs investment', 17, 'Sales are not profit, and one slow month could leave you without cash. Count your costs first.'),
     o('Spend it on yourself as a reward, since you worked hard', 33, 'A small reward is fine, but spending all sales leaves nothing for costs or slow weeks. Pay yourself a fixed amount instead.'),
@@ -576,15 +576,15 @@ const scenarios = [
   // First job, internship or freelance work
   { ...sc('customers', 'First job: your manager asks you to call an unhappy customer. You are new. What do you do?', [
     o('Pass it to a senior colleague so that nothing goes wrong', 33, 'Asking for help is sensible, but passing it on every time gives up your best learning chance. Ask the senior to listen in.'),
-    o('Read the history, call, listen without arguing, say what you will do and by when, and report back', 100, 'You prepare, listen and give a clear next step, which is what upset customers need. Write down what you learned for your own business later.'),
     o('Call and explain the company’s policy firmly', 17, 'Quoting policy first makes the customer feel unheard. Listen to the problem before you explain.'),
+    o('Read the history, call, listen without arguing, say what you will do and by when, and report back', 100, 'You prepare, listen and give a clear next step, which is what upset customers need. Write down what you learned for your own business later.'),
     o('Send a long email with all the reasons the issue happened', 50, 'A written note can help, but a long list of reasons sounds like an excuse. Say what you will do and by when.'),
   ]), stages: ['working'] },
   { ...sc('cash', 'First job: you want to try a side business next to your job. How do you start?', [
     o('Resign first so that you can give the business your full time', 17, 'Leaving before the idea has earned anything puts your whole income at risk. Test first and decide after you have evidence.'),
-    o('Try it for a few weekends with a small first customer, track hours and money, and decide after a few months', 100, 'You test with little at risk and collect real numbers. Check that your employer allows outside work before you begin.'),
     o('Wait until you feel completely ready and have saved a very large amount', 33, 'Waiting for perfect readiness often means never starting. Test a small version now.'),
     o('Use office hours for the business when work is slow', 10, 'Using work time for your own business can break your contract and hurt your reputation. Keep it to evenings and weekends.'),
+    o('Try it for a few weekends with a small first customer, track hours and money, and decide after a few months', 100, 'You test with little at risk and collect real numbers. Check that your employer allows outside work before you begin.'),
   ]), stages: ['working'] },
 ];
 
@@ -672,7 +672,7 @@ const talk = {
 };
 
 const talkTitles = {
-  strong: 'Use your strongest area when you talk to a mentor or shop owner',
+  strong: 'Talking to a mentor or shop owner about your strongest area',
   weak: 'Questions to ask about your lowest area',
   intro: 'Bring these to a senior, a teacher or someone who runs a small business, because a person who has done it can tell you what a textbook cannot. Specific questions get answers you can try this week.',
   mode: 'ask' as const,
@@ -691,7 +691,7 @@ export const bundle: SkillTestBundle = {
     h1Accent: 'for College Students',
     eyebrow: 'Customers, pricing, cash, trust and teamwork in real situations',
     heroSub:
-      'This business quiz for college students checks your business sense, not your exam marks. You rate what you actually do and choose what you would do in real situations about customers, pricing, cash, trust and teamwork, so the score shows your judgement habits. It works for BBA, BCom, MBA, management and engineering students, and it ends with a small test-before-you-invest step for your lowest area.',
+      'This business quiz for college students checks your business sense, not your exam marks. You rate what you actually do and choose what you would do in real situations about customers, pricing, cash, trust and teamwork, so the score shows your judgement habits. It works for BBA, BCom, MBA, management and engineering students, uses made-up rupee amounts as examples, and ends with a small test-before-you-invest step for your lowest area.',
     stats: [
       { value: '47', label: 'questions' },
       { value: '5', label: 'business areas' },
@@ -699,9 +699,9 @@ export const bundle: SkillTestBundle = {
     ],
     main: 'picker',
     mainChecks: [
-      'Five business areas scored from your own ratings and your choices in real situations',
+      'Five business areas, scored from how you rate yourself and what you choose in everyday situations',
       'About 8 minutes, no sign-up',
-      'Advice for your stage, a 14-day routine and a small test to run before you invest money',
+      'Advice for your stage, a 14-day routine and a small test to run before you spend any money',
     ],
     reportTitle: 'Business Skills Report',
     reportFile: 'future-career-school-business-skills-report.pdf',
@@ -730,7 +730,8 @@ export const bundle: SkillTestBundle = {
       {
         title: 'Where this quiz connects to turning a skill into income',
         body: [
-          'Almost every route that turns a skill into money uses the same five habits: finding who needs it, pricing it, watching cash, earning trust and delivering. Selling a skill as a service such as design, writing or spreadsheet work is a Scalable route when you keep adding proof. Tutoring or coaching is Scalable with a business layer, and reselling goods is Not so scalable because your hours and your stock limit it.',
+          'Almost every route that turns a skill into money uses the same five habits: finding who needs it, pricing it, watching cash, earning trust and delivering.',
+          'Selling a skill as a service such as design, writing or spreadsheet work is a Scalable route when you keep adding proof, but the field is crowded and trust comes slowly. Tutoring or coaching is Scalable with a business layer, and reselling goods is Not so scalable because your hours and your stock limit it.',
           'None of these routes promises income, and this quiz cannot say which one will suit you. It shows which habit to practise first, so that you can try a small version cheaply before you put in savings.',
         ],
       },
@@ -738,21 +739,22 @@ export const bundle: SkillTestBundle = {
         title: 'Test with real customers before you put in money',
         body: [
           'Your answers show how you see your own habits. Check them with one small real step, such as asking three people what they would pay for, selling one small item, or keeping a money record for two weeks.',
-          'Retake the quiz after four weeks of working on your lowest area. A change in that area suggests the routine helps, and your real customers are the better proof.',
+          'Retake the quiz after you have worked on your lowest area for a while. A change in that area suggests the routine helps, and your real customers are the better proof.',
         ],
       },
     ],
     limits: [
-      'This is a self-rating tool and shows how you describe your own habits and choices. It does not replace honest feedback from a teacher, a mentor or a customer.',
+      'This is a self-rating tool. It shows how you describe your own habits and choices, and it cannot replace honest feedback from a teacher, a mentor or a customer.',
       'It is not a certificate, a business qualification or an official assessment, and it does not test syllabus knowledge or predict exam marks.',
-      'Scores come only from your answers and are not compared with other people, so there is no pass mark and no ideal number.',
+      'Scores come only from your own answers. They are never set against other students, so no score counts as a pass or a fail.',
       'It does not predict whether a business will succeed or how much you will earn. It points to the habits that are worth practising first.',
-      'The situations are simple examples. Real businesses differ by city, product and customer, so check prices, rules and costs for your own case.',
+      'The rupee amounts in the situations are made-up examples for teaching, not real prices, costs or earnings. Real businesses differ by city, product and customer, so check prices, rules and costs for your own case.',
+      'This is general information, not financial advice. Before you borrow money, put in savings or sign anything, get the terms in writing and talk to a trusted adult or an accountant.',
     ],
     faqs: [
       {
         q: 'Is this business quiz for college students free?',
-        a: 'Yes. It is free, needs no sign-up, takes about 8 minutes and gives an instant result that you can also download as a PDF.',
+        a: 'Yes. You do not pay or register. The quiz takes about 8 minutes, shows your result as soon as you finish and lets you save it as a PDF.',
       },
       {
         q: 'Can BBA, BCom, MBA and management students take this business quiz?',
@@ -767,12 +769,16 @@ export const bundle: SkillTestBundle = {
         a: 'No accounting knowledge is needed. Commerce and BCom students will recognise the ideas of profit, cost and cash, but every question is written in plain words with small examples.',
       },
       {
+        q: 'Are the rupee amounts in the situations real prices?',
+        a: 'No. Amounts such as Rs 250 for a phone cover or Rs 6,000 for a design project are made up to practise the thinking: count your costs, protect your cash and check what is left. Real prices and costs depend on your city, product and customers, so work out your own numbers.',
+      },
+      {
         q: 'How is the score worked out?',
-        a: 'Statements are rated from 1 to 5, and the ones worded in the negative are reversed. In the situation questions, each option carries a score from 0 to 100. Each area score is the average of its statements and situations, and the overall score is the average of the five areas.',
+        a: 'You rate each statement from 1 (not true) to 5 (very true), and a statement that describes a poor habit, such as giving a discount at the first doubt, is turned around so that agreeing with it lowers the score. Each situation gives 0 to 100 points, judged by how well your choice protects your customer, your cash and your time. An area score is the average of its answers, and your overall score is the average of the five areas.',
       },
       {
         q: 'What is a good score on a business skills quiz?',
-        a: 'There is no pass mark, because scores are not compared with other people. A lower area is the place where one small habit will help most, and you can retake the quiz later to see whether it moved.',
+        a: 'There is no pass mark. Your areas are compared with each other, not with other students, so the lowest one shows where a small habit will help most. Retake the quiz after you have tried the routine to see whether it moved.',
       },
       {
         q: 'Will this quiz tell me which business to start?',
@@ -780,7 +786,7 @@ export const bundle: SkillTestBundle = {
       },
       {
         q: 'How can I improve my business skills after the quiz?',
-        a: 'Work on your lowest area first with one small real step, such as talking to three customers or recording a project’s money for two weeks. The 14-day routine in your report gives four steps for that area, and the feasibility calculator linked below helps you test an idea before you spend.',
+        a: 'Start with your lowest area and take one small real step, such as talking to three customers or recording a project’s money for two weeks. Your report gives a 14-day routine of four steps for that area, and the idea feasibility calculator linked below lets you test your own numbers before you spend.',
       },
     ],
     related: [
@@ -797,7 +803,7 @@ export const bundle: SkillTestBundle = {
       {
         href: '/services/assessments/soft-skills-self-assessment/',
         title: 'Soft Skills Self-Assessment',
-        description: 'Leadership, teamwork, adaptability, ownership and problem solving in one report.',
+        description: 'Five people skills, from leadership to problem solving, rated together in one report.',
       },
       {
         href: '/services/assessments/decision-making-skills-assessment/',
@@ -825,7 +831,7 @@ export const bundle: SkillTestBundle = {
         description: 'The business and management skills that employers and founders look for.',
       },
     ],
-    breadcrumbDescription: 'Free business quiz for college students with five area scores and a 14-day routine.',
+    breadcrumbDescription: 'Free business quiz for college students that scores customers, pricing, cash, trust and teamwork, with a 14-day routine.',
     webAppDescription:
       'A free original 47-question business skills quiz for college students, with real situations and self-rating statements on customers and selling, pricing and profit, cash and costs, marketing and trust, and operations and teamwork, with five scores, stage-based advice, a 14-day routine and a downloadable report.',
     indexDescription:

@@ -66,10 +66,10 @@ const actionRows = [0, 1, 2, 3];
                 <input type="text" data-act={i} data-f="t" maxlength="200" autocomplete="off" placeholder="For example: read the official eligibility page for one course" />
               </label>
               <label>Due date
-                <input type="date" data-act={i} data-f="due" />
+                <input type="date" data-act={i} data-f="due" aria-label={`Action ${i + 1}, due date`} />
               </label>
               <label>Status
-                <select data-act={i} data-f="status">
+                <select data-act={i} data-f="status" aria-label={`Action ${i + 1}, status`}>
                   <option value="open">Open</option>
                   <option value="done">Done</option>
                   <option value="moved">Moved to a new date</option>
@@ -195,7 +195,7 @@ const actionRows = [0, 1, 2, 3];
   // @ts-nocheck
   import {
     STORAGE_KEY, MAX_SESSIONS, blankDraft, blankReport, normaliseDraft, nextSessionNo, todayISO, fmtDate,
-    recordModel, reportModel, modelToHtml, esc, buildPdf, hasUnsupportedText, DEFAULT_SCALE,
+    recordModel, reportModel, modelToHtml, esc, buildPdf, hasUnsupportedText, prepareUnicodePdf, DEFAULT_SCALE,
   } from '../scripts/studentMentoring';
 
   const root = document.getElementById('student-mentoring-form');
@@ -247,7 +247,7 @@ const actionRows = [0, 1, 2, 3];
       list.innerHTML = sorted.map((s) => {
         const goal = (s.goal || '').trim();
         const short = goal.length > 90 ? goal.slice(0, 87) + '...' : goal;
-        return '<li><span class="smr-log-text"><b>Session ' + esc(s.no) + '</b>, ' + esc(fmtDate(s.date)) + (short ? ': ' + esc(short) : '') + '</span><span class="smr-log-btns"><button type="button" class="smr-mini" data-smr="edit" data-id="' + esc(s.id) + '">Edit</button><button type="button" class="smr-mini" data-smr="remove" data-id="' + esc(s.id) + '">Remove</button></span></li>';
+        return '<li><span class="smr-log-text"><b>Session ' + esc(s.no) + '</b>, ' + esc(fmtDate(s.date)) + (short ? ': ' + esc(short) : '') + '</span><span class="smr-log-btns"><button type="button" class="smr-mini" data-smr="edit" data-id="' + esc(s.id) + '" aria-label="Edit session ' + esc(s.no) + '">Edit</button><button type="button" class="smr-mini" data-smr="remove" data-id="' + esc(s.id) + '" aria-label="Remove session ' + esc(s.no) + '">Remove</button></span></li>';
       }).join('');
     }
 
@@ -329,6 +329,8 @@ const actionRows = [0, 1, 2, 3];
       persist(); fillForm(); refresh(); showTab('record');
       say('record', 'Editing session ' + s.no + '. Press Update saved session to keep your changes.');
       $('#smr-form-record').scrollIntoView({ block: 'start' });
+      const goalBox = $('[data-k="goal"]');
+      if (goalBox) goalBox.focus({ preventScroll: true });
     }
 
     function removeSession(id) {
@@ -349,21 +351,35 @@ const actionRows = [0, 1, 2, 3];
       say('record', '');
     }
 
+    let pdfBusy = false;
     async function downloadPdf(kind) {
+      if (pdfBusy) return;
+      pdfBusy = true;
       const model = kind === 'record' ? recordModel(state.draft) : reportModel(state, todayISO(), scale);
       const out = kind;
-      if (hasUnsupportedText(model)) {
-        say(out, 'The PDF font cannot draw some characters you typed, such as Telugu or Hindi letters. Use Print and choose Save as PDF instead, which keeps every script.');
-        return;
-      }
-      say(out, 'Preparing the PDF...');
       try {
+        const needsFont = hasUnsupportedText(model);
+        let unicodeReady = false;
+        if (needsFont) {
+          say(out, 'Loading a font for your Telugu, Hindi or other text...');
+          unicodeReady = await prepareUnicodePdf(model);
+          if (!unicodeReady) {
+            say(out, 'This device could not draw some of your text into the PDF. Use Print and choose Save as PDF instead, which keeps every script.');
+            return;
+          }
+        }
+        say(out, 'Preparing the PDF...');
         const mod = await import('jspdf');
-        const pdf = buildPdf(mod.jsPDF, model);
+        const pdf = buildPdf(mod.jsPDF, model, unicodeReady);
         pdf.save(model.fileName);
-        say(out, 'PDF downloaded. It was made in this browser and not uploaded.');
+        say(out, needsFont
+          ? 'PDF downloaded. Text in Telugu, Hindi or other scripts is drawn as pictures so the letters keep their shape, so that text cannot be selected or copied from the PDF. It was made in this browser and not uploaded.'
+          : 'PDF downloaded. It was made in this browser and not uploaded.');
       } catch (err) {
+        console.error('Unable to create the mentoring PDF:', err);
         say(out, 'The PDF could not be made. Use Print and choose Save as PDF instead.');
+      } finally {
+        pdfBusy = false;
       }
     }
 
@@ -405,8 +421,8 @@ const actionRows = [0, 1, 2, 3];
   .smr-hint{margin:.2rem 0 .7rem}
   .smr-status{min-height:1.4em;color:#9ff3e6;margin:.6rem 0 0}
   .smr-tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin:1rem 0}
-  .smr-tabs button{flex:1 1 11rem;min-height:46px;padding:.55rem .9rem;border:1px solid rgba(255,255,255,.22);border-radius:10px;background:rgba(255,255,255,.05);color:#fff;font:700 .95rem inherit;cursor:pointer}
-  .smr-tabs button[aria-selected="true"]{background:#129a8d;border-color:#129a8d}
+  .smr-tabs button{flex:1 1 11rem;min-height:46px;padding:.55rem .9rem;border:1px solid rgba(255,255,255,.22);border-radius:10px;background:rgba(255,255,255,.05);color:#fff;font-family:inherit;font-weight:700;font-size:.95rem;cursor:pointer}
+  .smr-tabs button[aria-selected="true"]{background:#0b766d;border-color:#2dd4bf}
   .smr-panel[hidden]{display:none}
   .smr-form{display:grid;gap:1rem}
   .smr-box{min-width:0;margin:0 0 1rem;padding:1rem;border:1px solid rgba(255,255,255,.17);border-radius:12px}
@@ -419,10 +435,10 @@ const actionRows = [0, 1, 2, 3];
   .smr-grid--2{grid-template-columns:repeat(2,minmax(0,1fr))}
   .smr-action{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,1.1fr) minmax(0,1.2fr);gap:.2rem .8rem;padding:.4rem 0;border-top:1px dashed rgba(255,255,255,.14)}
   .smr-actions{display:flex;flex-wrap:wrap;gap:.6rem}
-  .smr-btn{min-height:46px;padding:.55rem .95rem;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:700 .92rem inherit;cursor:pointer}
-  .smr-btn--primary{background:linear-gradient(135deg,#129a8d,#0b766d);border-color:#129a8d}
+  .smr-btn{min-height:46px;padding:.55rem .95rem;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font-family:inherit;font-weight:700;font-size:.92rem;cursor:pointer}
+  .smr-btn--primary{background:#0b766d;border-color:#2dd4bf}
   .smr-btn--warn{border-color:rgba(255,140,120,.6);color:#ffd1c8}
-  .smr-mini{min-height:36px;padding:.25rem .7rem;border:1px solid rgba(255,255,255,.24);border-radius:8px;background:rgba(255,255,255,.07);color:#fff;font:600 .82rem inherit;cursor:pointer}
+  .smr-mini{min-height:36px;padding:.25rem .7rem;border:1px solid rgba(255,255,255,.24);border-radius:8px;background:rgba(255,255,255,.07);color:#fff;font-family:inherit;font-weight:600;font-size:.82rem;cursor:pointer}
   .smr select:focus-visible,.smr input:focus-visible,.smr textarea:focus-visible,.smr button:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}
   .smr-loghead{margin:.1rem 0 .3rem}
   .smr-log{margin:.4rem 0 0;padding:0;list-style:none;display:grid;gap:.5rem}
@@ -474,7 +490,6 @@ const actionRows = [0, 1, 2, 3];
   }
   @media print{
     @page{size:A4;margin:14mm}
-    body[data-smr-print]{background:#fff!important}
     body[data-smr-print]{background:#fff!important}
     body[data-smr-print] > *:not(main){display:none!important}
     body[data-smr-print] main > *:not(.smr-shell){display:none!important}

@@ -109,11 +109,11 @@ export const bundle: SkillTestBundle = {
       { d: 'clarity', text: 'I can state the main point of a message or an answer in one sentence before I start writing.' },
       { d: 'accuracy', text: 'I check the spelling of names, companies and places before I send or submit.' },
       { d: 'audience', text: 'Before I write, I decide who will read it and what they already know.' },
-      { d: 'revise', text: 'I read my writing again after I finish it and before I send or submit it.' },
+      { d: 'revise', text: 'After I finish writing, I leave it for a few minutes and then read it again from the top before it goes out.' },
       { d: 'work', text: 'My email subject lines tell the person what the message is about and what I need.' },
-      { d: 'clarity', text: 'I put the main point or my request in the first lines, not at the end.' },
+      { d: 'clarity', text: 'In emails, assignments and reports, my first two lines give the answer or the request, and the reasons come after them.' },
       { d: 'accuracy', text: 'I know the grammar mistakes I make most often, such as tenses, articles or subject and verb agreement, and I look for them.' },
-      { d: 'audience', text: 'I change my words and tone when I write to a teacher, a manager, a client or a friend.' },
+      { d: 'audience', text: 'Before I send a message, I check that the greeting, length and level of detail suit the person who will get it.' },
       { d: 'revise', text: 'I read important writing aloud, or on paper or a different screen, to catch what I missed.' },
       { d: 'work', text: 'I end messages with a clear next step that says who does what by when.' },
       { d: 'clarity', text: 'I write a rough order of my points before I start anything longer than a paragraph or two.' },
@@ -166,7 +166,7 @@ export const bundle: SkillTestBundle = {
         title: 'Check the result against real writing',
         body: [
           'Take one email, assignment or document you wrote in the past month and mark the point, the next step and any errors. If what you see does not match your score, trust the real piece of writing and adjust your practice.',
-          'Retake the test after two or three weeks of working on your lowest area. A small rise is a sign that the practice is helping, though a better real email is the better proof.',
+          'Retake the test after about four weeks of working on your lowest area. A small rise is a sign that the practice is helping, though a better real email is the better proof.',
         ],
       },
     ],
@@ -192,7 +192,7 @@ export const bundle: SkillTestBundle = {
       },
       {
         q: 'How is the score worked out?',
-        a: 'Statements are rated from 1 to 5, and the ones worded in the negative are reversed. In the situation questions, each option carries a score from 0 to 100. Each area score is the average of its statements and situations, shown out of 100, and the overall score is the average of the five areas.',
+        a: 'You rate each statement from 1 (not true) to 5 (very true). Statements that describe a poor habit, such as accepting a spell checker’s changes without reading them, are scored the other way round. Each situation question has four options worth between 0 and 100 points, an area score is the average of everything asked about that area, and the overall score is the average of your five areas.',
       },
       {
         q: 'How can I improve my writing skills after the result?',
@@ -207,12 +207,16 @@ export const bundle: SkillTestBundle = {
         a: 'Yes. You choose your stage before the result, and the extra questions and advice change to match: exam answers and emails to teachers for students, work emails and a first resume for freshers, and reports, proposals and messages for several audiences for working professionals.',
       },
       {
+        q: 'Can I use this to prepare for a writing test in a job application?',
+        a: 'Some employers ask candidates to write an email or a short report as part of hiring. This test does not mark your writing, but the habits it checks are the ones such tasks reward: the point first, correct names and figures, a suitable tone and a final read. To practise, write a real email or summary, read it again after a break, and ask someone to tell you where they got lost.',
+      },
+      {
         q: 'Will a high score help me get a job or a better salary?',
         a: 'Nothing here can promise that. Clear writing makes your emails, updates and resume easier to understand, and many roles use writing every day, but hiring and pay depend on much more than a score on a self-rating.',
       },
       {
         q: 'How is this different from the communication skills assessment?',
-        a: 'This test looks only at written work. The communication skills assessment is wider and covers listening, speaking, presenting and feedback along with writing, so the two give different views of how you communicate.',
+        a: 'This test looks only at written work, with 41 questions on clarity, accuracy, tone, editing and writing for work. The communication skills assessment is wider and covers listening, speaking, presenting and feedback, with writing as one of its five areas. Use that one for a quick view of all five skills and this one when writing is the part you want to improve.',
       },
     ],
     related: [
@@ -357,7 +361,7 @@ export const bundle: SkillTestBundle = {
         why: 'People read quickly, often on a phone, and they decide in a few lines whether to act. When your main point is easy to find, they understand sooner and ask fewer follow-up questions. Clarity is about order and choice of what to include, not about difficult words.',
         roles: [
           'Exam answers, assignments, project reports and applications',
-          'Roles with many emails and updates, such as operations, support, sales and project coordination',
+          'Operations, support, sales and project coordination roles that run on emails and updates (Scalable with a business layer: a job is the entry, and a consulting or service business is the layer that can grow)',
           'Managers, team leads and anyone who writes for people who must decide quickly',
         ],
         routine: [
@@ -388,7 +392,8 @@ export const bundle: SkillTestBundle = {
         why: 'A wrong name, date, amount or tense can cost marks, confuse a client or make a careful person seem careless. Most errors are habits that repeat, so once you know your own usual mistakes you can look for them on purpose. Accuracy also covers facts: if your message states something wrong, good grammar will not save it.',
         roles: [
           'Exam answers, assignments and any writing that is marked line by line',
-          'Roles with figures, orders, records or client names, such as finance, operations, sales support and administration',
+          'Finance and sales support roles that handle figures, orders and client names (Scalable with a business layer: a job is the entry, and practice or consulting is the layer that can grow)',
+          'Administration and record-keeping roles (Not so scalable: pay and growth are set by one employer’s scale, so add a second skill beside them)',
           'Anyone who sends proposals, quotes, offer letters or other documents that other people rely on',
         ],
         routine: [
@@ -419,7 +424,7 @@ export const bundle: SkillTestBundle = {
         why: 'The same words can sound polite to one person and careless to another. When you think about who is reading, what they know and what they need, your message gets a better reply and your relationship with the person stays good. Tone also matters when the message is difficult, such as a refusal, a complaint or a follow-up.',
         roles: [
           'Emails to teachers, professors and placement officers, and written applications',
-          'Client-facing roles such as sales, support, account management and consulting',
+          'Client-facing sales, support, account management and consulting roles (Scalable with a business layer: these grow when you add a niche and a way to be found, though many people compete for the same posts)',
           'Managers and professionals who write to seniors, juniors and people outside the company',
         ],
         routine: [
@@ -450,7 +455,8 @@ export const bundle: SkillTestBundle = {
         why: 'First drafts are for getting ideas down, and a second look is where most mistakes and unclear lines are found. People who rarely check their work send errors they could have caught in a few minutes. Revising is also where short, strong writing comes from, because you cut what does not help.',
         roles: [
           'Exam preparation, long assignments, projects and applications that are read carefully',
-          'Roles that send documents to clients or managers, such as proposals, reports and legal or finance support',
+          'Proposal, report and client-document work in sales, consulting and finance support (Scalable with a business layer: a job is the entry, and consulting is the layer that can grow)',
+          'Legal support and drafting roles (Not so scalable: growth depends on seats, licences and a few employers, so keep a second skill running)',
           'Anyone who writes often and wants to reduce rework and follow-up questions',
         ],
         routine: [
@@ -482,7 +488,8 @@ export const bundle: SkillTestBundle = {
         roles: [
           'First jobs and internships where you send emails, updates and reports to managers and teams',
           'Job seekers writing resumes, cover letters, LinkedIn profiles and application answers',
-          'Content, support, sales, operations and project roles where writing is part of the daily work',
+          'Copywriting and content writing (Scalable with a business layer: a job or freelance work is the entry, and an agency, newsletter or service you run is the layer that can grow, but the field is crowded and early pay per piece is low)',
+          'Support, sales, operations and project roles where writing is part of the daily work (Scalable with a business layer)',
         ],
         routine: [
           'Days 1 to 3: Write every email subject line as “action or topic, detail, date” and check that it is clear without opening the message.',
@@ -513,7 +520,7 @@ export const bundle: SkillTestBundle = {
       'Choose your lowest writing area and use its practice on every important message for two weeks.',
       'Keep a before and after copy of three pieces of writing, such as an email, an answer and a resume line.',
       'Ask one person for specific feedback on one piece of your writing, and fix what they point out.',
-      'Retake the assessment after 30 days and compare real examples of your writing, not only the score.',
+      'Retake the assessment after about four weeks and compare real examples of your writing, not only the score.',
     ],
   },
 
@@ -564,83 +571,82 @@ export const bundle: SkillTestBundle = {
 
   scenarios: [
     sc('clarity', 'You must tell your manager that a report will be one day late. Which message is clearest?', [
-      o('“The report will be ready by Friday 5 pm, one day late, because the data file arrived on Wednesday. Can you approve the new date?”', 100, 'You give the new date, the reason and the request in two lines. The person can answer in one word, which is what you want.'),
-      o('“Good morning sir. I hope you are well. This week there were many things going on and I was also waiting for some data, so I wanted to inform you about the report.”', 40, 'It is polite, but the main news comes too late or not at all. Put the new date and the request in the first line next time.'),
-      o('“Sorry sir, report will be late.”', 25, 'It tells the news but gives no date, reason or request, so the manager must write back to ask. Add the new date and what you need from them.'),
-      o('Send nothing now and send the report a day late with a long explanation in the same message.', 17, 'A late delivery with a long explanation comes too late to help the manager plan. Tell them before the deadline and give the new date.'),
+      o('“Good morning sir, I hope you are well. This week I was waiting for some data, so the report is still in progress and I will try to finish it soon. Please let me know if there is any problem.”', 45, 'It is polite and gives a reason, but there is no new date and the real news is buried. Put the new date and your question in the first line next time.'),
+      o('“The report will reach you by Friday 5 pm, a day late, because the data came on Wednesday. Is that date fine?”', 100, 'You give the new date, the reason and one question in two lines, so the manager can answer in a word and plan around it.'),
+      o('“Sorry sir, report will be late.”', 25, 'It gives the news but no date, reason or request, so the manager has to write back with questions. Add the new date and what you need from them.'),
+      o('Send nothing now, then send the report a day late with a long explanation in the same message', 15, 'An explanation that arrives with the late report is too late to help anyone plan. Tell the manager before the deadline and give the new date.'),
     ]),
     sc('clarity', 'You have five lines to answer “Why should we select you for this internship?” Which plan works best?', [
-      o('State one clear reason in the first line, then add one example of what you did and one line about what you want to learn.', 100, 'The first line gives the point and the example shows that it is true. This is easy to read and hard to forget.'),
-      o('Describe your whole school and college journey in order, from the beginning.', 35, 'A full history uses all the space on background. Choose the one or two facts that relate to this role.'),
-      o('List six adjectives such as “hardworking”, “sincere” and “quick learner”.', 25, 'Adjectives are claims and give no proof. Replace each one with a short example of something you did.'),
-      o('Copy a good answer from the internet and change the company name.', 10, 'Copied answers sound the same as many others and break easily under a follow-up question. Write from your own work, even if it is small.'),
+      o('Describe your whole school and college journey in order, so that nothing is missed', 50, 'A full history uses every line on background. Choose the one or two facts that connect to this role and start with them.'),
+      o('List qualities such as hardworking, sincere and quick learner', 30, 'Adjectives are claims with no proof, and many people write the same ones. Replace each with a short example of something you did.'),
+      o('One clear reason first, then one example of what you did, then one line on what you hope to learn', 100, 'The first line gives the point and the example shows it is true. This is easy to read and hard to forget.'),
+      o('Copy a strong answer from the internet and change the company name', 10, 'Copied answers sound like many others and fall apart under a follow-up question. Write from your own work, even if it is small.'),
     ]),
-    sc('accuracy', 'You are sending a client a quote and typed the amount and dates from memory. What do you do?', [
-      o('Check the amount, dates and client name against the original sheet and then send.', 100, 'Checking against the source is the only way to find a wrong figure. It takes a minute and protects you from a mistake that is hard to undo.'),
-      o('Run a spell check, since it catches most mistakes, and send.', 40, 'A spell checker finds spelling, not wrong numbers or dates. Always compare figures with the original.'),
-      o('Ask a friend to read for grammar and send it after that.', 55, 'A second pair of eyes is useful, but they do not know the right figures. Ask them to check the numbers against the source, too.'),
-      o('Send it and correct later if the client notices.', 15, 'A wrong figure in a quote can cost trust and money. Check before sending, not after.'),
+    sc('accuracy', 'You are about to send a client a quote. You typed the amount and dates from memory. What do you do?', [
+      o('Ask a friend with good English to read it for grammar and spelling, and send it once they say it looks good', 55, 'A second pair of eyes is useful, but your friend does not know the right figures. Ask them to check the numbers against the source as well.'),
+      o('Check the amount, dates and client name against the original sheet, then send', 100, 'Checking against the source is the only way to find a wrong figure. It takes a minute and protects you from a mistake that is hard to undo.'),
+      o('Run the spell check, read it once for tone, and send, because the figures look right to you', 35, 'A spell checker finds spelling, not a wrong amount or date, and figures typed from memory often look right when they are not. Compare each one with the original.'),
+      o('Send it now and correct it later if the client notices a mistake', 15, 'A wrong figure in a quote can cost trust and money, and a correction looks careless. Check before you send, not after.'),
     ]),
-    sc('accuracy', 'An AI writing tool rewrites your paragraph and changes one date and one name. What do you do?', [
-      o('Read the new version next to your original, fix the changes that are wrong and keep only what is correct.', 100, 'You use the tool for wording and keep control of facts. Always check names, numbers and meaning.'),
-      o('Accept it because the tool is usually right and the sentences sound better.', 15, 'A smooth sentence can still carry a wrong fact. The mistake would be yours, not the tool’s.'),
-      o('Delete the tool’s version and never use such a tool again.', 50, 'Being careful is good, but you can use the tool for wording and still check the facts yourself.'),
-      o('Accept it if the grammar looks good and check only the first line.', 30, 'Changes can sit anywhere in the text. Read the whole version against your original.'),
+    sc('accuracy', 'An AI writing tool rewrites your paragraph and quietly changes one date and one name. What do you do?', [
+      o('Delete the tool’s version and stop using such tools for anything important', 50, 'Being careful is good, but you can still use a tool for wording if you check the facts yourself afterwards.'),
+      o('Accept it if the grammar looks good and the first lines are right, as the tool is usually reliable', 30, 'Changes can sit anywhere in the text, and a smooth sentence can still carry a wrong fact. Read the whole version against your original.'),
+      o('Accept it, since the sentences sound better than yours', 15, 'A wrong fact in a good sentence is still a wrong fact, and the mistake will be yours, not the tool’s.'),
+      o('Compare the new version with yours line by line, undo the wrong changes and keep only what is correct', 100, 'You use the tool for wording and keep control of the facts. Always check names, numbers and meaning.'),
     ]),
     sc('audience', 'You wrote to a professor a week ago and have had no reply, and you need an answer by Friday. Which follow-up is best?', [
-      o('A short email with the earlier subject, one line of context, your specific question, the date you need it and a thank you.', 100, 'The professor can answer without searching for the old message. A clear date and one question make it easier to reply.'),
-      o('“Sir, why have you not replied yet?”', 10, 'This sounds like blame and may delay the reply. Keep the tone polite and give the date you need an answer.'),
-      o('Send the same email again several times a day until you get a reply.', 20, 'Repeated messages irritate people and do not help. One clear follow-up with a date is enough, and then use another route if needed.'),
-      o('Ask a friend to talk to the professor on your behalf.', 45, 'A friend can help sometimes, but you still need a clear written request. Send your own short follow-up as well.'),
+      o('Ask a classmate who knows the professor to mention it, and wait for the answer', 55, 'A classmate may help, but you still need your own clear request in writing. Send your short follow-up as well.'),
+      o('“Sir, kindly reply to my email at the earliest, as I have already waited one full week and my deadline is near.”', 35, 'It is polite in form, but it sounds like blame and gives no question or date. Say what you need and by when, and thank the professor.'),
+      o('Reply on your earlier email with one line of context, your exact question, the date you need it by, and thanks', 100, 'The professor can answer without searching for the old message, and a clear date and one question make a reply easy.'),
+      o('Send the same email again several times a day until you get a reply', 10, 'Repeated messages irritate people and do not help. One clear follow-up with a date is enough, and then try another route.'),
     ]),
     sc('audience', 'You cannot finish a task by the date a client asked for. Which message is best?', [
-      o('Give the new date you can keep, the reason in one line and what you can send by their date.', 100, 'You are honest, give a clear date and offer something useful now. This keeps trust with the client.'),
-      o('“It is not possible.”', 30, 'It is clear but it closes the conversation. Say what you can do instead and by when.'),
-      o('Agree to the date and then deliver late.', 15, 'A broken promise harms trust more than an honest early message. Say early what you can keep.'),
-      o('A long paragraph of apology with no new date.', 45, 'An apology is good, but the client needs a date more than a long explanation. Put the new date first.'),
+      o('Tell the client now: the date you can keep, one line on why, and what you can send by their date', 100, 'You are honest, give a clear date and offer something useful straight away, which protects trust.'),
+      o('Write a warm, detailed apology that explains everything that went wrong this week, and say that you will try your best to finish soon', 50, 'An apology is good, but the client needs a date more than a long explanation. Put the new date first.'),
+      o('“It is not possible by that date.”', 30, 'It is clear, but it ends the conversation. Say what you can do instead and by when.'),
+      o('Agree to the date and then deliver late, explaining afterwards', 10, 'A broken promise harms trust more than an honest early message. Say early what you can keep.'),
     ]),
     sc('revise', 'You finish an assignment 30 minutes before the deadline. What do you do with the time?', [
-      o('Spend about 15 minutes reading it again against the instructions, and use the rest to fix what you find.', 100, 'A final read against the instructions finds missed parts and small mistakes. Keep a few minutes for fixing them.'),
-      o('Submit at once so that you do not miss the deadline.', 45, 'Submitting early is safe for the deadline, but a short check is usually worth the time when you have it.'),
-      o('Add extra pages and images to make it look longer.', 25, 'Length does not make an answer better. Check that it answers the question, and cut anything that does not.'),
-      o('Change the font and the colours so that it looks better.', 20, 'Appearance helps a little, but content and mistakes matter more. Use the time to read for meaning and errors.'),
+      o('Submit it at once, so that a technical problem cannot make you late', 55, 'The caution is fair, but a short check is usually worth the time when you have it. Read it quickly and then submit.'),
+      o('Read it against the instructions for about 15 minutes, fix what you find, and submit with time to spare', 100, 'A final read against the instructions finds missed parts and small mistakes. Keep a few minutes for fixing them.'),
+      o('Add a few more paragraphs and images, since longer answers look more complete', 30, 'Length does not make an answer better. Check that it answers the question, and cut anything that does not.'),
+      o('Change the font, colours and spacing so that it looks better', 20, 'Appearance helps a little, but content and mistakes matter more. Use the time to read for meaning and errors.'),
     ]),
     sc('revise', 'A friend reads your cover letter and says the second paragraph is confusing. What do you do?', [
-      o('Ask which sentence confused them, rewrite that paragraph and give it back to them to read again.', 100, 'You find the exact problem and test the fix. A second look from the same person shows whether it worked.'),
-      o('Explain the paragraph to them aloud and leave the text unchanged.', 35, 'The explanation helps your friend but will not help the recruiter, who cannot ask you. Put the explanation into the text.'),
-      o('Remove the paragraph completely.', 55, 'Cutting can help if the paragraph adds little, but first ask what the confusion was in case it is easy to fix.'),
-      o('Ignore the comment because your friend does not work in hiring.', 20, 'Confusion is useful feedback from anyone. If one person is confused, others may be too.'),
+      o('Cut the paragraph completely so that the letter becomes shorter and cleaner, even though you are not sure what the problem was', 50, 'Cutting can help if the paragraph adds little, but first ask what confused your friend in case it is easy to fix.'),
+      o('Explain the paragraph to your friend aloud, and if they understand it then, leave it as it is, because you know what you meant', 35, 'Your explanation helps your friend, but the recruiter cannot ask you. Put the explanation into the text.'),
+      o('Ignore the comment, since a friend who does not work in hiring cannot judge a cover letter', 20, 'Confusion is useful feedback from anyone. If one person is confused, others may be too.'),
+      o('Ask which sentence lost them, rewrite that paragraph, and let them read it again', 100, 'You find the exact problem and test the fix. A second look from the same person shows whether it worked.'),
     ]),
     sc('work', 'Which subject line is best for an email asking your manager to approve leave on 14 and 15 March?', [
-      o('“Leave request: 14 and 15 March, approval needed by Friday”', 100, 'It names the topic, the dates and the action needed. Your manager can understand it without opening the email.'),
-      o('“Request”', 20, 'It says almost nothing, so the message may be delayed until the manager opens it. Add the topic and the dates.'),
+      o('“Leave application for 14 and 15 March”', 70, 'It names the topic and the dates, which is good. Add what you need and by when so the manager knows the action.'),
+      o('“Request for kind consideration and approval of leave at your earliest convenience”', 30, 'It sounds formal, but it does not give the dates or a deadline. Use the line to say what you need and by when.'),
+      o('“Leave request: 14 and 15 March, approval needed by Friday”', 100, 'It names the topic, the dates and the action needed, so your manager can understand it without opening the email.'),
       o('“Urgent!!! Please read”', 15, 'This creates pressure but does not say what the email is about. Name the topic and the action instead.'),
-      o('“Hello sir”', 30, 'A greeting is not a subject. Use the line to say what you need and by when.'),
     ]),
     sc('work', 'You are writing a resume line about a college event you helped to run. Which line is strongest?', [
-      o('“Managed registration and a volunteer team for a two-day college event, and fixed the queue problem on day one.”', 100, 'It shows what you did, the size of the task and a problem you solved. Add a number only if it is true and you can explain it.'),
-      o('“Participated in a college event.”', 40, 'It says you were there, but not what you did. Add your role and one result.'),
-      o('“Responsible for event work.”', 30, 'This lists a duty and gives no detail. Say what you did and what changed.'),
-      o('“Hardworking team player who helped at the event.”', 20, 'These are claims with no proof. Replace them with something you actually did.'),
+      o('“Managed registration and a volunteer team for a two-day college event, and fixed the queue problem on day one”', 100, 'It shows what you did and a problem you solved. Add a number only if it is true and you can explain it.'),
+      o('“Helped organise a two-day college event with registration and volunteers”', 55, 'It gives your role and the size of the event, but no result. Add one thing that you changed or fixed.'),
+      o('“Participated in a college event”', 35, 'It says you were there, but not what you did. Add your role and one result.'),
+      o('“Hardworking team player with strong communication skills who supported the event”', 20, 'These are claims with no proof. Replace them with something you actually did.'),
     ]),
-    // Stage-specific
-    { ...sc('revise', 'Your college application answer has a 250-word limit and your draft is 400 words. What do you do?', [
-      o('Keep the one or two points that answer the question best, with one example, and cut the rest.', 100, 'A limit forces you to choose. Keep what answers the question and cut the background.'),
-      o('Shrink the font and margins so that it looks shorter.', 10, 'This ignores the limit and usually shows. Cut the words, not the formatting.'),
-      o('Cut the last 150 words, whatever they contain.', 35, 'Cutting from the end can remove your strongest point. Decide what matters first, then cut.'),
-      o('Remove all examples and keep only the general statements.', 30, 'Examples are what make an answer believable. Cut repeated statements before you cut examples.'),
+    { ...sc('revise', 'Your college application answer has a 250-word limit and your draft has 400 words. What do you do?', [
+      o('Remove all the examples and keep only the general statements, because there are many points and this lets you keep all of them within the limit', 35, 'Examples are what make an answer believable. Cut repeated statements before you cut examples.'),
+      o('Cut the last 150 words, whatever they contain', 45, 'Cutting from the end can remove your strongest point. Decide what matters first, then cut.'),
+      o('Keep the one or two points that best answer the question, with one example, and cut the rest', 100, 'A limit forces you to choose. Keep what answers the question and cut the background.'),
+      o('Shrink the font and margins so that it looks shorter', 10, 'This ignores the limit and usually shows. Cut the words, not the formatting.'),
     ]), stages: ['student'] },
     { ...sc('work', 'Your team lead sends a chat message: “Please do this ASAP.” You are not sure what exactly is needed. What do you reply?', [
-      o('Say what you understood, what you will do and by when, and ask one question about what is unclear.', 100, 'This confirms the task and the time and asks only what you need. It saves a wrong delivery later.'),
-      o('“Okay.” and then start working on what you guess.', 35, 'A short reply is easy, but a wrong guess costs more time later. Confirm the task in one or two lines.'),
-      o('Ask a long list of questions in one message before you do anything.', 50, 'Questions are useful, but a long list can feel like a barrier. Ask the one or two that matter most and start the rest.'),
-      o('Do not reply and begin working quietly.', 20, 'Silence leaves your lead guessing. A short reply tells them you have it and when to expect it.'),
+      o('Send a message with a full list of questions about format, length, audience, deadline and examples before you begin', 50, 'Questions are useful, but a long list can feel like a barrier. Ask the one or two that matter most and start on the rest.'),
+      o('“Okay.” and then start working on your best guess', 35, 'A short reply is easy, but a wrong guess costs more time later. Confirm the task in one or two lines.'),
+      o('Do not reply and begin working quietly', 20, 'Silence leaves your lead guessing. A short reply tells them you have it and when to expect it.'),
+      o('Say what you understood, what you will do and by when, and ask the one question that is unclear', 100, 'This confirms the task and the time and asks only what you need. It saves a wrong delivery later.'),
     ]), stages: ['fresher'] },
     { ...sc('clarity', 'A senior leader has two minutes to read your one-page summary of a project. How do you write it?', [
-      o('Start with the decision or recommendation, give three key facts and put the details in an attachment.', 100, 'The leader gets the decision in the first lines and can ask for detail if needed. This respects their time.'),
-      o('Describe the project from the start in time order so that the story is complete.', 40, 'A full history is useful later, but the leader needs the point first. Move the recommendation to the top.'),
-      o('Write everything you know in small font so it fits on one page.', 15, 'A crowded page is hard to read in two minutes. Choose what matters and leave the rest in an attachment.'),
-      o('Send only a headline with no facts and wait for questions.', 30, 'A headline alone may leave the leader with nothing to decide on. Add three facts that support it.'),
+      o('Set out the full background, what each team member did, all the data you collected and how you worked it out, so that the leader can judge for themselves', 40, 'It is thorough, but the leader has two minutes and needs the point first. Move the recommendation to the top and keep the rest for questions.'),
+      o('Send a one-line headline such as “Project on track” and wait for questions', 30, 'A headline alone may leave the leader with nothing to decide on. Add three facts that support it.'),
+      o('Write everything you know in small font so it fits on one page', 15, 'A crowded page is hard to read in two minutes. Choose what matters and leave the rest in an attachment.'),
+      o('Open with the recommendation, add three key facts, and put the detail in an attachment', 100, 'The leader gets the decision in the first lines and can ask for detail if needed. This respects their time.'),
     ]), stages: ['professional'] },
   ],
 

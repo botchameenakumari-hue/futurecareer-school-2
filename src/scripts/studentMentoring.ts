@@ -2,6 +2,7 @@
 // Logic for the student mentoring form and report tool. It has no DOM access, so the same
 // document model feeds the on-screen preview, the print view and the PDF download, and the
 // three always match. Entries are plain objects kept in the browser by the component.
+import { createUnicodeText, flattenTexts, isUnicodeLine, needsUnicode, prepareUnicodeText } from './pdfUnicodeText.mjs';
 
 export const STORAGE_KEY = 'fcs-student-mentoring-v1';
 export const MAX_SESSIONS = 24;
@@ -290,10 +291,15 @@ export function modelToHtml(model) {
 
 // ---------- PDF ----------
 
-const NON_LATIN = /[^\u0000-ɏ‐-‧₹ ]/;
-
+// Text the standard PDF font cannot draw (Telugu, Hindi and so on) is drawn by the browser and
+// added as images. See pdfUnicodeText.mjs.
 export function hasUnsupportedText(model) {
-  return NON_LATIN.test(JSON.stringify(model));
+  return flattenTexts(model).some((text) => needsUnicode(text));
+}
+
+/** Loads the Telugu or Hindi font on demand. Call before buildPdf and pass the answer in. */
+export function prepareUnicodePdf(model) {
+  return prepareUnicodeText(flattenTexts(model));
 }
 
 export function pdfText(value) {
@@ -312,8 +318,15 @@ export function pdfText(value) {
     .replace(/\r/g, '');
 }
 
-export function buildPdf(JsPDF, model) {
+export function buildPdf(JsPDF, model, unicodeReady = false) {
   const pdf = new JsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+  const uni = unicodeReady ? createUnicodeText(pdf) : null;
+  const isImg = (l) => uni && isUnicodeLine(l);
+  // Lines from the browser are drawn as images, plain English stays real text.
+  const put = (l, x, baseline, size, style, c) => {
+    if (isImg(l)) uni.draw(l, x, baseline, size, style, c);
+    else pdf.text(l, x, baseline);
+  };
   const M = 16;
   const CW = 210 - M * 2;
   const BOTTOM = 297 - 18;
@@ -327,6 +340,8 @@ export function buildPdf(JsPDF, model) {
   const font = (size, style) => { pdf.setFont('helvetica', style || 'normal'); pdf.setFontSize(size); };
   const wrap = (text, width, size, style) => {
     font(size, style);
+    const viaBrowser = uni && uni.wrap(text, width, size, style);
+    if (viaBrowser) return viaBrowser;
     const out = [];
     pdfText(text).split('\n').forEach((part) => {
       if (!part.trim()) { out.push(''); return; }
@@ -337,11 +352,12 @@ export function buildPdf(JsPDF, model) {
   const need = (h) => { if (y + h > BOTTOM) { pdf.addPage(); y = M; } };
   const rule = (x1, x2, yy, c, w) => { pdf.setDrawColor(c[0], c[1], c[2]); pdf.setLineWidth(w || 0.25); pdf.line(x1, yy, x2, yy); };
 
-  const paragraph = (text, size, style, c, lh, x, width) => {
+  const paragraph = (text, size, style, c, baseLh, x, width) => {
     const ls = wrap(text, width || CW, size, style);
+    const lh = ls.some(isImg) ? baseLh * 1.25 : baseLh;
     color(c);
     font(size, style);
-    ls.forEach((l) => { need(lh); if (l) pdf.text(l, x == null ? M : x, y + lh * 0.75); y += lh; });
+    ls.forEach((l) => { need(lh); if (l) put(l, x == null ? M : x, y + lh * 0.75, size, style, c); y += lh; });
   };
 
   model.blocks.forEach((b) => {
@@ -353,14 +369,19 @@ export function buildPdf(JsPDF, model) {
       y += 2; rule(M, M + CW, y, TEAL, 0.6); y += 5;
     } else if (b.t === 'meta') {
       b.rows.forEach((r) => {
-        const val = wrap(r[1] || '', CW - 52, 10, 'normal');
+        // A long label (for example "How progress will be checked") pushes the value to the right instead of running into it.
+        const label = pdfText(r[0]) + (/[?:]$/.test(r[0]) ? '' : ':');
+        font(10, 'bold');
+        const valueX = Math.max(M + 52, M + pdf.getTextWidth(label) + 3);
+        const val = wrap(r[1] || '', M + CW - valueX, 10, 'normal');
         const rows = Math.max(1, val.length);
-        need(rows * 5 + 2);
-        font(10, 'bold'); color(INK); pdf.text(pdfText(r[0]) + (/[?:]$/.test(r[0]) ? '' : ':'), M, y + 3.8);
+        const step = val.some(isImg) ? 6.2 : 5;
+        need(rows * step + 2);
+        font(10, 'bold'); color(INK); pdf.text(label, M, y + 3.8);
         font(10, 'normal'); color(INK);
-        if (val.length && val.join('').trim()) val.forEach((l, i) => { if (l) pdf.text(l, M + 52, y + 3.8 + i * 5); });
-        else rule(M + 52, M + CW, y + 4.2, RULE, 0.2);
-        y += rows * 5 + 1.5;
+        if (val.length && val.join('').replace(/\uE000/g, '').trim()) val.forEach((l, i) => { if (l) put(l, valueX, y + 3.8 + i * step, 10, 'normal', INK); });
+        else rule(valueX, M + CW, y + 4.2, RULE, 0.2);
+        y += rows * step + 1.5;
       });
       y += 1.5;
     } else if (b.t === 'h') {
@@ -381,16 +402,17 @@ export function buildPdf(JsPDF, model) {
       b.items.forEach((item) => {
         const ls = wrap(item, CW - 6, 10, 'normal');
         color(INK); font(10, 'normal');
-        ls.forEach((l, i) => { need(5); if (i === 0) pdf.text('-', M + 1, y + 3.8); if (l) pdf.text(l, M + 6, y + 3.8); y += 5; });
+        const step = ls.some(isImg) ? 6.2 : 5;
+        ls.forEach((l, i) => { need(step); if (i === 0) { font(10, 'normal'); color(INK); pdf.text('-', M + 1, y + 3.8); } if (l) put(l, M + 6, y + 3.8, 10, 'normal', INK); y += step; });
         y += 0.8;
       });
       y += 1;
     } else if (b.t === 'table') {
       const widths = b.widths.map((w) => w * CW);
       const pad = 1.6;
-      const lh = 4.4;
       const drawRow = (cells, header, minH) => {
         const wrapped = cells.map((c, i) => wrap(c, widths[i] - pad * 2, header ? 9 : 9.5, header ? 'bold' : 'normal'));
+        const lh = wrapped.some((w) => w.some(isImg)) ? 5.4 : 4.4;
         const h = Math.max(minH, Math.max(...wrapped.map((w) => Math.max(1, w.length))) * lh + pad * 2);
         if (y + h > BOTTOM) { pdf.addPage(); y = M; if (!header) drawRow(b.head, true, 8); }
         let x = M;
@@ -398,7 +420,7 @@ export function buildPdf(JsPDF, model) {
           if (header) { pdf.setFillColor(226, 240, 238); pdf.rect(x, y, widths[i], h, 'F'); }
           pdf.setDrawColor(150, 158, 166); pdf.setLineWidth(0.2); pdf.rect(x, y, widths[i], h);
           color(INK); font(header ? 9 : 9.5, header ? 'bold' : 'normal');
-          wrapped[i].forEach((l, j) => { if (l) pdf.text(l, x + pad, y + pad + 3 + j * lh); });
+          wrapped[i].forEach((l, j) => { if (l) put(l, x + pad, y + pad + 3 + j * lh, header ? 9 : 9.5, header ? 'bold' : 'normal', INK); });
           x += widths[i];
         });
         y += h;
