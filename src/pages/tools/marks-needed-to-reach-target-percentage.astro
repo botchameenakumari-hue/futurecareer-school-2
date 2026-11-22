@@ -1,0 +1,381 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import BusinessPerspectiveNote from '../../components/BusinessPerspectiveNote.astro';
+import MarksTargetCalculator from '../../components/MarksTargetCalculator.astro';
+import { SCALE, SCALE_RULE } from '../../config/scalability.mjs';
+import { marksNeeded, overallPercent, attendance, boardBest, averageCalc, CHECKED_ON } from '../../scripts/marksTarget.mjs';
+
+const title = 'Marks Needed to Reach Target Percentage: Free Calculator';
+const description = 'Find the marks you need in the final exam to reach a target percentage. Also overall percentage, attendance, best of five and average. Free and private.';
+const pageUrl = 'https://futurecareerschool.com/tools/marks-needed-to-reach-target-percentage/';
+
+const CBSE_ATTENDANCE_URL = 'https://www.cbse.gov.in/cbsenew/documents/Strict_Compliance_attendance_Eligibility_05082025.pdf';
+const CBSE_PERCENT_NEWS_URL = 'https://www.tribuneindia.com/news/india/cbse-not-to-award-any-division-distinction-in-class-10-12-board-exams-official-567755';
+const CBSE_BYELAWS_URL = 'https://www.cbse.gov.in/cbsenew/Exambylaws_archive/SCHEME%20OF%20EXAMINATIONS%20AND%20PASS%20CRITERIA.pdf';
+
+// Worked examples come from the same code the calculator uses, so the text and the tool cannot disagree.
+const need = marksNeeded({ target: '75', mode: 'weights', rows: [{ name: 'Internal marks', got: '24', max: '30', weight: '30' }, { name: 'Final exam', got: '', max: '70', weight: '70' }], pass: '' });
+const needFinal = need.parts[1];
+const tooHigh = marksNeeded({ target: '95', mode: 'weights', rows: [{ name: 'Internal marks', got: '24', max: '30', weight: '30' }, { name: 'Final exam', got: '', max: '70', weight: '70' }], pass: '' });
+const overall = overallPercent({ rows: [{ name: 'Maths', got: '72', max: '100', weight: '' }, { name: 'Science', got: '45', max: '50', weight: '' }, { name: 'English', got: '63', max: '80', weight: '' }] });
+const attBelow = attendance({ attended: '40', held: '60', target: '75', total: '' });
+const attAbove = attendance({ attended: '54', held: '60', target: '75', total: '' });
+const board = boardBest({ count: '5', rows: [82, 76, 91, 68, 88, 79].map((g, i) => ({ name: 'Subject ' + (i + 1), got: String(g), max: '100', must: false })) });
+const avg = averageCalc({ rows: [{ name: '', value: '62', weight: '' }, { name: '', value: '70', weight: '' }, { name: '', value: '58', weight: '' }], targetAvg: '70', moreTests: '2' });
+
+const steps = [
+  { h: 'Open the tab you need', p: 'Use Marks needed, Overall percentage, Attendance, Best of five or Average. Each tab works on its own.' },
+  { h: 'Type your numbers', p: 'Use digits with a dot or comma, for example 78.5. Telugu and Hindi digits are read too.' },
+  { h: 'Leave the part still to come empty', p: 'On the Marks needed tab, fill the marks you have for internals or tests and leave the final exam marks empty. The calculator works out that box for you.' },
+  { h: 'Read the answer and the working', p: 'The answer is at the top and every step sits under it. If a step does not match your school or college notice, change the weights or the target.' },
+  { h: 'Download or print the sheet', p: 'The result sheet for the open tab can be saved as a PDF or printed. Only the sheet prints, not the whole page.' },
+];
+
+const formulas = [
+  { q: 'Marks needed for a target', f: 'Share needed = (target minus points already earned) divided by the points still available. Marks needed = that share x the out-of marks of the part still to come.', r: 'Marks you need are rounded up, so the figure is always enough.' },
+  { q: 'Overall percentage', f: 'With no weights: total marks scored divided by total marks available, x 100. With weights: add each subject percentage x its weight, and divide by the total weight.', r: 'Rounded half up to 2 decimal places.' },
+  { q: 'Where to improve', f: 'Gain = a subject’s share of the overall result x the rise in that subject’s own percentage. The tool compares a rise of 10 points, stopping at full marks.', r: 'Gains are shown in percentage points, half up to 2 places.' },
+  { q: 'Attendance: classes to attend', f: 'Attend x more classes in a row, with x at least (target x held minus 100 x attended) divided by (100 minus target).', r: 'Rounded up to a whole class.' },
+  { q: 'Attendance: classes you can miss', f: 'Miss m of the next classes, with m at most (100 x attended minus target x held) divided by target.', r: 'Rounded down to a whole class.' },
+  { q: 'Best of five', f: 'Rank subjects by their own percentage, count the best ones plus any marked Must count, then divide the counted marks by the counted maximum.', r: 'Rounded half up to 2 decimal places.' },
+  { q: 'Average and weighted average', f: 'Average = total divided by how many. Weighted average = sum of (value x weight) divided by the total weight. Average still needed = (target x all tests minus total so far) divided by tests to come.', r: 'Average rounded half up; the average you still need is rounded up.' },
+];
+
+const examples = [
+  'Marks needed: internal 24 out of 30 (weight 30) and a final exam out of 70 (weight 70), with a target of 75 percent. The internal marks add 24 points, so 75 minus 24 = ' + (75 - 24) + ' points must come from the final exam, which is worth 70 points. You need at least ' + needFinal.neededMarks + ' out of 70, which is ' + needFinal.neededPct + ' percent of the paper.',
+  'Not possible: with the same marks and a target of 95 percent, you would need 95 minus 24 = 71 points from a final exam worth only 70. The highest you can reach is ' + tooHigh.highest + ' percent, and the calculator says so instead of giving an impossible mark.',
+  'Overall percentage: Maths 72 out of 100, Science 45 out of 50 and English 63 out of 80. Marks scored 72 + 45 + 63 = 180, marks available 100 + 50 + 80 = 230, so 180 / 230 x 100 = ' + overall.overall + ' percent.',
+  'Attendance, below target: 40 classes attended out of 60 is ' + attBelow.now + ' percent. To reach 75 percent you must attend the next ' + attBelow.more + ' classes in a row, and (40 + ' + attBelow.more + ') / (60 + ' + attBelow.more + ') = ' + attBelow.after + ' percent.',
+  'Attendance, above target: 54 out of 60 is ' + attAbove.now + ' percent. You can miss up to ' + attAbove.miss + ' of the next classes, because 54 / (60 + ' + attAbove.miss + ') = ' + attAbove.after + ' percent.',
+  'Best of five: six subjects out of 100 with marks 82, 76, 91, 68, 88 and 79. The best five are 91, 88, 82, 79 and 76, which add up to ' + board.gotCounted + ', so ' + board.gotCounted + ' / ' + board.maxCounted + ' x 100 = ' + board.percent + ' percent. All six subjects together give ' + board.percentAll + ' percent.',
+  'Average: tests of 62, 70 and 58 give a total of ' + avg.sum + ' and an average of ' + avg.average + '. To reach an average of 70 over five tests, the two tests still to come must add up to 70 x 5 minus ' + avg.sum + ' = ' + avg.need.total + ', so at least ' + avg.need.average + ' in each.',
+];
+
+const limits = [
+  { h: 'It does not know your rules', p: 'Pass marks in each part, grace marks, rounding and best-of rules come from your school, college or board. The calculator only does the arithmetic on the numbers and weights you type.' },
+  { h: 'It does not predict your marks', p: 'It shows what you would need, not what you will score. Use it to plan your effort, then check the result against your own recent marks.' },
+  { h: 'It is not an official result', p: 'The result sheet is a calculation from numbers you typed. It is not a mark sheet, a certificate or a letter from your institution.' },
+  { h: 'It does not decide admission', p: 'A percentage is one thing a college checks. Cutoffs, entrance exam ranks and other conditions are set by the college, so read its notice.' },
+];
+
+const marks = [
+  {
+    mark: SCALE.high.label,
+    where: 'Skill-first routes you can sell directly, such as freelance design, video, writing or coding projects. Clients look at proof of work, so your percentage matters little once you have it.',
+    risk: 'You must find and keep paying clients, and the first projects take time to win.',
+    step: 'Name who pays, how they find and trust you, one piece of proof and a simple follow-up habit.',
+  },
+  {
+    mark: SCALE.mid.label,
+    where: 'A degree or job first, with a practice, studio or small business added later. Marks and attendance help with admission and the first job screen, then proof of work counts for more.',
+    risk: 'Without the extra layer, growth stays tied to one employer or to the hours you can work.',
+    step: 'Plan the business layer early: who would pay, how they would find and trust you, and what proof you can show.',
+  },
+  {
+    mark: SCALE.low.label,
+    where: 'Cutoff and rank ladders, such as entrance-exam seats, government posts and courses that check a minimum percentage or attendance at every stage.',
+    risk: 'Many people compete for few places, and marks alone do not guarantee a result.',
+    step: 'Write a second route and keep a skill running that can grow on its own.',
+  },
+];
+const chunk = (s) => { const a = s.split(/(?<=[.!?])\s+/); const o = []; for (let i = 0; i < a.length; i += 2) o.push(a.slice(i, i + 2).join(' ')); return o; };
+
+const sources = [
+  {
+    name: 'CBSE circular on strict compliance with attendance requirements, dated 4 August 2025',
+    url: CBSE_ATTENDANCE_URL,
+    supports: 'It states that a minimum of 75 percent attendance is mandatory to appear in the Class 10 and Class 12 Board examinations. It allows a 25 percent relaxation only in exigencies such as serious illness, with documents. The school sheet it attaches counts teaching days, not classes.',
+    checked: CHECKED_ON + ', from the extracted text of the PDF. The scan is partly hard to read, so open the circular and read the exact wording.',
+  },
+  {
+    name: 'Tribune India report of a CBSE statement, reported on 1 December 2023',
+    url: CBSE_PERCENT_NEWS_URL,
+    supports: 'It reports that CBSE awards no overall division, distinction or aggregate, that the Board does not calculate, declare or inform a percentage of marks, and that for students with more than five subjects the admitting institution or employer may decide the best five.',
+    checked: CHECKED_ON + '. This is a news report. The CBSE notice itself could not be opened.',
+  },
+  {
+    name: 'CBSE Scheme of Examinations and Pass Criteria (archive copy, no date)',
+    url: CBSE_BYELAWS_URL,
+    supports: 'Clause 40.1(iii) of this archive copy reads “No overall division/distinction/aggregate shall be awarded.” It backs the point that CBSE gives marks and grades by subject.',
+    checked: CHECKED_ON + '. The copy is undated and may be out of date, so check the current Examination Bye-Laws.',
+  },
+  {
+    name: 'Arithmetic: percentage, weighted average, attendance and average formulas',
+    url: '',
+    supports: 'Plain arithmetic with exact fractions. Marks you still need are rounded up and percentages are rounded half up to 2 places. No board or university rule is built in.',
+    checked: 'No source to open. Written on ' + CHECKED_ON + '.',
+  },
+];
+
+const couldNot = [
+  { name: 'The CBSE notice of December 2023 on division, aggregate and percentage', url: 'https://www.cbse.gov.in/' },
+  { name: 'The current CBSE Examination Bye-Laws', url: 'https://www.cbse.gov.in/' },
+];
+
+const faqs = [
+  {
+    q: 'How do I calculate the marks I need in the final exam to reach a target percentage?',
+    a: 'Add up the points you already have, subtract them from your target, and divide what is left by the points the final exam is worth. In the example above, 75 minus 24 = 51 points must come from a paper worth 70 points, so you need ' + needFinal.neededMarks + ' out of 70. Type your own numbers in the Marks needed tab and the steps are shown for you.',
+  },
+  {
+    q: 'What if the target is higher than I can reach?',
+    a: 'The calculator says Not possible and shows the highest you can reach, which is what you would get with full marks in everything still to come. With the example marks and a target of 95 percent, the highest is ' + tooHigh.highest + ' percent. It also shows the lowest you would end at, with 0 in what is left.',
+  },
+  {
+    q: 'How do internal marks and final exam marks combine?',
+    a: 'Many schemes give each part a weight, such as internal 30 and final exam 70, but the split is set by your school, college or board. Choose Percent weights and type the split from your own notice, or choose Marks simply add up if your total is just the sum of the marks. The quick split box only fills in starting numbers.',
+  },
+  {
+    q: 'Can I add more than two parts, such as two tests and a final?',
+    a: 'Yes, you can add up to 12 parts, each with its own marks, maximum and weight. Fill in the parts you have and leave the marks empty for every part still to come. The calculator then shows the same share of each remaining part that you need.',
+  },
+  {
+    q: 'Does the calculator know my university or board rules?',
+    a: 'No. It does not build in any pass mark, grace mark, rounding rule or best-of rule, because those differ and we have not read every notice. The optional pass mark box lets you add a minimum for the part still to come, so the answer is never lower than that.',
+  },
+  {
+    q: 'How do I find my overall percentage when subjects have different maximum marks?',
+    a: 'Add all the marks you scored, add all the marks that were available, divide the first by the second and multiply by 100. In the example above, 180 / 230 x 100 = ' + overall.overall + ' percent. If your college weights subjects by credits, type the credits in the weight box and the calculator uses a weighted average instead.',
+  },
+  {
+    q: 'Which subject should I improve to raise my overall percentage the most?',
+    a: 'The Overall percentage tab ranks your subjects by how much the overall result rises if you improve that subject by 10 points of its own percentage, stopping at full marks. A subject with a bigger maximum or a bigger weight moves the overall more, and a subject already near full marks has little room left. It is arithmetic, not advice on effort, so also think about which subject you can realistically improve.',
+  },
+  {
+    q: 'How many classes must I attend to reach 75 percent attendance?',
+    a: 'Work out how many more classes you must attend in a row so that attended plus x over held plus x reaches 75 percent. For 40 classes attended out of 60, the answer is ' + attBelow.more + ' more classes, all attended. You can change the target if your rule is not 75 percent.',
+  },
+  {
+    q: 'How many classes can I miss and still keep 75 percent attendance?',
+    a: 'The calculator finds the largest number of the next classes you can miss while attended over held plus missed stays at or above the target. For 54 classes attended out of 60, that is ' + attAbove.miss + ' classes. If you also type the classes in the whole term, it shows how many you can miss before the term ends.',
+  },
+  {
+    q: 'Is 75 percent attendance compulsory?',
+    a: 'For CBSE Class 10 and Class 12 board exams, a CBSE circular dated 4 August 2025 says a minimum of 75 percent attendance is mandatory, with relaxation only in serious cases backed by documents. Other boards, universities and professional councils set their own rules, and we have not read them. Check your own institution’s notice before you rely on any number.',
+  },
+  {
+    q: 'How is the best of five percentage worked out, and does CBSE use it?',
+    a: 'The Best of five tab counts your best subjects by percentage, adds a subject you mark as Must count, and divides the counted marks by the counted maximum. A report of a CBSE statement says the Board does not calculate or declare a percentage, and that the admitting institution or employer may decide which five subjects count. So match the number and the Must count boxes to the notice of whoever asks for your percentage.',
+  },
+  {
+    q: 'How do I calculate average marks and a weighted average?',
+    a: 'For a plain average, add the marks and divide by how many there are, so 62, 70 and 58 give ' + avg.average + '. For a weighted average, multiply each mark by its weight, add those up and divide by the total weight. If every test has the same maximum, the Average tab can also tell you the average you still need in the remaining tests.',
+  },
+  {
+    q: 'Why are the marks I need rounded up?',
+    a: 'If you need 50.2 marks, 50.2 is the least that works, and a mark of 50 would leave you slightly short. Rounding up makes sure the figure shown is always enough. Your percentage today is rounded half up to 2 decimal places, and your institution may round differently.',
+  },
+  {
+    q: 'Is my data sent anywhere, and can I type in Telugu?',
+    a: 'Nothing is sent to this site. Your numbers are saved only in this browser so they are still there when you return, and Clear my data removes them. You can type subject names in Telugu or Hindi, and the PDF draws those letters as pictures so they keep their shape, which means that text cannot be selected or copied.',
+  },
+  {
+    q: 'Can I use this result in an application or show it to my school?',
+    a: 'Treat it as your own working, not as an official document. For admissions, scholarships or jobs, use the marks and wording on your mark sheet or certificate, and ask your institution for its rule when a percentage is needed. You can print or download the sheet to show how you worked a number out.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'Marks Needed to Reach Target Percentage Calculator',
+    description,
+    url: pageUrl,
+    applicationCategory: 'EducationalApplication',
+    operatingSystem: 'Any modern web browser',
+    isAccessibleForFree: true,
+    inLanguage: 'en-IN',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+    publisher: { '@type': 'Organization', name: 'FutureCareerSchool', url: 'https://futurecareerschool.com' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Career resources', item: 'https://futurecareerschool.com/career-resources/' },
+      { '@type': 'ListItem', position: 3, name: 'Marks needed to reach target percentage', item: pageUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={pageUrl} jsonLd={jsonLd}>
+  <Nav activePage="tools" />
+  <BusinessPerspectiveNote serviceBanner={true} />
+  <main>
+    <section class="tool-hero container">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">›</span><a href="/career-resources/">Career resources</a><span aria-hidden="true">›</span><span aria-current="page">Marks needed to reach target percentage</span></nav>
+      <p class="eyebrow">FREE PRIVATE CALCULATOR WITH PDF</p>
+      <h1>Marks Needed to Reach Target Percentage <span>with attendance, overall percentage and averages</span></h1>
+      <p class="lead">This marks needed to reach target percentage calculator shows the marks you need in your final exam, or any part still to come, to reach the overall percentage you want. It also works out overall percentage, attendance, best of five and averages, with every step.</p>
+      <p class="tool-jump"><a href="#marks-target-calculator">Start the calculator</a><a href="#examples">See worked examples</a><a href="#faq">Questions</a></p>
+      <p class="tool-limits"><b>Private by design:</b> it runs in your browser and sends nothing to this site.</p>
+    </section>
+
+    <section class="container tool-shell mt-shell" aria-label="Marks needed to reach target percentage calculator">
+      <MarksTargetCalculator />
+    </section>
+
+    <section class="container tool-section tool-after" id="after-tool">
+      <p>Not sure what your marks mean for your next step? A <a href="/services/career-counselling-and-career-guidance/career-counselling-for-students/">career counsellor for students</a> can help you plan around them.</p>
+    </section>
+
+    <section class="container tool-section" id="how-to-use">
+      <h2>How to use the calculator</h2>
+      <ol class="step-grid">
+        {steps.map((s) => (<li><h3>{s.h}</h3><p>{s.p}</p></li>))}
+      </ol>
+    </section>
+
+    <section class="container tool-section" id="formulas">
+      <h2>The formulas, in plain words</h2>
+      <p>Every answer comes from the same few formulas. The calculator reads your numbers as exact decimals, so 0.1 and 0.2 add to exactly 0.3 and nothing is off by a rounding crumb.</p>
+      <div class="marks-wrap">
+        <table class="marks-table">
+          <thead><tr><th scope="col">Question</th><th scope="col">Formula</th><th scope="col">Rounding</th></tr></thead>
+          <tbody>
+            {formulas.map((r) => (
+              <tr>
+                <td data-label="Question"><b>{r.q}</b></td>
+                <td data-label="Formula">{r.f}</td>
+                <td data-label="Rounding">{r.r}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="container tool-section" id="examples">
+      <h2>Worked examples, with the maths shown</h2>
+      <p>These are examples to show the steps, not real results. The numbers come from the same code as the calculator.</p>
+      <ul class="next-list">
+        {examples.map((e) => (<li>{e}</li>))}
+      </ul>
+    </section>
+
+    <section class="container tool-explainer" id="limits">
+      <h2>What the calculator does not do</h2>
+      <div class="explainer-grid">
+        {limits.map((l) => (<article><h3>{l.h}</h3><p>{l.p}</p></article>))}
+      </div>
+    </section>
+
+    <section class="container tool-section" id="rules-we-checked">
+      <h2>Attendance and board percentage: what we could check</h2>
+      <p>For CBSE Class 10 and Class 12 board exams, a CBSE circular dated 4 August 2025 says a minimum of 75 percent attendance is mandatory. It allows relaxation only in serious cases, such as prolonged illness, backed by documents. Its school sheet counts teaching days, so use days if your school counts days.</p>
+      <p>A report of a CBSE statement says the Board does not calculate or declare an overall percentage, and that the admitting institution or employer may decide which five subjects count. That is why the Best of five tab lets you choose how many subjects count and which ones must count.</p>
+      <p>Other boards, universities and professional councils have their own attendance and percentage rules. We have not read them, so none is built in. Always check the official notice for your own institution, because rules change.</p>
+    </section>
+
+    <section class="container tool-section" id="growth-marks">
+      <h2>Your percentage is one input, not your whole route</h2>
+      <p>Some routes check your marks and attendance at the door, and others look mainly at proof of work. Each kind of route below carries one of three marks and the risk that goes with it.</p>
+      {chunk(SCALE_RULE).map((c) => <p>{c}</p>)}
+      <div class="marks-wrap">
+        <table class="marks-table">
+          <thead><tr><th scope="col">Mark</th><th scope="col">Where your marks or attendance matter</th><th scope="col">Risk</th><th scope="col">Basic sales and marketing step</th></tr></thead>
+          <tbody>
+            {marks.map((m) => (
+              <tr>
+                <td data-label="Mark"><b>{m.mark}</b></td>
+                <td data-label="Where your marks or attendance matter">{m.where}</td>
+                <td data-label="Risk">{m.risk}</td>
+                <td data-label="Basic sales and marketing step">{m.step}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p>The marks describe a kind of route, not you, and none of them promises a result or an income.</p>
+    </section>
+
+    <section class="container tool-section" id="sources">
+      <h2>Sources and what we could not open</h2>
+      <p>Each line below says what it supports and the day it was checked. Rules change, so open the official notice yourself before you rely on a figure.</p>
+      <ul class="src-list">
+        {sources.map((s) => (
+          <li>
+            <b>{s.name}.</b> {s.url && <a href={s.url} rel="noopener noreferrer">{s.url}</a>}
+            <span class="src-line">Supports: {s.supports}</span>
+            <span class="src-line">Checked: {s.checked}</span>
+          </li>
+        ))}
+      </ul>
+      <h3>What we could not open</h3>
+      <p>We could not open the text of these on {CHECKED_ON}, so nothing on this page quotes them directly. Open the CBSE site and read the exact wording.</p>
+      <ul class="src-list">
+        {couldNot.map((s) => (<li>{s.name}: <a href={s.url} rel="noopener noreferrer">{s.url}</a></li>))}
+      </ul>
+    </section>
+
+    <section class="container tool-section" id="next-steps">
+      <h2>Where to go next</h2>
+      <ul class="next-list">
+        <li>Have a CGPA and need a percentage? Use the <a href="/tools/cgpa-to-percentage-calculator/">CGPA to percentage calculator</a>.</li>
+        <li>Finished a degree with low marks? Read <a href="/blog/career-options/career-options-after-graduation-with-low-marks-or-below-50-percent-india/">career options after graduation with low marks or below 50 percent</a>.</li>
+        <li>Missed the mark in Class 12? Read <a href="/blog/career-options/what-to-do-after-failing-class-12-india/">what to do after failing Class 12</a>, or <a href="/blog/career-options/what-to-do-after-failing-class-10-india/">what to do after failing Class 10</a>.</li>
+        <li>Short on attendance or internal marks in engineering? See <a href="/blog/career-options/what-to-do-after-failing-first-year-engineering-india/">what to do after failing first-year engineering</a>.</li>
+        <li>A teacher or mentor tracking a student over several sessions can use the <a href="/tools/student-mentoring-form-and-report/">student mentoring form and report</a>.</li>
+      </ul>
+    </section>
+
+    <section class="container tool-section" id="faq">
+      <h2>Marks needed to reach a target percentage: common questions</h2>
+      <div class="faq-list">
+        {faqs.map((f) => (
+          <details class="faq-item" open>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .tool-hero{padding:2rem 1.25rem 1rem}.tool-jump{display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0}.tool-jump a{display:inline-flex;align-items:center;min-height:44px;padding:.4rem .9rem;border:1px solid rgba(255,255,255,.28);border-radius:999px;color:#f3cf70;font-weight:700;text-decoration:none}.tool-jump a:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}.tool-after{padding-top:.5rem;padding-bottom:.5rem}.tool-section{scroll-margin-top:90px}.tool-hero h1{max-width:850px;overflow-wrap:anywhere}.tool-hero h1 span{color:var(--gold,#e5b84a);font-size:.6em;display:block;margin-top:.3rem}
+  .breadcrumb{display:flex;gap:.55rem;flex-wrap:wrap;color:rgba(255,255,255,.7);font-size:.85rem;margin-bottom:1.2rem}.breadcrumb a{color:#8de4d8;text-decoration:underline;text-underline-offset:2px}
+  .lead{max-width:780px;font-size:1.12rem;line-height:1.7}.lead--small{font-size:1rem;color:rgba(255,255,255,.85)}.lead a{color:#f3cf70;font-weight:700}
+  .tool-limits{max-width:780px;font-size:.9rem;line-height:1.6;color:rgba(255,255,255,.78)}
+  .tool-shell{max-width:1050px}
+  .tool-section{max-width:1050px;padding:1.5rem 1.25rem}.tool-section h2{margin-top:0}.tool-section p,.tool-section li{line-height:1.7;max-width:820px}
+  .step-grid{list-style:none;margin:1rem 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));gap:1rem;counter-reset:step}
+  .step-grid li{counter-increment:step;padding:1rem;border:1px solid rgba(255,255,255,.14);border-radius:14px}
+  .step-grid li::before{content:counter(step);display:inline-grid;place-items:center;width:1.9rem;height:1.9rem;margin-bottom:.4rem;border-radius:50%;background:#0b766d;color:#fff;font-weight:800}
+  .step-grid h3{margin:.1rem 0 .3rem}.step-grid p{margin:0}
+  .marks-wrap{margin:1rem 0;max-width:100%}
+  .marks-table{width:100%;border-collapse:collapse;font-size:.92rem}
+  .marks-table th,.marks-table td{padding:.7rem;border:1px solid rgba(255,255,255,.16);text-align:left;vertical-align:top;line-height:1.55;overflow-wrap:anywhere}
+  .marks-table th{background:rgba(18,154,141,.18)}
+  .tool-explainer{max-width:1050px;padding:1.5rem 1.25rem}.tool-explainer h2{margin-top:0}
+  .explainer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+  .explainer-grid article{padding:1rem;border:1px solid rgba(255,255,255,.14);border-radius:14px}.explainer-grid h3{margin-top:0}.explainer-grid p{margin-bottom:0;line-height:1.65}
+  .next-list{padding-left:1.2rem}.next-list li{margin-bottom:.5rem}.next-list a,.src-list a,.tool-section p a{color:#f3cf70;font-weight:700;overflow-wrap:anywhere}
+  .src-list{padding-left:1.2rem}.src-list li{margin-bottom:.9rem;overflow-wrap:anywhere}.src-line{display:block;margin-top:.2rem}
+  .faq-list{display:grid;gap:.8rem;margin-top:1rem;padding-bottom:3rem}
+  .faq-item{padding:.9rem 1rem;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(255,255,255,.03)}
+  .faq-item summary{cursor:pointer;font-weight:700;line-height:1.5;min-height:44px;display:flex;align-items:center}
+  .faq-item summary:focus-visible{outline:3px solid #e5b84a;outline-offset:3px}
+  .faq-item p{margin:.4rem 0 0;max-width:none;overflow-wrap:anywhere}
+  @media(max-width:720px){
+    .tool-hero{padding-top:1.5rem}
+    .explainer-grid{grid-template-columns:minmax(0,1fr)}
+    .marks-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+    .marks-table,.marks-table tbody,.marks-table tr,.marks-table td{display:block;width:100%}
+    .marks-table tr{margin-bottom:1rem;border:1px solid rgba(255,255,255,.16);border-radius:12px;overflow:hidden}
+    .marks-table td{border:0;border-bottom:1px solid rgba(255,255,255,.1)}
+    .marks-table td::before{content:attr(data-label);display:block;margin-bottom:.15rem;font-size:.75rem;font-weight:700;color:#f3cf70}
+  }
+</style>

@@ -197,6 +197,11 @@ export const bundle: SkillTestBundle = {
     ],
     related: [
       {
+        href: '/tools/study-timetable-maker/',
+        title: 'Study Timetable Maker',
+        description: 'Turn your subjects, exam dates and free hours into a weekly timetable you can print or save as a PDF.',
+      },
+      {
         href: '/services/assessments/communication-skills-assessment/',
         title: 'Communication Skills Assessment',
         description: 'Listening, speaking, writing, feedback and presenting, scored separately. Useful for saying no clearly.',

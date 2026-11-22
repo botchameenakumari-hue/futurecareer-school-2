@@ -1,0 +1,365 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import BusinessPerspectiveNote from '../../components/BusinessPerspectiveNote.astro';
+import CareerQuestionnaire from '../../components/CareerQuestionnaire.astro';
+import { SCALE, SCALE_RULE } from '../../config/scalability.mjs';
+import { SECTIONS, PARENT, FAMILIES, PROMPT_RULES, CHECKED_ON, byStage } from '../../data/careerQuestionnaire.mjs';
+
+const title = 'Career Guidance Questionnaire for Students: Free PDF and Online';
+const description = 'Free career guidance questionnaire for students in India: print a blank PDF for Class 8 to college, or answer online and get a one-page summary.';
+const pageUrl = 'https://futurecareerschool.com/tools/career-guidance-questionnaire-for-students/';
+
+const lead = [
+  'This career guidance questionnaire is a free set of questions on interests, strengths, subjects, values, limits and support that a student answers before a career counselling session. Print it as a blank A4 PDF, or answer online and get a one-page summary and a filled PDF.',
+  'It comes in wording for Class 8 to 10, Class 11 and 12, and college or graduate students. It is a conversation starter, not a test result: it gives no score and does not say which career suits you.',
+];
+
+const steps = [
+  { h: 'Pick the stage', p: 'Choose Class 8 to 10, Class 11 and 12, or college and graduate. The subject and course questions change their wording to fit.' },
+  { h: 'Choose the sections', p: 'Keep all seven sections, or press the 20-minute class set to use four. Tick the parent or guardian section only if a parent will fill it in separately.' },
+  { h: 'Answer online or print', p: 'Answer on this page, or press Download blank PDF to hand out paper copies. Skip any question you would rather not answer.' },
+  { h: 'Read the summary', p: 'Open the summary tab. It groups your ticks and answers by section and lists a few questions to talk about.' },
+  { h: 'Take it to the conversation', p: 'Download the filled PDF, or print the summary, and give it to your counsellor, teacher or family. Decide first who will see it.' },
+];
+
+// What each section covers, in plain words. Sample questions come from the question list itself.
+const covers = {
+  interests: 'Activities the student enjoys and how they like to work.',
+  strengths: 'What the student does well, with a real example.',
+  studies: 'Subjects (or parts of the course) enjoyed and found hard, and how study links to work.',
+  values: 'What matters in future work: pay, creativity, time, independence, respect.',
+  limits: 'Money, place, time, exams and dates, asked as limits to plan for and never as amounts.',
+  support: 'Who the student can talk to, what the family hopes for, and what work they have seen up close.',
+  questions: 'The decision, up to three options with a growth mark and a risk, and the student\'s own questions.',
+};
+const sections = SECTIONS.map((s, i) => {
+  const qs = s.questions;
+  const sample = [qs[0], qs[qs.length - 1]].map((q) => byStage(q.label, 'school'));
+  return { n: i + 1, title: s.id === 'studies' ? 'My subjects or course' : byStage(s.title, 'school'), count: qs.length, covers: covers[s.id], sample };
+});
+
+const classPlan = [
+  { t: 'Before class', p: 'Print one copy for each student with the 20-minute class set, and decide who will see the answers. Tell students that before they start.' },
+  { t: 'First 2 minutes', p: 'Say that these questions start a conversation, that there are no right answers, that any question can be skipped and that no name is needed.' },
+  { t: 'Next 12 minutes', p: 'Students tick and write quietly. For younger students, read each question aloud. Stop at the time even if some are unfinished, because an unfinished form still works.' },
+  { t: 'Next 4 minutes', p: 'Each student marks one answer that surprised them. Students share with a partner only if they want to.' },
+  { t: 'Last 2 minutes', p: 'Say how the sheets will be used, hand them back or collect them as you promised, and tell students how to book a conversation.' },
+];
+
+const reading = [
+  { see: 'Many ticks under enjoy, few under good at', ask: 'What has the student tried so far? Interest grows into skill through practice, so ask about one small thing to practise.' },
+  { see: 'An enjoy tick and a good-at tick in the same family', ask: 'Which kinds of work use both? Offer a small trial before any big choice.' },
+  { see: 'Cost rated 4 or 5, or money ticked as a limit', ask: 'What is the full cost of each option, and which routes cost less? Point to the official fee pages.' },
+  { see: 'Family hope differs from the student view', ask: 'What facts could the student share with the family? The student and parent career intake can put both views side by side.' },
+  { see: 'Little seen up close, or only videos', ask: 'Who could the student talk to or watch at work before choosing?' },
+  { see: 'Many skipped questions', ask: 'What felt hard to answer? Skipping is allowed, so ask kindly and do not push.' },
+  { see: 'Everything rated 3, or every box ticked', ask: 'Ask about the last real choice the student made and how they made it. The form may not have fitted them.' },
+];
+
+const rulesTable = PROMPT_RULES.map((r) => ({ when: r.when, ask: r.ask }));
+
+const marks = [
+  { mark: SCALE.high.label, meaning: 'Income and reach can grow through skills, proof of work and paid projects, not only through hours worked.', risk: 'It needs steady learning and visible proof. A title or certificate alone does not make an option scalable.', step: 'Name who pays, how they find and trust you, one piece of proof and a simple follow-up habit.' },
+  { mark: SCALE.mid.label, meaning: 'A job is the way in, and a consulting practice, studio, clinic, agency or product on top can make it scalable.', risk: 'Without that extra layer, growth stays tied to one employer or to the hours you can work.', step: 'Plan the business layer early: who would pay, how they would find and trust you, and what proof you can show.' },
+  { mark: SCALE.low.label, meaning: 'Growth is capped by seats, hours or a single employer. Examples are MBBS and BDS, NDA, government exams, integrated law, pilot training, merchant navy and pure research.', risk: 'Competition at several levels, many years before pay grows, and few people reaching the top. Effort alone does not guarantee a result.', step: 'Write a second route and keep a skill running that can grow on its own.' },
+];
+
+const wording = [
+  { h: 'I statements, never advice', p: 'Every question is written in the first person and asks what is true for the student now. None of them hints at a right answer.' },
+  { h: 'Money as a limit, not an amount', p: 'The form asks whether cost shapes the choice. It never asks for family income, and every limits question has an "I would rather not say" box.' },
+  { h: 'Family as a hope, not a duty', p: 'The family question lists five honest answers, from "I agree with it" to "we have not talked about it". Nobody is pushed to pick a side.' },
+  { h: 'Place as readiness', p: 'Moving for study or work is asked as how ready the student feels, so a student who must stay near home is not marked down.' },
+  { h: 'Activities, not careers', p: 'The interest and strength lists name things a student does, such as fixing, explaining or organising. Career names appear only when the student writes them in the options table.' },
+  { h: 'Age-fit wording', p: 'Class 8 to 10 asks about subjects this year. College asks about parts of the course and loans. The scales and tick lists are the same across stages.' },
+];
+
+const faqs = [
+  { q: 'What is a career guidance questionnaire for students?', a: 'A career guidance questionnaire for students is a set of questions about interests, strengths, subjects, values, practical limits and support that a student answers before talking to a counsellor. Its job is to give the conversation a starting point. It is not a test and it does not choose a career.' },
+  { q: 'Is there a career counselling questionnaire for students PDF that I can print?', a: 'Yes. Press Download blank PDF on this page to get an A4 paper form with tick boxes, 1 to 5 number lines and writing lines, in the stage and sections you chose. With all seven sections on, the form runs to about six A4 pages, and the 20-minute class set runs to about four.' },
+  { q: 'How is this different from a career test or a career interest test?', a: 'A career test scores your answers and gives a result such as interest types. This questionnaire adds up nothing, and it shows your own ticks and words back to you with questions to talk about.', link: { href: '/services/assessments/riasec-holland-code-career-test/', label: 'Take the scored RIASEC Holland Code career test' } },
+  { q: 'Which version should I use: Class 8 to 10, Class 11 and 12, or college?', a: 'Pick the one that matches the student\'s class now. Class 8 to 10 asks about subjects this year and the first stream choice, Class 11 and 12 uses stream subjects and entrance exam rules, and college asks about parts of the course, loans and early work.' },
+  { q: 'Can a school counsellor or teacher use it with a whole class?', a: 'Yes. Print the blank PDF with the 20-minute class set and follow the class plan on this page. Nothing needs to be typed or collected, so a paper copy keeps each student\'s answers with that student.' },
+  { q: 'How long does it take to fill in?', a: 'We have not timed it with students, so there is no measured figure. The class plan on this page gives 12 minutes for four sections as a suggestion. Younger students may need the questions read aloud, and an unfinished form still works.' },
+  { q: 'Does the questionnaire collect names or send my answers anywhere?', a: 'No. The only identity field is an optional first name, and it stays in this browser. Answers are saved in your own browser storage, the PDF is made on your own device, and Clear my answers removes everything.' },
+  { q: 'Can I write answers in Telugu or Hindi and still get a PDF?', a: 'Yes, the PDF keeps Telugu and Hindi letters in their correct shapes by drawing those lines as pictures, so that text cannot be selected or copied from the PDF. A small font file loads only when you press a PDF button with that text. Other scripts use the fonts on your device, so check the file or choose Print and then Save as PDF.' },
+  { q: 'Should a parent fill in the parent or guardian section?', a: 'It is optional. If a parent does fill it in, the best way is on a separate sheet from the student, so each person answers honestly. The student does not have to see it, and the counsellor can read both.' },
+  { q: 'What if a student does not want to share some answers?', a: 'Skipping any question is part of the design. Tell students that before they start, and do not ask why a box is empty. Blank answers are useful information too.' },
+  { q: 'Does the summary really fit on one page?', a: 'For a typical set of answers, yes. A very full set of answers, or long written answers, can run onto a second page, and the filled PDF adds the paper form with your answers marked after the summary.' },
+  { q: 'Can I use it as a student career interest survey for a class?', a: 'You can print copies for a class and look at the sheets together. The tool collects nothing, so there is no total or class report, and any tally would be by hand. The questions have not been tested on a sample of students, so do not treat a tally as research.' },
+  { q: 'Can I change the questions or add my school name?', a: 'The questions on this page are fixed, so write extra questions on the blank lines and add the school name by hand on the printed sheet. To design your own questionnaire, read the guide on how to design and use one.', link: { href: '/blog/career-guidance/career-guidance-questionnaire-for-students-how-to-design-and-use-india/', label: 'Read how to design and use a career guidance questionnaire' } },
+];
+
+const sources = [
+  { url: 'https://static.pib.gov.in/WriteReadData/specificdocs/documents/2024/oct/doc20241013415701.pdf', text: 'Ministry of Health and Family Welfare document of 13 October 2024 on Tele-MANAS.', supports: 'Tele-MANAS is a toll-free helpline, 14416, with free mental health support available 24 hours a day.' },
+  { url: 'https://www.onetcenter.org/IP.html?p=2', text: 'O*NET Interest Profiler, O*NET Resource Center (US Department of Labor).', supports: 'Scored interest tools exist and are free, with 30 or 60 questions, and they measure six Holland interest types.' },
+  { url: 'https://experts.illinois.edu/en/publications/interest-change-and-continuity-from-early-adolescence-to-middle-a/', text: 'Low and Rounds (2007), Interest change and continuity from early adolescence to middle adulthood, abstract.', supports: 'Interests can change and become stable at the same time, which is why answers are a starting point and not a verdict.' },
+  { url: '/services/assessments/riasec-holland-code-career-test/', text: 'Our RIASEC Holland Code career test page.', supports: 'The scored test rates 36 activities across six interest types. The questionnaire on this page does not score anything.' },
+];
+
+const jsonLd = [
+  {
+    '@type': 'WebApplication',
+    name: 'Career Guidance Questionnaire for Students',
+    url: pageUrl,
+    applicationCategory: 'EducationalApplication',
+    operatingSystem: 'Any modern web browser',
+    description,
+    isAccessibleForFree: true,
+    inLanguage: 'en-IN',
+    audience: { '@type': 'EducationalAudience', educationalRole: 'student' },
+    dateModified: '2026-11-22',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+    publisher: { '@type': 'Organization', name: 'FutureCareerSchool', url: 'https://futurecareerschool.com' },
+  },
+  {
+    '@type': 'WebPage',
+    name: title,
+    url: pageUrl,
+    description,
+    inLanguage: 'en-IN',
+    dateModified: '2026-11-22',
+    isPartOf: { '@type': 'WebSite', name: 'FutureCareerSchool', url: 'https://futurecareerschool.com' },
+  },
+  {
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Career resources', item: 'https://futurecareerschool.com/career-resources/' },
+      { '@type': 'ListItem', position: 3, name: 'Career guidance questionnaire for students', item: pageUrl },
+    ],
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={pageUrl} jsonLd={jsonLd}>
+  <Nav activePage="tools" />
+  <BusinessPerspectiveNote serviceBanner={true} />
+  <main>
+    <section class="qp-hero container">
+      <nav class="qp-crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/career-resources/">Career resources</a><span aria-hidden="true">/</span><span aria-current="page">Career guidance questionnaire for students</span></nav>
+      <p class="eyebrow">FREE PRINTABLE PDF AND ONLINE FORM</p>
+      <h1>Career Guidance Questionnaire <span>for Students</span></h1>
+      <p class="lead">{lead[0]}</p>
+      <p class="lead lead--small">{lead[1]}</p>
+      <p class="qp-jump"><a href="#career-questionnaire">Go straight to the questionnaire</a></p>
+      <p class="qp-service">Want a counsellor to go through your answers with you? See <a href="/services/career-counselling-and-career-guidance/career-counselling-for-students/">career counselling for students</a>.</p>
+      <p class="qp-limits"><b>Private by design:</b> the questionnaire runs in your browser. It asks for no phone number or email, a first name is optional, and nothing is uploaded.</p>
+    </section>
+
+    <section class="container qp-shell cq-shell" aria-label="Career guidance questionnaire for students">
+      <CareerQuestionnaire />
+    </section>
+
+    <section class="container qp-section" id="how-to-use">
+      <h2>How to use the questionnaire</h2>
+      <ol class="qp-steps">
+        {steps.map((s) => <li><h3>{s.h}</h3><p>{s.p}</p></li>)}
+      </ol>
+    </section>
+
+    <section class="container qp-section" id="what-it-asks">
+      <h2>What the questionnaire asks</h2>
+      <p>Seven sections cover what a student enjoys, does well, studies, values, has to plan for, has seen and wants to ask. Each section has six or seven questions, a mix of tick boxes, 1 to 5 lines and short answers.</p>
+      <div class="qp-tablewrap">
+        <table class="qp-table">
+          <thead><tr><th scope="col">Section</th><th scope="col">What it covers</th><th scope="col">Two sample questions (Class 8 to 10 wording)</th></tr></thead>
+          <tbody>
+            {sections.map((s) => (
+              <tr>
+                <td data-label="Section"><b>{s.n}. {s.title}</b><br /><span class="qp-small">{s.count} questions</span></td>
+                <td data-label="What it covers">{s.covers}</td>
+                <td data-label="Two sample questions">
+                  <ul class="qp-samples">{s.sample.map((q) => <li>{q}</li>)}</ul>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p>An optional eighth part is for a parent or guardian, with {PARENT.questions.length} questions on hopes, practical limits and worries. It is best filled in on a separate sheet from the student.</p>
+    </section>
+
+    <section class="container qp-section" id="class-guide">
+      <h2>For counsellors and teachers: run it with a class in 20 minutes</h2>
+      <p>This is a suggested plan, not a measured one. Adjust it to the age and size of your class.</p>
+      <ol class="qp-plan">
+        {classPlan.map((s) => <li><b>{s.t}.</b> {s.p}</li>)}
+      </ol>
+      <h3>How to read the answers</h3>
+      <p>Read each sheet for patterns to ask about, not for facts about the student. Every row below is a question to ask, not a conclusion.</p>
+      <div class="qp-tablewrap">
+        <table class="qp-table">
+          <thead><tr><th scope="col">What you see</th><th scope="col">What to ask</th></tr></thead>
+          <tbody>
+            {reading.map((r) => <tr><td data-label="What you see">{r.see}</td><td data-label="What to ask">{r.ask}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+      <h3>What to do with the answers</h3>
+      <ul class="qp-list">
+        <li>Start from one or two things the student cares about, not from every answer.</li>
+        <li>Turn one idea into a small trial the student can finish, such as a talk with someone in that work or a short project.</li>
+        <li>Check fees, dates and eligibility together on the official site before anyone acts.</li>
+        <li>Agree a follow-up, so the sheet leads to a next step and does not sit in a drawer.</li>
+        <li>Keep the sheet private. Do not rank students, label them ("you are a people person") or use the sheet to place them in a stream.</li>
+        <li>If an answer or a conversation shows real distress, stop using the form and follow your school's child protection steps. Tele-MANAS (14416) is a free helpline with 24-hour mental health support.</li>
+      </ul>
+      <p>For a longer read on writing and using questionnaires in a school, see the guide to <a href="/blog/career-guidance/career-guidance-questionnaire-for-students-how-to-design-and-use-india/">designing and using a career guidance questionnaire</a>.</p>
+    </section>
+
+    <section class="container qp-section" id="how-summary-made">
+      <h2>How the summary is made</h2>
+      <p>The summary has no hidden maths. It lists your ticks, the 1 to 5 lines you rated 4 or 5 and 1 or 2, and your own words, then adds a question to talk about when one of the plain rules below applies.</p>
+      <div class="qp-tablewrap">
+        <table class="qp-table">
+          <thead><tr><th scope="col">When this is true</th><th scope="col">The summary suggests asking</th></tr></thead>
+          <tbody>
+            {rulesTable.map((r) => <tr><td data-label="When this is true">{r.when}</td><td data-label="The summary suggests asking">{r.ask}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+      <p>The "enjoy and do well" match uses {FAMILIES.length} fixed pairs of an activity and a strength: {FAMILIES.map((f) => f.name).join('; ')}. A pair counts only when you ticked both sides.</p>
+    </section>
+
+    <section class="container qp-section" id="wording">
+      <h2>How the questions are written</h2>
+      <div class="qp-grid">
+        {wording.map((w) => <article><h3>{w.h}</h3><p>{w.p}</p></article>)}
+      </div>
+      <p>The questions are our own. We have not tested them with a group of students, and they are not a validated psychological test.</p>
+    </section>
+
+    <section class="container qp-section" id="limits">
+      <h2>What the questionnaire does not do</h2>
+      <div class="qp-grid">
+        <article><h3>It gives no score</h3><p>There is no total, no code and no list of careers. Research on interests from early adolescence to adulthood finds that interests can change and become stable at the same time, so your sheet shows how things look now.</p></article>
+        <article><h3>It does not choose a career</h3><p>It shows your own answers back to you and suggests questions. A scored test is a different tool: for example the free O*NET Interest Profiler measures six interest types with 30 or 60 questions.</p></article>
+        <article><h3>It does not check facts</h3><p>It does not know fees, dates, cut-offs or eligibility. Confirm each one on the official site of the exam, college or course before you act.</p></article>
+        <article><h3>It is not a health or safety check</h3><p>If you feel very low or unsafe, talk to a trusted adult, a school counsellor or Tele-MANAS on 14416. Tele-MANAS is a free helpline with mental health support available 24 hours.</p></article>
+        <article><h3>It is not a school record</h3><p>Nothing is stored by us. Paper sheets stay with the student, and a browser copy stays on one device, so clear it on a shared computer.</p></article>
+        <article><h3>It does not want a number from you</h3><p>Money, place and family are asked as limits and hopes. The form never asks for family income, a phone number or an address.</p></article>
+      </div>
+      <p>If you want a score instead of a conversation starter, take a free test: <a href="/services/assessments/class-10-and-below/">Class 10 and below</a>, <a href="/services/assessments/class-11-to-12/">Class 11 and 12</a>, or <a href="/services/assessments/graduates-and-early-professionals/">graduates and early professionals</a>. Interest types alone are covered by the <a href="/services/assessments/riasec-holland-code-career-test/">RIASEC Holland Code career test</a>.</p>
+    </section>
+
+    <section class="container qp-section" id="growth-marks">
+      <h2>Mark every option for growth</h2>
+      <p>Careers appear in only one place on the form: the options a student lists in section 7. Each option gets a growth mark and its main risk, so the talk is about growth as well as status.</p>
+      <p>{SCALE_RULE}</p>
+      <div class="qp-tablewrap">
+        <table class="qp-table qp-table--marks">
+          <thead><tr><th scope="col">Mark</th><th scope="col">What it means</th><th scope="col">Risk to write down</th><th scope="col">Basic sales and marketing step</th></tr></thead>
+          <tbody>
+            {marks.map((m) => (
+              <tr>
+                <td data-label="Mark"><b>{m.mark}</b></td>
+                <td data-label="What it means">{m.meaning}</td>
+                <td data-label="Risk to write down">{m.risk}</td>
+                <td data-label="Basic sales and marketing step">{m.step}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p>If you are not sure how to mark an option, leave it as Not yet checked and look it up with a counsellor before anyone acts on it. A mark describes an option, not a student, and none of them promises a result or an income.</p>
+    </section>
+
+    <section class="container qp-section" id="school-use">
+      <h2>Using it in a school</h2>
+      <p>For most classes the printed form is the simplest choice, because nothing is typed into a system and each sheet stays with its student. The online version keeps answers only in the browser of the device used.</p>
+      <p>If a school wants to collect answers in its own system, it should decide first who sees them, how long they are kept and whether parents must agree, and ask its own adviser about the rules for children's data. This page does not collect or send anything, so it cannot do that for you.</p>
+    </section>
+
+    <section class="container qp-section" id="next-steps">
+      <h2>Where to go next</h2>
+      <ul class="qp-list">
+        <li>Want a score? Take the free career test for <a href="/services/assessments/class-10-and-below/">Class 10 and below</a>, <a href="/services/assessments/class-11-to-12/">Class 11 and 12</a> or <a href="/services/assessments/graduates-and-early-professionals/">graduates and early professionals</a>.</li>
+        <li>Getting ready for one decision? Fill in the <a href="/tools/career-counselling-form/">career counselling form</a>, which prepares you for a session with one question, your evidence and up to three options.</li>
+        <li>Is the real problem a disagreement between a student and the family? Use the <a href="/tools/student-parent-career-intake/">student and parent career intake</a> to put both views side by side.</li>
+        <li>Curious what a counsellor asks? Read <a href="/services/career-counselling-and-career-guidance/career-counselling-questions-for-students/">career counselling questions for students</a>.</li>
+        <li>Chosen an option to test? Record the experiment in the <a href="/tools/career-decision-journal/">career decision journal</a>.</li>
+      </ul>
+    </section>
+
+    <section class="container qp-section" id="sources">
+      <h2>Sources and checks</h2>
+      <p>Every outside source used on this page was checked on {CHECKED_ON}. The questions, the class plan and the summary rules are our own writing and were not copied from another source.</p>
+      <div class="qp-tablewrap">
+        <table class="qp-table">
+          <thead><tr><th scope="col">Source</th><th scope="col">What it supports</th><th scope="col">Checked</th></tr></thead>
+          <tbody>
+            {sources.map((s) => (
+              <tr>
+                <td data-label="Source">{s.text}<br /><a href={s.url} rel={s.url.startsWith('http') ? 'noopener' : undefined}>{s.url.replace(/^https:\/\//, '')}</a></td>
+                <td data-label="What it supports">{s.supports}</td>
+                <td data-label="Checked">{CHECKED_ON}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p>Helpline details can change, so check the official Tele-MANAS notice before you share the number in a printed handout.</p>
+    </section>
+
+    <section class="container qp-section" id="faq">
+      <h2>Career guidance questionnaire for students: common questions</h2>
+      <div class="qp-faq">
+        {faqs.map((f) => (
+          <details class="faq-item" open>
+            <summary>{f.q}</summary>
+            <p>{f.a}{f.link && <> <a href={f.link.href}>{f.link.label}</a>.</>}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .qp-hero{padding:2rem 1.25rem 1.5rem}.qp-hero h1{max-width:850px;overflow-wrap:anywhere}.qp-hero h1 span{color:var(--gold,#e5b84a)}
+  .qp-crumbs{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1.4rem;font-size:.85rem;color:rgba(255,255,255,.75)}
+  .qp-crumbs a{color:#8de4d8;text-decoration:underline;text-underline-offset:2px}
+  .lead{max-width:780px;font-size:1.12rem;line-height:1.7}.lead--small{font-size:1rem;color:rgba(255,255,255,.85)}
+  .qp-hero p{margin:0 0 .8rem}.qp-hero .eyebrow{margin-bottom:.4rem}
+  .qp-jump,.qp-service,.qp-limits{max-width:780px;line-height:1.6}
+  .qp-jump a,.qp-service a{color:#f3cf70;font-weight:700;text-decoration:underline;text-underline-offset:2px}
+  .qp-limits{font-size:.9rem;color:rgba(255,255,255,.78)}
+  .qp-shell{max-width:1050px}
+  .qp-section{max-width:1050px;padding:1.5rem 1.25rem}.qp-section h2{margin-top:0;margin-bottom:.7rem}.qp-section h3{margin:1.2rem 0 .4rem}
+  .qp-section p,.qp-section li{line-height:1.7;max-width:820px}.qp-section p{margin:.5rem 0}
+  .qp-section a{color:#f3cf70;font-weight:700;text-decoration:underline;text-underline-offset:2px}
+  .qp-steps{list-style:none;margin:1rem 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));gap:1rem;counter-reset:step}
+  .qp-steps li{counter-increment:step;padding:1rem;border:1px solid rgba(255,255,255,.2);border-radius:14px}
+  .qp-steps li::before{content:counter(step);display:inline-grid;place-items:center;width:1.9rem;height:1.9rem;margin-bottom:.4rem;border-radius:50%;background:#0b766d;color:#fff;font-weight:800}
+  .qp-steps h3{margin:.1rem 0 .3rem}.qp-steps p{margin:0}
+  .qp-plan,.qp-list{padding-left:1.2rem}.qp-plan li,.qp-list li{margin-bottom:.6rem}
+  .qp-tablewrap{margin:1rem 0;max-width:100%}
+  .qp-table{width:100%;border-collapse:collapse;font-size:.92rem}
+  .qp-table th,.qp-table td{padding:.7rem;border:1px solid rgba(255,255,255,.25);text-align:left;vertical-align:top;line-height:1.55;overflow-wrap:anywhere}
+  .qp-table th{background:rgba(18,154,141,.22)}
+  .qp-samples{margin:0;padding-left:1.1rem}.qp-samples li{margin:0 0 .4rem;max-width:none}
+  .qp-small{font-size:.82rem;color:rgba(255,255,255,.75)}
+  .qp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem;margin:1rem 0}
+  .qp-grid article{padding:1rem;border:1px solid rgba(255,255,255,.2);border-radius:14px}.qp-grid h3{margin-top:0}.qp-grid p{margin-bottom:0}
+  .qp-faq{display:grid;gap:.8rem;margin-top:1rem;padding-bottom:3rem}
+  .faq-item{padding:.9rem 1rem;border:1px solid rgba(255,255,255,.2);border-radius:12px;background:rgba(255,255,255,.03)}
+  .faq-item summary{cursor:pointer;font-weight:700;line-height:1.5;min-height:44px;display:flex;align-items:center}
+  .faq-item summary:focus-visible{outline:3px solid #e5b84a;outline-offset:3px}
+  .faq-item p{margin:.4rem 0 .2rem;max-width:none;overflow-wrap:anywhere}
+  @media(max-width:720px){
+    .qp-hero{padding-top:1.2rem}.qp-hero .lead{font-size:1rem;line-height:1.6}.qp-crumbs{margin-bottom:.8rem}
+    .qp-grid{grid-template-columns:minmax(0,1fr)}
+    .qp-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+    .qp-table,.qp-table tbody,.qp-table tr,.qp-table td{display:block;width:100%}
+    .qp-table tr{margin-bottom:1rem;border:1px solid rgba(255,255,255,.25);border-radius:12px;overflow:hidden}
+    .qp-table td{border:0;border-bottom:1px solid rgba(255,255,255,.12)}
+    .qp-table td::before{content:attr(data-label);display:block;margin-bottom:.15rem;font-size:.75rem;font-weight:700;color:#f3cf70}
+  }
+</style>

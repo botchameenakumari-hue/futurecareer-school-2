@@ -563,6 +563,26 @@ export const LIVE_INDEXABLE_ROUTES = ([
     priority: '0.8',
   },
   {
+    path: '/tools/cgpa-to-percentage-calculator',
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
+  {
+    path: '/tools/career-guidance-questionnaire-for-students',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/marks-needed-to-reach-target-percentage',
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
+  {
+    path: '/tools/study-timetable-maker',
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
+  {
     path: '/tools/career-decision-journal',
     changefreq: 'monthly',
     priority: '0.8',
