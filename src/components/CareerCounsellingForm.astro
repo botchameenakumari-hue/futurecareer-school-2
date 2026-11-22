@@ -21,14 +21,15 @@ const itRoutes = [
 
 <section class="cc" id="cc-tool" aria-labelledby="cc-title" data-cc-mode="general">
   <div class="cc-head">
-    <p class="eyebrow">FILL IT IN, THEN DOWNLOAD OR PRINT</p>
     <h2 id="cc-title">Your <span id="cc-title-mode">career counselling form</span></h2>
-    <p>Choose the version that fits, answer in a few lines per box, and take the result to your session. Switching version changes the prompts and the example options, and keeps your answers.</p>
     <div class="cc-toggle" role="group" aria-label="Choose the form version">
       <button type="button" class="cc-tab" data-cc-mode-btn="general" aria-pressed="true">General form</button>
       <button type="button" class="cc-tab" data-cc-mode-btn="it" aria-pressed="false">IT / tech professional form</button>
     </div>
-    <p class="cc-note"><b>Privacy:</b> your answers stay in this browser. The form does not ask for your name or contact details, does not send anything to the site and builds the PDF on your own device. Do not type employer secrets, ID numbers or account numbers.</p>
+    <p class="cc-note">Answer in a few lines per box and leave blank what you do not know. Switching version changes the prompts and keeps your answers.</p>
+    <p class="cc-note"><b>Privacy:</b> answers stay in this browser and the PDF is built on your device. Do not type employer secrets, ID numbers or account numbers.</p>
+    <p class="cc-example-row"><button type="button" class="cc-btn cc-btn--quiet" data-cc-action="example">Fill with a made-up example</button> <span class="cc-note">See what a filled form looks like, then clear it.</span></p>
+    <p class="cc-example-flag" id="cc-example-flag" hidden></p>
   </div>
 
   <div id="cc-app"></div>
@@ -61,6 +62,12 @@ const itRoutes = [
     </div>
     <p class="cc-note">These marks describe how growth works in each route. They do not predict your result, and no income is promised.</p>
   </div>
+
+  <div class="cc-letter" id="invitation-letter">
+    <h3>Invitation letter for career counselling</h3>
+    <p class="cc-note">A school or college can fill this in to invite a counsellor to speak, or to invite parents and students to a session. The letter is built in your browser, is not saved and is not sent anywhere. Parts left empty stay in [square brackets] so you can see what is missing.</p>
+    <div id="cc-letter-app"></div>
+  </div>
 </section>
 
 <script>
@@ -68,6 +75,7 @@ const itRoutes = [
   import {
     STAGES, STAGE_QUESTION, PROMPTS, MARKS, OPTIONS_HEADING, OPTIONS_HINT,
     requestNote, sheetHtml, buildPdf, hasUnsupportedText, prepareUnicodePdf,
+    EXAMPLES, EXAMPLE_NOTE, LETTER_KINDS, blankLetter, letterText, letterHtml,
   } from '../scripts/careerCounsellingFormKit';
 
   const root = document.getElementById('cc-tool');
@@ -75,6 +83,8 @@ const itRoutes = [
   const KEY = 'fcs-career-counselling-form-v1';
   const blank = () => ({ mode: 'general', stage: STAGES.general[0][0], values: {}, options: [0, 1, 2].map(() => ({ name: '', mark: 'unsure', worry: '' })) });
   let state = blank();
+  let storageOk = true;
+  try { localStorage.setItem(KEY + '-probe', '1'); localStorage.removeItem(KEY + '-probe'); } catch (e) { storageOk = false; }
   try {
     const raw = localStorage.getItem(KEY);
     if (raw) {
@@ -86,9 +96,15 @@ const itRoutes = [
   } catch (e) {}
   if (location.hash === '#it') state.mode = 'it';
   if (state.mode !== 'it') state.mode = 'general';
+  const exampleState = (mode) => {
+    const ex = EXAMPLES[mode];
+    return { mode, stage: ex.stage, example: true, values: Object.assign({}, ex.values), options: ex.options.map((o) => Object.assign({}, o)) };
+  };
+  if (state.example) state = exampleState(state.mode);
   if (!STAGES[state.mode].some(([v]) => v === state.stage)) state.stage = STAGES[state.mode][0][0];
 
-  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { storageOk = false; } };
+  const isEmpty = () => !Object.values(state.values).some((v) => String(v || '').trim()) && !state.options.some((o) => o.name.trim() || o.worry.trim());
   const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
   const SERVICE = {
@@ -147,11 +163,14 @@ const itRoutes = [
     root.querySelectorAll('[data-cc-routes]').forEach((el) => { el.hidden = el.getAttribute('data-cc-routes') !== state.mode; });
     const title = document.getElementById('cc-title-mode');
     if (title) title.textContent = state.mode === 'it' ? 'IT career counselling form' : 'career counselling form';
+    const flag = document.getElementById('cc-example-flag');
+    if (flag) { flag.hidden = !state.example; flag.textContent = state.example ? EXAMPLE_NOTE : ''; }
   }
 
   function render() {
     app.innerHTML = formHtml() + '<div id="cc-panel-slot">' + panelHtml() + '</div>';
     applyModeUi();
+    if (!storageOk) setStatus('This browser is not saving your answers (a private window or blocked storage). Download or print before you leave the page.');
   }
   function refreshPanel() {
     const slot = document.getElementById('cc-panel-slot');
@@ -173,23 +192,31 @@ const itRoutes = [
   root.querySelectorAll('[data-cc-mode-btn]').forEach((btn) => btn.addEventListener('click', () => {
     const mode = btn.getAttribute('data-cc-mode-btn');
     if (mode === state.mode) return;
+    if (state.example) state = exampleState(mode);
     state.mode = mode;
     if (!STAGES[mode].some(([v]) => v === state.stage)) state.stage = STAGES[mode][0][0];
     save();
     try { history.replaceState(null, '', mode === 'it' ? '#it' : location.pathname + location.search); } catch (e) {}
     render();
+    setStatus(mode === 'it' ? 'Switched to the IT form. Your answers were kept.' : 'Switched to the general form. Your answers were kept.');
   }));
 
   function snapshot() { return JSON.parse(JSON.stringify(state)); }
 
-  function printSheet(isBlank) {
+  function printHtml(html) {
     let sheet = document.getElementById('cc-print-sheet');
     if (!sheet) { sheet = document.createElement('div'); sheet.id = 'cc-print-sheet'; document.body.appendChild(sheet); }
-    sheet.innerHTML = sheetHtml(snapshot(), isBlank);
+    sheet.innerHTML = html;
     document.body.classList.add('cc-printing');
     window.print();
   }
-  window.addEventListener('afterprint', () => document.body.classList.remove('cc-printing'));
+  function printSheet(isBlank) { printHtml(sheetHtml(snapshot(), isBlank)); }
+  // Remove the printed copy of the person's answers from the page as soon as printing ends.
+  window.addEventListener('afterprint', () => {
+    document.body.classList.remove('cc-printing');
+    const sheet = document.getElementById('cc-print-sheet');
+    if (sheet) sheet.remove();
+  });
 
   async function download(isBlank, button) {
     const data = snapshot();
@@ -223,7 +250,7 @@ const itRoutes = [
     }
   }
 
-  app.addEventListener('click', async (event) => {
+  root.addEventListener('click', async (event) => {
     const button = event.target.closest('[data-cc-action]');
     if (!button) return;
     const action = button.getAttribute('data-cc-action');
@@ -231,7 +258,20 @@ const itRoutes = [
     else if (action === 'pdf-blank') download(true, button);
     else if (action === 'print') { save(); printSheet(false); }
     else if (action === 'print-blank') printSheet(true);
-    else if (action === 'clear') { state = Object.assign(blank(), { mode: state.mode, stage: STAGES[state.mode][0][0] }); save(); render(); setStatus('Your answers were cleared from this browser.'); }
+    else if (action === 'clear') {
+      if (!isEmpty() && !window.confirm('Clear all your answers from this browser? This cannot be undone.')) return;
+      state = Object.assign(blank(), { mode: state.mode, stage: STAGES[state.mode][0][0] });
+      try { localStorage.removeItem(KEY); } catch (e) {}
+      render();
+      setStatus('Your answers were cleared from this browser.');
+    }
+    else if (action === 'example') {
+      if (!isEmpty() && !state.example && !window.confirm('Replace what you have written with a made-up example? Your own answers will be lost.')) return;
+      state = exampleState(state.mode);
+      save();
+      render();
+      setStatus('A made-up example is loaded. Press Clear my answers before you write your own.');
+    }
     else if (action === 'copy') {
       const text = requestNote(state);
       try { await navigator.clipboard.writeText(text); setStatus(/\[[^\]]+\]/.test(text) ? 'Note copied. Replace the parts in square brackets before you send it.' : 'Note copied.'); }
@@ -239,11 +279,64 @@ const itRoutes = [
     }
   });
 
+  // ---------- invitation letter (not saved anywhere) ----------
+  const letterApp = document.getElementById('cc-letter-app');
+  let letter = blankLetter();
+  const LETTER_FIELDS = [
+    ['institution', 'School or college name', 'Your institution'],
+    ['audience', 'Who the session is for', 'For example Class 12 students and parents'],
+    ['topic', 'Topic of the session', 'For example choosing a course after Class 12'],
+    ['date', 'Date', 'For example Saturday 14 December'],
+    ['time', 'Start time', 'For example 10:30 am'],
+    ['venue', 'Venue', 'Room or hall, and address'],
+    ['duration', 'How long it should run', 'For example one hour including questions'],
+    ['contact', 'Contact person and phone or email', 'Name and number for questions'],
+    ['replyBy', 'Please reply by', 'Reply-by date'],
+  ];
+  function letterFormHtml() {
+    const kinds = Object.keys(LETTER_KINDS).map((k) => '<option value="' + k + '"' + (letter.kind === k ? ' selected' : '') + '>' + esc(LETTER_KINDS[k]) + '</option>').join('');
+    const fields = LETTER_FIELDS.map(([key, label, ph]) =>
+      '<div class="cc-field"><label class="cc-label" for="cc-l-' + key + '">' + esc(label) + '</label><input type="text" id="cc-l-' + key + '" data-cc-letter="' + key + '" maxlength="160" autocomplete="off" placeholder="' + esc(ph) + '" value="' + esc(letter[key]) + '" /></div>'
+    ).join('');
+    return '<div class="cc-form"><div class="cc-field"><label class="cc-label" for="cc-l-kind">What is the letter for?</label><select id="cc-l-kind" data-cc-letter="kind">' + kinds + '</select></div>' +
+      '<div class="cc-letter-grid">' + fields + '</div>' +
+      '<pre class="cc-note-text" id="cc-letter-text" tabindex="0" aria-label="Letter preview">' + esc(letterText(letter)) + '</pre>' +
+      '<div class="cc-actions" role="group" aria-label="Copy or print the letter"><button type="button" class="cc-btn cc-btn--primary" data-cc-letter-action="copy">Copy letter</button><button type="button" class="cc-btn" data-cc-letter-action="print">Print letter</button><button type="button" class="cc-btn cc-btn--quiet" data-cc-letter-action="clear">Clear the letter</button></div>' +
+      '<p class="cc-status" id="cc-letter-status" role="status" aria-live="polite"></p></div>';
+  }
+  const setLetterStatus = (text) => { const el = document.getElementById('cc-letter-status'); if (el) el.textContent = text; };
+  const showLetter = () => { const pre = document.getElementById('cc-letter-text'); if (pre) pre.textContent = letterText(letter); };
+  if (letterApp) {
+    letterApp.innerHTML = letterFormHtml();
+    letterApp.addEventListener('input', (event) => {
+      const key = event.target && event.target.getAttribute && event.target.getAttribute('data-cc-letter');
+      if (!key) return;
+      letter[key] = event.target.value;
+      showLetter();
+    });
+    letterApp.addEventListener('click', async (event) => {
+      const button = event.target.closest('[data-cc-letter-action]');
+      if (!button) return;
+      const action = button.getAttribute('data-cc-letter-action');
+      if (action === 'copy') {
+        const text = letterText(letter);
+        try { await navigator.clipboard.writeText(text); setLetterStatus(/\[[^\]]+\]/.test(text) ? 'Letter copied. Replace the parts in square brackets before you send it.' : 'Letter copied.'); }
+        catch (e) { const pre = document.getElementById('cc-letter-text'); if (pre) { const range = document.createRange(); range.selectNodeContents(pre); const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range); } setLetterStatus('Select the letter and copy it with your device menu.'); }
+      } else if (action === 'print') {
+        printHtml(letterHtml(letter));
+      } else if (action === 'clear') {
+        letter = blankLetter();
+        letterApp.innerHTML = letterFormHtml();
+        setLetterStatus('The letter was cleared.');
+      }
+    });
+  }
+
   render();
 </script>
 
 <style is:global>
-  .cc{margin:2.2rem 0;padding:1.4rem;border:1px solid rgba(18,154,141,.38);border-radius:18px;background:rgba(18,154,141,.045);min-width:0}
+  .cc{scroll-margin-top:90px;margin:1.6rem 0 2.2rem;padding:1.4rem;border:1px solid rgba(18,154,141,.38);border-radius:18px;background:rgba(18,154,141,.045);min-width:0}
   .cc *{box-sizing:border-box;min-width:0}
   .cc h2{margin:.2rem 0 .5rem}.cc h2 span{color:var(--gold,#e5b84a)}.cc p,.cc li{line-height:1.65}
   .cc-note,.cc-hint{font-size:.86rem;color:rgba(255,255,255,.72)}
@@ -270,7 +363,12 @@ const itRoutes = [
   .cc-note-text{white-space:pre-wrap;overflow-wrap:anywhere;margin:.6rem 0;padding:.8rem;border-radius:10px;background:rgba(0,0,0,.25);font:inherit;font-size:.9rem;line-height:1.6}
   .cc-ready{font-weight:600}
   .cc-link{color:#f3cf70;font-weight:700}
-  .cc-routes h3{margin:.2rem 0 .4rem}
+  .cc-routes h3,.cc-letter h3{margin:.2rem 0 .4rem}
+  .cc-letter{scroll-margin-top:90px;margin-top:1.8rem;padding-top:1.2rem;border-top:1px solid rgba(255,255,255,.14)}
+  .cc-letter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem .9rem}
+  .cc-example-row{margin:.4rem 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:.6rem}.cc-example-row p{margin:0}
+  .cc-example-flag{margin:.6rem 0 0;padding:.6rem .8rem;border:1px dashed rgba(229,184,74,.7);border-radius:10px;color:#f3cf70;font-weight:600;font-size:.9rem}
+  .cc-example-flag[hidden]{display:none}
   .cc-table{width:100%;border-collapse:collapse;font-size:.9rem}
   .cc-table th,.cc-table td{padding:.6rem .7rem;border:1px solid rgba(255,255,255,.14);text-align:left;vertical-align:top;line-height:1.55;overflow-wrap:anywhere}
   .cc-table th{background:rgba(255,255,255,.06)}
@@ -278,7 +376,7 @@ const itRoutes = [
   .cc-tab:focus-visible,.cc-btn:focus-visible,.cc-link:focus-visible,.cc-form input:focus-visible,.cc-form textarea:focus-visible,.cc-form select:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}
   @media(max-width:700px){
     .cc{padding:1rem}
-    .cc-option{grid-template-columns:1fr}
+    .cc-option,.cc-letter-grid{grid-template-columns:1fr}
     .cc-actions .cc-btn{flex:1 1 100%}
     .cc-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
     .cc-table,.cc-table tbody,.cc-table tr,.cc-table td{display:block;width:100%}
@@ -306,5 +404,9 @@ const itRoutes = [
     #cc-print-sheet .ccs-table th,#cc-print-sheet .ccs-table td{border:1px solid #888;padding:.35rem .45rem;text-align:left;vertical-align:top;height:10mm;font-size:10pt;color:#111}
     #cc-print-sheet .ccs-table th{background:#e8f0ef;height:auto}
     #cc-print-sheet .ccs-foot{margin-top:1rem;font-size:8pt;color:#555}
+    #cc-print-sheet .ccs-sign{display:flex;gap:10mm;margin-top:12mm;break-inside:avoid}
+    #cc-print-sheet .ccs-sign p{flex:1;margin:0;font-size:8.5pt;color:#555}
+    #cc-print-sheet .ccs-sign-line{display:block;border-bottom:1px solid #111;height:8mm;margin-bottom:1mm}
+    #cc-print-sheet .ccs-letter{margin:0 0 .9rem;font-size:11.5pt;line-height:1.6;color:#111}
   }
 </style>

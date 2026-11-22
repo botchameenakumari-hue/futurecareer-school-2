@@ -14,7 +14,7 @@ export const bundle: SkillTestBundle = {
     breadcrumbName: 'Skill Gap Assessment',
     metaTitle: 'Skill Gap Assessment | Free Career Skills Test for India',
     metaDescription:
-      'Free skill gap assessment and career skills test. Compare your skills with a target role on skill depth, tools, proof, communication and market awareness.',
+      'Free skill gap assessment and career skills test: compare your skills with a target role on depth, tools, proof, communication and market. No sign-up.',
     h1Lead: 'Skill Gap',
     h1Accent: 'Assessment',
     eyebrow: 'A career skills test for students, freshers and career changers in India',
@@ -22,13 +22,13 @@ export const bundle: SkillTestBundle = {
       'This free skill gap assessment compares the skills you have today with the skills your target role asks for. Pick a target path first, such as tech, business, creative, government or healthcare support. Then rate how well you can do the work, which tools you have used, what you can show, how you explain it and how well you know the market, and your report names the gap to close first, with a 14-day routine for it.',
     stats: [
       { value: '41', label: 'questions' },
-      { value: '5', label: 'gap areas' },
+      { value: '12 min', label: 'about, no sign-up' },
       { value: 'Free', label: 'PDF report' },
     ],
     main: 'picker',
     mainChecks: [
       'Five skill gap areas scored from your own ratings',
-      'About 8 minutes, no sign-up',
+      'About 12 minutes, no sign-up',
       'Advice for your target path, with a 14-day routine for the biggest gap',
     ],
     reportTitle: 'Skill Gap Report',
@@ -127,8 +127,8 @@ export const bundle: SkillTestBundle = {
       { d: 'proof', text: 'Someone who works in my target field has looked at my work and told me what is missing.' },
       { d: 'comms', text: 'When I ask a senior for help, I say what I tried, where I am stuck and what I need.' },
       { d: 'market', text: 'I know which tasks of my target role AI tools can already speed up, and which parts still need a person’s judgement.' },
-      { d: 'core', text: 'I have finished many courses on my list but I rarely do the work without a tutorial open.', reverse: true },
-      { d: 'tools', text: 'I only know the tool I was taught in class and I have not tried the ones employers name.', reverse: true },
+      { d: 'core', text: 'When I do a task from a course on my list, I rarely manage without a tutorial open.', reverse: true },
+      { d: 'tools', text: 'I have not tried the tools that employers name in listings for my target role.', reverse: true },
       { d: 'proof', text: 'If someone asks me for an example of a skill I claim, I need a long time to think of one.', reverse: true },
       { d: 'comms', text: 'In conversations about work I list my skills but cannot say what I did with them.', reverse: true },
       { d: 'market', text: 'I choose which skill to learn mainly because it is popular online or my friends are learning it.', reverse: true },
@@ -159,7 +159,7 @@ export const bundle: SkillTestBundle = {
       {
         title: 'Check the result against real listings',
         body: [
-          'Your answers show how you see yourself today. Read ten current listings or official notifications for your target role and see whether the skills you marked as strong are the ones they ask for.',
+          'Your answers show how you see yourself today. Read three current listings or official notifications for your target role and see whether the skills you marked as strong are the ones they ask for.',
           'Retake the assessment once your lowest area has had some real work. A small rise there, backed by a new piece of work you can open and show, is better proof than a higher score alone.',
         ],
       },
@@ -186,7 +186,7 @@ export const bundle: SkillTestBundle = {
       },
       {
         q: 'How is the score worked out?',
-        a: 'You rate each statement from 1 (not true) to 5 (very true). A statement that describes a weak habit, such as needing a tutorial for every task, is turned around so that agreeing with it lowers the score. Each situation gives 0 to 100 points depending on the option you pick, and an area score is the average of its answers. The overall match is the average of the five areas.',
+        a: 'You rate each statement from 1 (not true) to 5 (very true). A statement that describes a weak habit, such as needing a tutorial for every task, is turned around so that agreeing with it lowers the score. Each situation gives 0 to 100 points depending on the option you pick, an area score is the average of its answers, and the overall match is the average of the five areas.',
       },
       {
         q: 'What is a good score on this career skills assessment test?',
@@ -231,6 +231,16 @@ export const bundle: SkillTestBundle = {
         description: 'Still choosing a path? Start with a test that narrows the direction.',
       },
       {
+        href: '/services/assessments/employability-skills-assessment-test/',
+        title: 'Employability Skills Assessment Test',
+        description: 'Work habits, teamwork and proof of work that most roles ask for, whatever the field.',
+      },
+      {
+        href: '/services/assessments/computer-skills-self-assessment-test/',
+        title: 'Basic Computer Skills Assessment Test',
+        description: 'Check files, documents, spreadsheets and online safety, the tools most listings assume.',
+      },
+      {
         href: '/blog/skills/how-to-find-which-skills-are-in-demand-in-india/',
         title: 'How to Find Which Skills Are in Demand in India',
         description: 'A practical way to read listings and see what employers ask for.',
@@ -251,7 +261,7 @@ export const bundle: SkillTestBundle = {
       'A free original 41-question skill gap assessment and career skills test for students, freshers and career changers in India. You choose a target path, then rate core skill depth, tools, proof of work, communication and market awareness, and get five scores, path-based advice, a 14-day routine and a downloadable report.',
     indexDescription:
       'Free skill gap assessment: 41 questions compare your skills with a target role on depth, tools, proof, communication and market awareness.',
-    indexNote: 'Free, about 8 minutes, PDF report',
+    indexNote: 'Free, about 12 minutes, PDF report',
   },
 
   depth: {
@@ -380,9 +390,9 @@ export const bundle: SkillTestBundle = {
       core: {
         why: 'A role is a bundle of tasks, and employers hire people who can do them. Knowing a topic and doing the task are different things, and the distance between them is usually where your biggest gap hides.',
         roles: [
-          'Technical and digital roles where you build, analyse or fix things, such as software, data, cloud or security work',
-          'Creative, technical and digital roles where finished work counts more than the name of a course',
-          'Healthcare support roles such as lab technician, physiotherapy assistant or nursing support, where correct and safe practice matters most (Scalable with a business layer)',
+          'Software, data, cloud and security jobs, where you build, analyse or fix things (Scalable when you build proof of work and find a niche, though entry-level posts are crowded)',
+          'Design, web, data and other digital jobs where finished work counts more than the name of a course (Scalable when you own a portfolio, though entry-level posts are crowded and clients compare on price)',
+          'Healthcare support roles such as lab technician, physiotherapy assistant or nursing support, where correct and safe practice matters most (Scalable with a business layer: most posts are salaried on a fixed pay scale, and a lab or clinic of your own needs registration, premises and money)',
         ],
         routine: [
           'Days 1 to 3: Copy the repeating skills from three listings into a table and mark each can do alone, can do with help, or not yet.',
@@ -411,9 +421,9 @@ export const bundle: SkillTestBundle = {
       tools: {
         why: 'Listings name tools because teams need people who can start working with them quickly. You do not need every tool, but you do need to have finished a real job with the main one, so the first week at work is not spent finding the menu.',
         roles: [
-          'Technical and digital roles that name specific software, platforms or languages in the listing',
-          'Business, sales and operations roles that use spreadsheets, accounting software or a customer record system (Scalable with a business layer)',
-          'Freelance and small-business work where you choose your own tools and clients judge the finished job',
+          'Software, data and platform jobs that name specific tools or languages in the listing (Scalable when you build proof of work, though many people learn the same popular tool)',
+          'Business, sales and operations roles that use spreadsheets, accounting software or a customer record system (Scalable with a business layer: a salaried post follows one employer’s pay scale, so a bookkeeping, analysis or consulting service is the layer that can grow)',
+          'Working for yourself as a freelancer or small business, where you choose your own tools and clients judge the finished job (Scalable with a business layer: you trade hours at first, so plan who pays, how they find and trust you, and how the work repeats)',
         ],
         routine: [
           'Days 1 to 3: List every tool in three listings and mark which ones you have used on a real job, only in class or never.',
@@ -442,9 +452,9 @@ export const bundle: SkillTestBundle = {
       proof: {
         why: 'People who hire cannot see your skill, so they look at what you can show. Proof that matches the listing works better than a large folder of work that shows something else.',
         roles: [
-          'Creative, technical and digital roles where a sample or portfolio is often the first thing asked for',
-          'Freelance and small-business work where clients judge you on jobs you have already done',
-          'Government and exam-based routes, where your mock test record and previous-year practice are your own evidence of progress',
+          'Design, web, data and other digital jobs where a sample or portfolio is often the first thing asked for (Scalable when you own a portfolio, though entry-level posts are crowded)',
+          'Working for yourself as a freelancer or small business, where clients judge you on jobs you have already done (Scalable with a business layer: you trade hours at first, so plan who pays, how they find and trust you, and how the work repeats)',
+          'Government and exam-based jobs, where your mock test record and previous-year practice are your own evidence of progress (Not so scalable: seats and ranks decide, so keep a second route or side skill running)',
         ],
         routine: [
           'Days 1 to 3: Place your folder of work beside the skill table and mark every skill that has no matching piece.',
@@ -473,9 +483,9 @@ export const bundle: SkillTestBundle = {
       comms: {
         why: 'Skill that cannot be explained is hard to hire, buy or trust. Being able to say what you did, for whom and with what result turns a list of skills into something another person can believe.',
         roles: [
-          'Business, sales and operations roles where you explain ideas, prices, plans and results to others (Scalable with a business layer)',
-          'Healthcare support roles where calm, plain explanations to patients and families are part of the job (Scalable with a business layer)',
-          'Freelance and small-business work where the way you explain your offer decides whether people trust you',
+          'Business, sales and operations roles where you explain ideas, prices, plans and results to others (Scalable with a business layer: a salaried post follows one employer’s pay scale, so a consulting or sales service of your own is the layer that can grow)',
+          'Healthcare support roles where calm, plain explanations to patients and families are part of the job (Scalable with a business layer: most posts are salaried on a fixed pay scale, and a practice of your own needs registration, premises and money)',
+          'Working for yourself as a freelancer or small business, where the way you explain your offer decides whether people trust you (Scalable with a business layer: you trade hours at first, so plan who pays, how they find and trust you, and how the work repeats)',
         ],
         routine: [
           'Days 1 to 3: Write two sentences on what you can do for the role, with one example, and remove vague words.',
@@ -504,8 +514,8 @@ export const bundle: SkillTestBundle = {
       market: {
         why: 'Skills are worth what someone will pay for them. Checking what listings ask for, who pays and how the route can grow stops you from spending months on a skill the market is not asking for, or from picking a route with no way to grow.',
         roles: [
-          'Freelance and small-business work where you need to know who pays and how they hear about you',
-          'Business, sales and operations roles that can grow into consulting, an agency or your own venture with a business layer (Scalable with a business layer)',
+          'Working for yourself as a freelancer or small business, where you need to know who pays and how they hear about you (Scalable with a business layer: you trade hours at first, so plan who pays, how they find and trust you, and how the work repeats)',
+          'Business, sales and operations roles that can grow into consulting, an agency or your own venture with a business layer (Scalable with a business layer: it needs proof of work and a way to find paying clients before it grows)',
           'Exam notifications and vacancy lists as a way to read demand for government routes, which are rated Not so scalable on this site',
         ],
         routine: [
@@ -550,7 +560,7 @@ export const bundle: SkillTestBundle = {
     { ...x(['tech'], 'market', 'I have compared the skill lists of at least two tech roles, such as data analyst and web developer, before choosing what to learn.', 'Open five listings each for two roles and tally the repeating skills. The overlap shows what to learn first, and the difference shows how the roles split.'), up: 'Talk to one person in each role and ask what the first six months look like. Choose the role where you could finish a real project soonest.' },
     // Business, sales and operations
     { ...x(['business'], 'core', 'I can do a basic calculation or analysis for a business question, such as margin, a monthly sales summary or a simple budget, in a spreadsheet.', 'Take a small set of practice figures and work out margin, a monthly summary or a budget, with every formula written by you. Check one number by hand.'), up: 'Ask someone who works in sales, accounts or operations to read your sheet and point to the number they would check first. Fix it and keep the corrected file.' },
-    { ...x(['business'], 'tools', 'I have only seen a spreadsheet, accounting software or a customer record system in class and have not used one on a real or practice task.', 'Set up a free spreadsheet or a free plan of a customer record tool and enter a week of real or practice data, such as a family shop’s sales or a club’s contacts.', true), up: 'Build one summary from that data, such as sales by day or leads by status, and show it to the person whose data it was. Note what they wanted that you did not include.' },
+    { ...x(['business'], 'tools', 'I have not used a spreadsheet, accounting software or a customer record system on a real or practice task.', 'Set up a free spreadsheet or a free plan of a customer record tool and enter a week of real or practice data, such as a family shop’s sales or a club’s contacts.', true), up: 'Build one summary from that data, such as sales by day or leads by status, and show it to the person whose data it was. Note what they wanted that you did not include.' },
     { ...x(['business'], 'proof', 'I have a sample report, pitch, campaign plan or small sale that shows how I handle a business task.', 'Make one sample, such as a one-page plan to bring customers to a local shop, and keep it in a folder with a note on the problem and your idea.'), up: 'Offer the plan to a real small business, club or event team and ask what they would try. Record what was used and what happened.' },
     { ...x(['business'], 'comms', 'I can write a clear business message that states the ask, the reason and the date in the first few lines.', 'Rewrite one of your recent messages so the first two lines say what you need, why and by when. Cut every sentence that does not help the receiver act.'), up: 'Send two such messages this week and count how many got a clear reply. Ask one receiver what would have made the message even easier to answer.' },
     { ...x(['business'], 'market', 'I assume any business degree leads to a good job without checking which skills local employers ask for.', 'Look at ten listings in your city or your target city and note which skills and tools repeat beyond the degree. Add one of them to your plan this month.', true), up: 'Ask two people working in business roles what they would add to a degree if they were starting now. Write what they say next to your skill table.' },
@@ -561,7 +571,7 @@ export const bundle: SkillTestBundle = {
     { ...x(['creative'], 'comms', 'I can explain the reason behind a design or content choice to someone who does not work in a creative field.', 'For one piece, write two lines on who it is for and why you made one key choice, such as the colour, the opening line or the cut. Say them aloud once.'), up: 'Explain the same piece to a family member and ask what they think it is for. If their answer is different, change the explanation or the piece.' },
     { ...x(['creative'], 'market', 'I publish or share my work without checking who it is for or what they would pay for.', 'Before your next piece, write the person who would pay for it and where they look for such work. Make the piece for that person, not for everyone.', true), up: 'Find three people or businesses who buy this kind of work and note how they found their last creator. Send one of them a short message with a link to your best piece.' },
     // Government and exam-based
-    { ...x(['government'], 'core', 'I can solve previous-year questions of my target exam within the time limit and I know which topics lose me marks.', 'Take one previous-year paper under exam timing and list every topic where you lost marks or ran out of time. Put those topics first in your next week.'), up: 'Repeat a paper from a different year after one week of work on the weak topics. Compare topic by topic and note what moved.' },
+    { ...x(['government'], 'core', 'I can solve previous-year questions of my target exam within the time limit.', 'Take one previous-year paper under exam timing and list every topic where you lost marks or ran out of time. Put those topics first in your next week.'), up: 'Repeat a paper from a different year after one week of work on the weak topics. Compare topic by topic and note what moved.' },
     { ...x(['government'], 'tools', 'I know the online application steps and document rules for my target exams, including photo, signature and certificate formats.', 'Open the official site of your target exam and list each document, size and format it asks for. Prepare the files now so a last-date rush does not cost you an attempt.'), up: 'Set a calendar reminder for each exam’s notification and last date. Keep a checklist for every application and tick it before you submit.' },
     { ...x(['government'], 'proof', 'I keep a record of my mock test scores over time so I can see progress by topic.', 'Open a sheet with one row per mock test: date, score, time used and the topics you lost marks on. Fill it in on the day you take each test.'), up: 'Look at the last five rows and note which topic keeps appearing in the lost marks column. Give it the first study slot for the next week.' },
     { ...x(['government'], 'comms', 'I can write a short, clear answer or letter in the language the exam asks for, within the word limit.', 'Write one short answer or letter every other day on a past topic, in the exam language, and count the words. Cut anything that does not answer the question.'), up: 'Ask a teacher or a friend with strong writing to mark two pieces and name the most repeated mistake. Fix that one mistake in the next three pieces.' },
@@ -658,7 +668,7 @@ export const bundle: SkillTestBundle = {
     sc('comms', 'You want advice from a person working in your target field and you find them online. What do you send?', [
       o('Send a longer message with three questions at once, so that you do not need to write to the person again', 67, 'Your questions are good, but three at once can be hard to answer. Send the most important one first.'),
       o('Send nothing yet, because you want to learn more first and avoid wasting the time of a busy person', 33, 'Waiting feels safe, yet a short question now can save you months of wrong practice. Write your question today and send it.'),
-      o('Name the skill, give one example, say what happened and what you are still improving', 100, 'A specific, short message is easier to answer. Follow up with a thank you and tell them what you did with their reply.'),
+      o('Say who you are in one line, name what you are building, ask one specific question and say thanks', 100, 'A specific, short message is easier to answer. Follow up with a thank you and tell them what you did with their reply.'),
       o('Send a message that says only "Please guide me", so that the person can decide what advice to give', 17, 'A general request is hard to act on. Say what you tried and what you need.'),
     ]),
     sc('market', 'Friends say a certain skill is “in demand” because a video said so. What do you do?', [
@@ -693,7 +703,7 @@ export const bundle: SkillTestBundle = {
         o('Say yes but for free and with no brief, because you want the shop owner to like you and call again', 17, 'Helping is fine, but a missing brief leads to extra rounds of changes. Agree on the goal and the number of changes first.'),
       ]), stages: ['creative'] },
     { ...sc('market', 'Your target exam’s notification is delayed by several months. What do you do?', [
-        o('Agree what the poster must do and by when, then ask to show it in your portfolio', 100, 'You use the delay to strengthen both your exam and your second route. Check the official site regularly for the new date.'),
+        o('Keep a steady routine on previous-year papers, add a side skill, and check the official site for the date', 100, 'You use the delay to strengthen both your exam and your second route. Check the official site regularly for the new date.'),
         o('Stop studying until the date is announced, since there is no use in studying without a date to aim at', 33, 'A pause can cost you the topics you had learned. Reduce the load, but keep a steady routine.'),
         o('Study even harder every day with no break and no other plan, so that you are ahead of everyone else', 50, 'Effort helps, but burning out before the date does not. Keep time for rest and for a side skill.'),
         o('Switch to another exam and restart from the first chapter, since this one may never be announced', 17, 'Switching may be right, but check how much of your syllabus carries over before you restart.'),

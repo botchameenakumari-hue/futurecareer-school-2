@@ -12,6 +12,9 @@ const actionRows = [0, 1, 2, 3];
   <h2 id="smr-title">Mentoring session record and report builder</h2>
   <p class="smr-note"><b>Private by design:</b> everything you type stays in this browser. The tool asks for no names, phone numbers or email addresses, and it sends nothing to this site. On a shared school or college computer, press Clear all saved data when you finish.</p>
 
+  <p class="smr-example-row"><button type="button" class="smr-btn" data-smr="example">Fill with a made-up example</button> <span class="smr-hint">Loads three fictional sessions and a report so you can see the format, then you clear it.</span></p>
+  <p class="smr-example-flag" id="smr-example-flag" role="status" hidden></p>
+
   <div class="smr-tabs" role="tablist" aria-label="Choose the form or the report">
     <button type="button" role="tab" id="smr-tab-record" aria-controls="smr-panel-record" aria-selected="true" data-smr-tab="record">1. Session record</button>
     <button type="button" role="tab" id="smr-tab-report" aria-controls="smr-panel-report" aria-selected="false" data-smr-tab="report" tabindex="-1">2. Mentoring report</button>
@@ -31,14 +34,29 @@ const actionRows = [0, 1, 2, 3];
                 <option value="student">Student keeping a personal record</option>
               </select>
             </label>
-            <label>Initials (optional)
+            <label>Student initials (optional)
               <input type="text" data-k="initials" maxlength="6" autocomplete="off" placeholder="For example AB" />
+            </label>
+            <label>Class, year or course (optional)
+              <input type="text" data-k="classYear" maxlength="40" autocomplete="off" placeholder="For example Class 11" />
             </label>
             <label>Session number
               <input type="number" data-k="no" min="1" max="99" inputmode="numeric" />
             </label>
             <label>Session date
               <input type="date" data-k="date" />
+            </label>
+            <label>How it was held
+              <select data-k="mode">
+                <option value="unset">Not recorded</option>
+                <option value="inperson">In person</option>
+                <option value="online">Online</option>
+                <option value="phone">Phone call</option>
+                <option value="group">Small group</option>
+              </select>
+            </label>
+            <label>Time taken, in minutes (optional)
+              <input type="text" data-k="minutes" maxlength="4" inputmode="numeric" autocomplete="off" />
             </label>
           </div>
           <p class="smr-hint">Use initials only, or leave the field empty. Do not type a full name, phone number, email address or any health or family detail.</p>
@@ -55,10 +73,13 @@ const actionRows = [0, 1, 2, 3];
           <label>3. Obstacles
             <textarea data-k="obstacles" rows="3" maxlength="600" placeholder="What is getting in the way? Time, money, marks, confidence, information, distance"></textarea>
           </label>
+          <label>4. What went well and strengths seen
+            <textarea data-k="strengths" rows="2" maxlength="400" placeholder="What did the student do well? Name the evidence, for example a finished task"></textarea>
+          </label>
         </fieldset>
 
         <fieldset class="smr-box">
-          <legend>4. Agreed actions with dates</legend>
+          <legend>5. Agreed actions with dates</legend>
           <p class="smr-hint">Write each action so that someone could tell, on the date, whether it was done. Leave unused rows empty.</p>
           {actionRows.map((i) => (
             <div class="smr-action">
@@ -81,7 +102,7 @@ const actionRows = [0, 1, 2, 3];
         </fieldset>
 
         <fieldset class="smr-box">
-          <legend>5. Follow-up</legend>
+          <legend>6. Follow-up</legend>
           <div class="smr-grid smr-grid--2">
             <label>Next session or check date
               <input type="date" data-k="followDate" />
@@ -93,7 +114,7 @@ const actionRows = [0, 1, 2, 3];
         </fieldset>
 
         <fieldset class="smr-box">
-          <legend>6. Option or route suggested (optional)</legend>
+          <legend>7. Option or route suggested (optional)</legend>
           <p class="smr-hint">If the mentor suggested a course, route, skill or job, name it and mark it for growth. The marks are explained below the tool.</p>
           <div class="smr-grid smr-grid--2">
             <label>Option suggested
@@ -114,7 +135,14 @@ const actionRows = [0, 1, 2, 3];
         </fieldset>
 
         <fieldset class="smr-box">
-          <legend>7. Career guidance feedback form (student side, optional)</legend>
+          <legend>8. Extra support or referral (optional)</legend>
+          <label>Does the student need a counsellor, teacher, the family or another adult to know or help?
+            <input type="text" data-k="support" maxlength="200" autocomplete="off" placeholder="Say who and why, without private details" />
+          </label>
+        </fieldset>
+
+        <fieldset class="smr-box">
+          <legend>9. Career guidance feedback form (student side, optional)</legend>
           <label>What was most useful in this session?
             <textarea data-k="useful" rows="2" maxlength="400"></textarea>
           </label>
@@ -129,6 +157,24 @@ const actionRows = [0, 1, 2, 3];
               <option value="unclear">Unclear</option>
             </select>
           </label>
+          <div class="smr-grid smr-grid--2">
+            <label>Did the student feel listened to?
+              <select data-k="listened">
+                <option value="unset">Not recorded</option>
+                <option value="yes">Yes, I was listened to</option>
+                <option value="mostly">Mostly</option>
+                <option value="no">Not really</option>
+              </select>
+            </label>
+            <label>Does the student know the next step?
+              <select data-k="nextstep">
+                <option value="unset">Not recorded</option>
+                <option value="yes">Yes, I know my next step</option>
+                <option value="some">Partly</option>
+                <option value="no">Not yet</option>
+              </select>
+            </label>
+          </div>
         </fieldset>
 
         <div class="smr-actions">
@@ -161,8 +207,19 @@ const actionRows = [0, 1, 2, 3];
         <label>Mentor observations
           <textarea data-r="observations" rows="3" maxlength="600" placeholder="What stood out across these sessions? Stay with what you saw and what was done"></textarea>
         </label>
+        <label>Overall progress
+          <select data-r="overall">
+            <option value="unset">Not recorded</option>
+            <option value="good">Good progress</option>
+            <option value="some">Some progress</option>
+            <option value="little">Little progress so far</option>
+          </select>
+        </label>
         <label>Recommended next steps
           <textarea data-r="next" rows="3" maxlength="600" placeholder="What should happen next, and who will do it?"></textarea>
+        </label>
+        <label>Support needed from the school, college or family
+          <textarea data-r="support" rows="2" maxlength="400" placeholder="What help does the student need from adults around them?"></textarea>
         </label>
       </fieldset>
 
@@ -196,6 +253,7 @@ const actionRows = [0, 1, 2, 3];
   import {
     STORAGE_KEY, MAX_SESSIONS, blankDraft, blankReport, normaliseDraft, nextSessionNo, todayISO, fmtDate,
     recordModel, reportModel, modelToHtml, esc, buildPdf, hasUnsupportedText, prepareUnicodePdf, DEFAULT_SCALE,
+    exampleState, EXAMPLE_NOTE,
   } from '../scripts/studentMentoring';
 
   const root = document.getElementById('student-mentoring-form');
@@ -203,7 +261,9 @@ const actionRows = [0, 1, 2, 3];
     let scale = DEFAULT_SCALE;
     try { scale = JSON.parse(document.getElementById('smr-scale-data').textContent) || DEFAULT_SCALE; } catch (e) {}
 
-    const state = { draft: blankDraft(1), sessions: [], report: blankReport(), editingId: null };
+    const state = { draft: blankDraft(1), sessions: [], report: blankReport(), editingId: null, example: false };
+    let storageOk = true;
+    try { localStorage.setItem(STORAGE_KEY + '-probe', '1'); localStorage.removeItem(STORAGE_KEY + '-probe'); } catch (e) { storageOk = false; }
     try {
       const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
       if (raw && typeof raw === 'object') {
@@ -211,6 +271,7 @@ const actionRows = [0, 1, 2, 3];
         state.report = Object.assign(blankReport(), raw.report || {});
         state.draft = normaliseDraft(raw.draft, nextSessionNo(state.sessions));
         state.editingId = raw.editingId || null;
+        state.example = raw.example === true;
         if (state.editingId && !state.sessions.some((s) => s.id === state.editingId)) state.editingId = null;
       }
     } catch (e) {}
@@ -223,7 +284,7 @@ const actionRows = [0, 1, 2, 3];
     let tab = 'record';
 
     const persist = () => {
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) { storageOk = false; }
     };
     const say = (which, text) => { statusEl[which].textContent = text; };
 
@@ -235,6 +296,9 @@ const actionRows = [0, 1, 2, 3];
       });
       root.querySelectorAll('[data-r]').forEach((el) => { el.value = state.report[el.getAttribute('data-r')] || ''; });
       saveBtn.textContent = state.editingId ? 'Update saved session' : 'Save to report log';
+      const flag = $('#smr-example-flag');
+      flag.hidden = !state.example;
+      flag.textContent = state.example ? EXAMPLE_NOTE : '';
     }
 
     function renderLog() {
@@ -288,6 +352,7 @@ const actionRows = [0, 1, 2, 3];
 
     function saveSession() {
       const d = state.draft;
+      if (state.example) { say('record', 'A made-up example is loaded. Press Clear all saved data in the Mentoring report tab before you save real sessions.'); return; }
       if (!d.date || !d.goal.trim()) {
         say('record', 'Add the session date and the goal of the session before saving.');
         const target = !d.date ? $('[data-k="date"]') : $('[data-k="goal"]');
@@ -342,9 +407,18 @@ const actionRows = [0, 1, 2, 3];
       say('report', 'Session removed from the log.');
     }
 
+    function loadExample() {
+      const has = state.sessions.length || state.draft.goal.trim() || Object.values(state.report).some((v) => v && v !== 'unset');
+      if (has && !state.example && !window.confirm('Replace what you have saved with a made-up example? Your own sessions and report text will be lost.')) return;
+      const ex = exampleState();
+      state.sessions = ex.sessions; state.report = ex.report; state.draft = ex.draft; state.editingId = null; state.example = true;
+      persist(); fillForm(); refresh(); showTab('report');
+      say('report', 'A made-up example is loaded: three sessions and a report. Press Clear all saved data when you are done.');
+    }
+
     function clearAll() {
       if (!window.confirm('Clear the form, the saved sessions and the report text from this browser? This cannot be undone.')) return;
-      state.sessions = []; state.report = blankReport(); state.editingId = null; state.draft = blankDraft(1);
+      state.sessions = []; state.report = blankReport(); state.editingId = null; state.draft = blankDraft(1); state.example = false;
       try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
       fillForm(); refresh();
       say('report', 'All saved data was cleared from this browser.');
@@ -405,11 +479,13 @@ const actionRows = [0, 1, 2, 3];
       else if (action === 'edit') editSession(btn.getAttribute('data-id'));
       else if (action === 'remove') removeSession(btn.getAttribute('data-id'));
       else if (action === 'clear-all') clearAll();
+      else if (action === 'example') loadExample();
     });
 
     fillForm();
     refresh();
     persist();
+    if (!storageOk) say('record', 'This browser is not saving your entries (a private window or blocked storage). Download the PDF before you leave the page.');
   }
 </script>
 
@@ -431,14 +507,18 @@ const actionRows = [0, 1, 2, 3];
   .smr input,.smr textarea,.smr select{width:100%;min-width:0;max-width:100%;box-sizing:border-box;min-height:44px;padding:.55rem .7rem;border:1px solid rgba(255,255,255,.22);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400}
   .smr textarea{resize:vertical;min-height:76px}
   .smr select option{color:#111;background:#fff}
-  .smr-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.2rem .9rem}
+  .smr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:.2rem .9rem}
+  .smr-example-row{margin:.6rem 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:.6rem}.smr-example-row .smr-hint{margin:0}
+  .smr-example-flag{margin:.6rem 0 0;padding:.6rem .8rem;border:1px dashed rgba(229,184,74,.7);border-radius:10px;color:#f3cf70!important;font-weight:600;font-size:.9rem}
+  .smr-example-flag[hidden]{display:none}
+  .smr-choices{display:flex;flex-wrap:wrap;gap:.4rem 1.2rem}.smr-choice{display:inline-flex;align-items:center;gap:.4rem}.smr-box-sq{display:inline-block;width:.9rem;height:.9rem;border:1.5px solid #1c2026}
   .smr-grid--2{grid-template-columns:repeat(2,minmax(0,1fr))}
   .smr-action{display:grid;grid-template-columns:minmax(0,3fr) minmax(0,1.1fr) minmax(0,1.2fr);gap:.2rem .8rem;padding:.4rem 0;border-top:1px dashed rgba(255,255,255,.14)}
   .smr-actions{display:flex;flex-wrap:wrap;gap:.6rem}
   .smr-btn{min-height:46px;padding:.55rem .95rem;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font-family:inherit;font-weight:700;font-size:.92rem;cursor:pointer}
   .smr-btn--primary{background:#0b766d;border-color:#2dd4bf}
   .smr-btn--warn{border-color:rgba(255,140,120,.6);color:#ffd1c8}
-  .smr-mini{min-height:36px;padding:.25rem .7rem;border:1px solid rgba(255,255,255,.24);border-radius:8px;background:rgba(255,255,255,.07);color:#fff;font-family:inherit;font-weight:600;font-size:.82rem;cursor:pointer}
+  .smr-mini{min-height:44px;padding:.25rem .85rem;border:1px solid rgba(255,255,255,.24);border-radius:8px;background:rgba(255,255,255,.07);color:#fff;font-family:inherit;font-weight:600;font-size:.82rem;cursor:pointer}
   .smr select:focus-visible,.smr input:focus-visible,.smr textarea:focus-visible,.smr button:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}
   .smr-loghead{margin:.1rem 0 .3rem}
   .smr-log{margin:.4rem 0 0;padding:0;list-style:none;display:grid;gap:.5rem}
@@ -469,11 +549,11 @@ const actionRows = [0, 1, 2, 3];
   .smr-table th,.smr-table td{padding:.4rem .5rem;border:1px solid #9aa2aa;text-align:left;vertical-align:top;overflow-wrap:anywhere}
   .smr-table th{background:#e2f0ee;font-weight:700}
   .smr-table td{height:2.3rem}
-  .smr-sign{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:1.6rem 0 .4rem}
+  .smr-sign{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.2rem;margin:1.6rem 0 .4rem}
   .smr-sign p{margin:0;font-size:.82rem;color:#606870!important}
   .smr-sign-line{display:block;height:1.6rem;border-bottom:1px solid #1c2026;margin-bottom:.25rem}
   .smr-doc-note{margin:.9rem 0 0;font-size:.78rem;font-style:italic;color:#606870!important}
-  @media(max-width:800px){.smr-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.smr-action{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.smr-action-text{grid-column:1 / -1}}
+  @media(max-width:800px){.smr-action{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.smr-action-text{grid-column:1 / -1}}
   @media(max-width:560px){
     .smr{padding:.9rem}
     .smr-grid,.smr-grid--2{grid-template-columns:minmax(0,1fr)}
@@ -502,6 +582,13 @@ const actionRows = [0, 1, 2, 3];
     body[data-smr-print] .smr-table{font-size:10pt}
     body[data-smr-print] .smr-table tr,body[data-smr-print] .smr-sign,body[data-smr-print] .smr-field{break-inside:avoid}
     body[data-smr-print] .smr-doc-h{break-after:avoid}
+    body[data-smr-print="record"] .smr-tablewrap{break-inside:avoid}
+    body[data-smr-print] .smr-rule{height:1.3rem}
+    body[data-smr-print] .smr-doc-h{margin:.8rem 0 .3rem}
+    body[data-smr-print] .smr-field{margin:.35rem 0}
+    body[data-smr-print] .smr-meta{margin:.25rem 0}
+    body[data-smr-print] .smr-sign{margin:1.1rem 0 .3rem}
+    body[data-smr-print] .smr-doc-note{break-before:avoid}
     body[data-smr-print] .smr-doc-brand,body[data-smr-print] .smr-doc-h,body[data-smr-print] .smr-table th{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   }
 </style>

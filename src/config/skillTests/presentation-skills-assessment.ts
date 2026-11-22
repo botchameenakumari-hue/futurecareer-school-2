@@ -13,7 +13,7 @@ export const bundle: SkillTestBundle = {
     breadcrumbName: 'Presentation Skills Assessment',
     metaTitle: 'Presentation Skills Assessment | Free Self-Test, 41 Questions',
     metaDescription:
-      'Free presentation skills assessment: 41 questions on structure, slides, delivery, handling questions and nerves. Instant scores, a 14-day plan and a PDF report.',
+      'Free presentation skills assessment: 41 questions on structure, slides, delivery, questions and nerves. About 10 minutes, no sign-up, with a 14-day plan.',
     h1Lead: 'Presentation Skills',
     h1Accent: 'Assessment',
     eyebrow: 'A speaking skills checklist for structure, slides, delivery, questions and nerves',
@@ -21,13 +21,13 @@ export const bundle: SkillTestBundle = {
       'This free presentation skills assessment shows which part of presenting to work on first: structure, slides, delivery, handling questions, or nerves and preparation. Often the gap is not confidence but a crowded slide or a talk with no clear main point. It works for class talks, interviews, team updates and client meetings.',
     stats: [
       { value: '41', label: 'questions' },
-      { value: '5', label: 'presenting areas' },
+      { value: '10 min', label: 'about, no sign-up' },
       { value: 'Free', label: 'PDF report' },
     ],
     main: 'picker',
     mainChecks: [
       'Five presenting areas scored from your own ratings',
-      'About 7 minutes, no sign-up',
+      'About 10 minutes, no sign-up',
       'Advice for where you present and a 14-day practice plan',
     ],
     reportTitle: 'Presentation Skills Report',
@@ -110,7 +110,7 @@ export const bundle: SkillTestBundle = {
       { d: 'slides', text: 'I put one main idea on each slide and keep the words on it short.' },
       { d: 'delivery', text: 'I speak slowly enough that people at the back can follow every sentence.' },
       { d: 'questions', text: 'I listen to a whole question before I start to answer it.' },
-      { d: 'prepare', text: 'Before an important talk I only read my slides silently and never say the words out loud.', reverse: true },
+      { d: 'prepare', text: 'Before an important talk, I practise by reading my slides silently, not by saying the words aloud.', reverse: true },
       { d: 'structure', text: 'My talks have a clear opening, a few main points and a closing that says what I want people to remember or do.' },
       { d: 'slides', text: 'I can explain a slide in my own words without reading it line by line.' },
       { d: 'delivery', text: 'I look at different people in the room instead of only at the screen, my notes or the floor.' },
@@ -122,13 +122,13 @@ export const bundle: SkillTestBundle = {
       { d: 'questions', text: 'When I do not know an answer, I say so and promise to find out by a clear date.' },
       { d: 'prepare', text: 'I time my practice runs and know which part I would cut if I ran short of time.' },
       { d: 'structure', text: 'I keep adding extra points because I find it hard to leave anything out.', reverse: true },
-      { d: 'slides', text: 'I put full paragraphs, long tables or tiny charts on slides to show how much work I did.', reverse: true },
+      { d: 'slides', text: 'My slides contain full paragraphs, long tables or charts too small to read from the back of the room.', reverse: true },
       { d: 'delivery', text: 'I rush through the last slides when I see that my time is running out.', reverse: true },
-      { d: 'questions', text: 'When someone challenges my point, I feel attacked and start arguing before I understand their doubt.', reverse: true },
-      { d: 'prepare', text: 'I turn down chances to present, or stay silent in meetings, because I fear how I will sound.', reverse: true },
+      { d: 'questions', text: 'When someone challenges my point, I start arguing before I have understood their doubt.', reverse: true },
+      { d: 'prepare', text: 'I turn down chances to present, or to speak in meetings, even when I have something useful to say.', reverse: true },
       { d: 'structure', text: 'I use an example, a number or a short true story to make each main point real.' },
       { d: 'slides', text: 'I open my slides on the device and screen I will really use before the talk begins.' },
-      { d: 'delivery', text: 'My hands, posture and movement look steady enough that they do not distract from what I say.' },
+      { d: 'delivery', text: 'I have watched a recording of myself presenting to check my hands, posture and movement.' },
       { d: 'questions', text: 'I watch the room while I speak and change my pace or explanation when people look lost.' },
       { d: 'prepare', text: 'I have a way to settle my nerves just before I begin, such as slow breathing, arriving early or a short walk.' },
     ],
@@ -177,7 +177,7 @@ export const bundle: SkillTestBundle = {
       },
       {
         q: 'Is this a speaking skills assessment checklist I can use before a talk?',
-        a: 'Partly. The test itself is a rating of your habits, and the reading guide in your result includes a short six-point checklist to run the day before a talk. Use the test to find your weak area and the checklist to check each talk.',
+        a: 'Partly. The test itself is a rating of your habits, and the guide below the test includes a short six-point checklist to run the day before a talk. Use the test to find your weak area and the checklist to check each talk.',
       },
       {
         q: 'Does this cover assessment of speaking and listening skills?',
@@ -185,7 +185,7 @@ export const bundle: SkillTestBundle = {
       },
       {
         q: 'How is the score worked out?',
-        a: 'You rate each statement from 1 (not true) to 5 (very true). Statements that describe a weak habit, such as reading slides silently, are turned around so that agreeing with them lowers the score. Each situation gives 0 to 100 points depending on the option you pick, and an area score is the average of its answers. Your overall score is the average of the five areas.',
+        a: 'You rate each statement from 1 (not true) to 5 (very true). Statements that describe a weak habit, such as reading slides silently, are turned around so that agreeing with them lowers the score. Each situation gives 0 to 100 points depending on the option you pick, an area score is the average of its answers, and your overall score is the average of the five areas.',
       },
       {
         q: 'What is a good score on a presentation skills test?',
@@ -202,6 +202,10 @@ export const bundle: SkillTestBundle = {
       {
         q: 'Can students and freshers use it for viva, seminar or interview practice?',
         a: 'Yes. You choose your stage before the result, and the extra questions and advice change to match: group talks and viva for students, interviews and first team updates for freshers, and client and senior meetings for working professionals.',
+      },
+      {
+        q: 'Is the presentation skills assessment free, and do I need to sign up?',
+        a: 'Yes. It is free, needs no sign-up and takes about 10 minutes. You see your five scores straight away and can save the result as a PDF report.',
       },
       {
         q: 'How is this different from the communication skills assessment?',
@@ -234,13 +238,28 @@ export const bundle: SkillTestBundle = {
         title: 'Career Readiness Self-Assessment',
         description: 'A wider check of how ready you are for the next step in your career.',
       },
+      {
+        href: '/services/assessments/writing-skills-assessment-test/',
+        title: 'Writing Skills Assessment Test',
+        description: 'The written side of communication: clarity, accuracy, tone and work emails.',
+      },
+      {
+        href: '/services/assessments/employability-skills-assessment-test/',
+        title: 'Employability Skills Assessment Test',
+        description: 'Work habits, teamwork and proof of work, which show in team updates and client meetings.',
+      },
+      {
+        href: '/tools/portfolio-quality-checker/',
+        title: 'Portfolio Quality Checker',
+        description: 'Check that a project explains its context, process, results and limits, which is the story most talks need.',
+      },
     ],
     breadcrumbDescription: 'Free presentation skills test with scores for structure, slides, delivery, questions and nerves, and a 14-day practice plan.',
     webAppDescription:
       'A free original 41-question presentation skills assessment covering structure and message, slides and visuals, voice and pace, handling questions and the audience, and nerves and preparation, with five scores, an overall score, stage-based advice, a 14-day routine and a downloadable report.',
     indexDescription:
       'Free presentation skills assessment: 41 questions, five scores for structure, slides, delivery, questions and nerves, plus a 14-day plan.',
-    indexNote: 'Free, about 7 minutes, PDF report',
+    indexNote: 'Free, about 10 minutes, PDF report',
   },
 
   depth: {
@@ -468,9 +487,9 @@ export const bundle: SkillTestBundle = {
       prepare: {
         why: 'Nervousness is easier to handle when you have practised in the right way. Saying the talk aloud, timing it and knowing your opening gives your mind fewer things to worry about. Preparation will not remove nerves completely, but it gives them less to work on.',
         roles: [
-          'Anyone with a viva, interview, seminar or placement presentation coming up',
-          'Professionals who present rarely and feel the pressure more when they do',
-          'Anyone who wants to speak up in meetings more often',
+          'Viva, interview, seminar and placement presentation rounds, where nerves show and preparation decides how you come across',
+          'Roles where you present rarely, so each talk feels high-stakes',
+          'Team reviews and project meetings where speaking up early matters',
         ],
         routine: [
           'Days 1 to 3: Say one full talk aloud, standing up, once a day, with a timer running.',
@@ -508,7 +527,7 @@ export const bundle: SkillTestBundle = {
   extras: [
     // Student
     { ...x(['student'], 'structure', 'For class talks, I ask what the teacher or marking scheme will look at before I plan the content.', 'Ask your teacher what counts: content, slides, delivery, time or answers. Plan your effort to match, and write the time limit at the top of your notes.'), up: 'Write the marking points as a short list at the top of your plan and tick each one off during practice. After the talk, ask what scored well and what lost marks.' },
-    { ...x(['student'], 'slides', 'In group presentations, we agree one slide style and one person checks the full deck for the same fonts, colours and spelling.', 'Pick one template and one person to merge all the slides at least a day before. Share the final file with the whole group and a PDF copy.'), up: 'Ask the person who merges the deck to send a checklist to everyone: font, size, colours, spelling and picture sources. Run through the merged deck together once, aloud.' },
+    { ...x(['student'], 'slides', 'In group presentations, I check that the whole deck uses the same fonts, colours and spelling before we present.', 'Pick one template and one person to merge all the slides at least a day before. Share the final file with the whole group and a PDF copy.'), up: 'Ask the person who merges the deck to send a checklist to everyone: font, size, colours, spelling and picture sources. Run through the merged deck together once, aloud.' },
     { ...x(['student'], 'delivery', 'In group presentations, I let the most confident person speak most of the time and stay silent myself.', 'Agree before the day that everyone speaks for about the same time. If your part is short, still say your name, your topic and one clear sentence.', true), up: 'Ask the group to practise handovers aloud, with each person saying one line to introduce the next. Time each part so that nobody has to be silent or carry the whole talk.' },
     { ...x(['student'], 'questions', 'In viva or seminar questions, I answer from what I really know and say so when I am guessing.', 'Prepare five likely questions from your own report or project and say your answers aloud. Practise one phrase for the edge of your knowledge: "I think it is ..., but I will check."'), up: 'Ask a friend or senior to ask you five questions about your own project that you did not expect. Note the ones that surprised you and prepare those answers in writing.' },
     { ...x(['student'], 'prepare', 'I use seminars, club events and class discussions to present often, not only when marks depend on it.', 'Say yes to one small speaking task this month, such as a two-minute update, a question in class or a short club announcement.'), up: 'Plan one speaking chance every fortnight and record a short note afterwards: what went well and what you will change. After a few chances, compare the first note with the latest.' },
@@ -521,7 +540,7 @@ export const bundle: SkillTestBundle = {
     // Professional
     { ...x(['professional'], 'structure', 'I adjust the same content for different groups, such as a client, a senior leader or my own team.', 'Before each talk, write who will be in the room, what they already know and what decision they must make. Change the opening and the level of detail to match.'), up: 'Keep a short list of what each audience cares about, such as cost, risk, time or quality. Check your opening against it and cut any section that serves none of them.' },
     { ...x(['professional'], 'slides', 'I use a chart or visual only when it makes a decision easier, and not to fill the deck.', 'For each chart, write the conclusion as the slide heading, for example "Costs fell in three of four regions". If you cannot write the heading, the chart is not ready.'), up: 'Before sending a deck, remove any slide you could not defend if a senior asked "why is this here?". Keep those slides in an appendix in case they are needed.' },
-    { ...x(['professional'], 'delivery', 'On video calls, I check my sound, camera height and lighting before presenting, and I look at the camera at key points.', 'Join five minutes early, test your microphone and place the camera at eye level. Look at the lens for your main message, not only at faces on the screen.'), up: 'Record a short test call and watch it once for sound, lighting and where your eyes go. Put a sticky note beside the camera with your three main points.' },
+    { ...x(['professional'], 'delivery', 'Before I present on a video call, I check my sound, camera height and lighting.', 'Join five minutes early, test your microphone and place the camera at eye level. Look at the lens for your main message, not only at faces on the screen.'), up: 'Record a short test call and watch it once for sound, lighting and where your eyes go. Put a sticky note beside the camera with your three main points.' },
     { ...x(['professional'], 'questions', 'When a senior person or client interrupts, I lose my place and cannot find my way back to the point.', 'Add a signpost to your notes at each section, such as "Next: cost". When interrupted, answer briefly, then say "Coming back to cost ..." to rejoin the thread.', true), up: 'Ask a colleague to interrupt you at three random points in a practice run. Practise your phrase for returning to the point until it comes out easily.' },
     { ...x(['professional'], 'prepare', 'Before every important presentation, I write down the three hardest questions I expect and practise my answers aloud.', 'Ask yourself: what would a sceptical person ask, what could go wrong and what is missing from the numbers? Write a short answer for each and say it aloud.'), up: 'Share your three hard questions with a colleague who knows the audience and ask what they would add. After the talk, add any question you did not expect to your list for next time.' },
   ],
@@ -593,11 +612,11 @@ export const bundle: SkillTestBundle = {
       o('Answer a different question that you prepared for, because you know that answer well and can give it with confidence', 15, 'Dodging a question usually shows and costs trust. Answer the real question, even if briefly.'),
       o('Listen to the end, say the question back in one line, check you understood it and then answer', 100, 'You show you listened and give the room a clear question to hear answered. Use this for any question you are unsure about.'),
     ]),
-    sc('questions', 'Someone points out a mistake in one of your numbers in front of the group. What do you do?', [
-      o('Defend the number firmly and move on, because changing it in front of the group would look weak', 15, 'If you are wrong, you lose trust twice. Check first, and answer after.'),
-      o('Say that a teammate or the original source made the error, since the data did not come from you', 20, 'Blaming others rarely helps and the slide is still yours. Own the correction and move on.'),
-      o('Thank them, check the number calmly and correct it, or promise a confirmed figure by a clear time', 100, 'You show honesty and keep the talk moving. Being corrected calmly often builds more trust than being flawless.'),
-      o('Ignore the comment for now and go on to the next slide so that the talk keeps its flow', 35, 'Ignoring it leaves doubt about everything else on the slide. Acknowledge it in one sentence and say how you will fix it.'),
+    sc('questions', 'A listener interrupts early in your talk with a question that your next three slides answer. What do you do?', [
+      o('Give a one-line answer, say the next slides cover it, and ask them to raise it again after those', 100, 'The person feels heard and you keep your order. When you finish that section, check whether their doubt is answered.'),
+      o('Skip ahead to the slides that answer it, and then come back to where you were', 35, 'The question gets answered, but you lose your order and the rest of the room. Answer briefly and return to your plan.'),
+      o('Answer it fully now, even if it takes several minutes, because a question is a sign of interest', 55, 'Interest deserves a reply, but a long answer uses time meant for the rest of the talk and repeats your later slides. Answer briefly and point ahead.'),
+      o('Say that all questions must wait until the end', 20, 'A flat refusal can feel cold, and the person may stop listening. Give a short answer and say when you will cover the rest.'),
     ]),
     sc('prepare', 'You have a talk in two days and feel your heart racing every time you think about it. What is the best use of your time?', [
       o('Read the slides silently many times until you feel completely sure of what is on each one', 35, 'Silent reading builds familiarity but not speech. Say the words aloud at least twice.'),

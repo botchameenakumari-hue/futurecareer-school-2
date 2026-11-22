@@ -1,0 +1,516 @@
+---
+import { LIMITS, PAYOUTS, TREATMENTS, TREATMENT_ORDER, ACCRUALS } from '../scripts/educationLoanEmi.mjs';
+
+const offerFields = [
+  { key: 'label', label: 'Offer name or note (optional)', type: 'text', hint: 'Your own note, such as a lender name. Kept only in this browser.', max: 60 },
+  { key: 'amount', label: 'Loan amount (₹)', type: 'num', inputmode: 'numeric', hint: 'The total the lender pays out. Commas are fine.' },
+  { key: 'rate', label: 'Interest rate (% a year)', type: 'num', inputmode: 'decimal', hint: 'From the offer or sanction letter. Floating rates can change.' },
+  { key: 'moratoriumMonths', label: 'Moratorium after the course ends (months)', type: 'num', inputmode: 'numeric', hint: 'Months after the course with no EMI. PM-Vidyalaxmi counts the course plus one year; others differ.' },
+  { key: 'tenureYears', label: 'Repayment period after the moratorium (years)', type: 'num', inputmode: 'decimal', hint: 'Years of EMIs. The schemes checked allow up to 15.' },
+  { key: 'treatment', label: 'Interest before the EMIs start', type: 'select', hint: '' },
+  { key: 'fee', label: 'Processing fee and other upfront charges (₹)', type: 'num', inputmode: 'numeric', hint: 'Optional. The total you pay yourself, with any tax.' },
+  { key: 'insurance', label: 'Loan insurance cost (₹)', type: 'num', inputmode: 'numeric', hint: 'Optional. The total premium you pay yourself.' },
+];
+const offers = [
+  { id: 'a', title: 'Your loan offer' },
+  { id: 'b', title: 'Second offer, to compare' },
+];
+---
+
+<section class="elc" id="education-loan-emi-calculator" aria-labelledby="elc-title">
+  <h2 id="elc-title">Education loan EMI calculator</h2>
+  <p class="elc-note"><b>Private by design:</b> the numbers stay in this browser. Nothing is sent to this site. Press Clear my data on a shared computer.</p>
+
+  <form id="elc-form" class="elc-form" novalidate onsubmit="return false">
+    <fieldset class="elc-box">
+      <legend>Your course and salary</legend>
+      <div class="elc-grid">
+        <div class="elc-field">
+          <label for="elc-s-courseYears">Course length (years)</label>
+          <input id="elc-s-courseYears" data-o="s" data-f="courseYears" type="text" inputmode="decimal" autocomplete="off" aria-describedby="elc-s-courseYears-hint elc-s-courseYears-err" />
+          <p class="elc-hint" id="elc-s-courseYears-hint">Use 0 for a loan with no study period.</p>
+          <p class="elc-err" id="elc-s-courseYears-err" hidden></p>
+        </div>
+        <div class="elc-field">
+          <label for="elc-s-payout">How the money is paid out</label>
+          <select id="elc-s-payout" data-o="s" data-f="payout" aria-describedby="elc-s-payout-hint">
+            {Object.entries(PAYOUTS).map(([k, p]) => <option value={k}>{p.label}</option>)}
+          </select>
+          <p class="elc-hint" id="elc-s-payout-hint">Staged payouts cost less interest than one big payout.</p>
+        </div>
+        <div class="elc-field">
+          <label for="elc-s-salary">Expected starting in-hand salary a month (₹, optional)</label>
+          <input id="elc-s-salary" data-o="s" data-f="salary" type="text" inputmode="numeric" autocomplete="off" aria-describedby="elc-s-salary-hint elc-s-salary-err" />
+          <p class="elc-hint" id="elc-s-salary-hint">Pay that reaches your bank each month, not the package.</p>
+          <p class="elc-err" id="elc-s-salary-err" hidden></p>
+        </div>
+      </div>
+    </fieldset>
+
+    {offers.map((o) => (
+      <>
+      {o.id === 'b' && (
+        <div class="elc-check">
+          <input id="elc-compare" type="checkbox" data-o="s" data-f="compare" />
+          <label for="elc-compare">Compare with a second loan offer</label>
+        </div>
+      )}
+      <div class="elc-offer" id={`elc-offer-${o.id}`} hidden={o.id === 'b'}>
+        <fieldset class="elc-box">
+          <legend>{o.title}</legend>
+          <div class="elc-grid">
+            {offerFields.map((f) => (
+              <div class={`elc-field${f.key === 'label' ? ' elc-field--wide' : ''}`}>
+                <label for={`elc-${o.id}-${f.key}`}>{f.label}</label>
+                {f.type === 'select' ? (
+                  <select id={`elc-${o.id}-${f.key}`} data-o={o.id} data-f={f.key} aria-describedby={`elc-${o.id}-${f.key}-hint`}>
+                    {TREATMENT_ORDER.map((k) => <option value={k}>{TREATMENTS[k].short}</option>)}
+                  </select>
+                ) : f.type === 'text' ? (
+                  <input id={`elc-${o.id}-${f.key}`} data-o={o.id} data-f={f.key} type="text" maxlength={f.max} autocomplete="off" aria-describedby={`elc-${o.id}-${f.key}-hint`} />
+                ) : (
+                  <input id={`elc-${o.id}-${f.key}`} data-o={o.id} data-f={f.key} type="text" inputmode={f.inputmode} autocomplete="off" aria-describedby={`elc-${o.id}-${f.key}-hint elc-${o.id}-${f.key}-err`} />
+                )}
+                <p class="elc-hint" id={`elc-${o.id}-${f.key}-hint`}>{f.hint}</p>
+                {f.type === 'num' && <p class="elc-err" id={`elc-${o.id}-${f.key}-err`} hidden></p>}
+              </div>
+            ))}
+          </div>
+          <details class="elc-more">
+            <summary>How unpaid interest builds up (advanced)</summary>
+            <div class="elc-field">
+              <label for={`elc-${o.id}-accrual`}>Unpaid interest before the EMIs</label>
+              <select id={`elc-${o.id}-accrual`} data-o={o.id} data-f="accrual" aria-describedby={`elc-${o.id}-accrual-hint`}>
+                {Object.entries(ACCRUALS).map(([k, label]) => <option value={k}>{label}</option>)}
+              </select>
+              <p class="elc-hint" id={`elc-${o.id}-accrual-hint`}>The IBA model scheme charges simple interest in the moratorium. A few lenders add unpaid interest to the loan sooner. Ask which one applies.</p>
+            </div>
+          </details>
+        </fieldset>
+      </div>
+      </>
+    ))}
+
+    <div class="elc-actions" role="group" aria-label="Saved numbers">
+      <button type="button" class="elc-btn" data-elc="example">Reset to example numbers</button>
+      <button type="button" class="elc-btn elc-btn--warn" data-elc="clear">Clear my data</button>
+    </div>
+  </form>
+
+  <p id="elc-status" class="elc-status" role="status" aria-live="polite"></p>
+
+  <div id="elc-results" class="elc-results" tabindex="-1" hidden></div>
+
+  <div id="elc-outputs" class="elc-outputs" hidden>
+    <div class="elc-actions" role="group" aria-label="Save or print the result">
+      <button type="button" class="elc-btn elc-btn--primary" data-elc="pdf">Download the result as a PDF</button>
+      <button type="button" class="elc-btn" data-elc="print">Print the result</button>
+    </div>
+    <p id="elc-outstatus" class="elc-status" role="status" aria-live="polite"></p>
+  </div>
+
+  <div id="elc-printdoc" class="elc-doc" aria-hidden="true"></div>
+  <script is:inline type="application/json" id="elc-limits" set:html={JSON.stringify({ tenureScheme: LIMITS.tenureScheme })} />
+</section>
+
+<script>
+  // @ts-nocheck
+  import {
+    ACCRUALS, LIMITS, PAYOUTS, TREATMENTS, TREATMENT_ORDER, amountWords, calcOffer, compareTreatments, defaultShared, defaultValues, fmtNum, fmtPct, fmtRs, monthsText, parseNumber, savingSentence, shareNote, validate,
+  } from '../scripts/educationLoanEmi.mjs';
+  import { buildDoc, buildPdf, esc, hasUnsupportedText, modelToHtml, prepareUnicodePdf, scheduleRows, SCHEDULE_HEAD, todayLabel } from '../scripts/educationLoanEmiDoc.mjs';
+
+  const root = document.querySelector('#education-loan-emi-calculator');
+  if (root) {
+    const KEY = 'fcs-education-loan-emi-v1';
+    const $ = (sel) => root.querySelector(sel);
+    const OFFER_KEYS = ['label', 'amount', 'rate', 'moratoriumMonths', 'tenureYears', 'treatment', 'accrual', 'fee', 'insurance'];
+    const SHARED_KEYS = ['courseYears', 'payout', 'salary'];
+    const state = { a: defaultValues(), b: defaultValues(), shared: defaultShared(), compare: false };
+    let lastModel = null;
+    let timer = 0;
+    let pdfBusy = false;
+
+    // ----- saved state (browser only) -----
+    function load() {
+      try {
+        const saved = JSON.parse(window.localStorage.getItem(KEY) || 'null');
+        if (saved && typeof saved === 'object') {
+          ['a', 'b'].forEach((id) => OFFER_KEYS.forEach((k) => { if (saved[id] && typeof saved[id][k] === 'string') state[id][k] = saved[id][k].slice(0, 80); }));
+          SHARED_KEYS.forEach((k) => { if (saved.shared && typeof saved.shared[k] === 'string') state.shared[k] = saved.shared[k].slice(0, 40); });
+          state.compare = saved.compare === true;
+        }
+      } catch (error) { /* storage blocked or damaged: start with the example numbers */ }
+    }
+    function persist() {
+      try { window.localStorage.setItem(KEY, JSON.stringify(state)); } catch (error) { /* ignore */ }
+    }
+    function wipe() {
+      try { window.localStorage.removeItem(KEY); } catch (error) { /* ignore */ }
+    }
+
+    // ----- form <-> state -----
+    function field(o, f) { return $('[data-o="' + o + '"][data-f="' + f + '"]'); }
+    function fillForm() {
+      ['a', 'b'].forEach((id) => OFFER_KEYS.forEach((k) => { const el = field(id, k); if (el) el.value = state[id][k]; }));
+      SHARED_KEYS.forEach((k) => { const el = field('s', k); if (el) el.value = state.shared[k]; });
+      field('s', 'compare').checked = state.compare;
+      $('#elc-offer-b').hidden = !state.compare;
+    }
+    function readForm() {
+      ['a', 'b'].forEach((id) => OFFER_KEYS.forEach((k) => { const el = field(id, k); if (el) state[id][k] = el.value; }));
+      SHARED_KEYS.forEach((k) => { const el = field('s', k); if (el) state.shared[k] = el.value; });
+      state.compare = field('s', 'compare').checked;
+    }
+
+    // ----- errors -----
+    function showErrors(id, errors) {
+      const keys = id === 's' ? SHARED_KEYS : OFFER_KEYS;
+      keys.forEach((k) => {
+        const el = field(id, k);
+        const err = $('#elc-' + id + '-' + k + '-err');
+        if (!el || !err) return;
+        const msg = errors[k];
+        err.textContent = msg || '';
+        err.hidden = !msg;
+        if (msg) el.setAttribute('aria-invalid', 'true'); else el.removeAttribute('aria-invalid');
+      });
+    }
+    function showHints() {
+      ['a', 'b'].forEach((id) => {
+        const amt = parseNumber(state[id].amount);
+        const hint = $('#elc-' + id + '-amount-hint');
+        const words = amt.ok ? amountWords(amt.value) : '';
+        hint.textContent = 'The total the lender pays out. Commas are fine.' + (words ? ' That is about ' + words + '.' : '');
+        const t = $('#elc-' + id + '-treatment-hint');
+        t.textContent = (TREATMENTS[state[id].treatment] || TREATMENTS.capitalise).detail;
+      });
+    }
+
+    // ----- rendering -----
+    const rs = (n) => fmtRs(n);
+    function bars(r) {
+      const total = r.totalCost || 1;
+      const pct = (x) => Math.max(0, (x / total) * 100).toFixed(2);
+      return '<div class="elc-split" aria-hidden="true"><span class="elc-seg elc-seg--p" style="width:' + pct(r.amount) + '%"></span><span class="elc-seg elc-seg--i" style="width:' + pct(r.totalInterest) + '%"></span><span class="elc-seg elc-seg--f" style="width:' + pct(r.fees) + '%"></span></div>' +
+        '<ul class="elc-legend"><li><span class="elc-dot elc-seg--p"></span>Loan paid out: <b>' + rs(r.amount) + '</b> (' + fmtPct((r.amount / total) * 100, 0) + ' of everything you pay)</li>' +
+        '<li><span class="elc-dot elc-seg--i"></span>Interest: <b>' + rs(r.totalInterest) + '</b> (' + fmtPct((r.totalInterest / total) * 100, 0) + ')</li>' +
+        (r.fees > 0 ? '<li><span class="elc-dot elc-seg--f"></span>Fee and insurance: <b>' + rs(r.fees) + '</b> (' + fmtPct((r.fees / total) * 100, 0) + ')</li>' : '') + '</ul>';
+    }
+    function cards(r) {
+      const share = r.emiShare != null
+        ? '<div class="elc-card"><span>EMI as a share of your starting in-hand salary</span><strong>' + fmtPct(r.emiShare) + '</strong><small>' + esc(shareNote(r)) + '</small></div>'
+        : '<div class="elc-card"><span>EMI as a share of your starting in-hand salary</span><strong>Add a salary</strong><small>Enter an expected in-hand salary above to see this.</small></div>';
+      return '<div class="elc-cards">' +
+        '<div class="elc-card elc-card--main"><span>EMI each month</span><strong>' + rs(r.emi) + '</strong><small>For ' + monthsText(r.tenure) + ', starting after ' + monthsText(r.preMonths) + ' (course plus moratorium).</small></div>' +
+        '<div class="elc-card"><span>Interest charged before the EMIs</span><strong>' + rs(r.interestAccrued) + '</strong><small>Course ' + rs(r.interestCourse) + ', moratorium ' + rs(r.interestMoratorium) + '. You pay ' + rs(r.interestPaidPre) + ' of it; ' + rs(r.capitalised) + ' is added to the loan.</small></div>' +
+        '<div class="elc-card"><span>Loan balance when the EMIs start</span><strong>' + rs(r.balanceAtStart) + '</strong><small>' + rs(r.amount) + ' paid out' + (r.capitalised > 0 ? ' plus ' + rs(r.capitalised) + ' of interest added.' : '. No interest is added.') + '</small></div>' +
+        '<div class="elc-card"><span>Total interest</span><strong>' + rs(r.totalInterest) + '</strong><small>' + fmtPct(r.interestShareOfLoan) + ' of the amount paid out.</small></div>' +
+        '<div class="elc-card"><span>Total payable to the lender</span><strong>' + rs(r.totalToLender) + '</strong><small>Loan ' + rs(r.amount) + ' plus interest ' + rs(r.totalInterest) + '.</small></div>' +
+        (r.fees > 0 ? '<div class="elc-card"><span>Total cost with fee and insurance</span><strong>' + rs(r.totalCost) + '</strong><small>Includes ' + rs(r.fees) + ' of fee and insurance you pay yourself.</small></div>' : '') +
+        share + '</div>';
+    }
+    function treatmentsTable(v) {
+      const cmp = compareTreatments(v);
+      const head = ['Choice', 'You pay before the EMIs', 'Balance when EMIs start', 'EMI', 'Total interest', 'Total payable'];
+      const rows = cmp.rows.map((row) => {
+        const r = row.result;
+        const cells = [(row.selected ? 'Your choice: ' : '') + TREATMENTS[row.key].short, rs(r.interestPaidPre), rs(r.balanceAtStart), rs(r.emi), rs(r.totalInterest), rs(r.totalToLender)];
+        return '<tr' + (row.selected ? ' class="elc-sel"' : '') + '>' + cells.map((c, i) => '<' + (i === 0 ? 'th scope="row"' : 'td') + ' data-label="' + esc(head[i]) + '" class="' + (i ? 'r' : '') + '">' + esc(c) + '</' + (i === 0 ? 'th' : 'td') + '>').join('') + '</tr>';
+      }).join('');
+      return '<div class="elc-tablewrap"><table class="elc-table"><thead><tr>' + head.map((h, i) => '<th scope="col" class="' + (i ? 'r' : '') + '">' + esc(h) + '</th>').join('') + '</tr></thead><tbody>' + rows + '</tbody></table></div><p class="elc-p">' + esc(savingSentence(v, '₹')) + '</p>';
+    }
+    function yearBars(r) {
+      const max = Math.max(1, ...r.years.map((y) => y.youPay));
+      return '<div class="elc-ybars" aria-hidden="true">' + r.years.map((y) => {
+        const ip = (y.interestPaid / max) * 100;
+        const pp = (y.principalRepaid / max) * 100;
+        return '<div class="elc-yrow"><span class="elc-ylabel">Year ' + y.year + '</span><span class="elc-ytrack">' + (y.youPay > 0 ? '<span class="elc-seg elc-seg--i" style="width:' + ip.toFixed(2) + '%"></span><span class="elc-seg elc-seg--p" style="width:' + pp.toFixed(2) + '%"></span>' : '') + '</span><span class="elc-yval">' + (y.youPay > 0 ? rs(y.youPay) : 'No payment') + '</span></div>';
+      }).join('') + '</div><ul class="elc-legend elc-legend--row"><li><span class="elc-dot elc-seg--i"></span>Interest you pay</li><li><span class="elc-dot elc-seg--p"></span>Principal you repay</li></ul>';
+    }
+    function scheduleTable(r) {
+      const rows = scheduleRows(r);
+      return '<div class="elc-tablewrap"><table class="elc-table"><caption class="elc-sr">Year by year schedule</caption><thead><tr>' + SCHEDULE_HEAD.map((h, i) => '<th scope="col" class="' + (i > 1 ? 'r' : '') + '">' + esc(h) + '</th>').join('') + '</tr></thead><tbody>' +
+        rows.map((row) => '<tr>' + row.map((c, i) => '<' + (i === 0 ? 'th scope="row"' : 'td') + ' data-label="' + esc(SCHEDULE_HEAD[i]) + '" class="' + (i > 1 ? 'r' : '') + '">' + esc(c) + '</' + (i === 0 ? 'th' : 'td') + '>').join('') + '</tr>').join('') + '</tbody></table></div>' +
+        '<p class="elc-small">Amounts are rounded to the nearest rupee. "You pay" is the interest you pay before the EMIs plus the EMIs. "Owed at year end" is the loan plus any interest not yet paid.</p>';
+    }
+    function taxBox(r) {
+      const line = r.taxInterest > 0
+        ? 'Interest you pay in your first 8 years of paying interest: at most ' + rs(r.taxInterest) + '. Tax years run April to March, so the real eight tax years can cover a little less.'
+        : 'No interest is paid in the period worked out here.';
+      return '<p class="elc-p">' + esc(line) + '</p>';
+    }
+    function compareTable(a, b) {
+      const head = ['', 'Offer A' + (state.a.label ? ': ' + state.a.label : ''), 'Offer B' + (state.b.label ? ': ' + state.b.label : ''), 'Difference'];
+      const diff = (x, y) => (Math.abs(x - y) < 0.5 ? 'Same' : rs(Math.abs(x - y)) + (x < y ? ' lower in A' : ' lower in B'));
+      const line = (label, f) => [label, rs(f(a)), rs(f(b)), diff(f(a), f(b))];
+      const rows = [
+        line('EMI each month', (r) => r.emi),
+        line('Interest charged before the EMIs', (r) => r.interestAccrued),
+        line('Balance when EMIs start', (r) => r.balanceAtStart),
+        line('Total interest', (r) => r.totalInterest),
+        line('Total payable to the lender', (r) => r.totalToLender),
+        line('Fee and insurance', (r) => r.fees),
+        line('Total cost with fees', (r) => r.totalCost),
+        ['Time until the loan is cleared', monthsText(a.totalMonths), monthsText(b.totalMonths), ''],
+      ];
+      if (a.emiShare != null) rows.push(['EMI as a share of salary', fmtPct(a.emiShare), fmtPct(b.emiShare), '']);
+      return '<div class="elc-tablewrap"><table class="elc-table elc-table--cmp"><thead><tr>' + head.map((h, i) => '<th scope="col" class="' + (i ? 'r' : '') + '">' + esc(h) + '</th>').join('') + '</tr></thead><tbody>' +
+        rows.map((row) => '<tr>' + row.map((c, i) => '<' + (i === 0 ? 'th scope="row"' : 'td') + ' data-label="' + esc(i === 0 ? 'Measure' : head[i] || 'Difference') + '" class="' + (i ? 'r' : '') + '">' + esc(c) + '</' + (i === 0 ? 'th' : 'td') + '>').join('') + '</tr>').join('') + '</tbody></table></div>' +
+        '<p class="elc-p">A lower total is not always better. A longer repayment period gives a lower EMI but more interest, and a higher fee can still be worth it. Compare the sanction letters line by line.</p>';
+    }
+    function offerBlock(tag, v, r, heading) {
+      return '<div class="elc-offerblock">' + (heading ? '<h3 class="elc-h3">' + esc(tag) + '</h3>' : '') +
+        cards(r) +
+        '<h4 class="elc-h4">Principal and interest</h4>' + bars(r) +
+        '<h4 class="elc-h4">What if you pay the interest during study?</h4>' + treatmentsTable(v) +
+        '<h4 class="elc-h4">Year by year</h4>' + yearBars(r) + scheduleTable(r) +
+        '<h4 class="elc-h4">Tax deduction on the interest</h4>' + taxBox(r) +
+        (r.tenure > LIMITS.tenureScheme * 12 ? '<p class="elc-warn">This repayment period is longer than 15 years, which is the limit in the schemes checked. Many lenders allow less.</p>' : '') +
+        '</div>';
+    }
+
+    function say(text) { $('#elc-status').textContent = text; }
+    function sayOut(text) { $('#elc-outstatus').textContent = text; }
+
+    function recalc() {
+      readForm();
+      persist();
+      showHints();
+      const va = validate(state.a, state.shared);
+      showErrors('s', va.errors);
+      showErrors('a', va.errors);
+      let vb = null;
+      if (state.compare) {
+        vb = validate(state.b, state.shared);
+        showErrors('b', vb.errors);
+      } else {
+        showErrors('b', {});
+      }
+      const sharedErr = Object.keys(va.errors).some((k) => SHARED_KEYS.includes(k));
+      const bad = Object.keys(va.errors).length > 0 || (vb && Object.keys(vb.errors).some((k) => !SHARED_KEYS.includes(k)));
+      const results = $('#elc-results');
+      if (bad) {
+        results.hidden = true; results.innerHTML = '';
+        $('#elc-outputs').hidden = true;
+        lastModel = null;
+        const allEmpty = [state.a.amount, state.a.rate].every((x) => !String(x).trim());
+        say(allEmpty ? 'Enter your loan amount, rate and course length to see the EMI.' : 'Some numbers need fixing. The fields marked in red say what to change.');
+        $('#elc-printdoc').innerHTML = '';
+        return;
+      }
+      const ra = calcOffer(va.values);
+      const rb = vb ? calcOffer(vb.values) : null;
+      const two = !!rb;
+      let html = '';
+      if (two) html += '<h3 class="elc-h3">Two offers side by side</h3>' + compareTable(ra, rb);
+      html += offerBlock(two ? 'Offer A' + (state.a.label ? ': ' + state.a.label : '') : 'Your result', va.values, ra, two);
+      if (two) html += offerBlock('Offer B' + (state.b.label ? ': ' + state.b.label : ''), vb.values, rb, true);
+      results.innerHTML = html;
+      results.hidden = false;
+      $('#elc-outputs').hidden = false;
+      say(two
+        ? 'Offer A: EMI ' + fmtRs(ra.emi) + ' a month, total interest ' + fmtRs(ra.totalInterest) + '. Offer B: EMI ' + fmtRs(rb.emi) + ' a month, total interest ' + fmtRs(rb.totalInterest) + '.'
+        : 'EMI ' + fmtRs(ra.emi) + ' a month for ' + monthsText(ra.tenure) + ', starting after ' + monthsText(ra.preMonths) + '. Total interest ' + fmtRs(ra.totalInterest) + '.');
+      const offers = [{ name: 'A', raw: state.a, values: va.values, result: ra }];
+      if (two) offers.push({ name: 'B', raw: state.b, values: vb.values, result: rb });
+      lastModel = buildDoc({ offers, shared: state.shared, date: todayLabel() });
+      $('#elc-printdoc').innerHTML = modelToHtml(lastModel);
+    }
+    function schedule() { window.clearTimeout(timer); timer = window.setTimeout(recalc, 220); }
+
+    // ----- PDF and print -----
+    async function downloadPdf() {
+      if (pdfBusy) return;
+      if (!lastModel) { sayOut('Fix the numbers marked in red first, then download the PDF.'); return; }
+      pdfBusy = true;
+      const btn = $('[data-elc="pdf"]');
+      btn.setAttribute('aria-disabled', 'true');
+      sayOut('Making the PDF in this browser...');
+      try {
+        const unicode = hasUnsupportedText(lastModel);
+        let ready = false;
+        if (unicode) ready = await prepareUnicodePdf(lastModel);
+        const mod = await import('jspdf');
+        const pdf = buildPdf(mod.jsPDF, lastModel, ready);
+        pdf.save('education-loan-emi-estimate.pdf');
+        sayOut(unicode && ready
+          ? 'PDF downloaded. Text in Telugu, Hindi or other scripts is drawn as pictures so the letters keep their shape, so that text cannot be selected or copied from the PDF. It was made in this browser and not uploaded.'
+          : 'PDF downloaded. It was made in this browser and not uploaded.');
+      } catch (error) {
+        console.error('Education loan PDF failed:', error);
+        sayOut('The PDF could not be made. Use Print the result and choose Save as PDF instead.');
+      } finally {
+        pdfBusy = false;
+        btn.removeAttribute('aria-disabled');
+      }
+    }
+    function printResult() {
+      if (!lastModel) { sayOut('Fix the numbers marked in red first, then print.'); return; }
+      document.body.setAttribute('data-elc-print', '1');
+      const done = () => { document.body.removeAttribute('data-elc-print'); window.removeEventListener('afterprint', done); };
+      window.addEventListener('afterprint', done);
+      window.print();
+    }
+
+    // ----- actions -----
+    function toExample() {
+      state.a = defaultValues(); state.b = defaultValues(); state.shared = defaultShared(); state.compare = false;
+      fillForm(); recalc();
+      say('The example numbers are back. They are not a quote. Replace them with the figures from your offer.');
+      field('a', 'amount').focus();
+    }
+    function clearAll() {
+      wipe();
+      state.a = Object.assign(defaultValues(), { amount: '', rate: '', moratoriumMonths: '', tenureYears: '', fee: '', insurance: '' });
+      state.b = Object.assign({}, state.a);
+      state.shared = { courseYears: '', payout: 'year', salary: '' };
+      state.compare = false;
+      fillForm(); showErrors('s', {}); showErrors('a', {}); showErrors('b', {});
+      showHints();
+      $('#elc-results').hidden = true; $('#elc-results').innerHTML = '';
+      $('#elc-outputs').hidden = true; $('#elc-printdoc').innerHTML = '';
+      lastModel = null;
+      wipe();
+      say('Your numbers are cleared from this browser. Enter new ones to start again.');
+      sayOut('');
+      field('a', 'amount').focus();
+    }
+
+    root.addEventListener('input', (e) => { if (e.target.closest('#elc-form')) schedule(); });
+    root.addEventListener('change', (e) => {
+      if (!e.target.closest('#elc-form')) return;
+      if (e.target.id === 'elc-compare') {
+        readForm();
+        $('#elc-offer-b').hidden = !state.compare;
+        if (state.compare) {
+          const untouched = OFFER_KEYS.every((k) => k === 'label' || state.b[k] === defaultValues()[k] || state.b[k] === '');
+          if (untouched) { OFFER_KEYS.forEach((k) => { if (k !== 'label') state.b[k] = state.a[k]; }); fillForm(); }
+          window.setTimeout(() => field('b', 'label').focus(), 0);
+        }
+      }
+      window.clearTimeout(timer);
+      recalc();
+    });
+    root.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-elc]');
+      if (!btn) return;
+      const action = btn.getAttribute('data-elc');
+      if (action === 'pdf') downloadPdf();
+      else if (action === 'print') printResult();
+      else if (action === 'example') toExample();
+      else if (action === 'clear') clearAll();
+    });
+    root.querySelector('#elc-form').addEventListener('submit', (e) => { e.preventDefault(); recalc(); });
+
+    load();
+    fillForm();
+    recalc();
+  }
+</script>
+
+<style is:global>
+  .elc{margin:2rem 0;padding:1.2rem;border:1px solid rgba(18,154,141,.5);border-radius:18px;background:rgba(18,154,141,.06);min-width:0}
+  .elc h2{margin:0 0 .6rem}
+  .elc p,.elc li{line-height:1.65}
+  .elc-note,.elc-hint,.elc-small{font-size:.86rem;color:rgba(255,255,255,.76)}
+  .elc-hint{margin:.1rem 0 0;line-height:1.45}
+  .elc-err{margin:.1rem 0 0;font-size:.86rem;font-weight:600;color:#ffb4a8}
+  .elc-form{display:grid;gap:1rem;margin-top:1rem}
+  .elc-box{min-width:0;margin:0;padding:1rem;border:1px solid rgba(255,255,255,.28);border-radius:12px}
+  .elc-box legend{padding:0 .4rem;font-weight:700;color:#fff}
+  .elc-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9rem 1rem}
+  .elc-field{display:grid;align-content:start;gap:.3rem;min-width:0}
+  .elc-field--wide{grid-column:1/-1}
+  .elc label{font-size:.9rem;font-weight:650;color:#fff}
+  .elc input[type="text"],.elc select{width:100%;min-width:0;max-width:100%;min-height:44px;padding:.5rem .7rem;border:1px solid rgba(255,255,255,.55);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;font-weight:400}
+  .elc select option{color:#111;background:#fff}
+  .elc input[aria-invalid="true"]{border-color:#ff9c8c;background:rgba(255,120,100,.1)}
+  .elc input:focus-visible,.elc select:focus-visible,.elc-btn:focus-visible,.elc summary:focus-visible,.elc-check input:focus-visible,.elc-results:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}
+  .elc-more{margin-top:.9rem}
+  .elc-more summary{cursor:pointer;min-height:44px;display:flex;align-items:center;font-weight:650;color:#f3cf70}
+  .elc-more .elc-field{margin-top:.4rem;max-width:34rem}
+  .elc-check{display:flex;align-items:center;gap:.7rem;min-height:44px}
+  .elc-check input{width:22px;height:22px;flex:none;accent-color:#e5b84a}
+  .elc-check label{font-size:1rem}
+  .elc-actions{display:flex;flex-wrap:wrap;gap:.6rem}
+  .elc-btn{min-height:46px;padding:.5rem .95rem;border:1px solid rgba(255,255,255,.5);border-radius:10px;background:rgba(255,255,255,.08);color:#fff;font-family:inherit;font-weight:700;font-size:.92rem;cursor:pointer}
+  .elc-btn--primary{background:#e5b84a;border-color:#e5b84a;color:#17130a}
+  .elc-btn--warn{border-color:#ffb4a8;color:#ffd1c8}
+  .elc-btn[aria-disabled="true"]{opacity:.6;cursor:progress}
+  .elc-status{min-height:1.4em;margin:.8rem 0 0;font-size:.95rem;font-weight:600;color:#9ff3e6}
+  #elc-status{position:sticky;bottom:.5rem;z-index:5;padding:.6rem .8rem;border:1px solid rgba(45,212,191,.6);border-radius:10px;background:#0a1a1f;box-shadow:0 4px 18px rgba(0,0,0,.5)}
+  #elc-status:empty{display:none}
+  .elc-results{margin-top:1rem;outline:none}
+  .elc-h3{margin:1.4rem 0 .6rem;font-size:1.3rem;color:#fff}
+  .elc-h4{margin:1.3rem 0 .5rem;font-size:1.05rem;color:#f3cf70}
+  .elc-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));gap:.7rem}
+  .elc-card{display:grid;gap:.25rem;align-content:start;padding:.85rem;border:1px solid rgba(255,255,255,.25);border-radius:12px;background:rgba(0,0,0,.2);min-width:0}
+  .elc-card span{font-size:.82rem;font-weight:650;color:rgba(255,255,255,.8)}
+  .elc-card strong{font-size:1.35rem;color:#9ff3e6;overflow-wrap:anywhere}
+  .elc-card small{font-size:.82rem;line-height:1.5;color:rgba(255,255,255,.78)}
+  .elc-card--main{border-color:#e5b84a;background:rgba(229,184,74,.1)}
+  .elc-card--main strong{font-size:1.7rem;color:#f5d98c}
+  .elc-split{display:flex;height:22px;border-radius:11px;overflow:hidden;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.3)}
+  .elc-seg{display:block;height:100%}
+  .elc-seg--p{background:#2dd4bf}
+  .elc-seg--i{background:#e5b84a}
+  .elc-seg--f{background:#c7a6ff}
+  .elc-legend{list-style:none;margin:.6rem 0 0;padding:0;display:grid;gap:.25rem;font-size:.92rem}
+  .elc-legend--row{display:flex;flex-wrap:wrap;gap:.4rem 1.2rem}
+  .elc-dot{display:inline-block;width:.85rem;height:.85rem;border-radius:3px;margin-right:.5rem;vertical-align:-1px}
+  .elc-ybars{display:grid;gap:.3rem;margin-top:.4rem}
+  .elc-yrow{display:grid;grid-template-columns:4.2rem minmax(0,1fr) 6.6rem;align-items:center;gap:.5rem;font-size:.85rem}
+  .elc-ytrack{display:flex;height:14px;border-radius:7px;overflow:hidden;background:rgba(255,255,255,.08)}
+  .elc-yval{text-align:right;color:rgba(255,255,255,.85);font-variant-numeric:tabular-nums}
+  .elc-tablewrap{margin:.5rem 0;max-width:100%}
+  .elc-table{width:100%;border-collapse:collapse;font-size:.88rem}
+  .elc-table th,.elc-table td{padding:.55rem .6rem;border:1px solid rgba(255,255,255,.22);text-align:left;vertical-align:top;line-height:1.45}
+  .elc-table thead th{background:rgba(18,154,141,.25);color:#fff}
+  .elc-table .r{text-align:right;font-variant-numeric:tabular-nums}
+  .elc-table tr.elc-sel th,.elc-table tr.elc-sel td{background:rgba(229,184,74,.12)}
+  .elc-table tbody th{font-weight:700;color:#fff;text-align:left}
+  .elc-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .elc-p{max-width:46rem;margin:.6rem 0}
+  .elc-warn{margin:.8rem 0;padding:.7rem .9rem;border-left:3px solid #e5b84a;background:rgba(229,184,74,.1);color:#f7d88c}
+  .elc-outputs{margin-top:1.2rem;padding-top:1rem;border-top:1px dashed rgba(255,255,255,.3)}
+  .elc-doc{display:none}
+  @media(max-width:720px){
+    .elc{padding:.9rem}
+    .elc-grid{grid-template-columns:minmax(0,1fr)}
+    .elc-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+    .elc-table,.elc-table tbody,.elc-table tr,.elc-table td,.elc-table tbody th{display:block;width:100%}
+    .elc-table tr{margin-bottom:.8rem;border:1px solid rgba(255,255,255,.28);border-radius:10px;overflow:hidden}
+    .elc-table td,.elc-table tbody th{border:0;border-bottom:1px solid rgba(255,255,255,.12);text-align:left!important}
+    .elc-table td::before{content:attr(data-label);display:block;font-size:.72rem;font-weight:700;color:#f3cf70}
+    .elc-yrow{grid-template-columns:3.6rem minmax(0,1fr);row-gap:.15rem;padding:.35rem 0;border-bottom:1px solid rgba(255,255,255,.14);align-items:start}
+    .elc-ylabel{grid-row:1/3;font-weight:700}
+    .elc-yval{grid-column:2;text-align:left}
+  }
+
+  /* Print: only the result document, on white paper. */
+  .emi-doc-brand{font-size:9pt;font-weight:800;letter-spacing:.08em;color:#0b766d}
+  .emi-doc-title{font-size:19pt;margin:.2rem 0 .4rem;color:#1c2026}
+  .emi-doc-sub,.emi-doc-p,.emi-doc-note,.emi-doc-list li,.emi-doc-listtitle{color:#1c2026;font-size:10pt;line-height:1.5}
+  .emi-doc-note{font-style:italic;color:#555}
+  .emi-doc-h{font-size:12.5pt;margin:1rem 0 .4rem;color:#0b766d;border-bottom:1px solid #c8ced2;padding-bottom:.15rem;break-after:avoid}
+  .emi-doc-meta,.emi-doc-table{width:100%;border-collapse:collapse;color:#1c2026;font-size:9.5pt;margin:.3rem 0 .6rem}
+  .emi-doc-meta th{width:34%;text-align:left;font-weight:700;padding:.15rem .5rem .15rem 0;vertical-align:top}
+  .emi-doc-meta td{padding:.15rem 0;vertical-align:top}
+  .emi-doc-table th,.emi-doc-table td{border:1px solid #8a9298;padding:.25rem .35rem;text-align:left;vertical-align:top}
+  .emi-doc-table th{background:#e2f0ee}
+  .emi-doc-table .r{text-align:right;white-space:nowrap}
+  .emi-doc-table tr,.emi-doc-meta tr{break-inside:avoid}
+  .emi-doc-listtitle{font-weight:700;margin-top:.5rem}
+  .emi-doc-break{break-after:page}
+  @media print{
+    @page{size:A4;margin:14mm}
+    body[data-elc-print]{background:#fff!important}
+    body[data-elc-print] > *:not(main){display:none!important}
+    body[data-elc-print] main > *:not(.elc-shell){display:none!important}
+    body[data-elc-print] .elc-shell{max-width:none;padding:0;margin:0}
+    body[data-elc-print] .elc{margin:0;padding:0;border:0;background:#fff}
+    body[data-elc-print] .elc > *:not(.elc-doc){display:none!important}
+    body[data-elc-print] .elc-doc{display:block!important}
+  }
+</style>

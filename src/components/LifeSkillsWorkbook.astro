@@ -8,6 +8,7 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
   <div class="lsw-print-only">
     <p class="lsw-print-title">Life Skills Workbook</p>
     <p>Based on the ten core life skills named by the World Health Organization. FutureCareerSchool.com. For personal reflection, not medical advice.</p>
+    <p>Name (optional): ______________________ &nbsp; Class or year: ______________ &nbsp; Date started: ______________</p>
   </div>
 
   <div class="lsw-noprint">
@@ -15,7 +16,7 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
     <p>Tick the skills you want, answer the questions in the boxes, follow the 7-day practice and download one combined PDF. You can also print the page.</p>
     <p class="lsw-note"><b>Privacy:</b> everything you type stays in this browser. It asks for no name or contact details, and the PDF is made on your device without any upload.</p>
 
-    <fieldset class="lsw-pick">
+    <fieldset class="lsw-pick" id="lsw-pick-start">
       <legend>Step 1. Choose the skills to include</legend>
       <div class="lsw-chips">
         {SKILLS.map((skill, index) => (
@@ -28,6 +29,7 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
       <div class="lsw-actions">
         <button type="button" class="lsw-btn" data-lsw-action="all">Select all ten</button>
         <button type="button" class="lsw-btn" data-lsw-action="none">Clear selection</button>
+        <button type="button" class="lsw-btn lsw-btn--primary" data-lsw-action="pdf">Download PDF of the chosen skills</button>
       </div>
       <p class="lsw-count" id="lsw-count" role="status" aria-live="polite"></p>
       <p class="lsw-jump"><a href="#lsw-save">Jump to Step 2: download the PDF or print</a></p>
@@ -81,6 +83,24 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
           ))}
         </ol>
 
+        <h4>After the 7 days</h4>
+        <div class="lsw-rate">
+          <label>
+            <span>My rating after the 7 days (your own view, not a test)</span>
+            <select data-lsw-rating2={skill.id} aria-label={`My rating after the 7 days for ${skill.name}`}>
+              {RATING_LABELS.map((label, value) => <option value={String(value)}>{label}</option>)}
+            </select>
+          </label>
+          <p class="lsw-print-only lsw-print-rating" data-lsw-rating2-print={skill.id}></p>
+        </div>
+        <div class="lsw-q">
+          <label>
+            <span>One thing I will keep doing, and one real moment when I used this skill</span>
+            <textarea data-lsw-keep={skill.id} rows="3" maxlength="500" placeholder="Write in your own words"></textarea>
+          </label>
+          <div class="lsw-print-ans" data-lsw-keep-print={skill.id}></div>
+        </div>
+
         <h4>Questions and answers</h4>
         {skill.qa.map((item) => (
           <div class="lsw-qa">
@@ -122,7 +142,7 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
     const SK = (data.skills || []).map((skill, index) => Object.assign({ number: index + 1 }, skill));
     const ids = SK.map((s) => s.id);
     const KEY = 'fcs-life-skills-workbook-v1';
-    const blank = () => ({ selected: ids.slice(), answers: {}, rating: {}, days: {} });
+    const blank = () => ({ selected: ids.slice(), answers: {}, rating: {}, rating2: {}, keep: {}, days: {} });
     let state = blank();
     try {
       const raw = localStorage.getItem(KEY);
@@ -134,7 +154,9 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
         }
       }
     } catch (e) {}
-    const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
+    let storageOk = true;
+    try { localStorage.setItem(KEY + '-probe', '1'); localStorage.removeItem(KEY + '-probe'); } catch (e) { storageOk = false; }
+    const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { storageOk = false; } };
     const statusEl = document.getElementById('lsw-status');
     const countEl = document.getElementById('lsw-count');
     const emptyEl = document.getElementById('lsw-empty');
@@ -185,6 +207,20 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
         const print = root.querySelector('[data-lsw-rating-print="' + id + '"]');
         if (print) print.textContent = 'My rating today: ' + (ratingLabels[Number(value)] || ratingLabels[0]);
       });
+      root.querySelectorAll('[data-lsw-rating2]').forEach((select) => {
+        const id = select.getAttribute('data-lsw-rating2');
+        const value = String(state.rating2[id] || 0);
+        select.value = value;
+        const print = root.querySelector('[data-lsw-rating2-print="' + id + '"]');
+        if (print) print.textContent = 'My rating after the 7 days: ' + (ratingLabels[Number(value)] || ratingLabels[0]);
+      });
+      root.querySelectorAll('[data-lsw-keep]').forEach((area) => {
+        const id = area.getAttribute('data-lsw-keep');
+        const value = state.keep[id] || '';
+        area.value = value;
+        const mirror = root.querySelector('[data-lsw-keep-print="' + id + '"]');
+        if (mirror) mirror.textContent = value;
+      });
       root.querySelectorAll('[data-lsw-day]').forEach((box) => {
         const id = box.getAttribute('data-lsw-day');
         const i = Number(box.getAttribute('data-lsw-i'));
@@ -210,6 +246,12 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
         save(); paint(); say('Saved in this browser.');
         return;
       }
+      const rating2Id = target.getAttribute('data-lsw-rating2');
+      if (rating2Id) {
+        state.rating2[rating2Id] = Number(target.value) || 0;
+        save(); paint(); say('Saved in this browser.');
+        return;
+      }
       const dayId = target.getAttribute('data-lsw-day');
       if (dayId) {
         ensureAnswers(dayId);
@@ -221,6 +263,14 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
     root.addEventListener('input', (event) => {
       const target = event.target;
       if (!target || !target.getAttribute) return;
+      const keepId = target.getAttribute('data-lsw-keep');
+      if (keepId) {
+        state.keep[keepId] = target.value;
+        const keepMirror = root.querySelector('[data-lsw-keep-print="' + keepId + '"]');
+        if (keepMirror) keepMirror.textContent = target.value;
+        save(); say('Saved in this browser.');
+        return;
+      }
       const id = target.getAttribute('data-lsw-q');
       if (!id) return;
       const i = Number(target.getAttribute('data-lsw-i'));
@@ -242,7 +292,7 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
         await new Promise((resolve) => requestAnimationFrame(() => resolve()));
         const { jsPDF } = await import('jspdf');
         chosen.forEach((skill) => ensureAnswers(skill.id));
-        const typed = flattenTexts(chosen.map((skill) => state.answers[skill.id]));
+        const typed = flattenTexts(chosen.map((skill) => [state.answers[skill.id], state.keep[skill.id]]));
         const needsFont = needsUnicode(typed.join('\n'));
         let unicodeReady = false;
         if (needsFont) {
@@ -285,11 +335,12 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
       if (action === 'pdf') downloadPdf(button);
       if (action === 'clear') {
         if (!window.confirm('Clear all answers, ratings and ticks from this browser?')) return;
-        state = blank(); save(); paint(); say('Answers cleared from this browser.');
+        state = blank(); try { localStorage.removeItem(KEY); } catch (e) {} paint(); say('Answers cleared from this browser.');
       }
     });
 
     paint();
+    if (!storageOk) say('This browser is not saving your answers (a private window or blocked storage). Download the PDF before you leave the page.');
   }
 </script>
 
@@ -298,7 +349,7 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
   .lsw h2{margin-top:0}
   .lsw p,.lsw li{line-height:1.65;overflow-wrap:anywhere}
   .lsw-note,.lsw-count{font-size:.86rem;color:rgba(255,255,255,.72)}
-  .lsw-pick{border:1px solid rgba(255,255,255,.17);border-radius:12px;padding:1rem;margin:1.1rem 0 0;min-width:0}
+  .lsw-pick{scroll-margin-top:90px;border:1px solid rgba(255,255,255,.17);border-radius:12px;padding:1rem;margin:1.1rem 0 0;min-width:0}
   .lsw-pick legend{font-weight:700;padding:0 .3rem}
   .lsw-chips{display:grid;grid-template-columns:1fr 1fr;gap:.55rem;margin-bottom:.9rem}
   .lsw-chip{display:flex;align-items:center;gap:.6rem;min-height:44px;padding:.45rem .7rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.05);cursor:pointer;font-weight:600;font-size:.92rem;min-width:0}

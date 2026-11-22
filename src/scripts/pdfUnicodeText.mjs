@@ -16,7 +16,8 @@ const FONT_FILES = [
 ];
 
 const STACK = '"FCS Noto Sans Telugu","FCS Noto Sans Devanagari","Noto Sans","Segoe UI",Arial,"Helvetica Neue",Helvetica,sans-serif';
-const PX_PER_MM = 12;
+// 9 pixels per mm is about 230 dpi: sharp in print and about a quarter smaller than 12 px/mm.
+const PX_PER_MM = 9;
 const PT_TO_MM = 25.4 / 72;
 const MARK = '';
 const loaded = new Set();

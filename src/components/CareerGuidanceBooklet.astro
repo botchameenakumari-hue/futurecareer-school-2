@@ -1,0 +1,379 @@
+---
+import {
+  STREAMS12, MARKS, BUDGETS, CITIES, PRIORITIES12, PRIORITIES10, INTERESTS10, EARN10, MATHS10, ROUTES12, routeOptions10,
+} from '../data/careerGuidanceBooklet.mjs';
+
+interface Props { stage: 'after10' | 'after12' }
+const { stage } = Astro.props;
+const is12 = stage === 'after12';
+const priorities = is12 ? PRIORITIES12 : PRIORITIES10;
+const pinnedOptions = is12 ? ROUTES12.map((r) => ({ id: r.id, label: r.route })) : routeOptions10();
+const marksLabel = is12 ? 'Your Class 12 marks, or what you expect' : 'Your Class 10 marks, or what you expect';
+const classNo = is12 ? '12' : '10';
+---
+
+<section class="cgb" id="career-guidance-booklet" data-stage={stage} aria-labelledby="cgb-title">
+  <h2 id="cgb-title">{is12 ? 'Build your career guidance booklet after 12th' : 'Build your career guidance booklet after 10th'}</h2>
+  <p class="cgb-note"><b>Private by design:</b> your answers stay in this browser. Nothing is sent to this site, the PDF is made on your own device, and the form asks for no phone number or email. The name box is optional, so use initials if you like. On a shared computer, press Clear my data when you finish.</p>
+
+  <form class="cgb-form" id="cgb-form" novalidate onsubmit="return false">
+    <div class="cgb-screen">
+      {is12 ? (
+        <fieldset class="cgb-box">
+          <legend>Step 1. Your stream</legend>
+          <label for="cgb-stream">The stream you studied in Class 12
+            <select id="cgb-stream" data-f="stream">
+              <option value="">Choose your stream</option>
+              {STREAMS12.map((s) => <option value={s.id}>{s.label}</option>)}
+            </select>
+          </label>
+        </fieldset>
+      ) : (
+        <>
+          <fieldset class="cgb-box">
+            <legend>Step 1. What pulls you</legend>
+            <p class="cgb-hint" id="cgb-interest-hint">Tick up to three things you go back to when nobody is checking.</p>
+            <div class="cgb-checks" role="group" aria-describedby="cgb-interest-hint">
+              {INTERESTS10.map((i) => (
+                <label class="cgb-check"><input type="checkbox" data-interest={i.id} /> <span>{i.label}</span></label>
+              ))}
+            </div>
+            <p class="cgb-hint" id="cgb-interest-count" role="status" aria-live="polite"></p>
+          </fieldset>
+          <fieldset class="cgb-box">
+            <legend>Step 2. Your situation</legend>
+            <label for="cgb-earn">Does your family need you earning within about 1 to 3 years?
+              <select id="cgb-earn" data-f="earn">
+                {EARN10.map((o) => <option value={o.id}>{o.label}</option>)}
+              </select>
+            </label>
+            <label for="cgb-maths">Can you work through Maths for two more years?
+              <select id="cgb-maths" data-f="maths">
+                {MATHS10.map((o) => <option value={o.id}>{o.label}</option>)}
+              </select>
+            </label>
+          </fieldset>
+        </>
+      )}
+
+      <fieldset class="cgb-box">
+        <legend>{is12 ? 'Step 2. Marks, money and place' : 'Step 3. Marks, money and place'}</legend>
+        <div class="cgb-grid">
+          <label for="cgb-marks">{marksLabel}
+            <select id="cgb-marks" data-f="marks">
+              {MARKS.map((o) => <option value={o.id}>{o.label}</option>)}
+            </select>
+          </label>
+          <label for="cgb-budget">Family education budget for the whole degree or course
+            <select id="cgb-budget" data-f="budget">
+              {BUDGETS.map((o) => <option value={o.id}>{o.label}</option>)}
+            </select>
+          </label>
+          <label for="cgb-city">Where you live
+            <select id="cgb-city" data-f="city">
+              {CITIES.map((o) => <option value={o.id}>{o.label}</option>)}
+            </select>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="cgb-box">
+        <legend>{is12 ? 'Step 3. What matters most' : 'Step 4. What matters most'}</legend>
+        <div class="cgb-grid cgb-grid--2">
+          <label for="cgb-priority">What matters most to you right now
+            <select id="cgb-priority" data-f="priority">
+              {priorities.map((o) => <option value={o.id}>{o.label}</option>)}
+            </select>
+          </label>
+          <label for="cgb-pinned">A route you or your family already have in mind (optional)
+            <select id="cgb-pinned" data-f="pinned">
+              <option value="">None</option>
+              {pinnedOptions.map((o) => <option value={o.id} data-id={o.id}>{o.label}</option>)}
+            </select>
+          </label>
+        </div>
+        <label for="cgb-worry">What worries you most about this choice (optional)
+          <textarea id="cgb-worry" data-f="worry" rows="2" maxlength="240" placeholder="One or two lines, in any language"></textarea>
+        </label>
+        <label for="cgb-name">Name or initials for the cover (optional)
+          <input id="cgb-name" type="text" data-f="name" maxlength="40" autocomplete="off" placeholder="For example AB" />
+        </label>
+        <p class="cgb-hint">Do not type a phone number, email address, ID number or health detail.</p>
+      </fieldset>
+
+      <div class="cgb-actions">
+        <button type="button" class="cgb-btn cgb-btn--primary" data-cgb="pdf">Download my booklet (PDF)</button>
+        <button type="button" class="cgb-btn" data-cgb="print">Print my booklet</button>
+        <button type="button" class="cgb-btn" data-cgb="pdf-blank">Download the blank worksheet (PDF)</button>
+        <button type="button" class="cgb-btn" data-cgb="print-blank">Print the blank worksheet</button>
+        <button type="button" class="cgb-btn cgb-btn--warn" data-cgb="clear">Clear my data</button>
+      </div>
+      <p class="cgb-status" id="cgb-status" role="status" aria-live="polite"></p>
+      <p class="cgb-summary" id="cgb-summary" role="status" aria-live="polite"></p>
+    </div>
+
+    <div class="cgb-previewhead cgb-screen">
+      <h3 id="cgb-preview-title" tabindex="-1">Your booklet preview</h3>
+      <p class="cgb-hint" id="cgb-preview-hint">The PDF and the printout use exactly this content.</p>
+    </div>
+    <p class="cgb-empty cgb-screen" id="cgb-empty">{is12 ? 'Choose your stream in Step 1 and your booklet appears here.' : 'Tick at least one thing in Step 1, or say your family needs you earning soon, and your booklet appears here.'}</p>
+    <article class="cgb-doc" id="cgb-doc" aria-label="Preview of your career guidance booklet" hidden></article>
+    <article class="cgb-doc cgb-doc--blank" id="cgb-doc-blank" aria-label="Blank career guidance worksheet for printing"></article>
+  </form>
+  <noscript><p class="cgb-note">This tool needs JavaScript. The page still lists the questions below, and the static PDF charts are linked from the related pages.</p></noscript>
+</section>
+
+<script>
+  // @ts-nocheck
+  import { STORAGE_PREFIX, bookletModel, blankModel, modelToHtml, buildPdf, hasUnsupportedText, prepareUnicodePdf } from '../scripts/careerGuidanceBooklet';
+  import { blankAnswers, cleanAnswers, routesForStream12, routeOptions10, ROUTES12 } from '../data/careerGuidanceBooklet.mjs';
+
+  const root = document.getElementById('career-guidance-booklet');
+  if (root) {
+    const stage = root.getAttribute('data-stage');
+    const KEY = STORAGE_PREFIX + stage;
+    let answers = blankAnswers(stage);
+    try {
+      const raw = JSON.parse(localStorage.getItem(KEY) || 'null');
+      if (raw && typeof raw === 'object') answers = cleanAnswers(stage, raw);
+    } catch (e) {}
+
+    const $ = (sel) => root.querySelector(sel);
+    const docEl = $('#cgb-doc');
+    const blankEl = $('#cgb-doc-blank');
+    const emptyEl = $('#cgb-empty');
+    const statusEl = $('#cgb-status');
+    const say = (t) => { statusEl.textContent = t; };
+    const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(answers)); } catch (e) {} };
+
+    function fillPinned() {
+      const sel = $('#cgb-pinned');
+      let opts;
+      if (stage === 'after12') opts = answers.stream ? routesForStream12(answers.stream).map((r) => ({ id: r.id, label: r.route })) : [];
+      else opts = routeOptions10();
+      sel.innerHTML = '<option value="">None</option>' + opts.map((o) => '<option value="' + o.id + '">' + o.label.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</option>').join('');
+      if (!opts.some((o) => o.id === answers.pinned)) answers.pinned = '';
+      sel.value = answers.pinned || '';
+    }
+
+    function fillForm() {
+      root.querySelectorAll('[data-f]').forEach((el) => {
+        const k = el.getAttribute('data-f');
+        if (k === 'pinned') return;
+        el.value = answers[k] == null ? '' : answers[k];
+      });
+      root.querySelectorAll('[data-interest]').forEach((el) => { el.checked = (answers.interests || []).includes(el.getAttribute('data-interest')); });
+      fillPinned();
+      syncInterestLimit();
+    }
+
+    function syncInterestLimit() {
+      if (stage !== 'after10') return;
+      const boxes = [...root.querySelectorAll('[data-interest]')];
+      const n = boxes.filter((b) => b.checked).length;
+      boxes.forEach((b) => { b.disabled = n >= 3 && !b.checked; });
+      const c = $('#cgb-interest-count');
+      if (c) c.textContent = n >= 3 ? 'Three picked. Untick one to choose a different one.' : n ? n + ' picked.' : '';
+    }
+
+    function render(announce) {
+      const model = bookletModel(stage, answers);
+      const sum = $('#cgb-summary');
+      if (model) {
+        if (announce) sum.textContent = 'Your booklet preview is updated below the buttons. It lists ' + model.blocks.filter((b) => b.t === 'card').length + ' routes in detail.';
+        docEl.innerHTML = modelToHtml(model);
+        docEl.hidden = false;
+        emptyEl.hidden = true;
+      } else {
+        docEl.innerHTML = '';
+        docEl.hidden = true;
+        emptyEl.hidden = false;
+        if (announce) sum.textContent = '';
+      }
+      blankEl.innerHTML = modelToHtml(blankModel(stage));
+    }
+
+    function onField(e) {
+      const el = e.target;
+      if (el.hasAttribute('data-interest')) {
+        answers.interests = [...root.querySelectorAll('[data-interest]')].filter((b) => b.checked).map((b) => b.getAttribute('data-interest'));
+        syncInterestLimit();
+      } else if (el.hasAttribute('data-f')) {
+        const k = el.getAttribute('data-f');
+        answers[k] = el.value;
+        if (k === 'stream') fillPinned();
+      } else return;
+      answers = cleanAnswers(stage, Object.assign({}, answers));
+      persist();
+      render(el.hasAttribute('data-interest') || el.tagName === 'SELECT');
+    }
+    root.addEventListener('input', onField);
+    root.addEventListener('change', onField);
+
+    let pdfBusy = false;
+    async function downloadPdf(kind) {
+      if (pdfBusy) return;
+      const model = kind === 'blank' ? blankModel(stage) : bookletModel(stage, answers);
+      if (!model) { say(stage === 'after12' ? 'Choose your stream in Step 1 first, then download your booklet.' : 'Tick something in Step 1, or say your family needs you earning soon, then download your booklet.'); const f = stage === 'after12' ? $('#cgb-stream') : root.querySelector('[data-interest]'); if (f) f.focus(); return; }
+      pdfBusy = true;
+      try {
+        const needsFont = hasUnsupportedText(model);
+        let unicodeReady = false;
+        if (needsFont) {
+          say('Loading a font for your Telugu, Hindi or other text...');
+          unicodeReady = await prepareUnicodePdf(model);
+          if (!unicodeReady) { say('This device could not draw some of your text into the PDF. Use Print and choose Save as PDF instead, which keeps every script.'); return; }
+        }
+        say('Preparing the PDF...');
+        const mod = await import('jspdf');
+        const pdf = buildPdf(mod.jsPDF, model, unicodeReady);
+        pdf.save(model.fileName);
+        say(needsFont
+          ? 'PDF downloaded. Text in Telugu, Hindi or other scripts is drawn as pictures so the letters keep their shape, so that text cannot be selected or copied from the PDF. It was made in this browser and not uploaded.'
+          : 'PDF downloaded. It was made in this browser and not uploaded.');
+      } catch (err) {
+        console.error('Unable to create the booklet PDF:', err);
+        say('The PDF could not be made. Use Print and choose Save as PDF instead.');
+      } finally {
+        pdfBusy = false;
+      }
+    }
+
+    function printDoc(kind) {
+      if (kind === 'personal' && docEl.hidden) { say('Choose your stream or interests first, then print your booklet.'); return; }
+      document.body.setAttribute('data-cgb-print', kind);
+      const done = () => { document.body.removeAttribute('data-cgb-print'); window.removeEventListener('afterprint', done); };
+      window.addEventListener('afterprint', done);
+      window.print();
+    }
+
+    function clearAll() {
+      if (!window.confirm('Clear your answers and the booklet from this browser? This cannot be undone.')) return;
+      answers = blankAnswers(stage);
+      try { localStorage.removeItem(KEY); } catch (e) {}
+      fillForm(); render();
+      say('Your answers were cleared from this browser.');
+      const first = stage === 'after12' ? $('#cgb-stream') : root.querySelector('[data-interest]');
+      if (first) first.focus();
+    }
+
+    root.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-cgb]');
+      if (!btn) return;
+      const a = btn.getAttribute('data-cgb');
+      if (a === 'pdf') downloadPdf('personal');
+      else if (a === 'pdf-blank') downloadPdf('blank');
+      else if (a === 'print') printDoc('personal');
+      else if (a === 'print-blank') printDoc('blank');
+      else if (a === 'clear') clearAll();
+    });
+
+    fillForm();
+    render();
+  }
+</script>
+
+<style is:global>
+  .cgb{margin:2rem 0;padding:1.3rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05);min-width:0}
+  .cgb h2{margin:0 0 .6rem}
+  .cgb p,.cgb li{line-height:1.65}
+  .cgb-note,.cgb-hint,.cgb-status{font-size:.88rem;color:rgba(255,255,255,.8)}
+  .cgb-hint{margin:.2rem 0 .7rem}
+  .cgb-status{min-height:1.4em;color:#9ff3e6;margin:.6rem 0 0}
+  .cgb-summary{margin:.2rem 0 0;font-size:.86rem;color:rgba(255,255,255,.8)}
+  .cgb-form{display:grid;gap:1rem;min-width:0}
+  .cgb-box{min-width:0;margin:0 0 .6rem;padding:1rem;border:1px solid rgba(255,255,255,.17);border-radius:12px}
+  .cgb-box legend{padding:0 .4rem;font-weight:700}
+  .cgb label{display:grid;gap:.35rem;margin:.65rem 0;font-size:.9rem;font-weight:600;min-width:0}
+  .cgb input[type="text"],.cgb textarea,.cgb select{width:100%;min-width:0;max-width:100%;box-sizing:border-box;min-height:44px;padding:.55rem .7rem;border:1px solid rgba(255,255,255,.28);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;font-weight:400}
+  .cgb textarea{resize:vertical;min-height:76px}
+  .cgb select option{color:#111;background:#fff}
+  .cgb-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.2rem .9rem}
+  .cgb-grid--2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .cgb-checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.2rem .9rem}
+  .cgb label.cgb-check{display:flex;align-items:center;gap:.6rem;min-height:44px;margin:.15rem 0;padding:.3rem .6rem;border:1px solid rgba(255,255,255,.17);border-radius:10px;font-weight:500;cursor:pointer}
+  .cgb-check input{width:22px;height:22px;flex:none;margin:0;accent-color:#2dd4bf}
+  .cgb-actions{display:flex;flex-wrap:wrap;gap:.6rem}
+  .cgb-btn{min-height:46px;padding:.55rem .95rem;border:1px solid rgba(255,255,255,.28);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font-family:inherit;font-weight:700;font-size:.92rem;cursor:pointer}
+  .cgb-btn--primary{background:#0b766d;border-color:#2dd4bf}
+  .cgb-btn--warn{border-color:rgba(255,140,120,.7);color:#ffd1c8}
+  .cgb select:focus-visible,.cgb input:focus-visible,.cgb textarea:focus-visible,.cgb button:focus-visible,.cgb h3:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}
+  .cgb-previewhead h3{margin:1.2rem 0 .2rem}
+  .cgb-empty{padding:1rem;border:1px dashed rgba(255,255,255,.3);border-radius:12px;margin:0}
+  .cgb-empty[hidden],.cgb-doc[hidden]{display:none}
+  .cgb-doc{margin-top:.6rem;padding:1.3rem;border:1px solid rgba(229,184,74,.42);border-radius:14px;background:#fff;color:#1c2026;min-width:0;overflow-wrap:anywhere}
+  .cgb-doc--blank{display:none}
+  .cgb-doc *{color:inherit}
+  .cgb-doc-brand{margin:0;font-size:.72rem;font-weight:800;letter-spacing:.08em;color:#0b625a!important}
+  .cgb-doc-title{margin:.1rem 0;font-size:1.5rem;color:#1c2026}
+  .cgb-doc-sub{margin:0 0 .6rem;color:#4a525a!important}
+  .cgb-doc-head{border-bottom:3px solid #0b625a;margin-bottom:.8rem}
+  .cgb-doc-h{margin:1.3rem 0 .4rem;padding-bottom:.25rem;border-bottom:1px solid #b9c0c5;font-size:1.05rem;color:#0b625a!important}
+  .cgb-doc-p{margin:.3rem 0;line-height:1.55}
+  .cgb-pre{white-space:pre-wrap}
+  .cgb-meta{display:grid;gap:.25rem;margin:.4rem 0}
+  .cgb-meta div{display:grid;grid-template-columns:minmax(9rem,16rem) minmax(0,1fr);gap:.5rem;align-items:end}
+  .cgb-meta dt{font-weight:700}
+  .cgb-meta dd{margin:0}
+  .cgb-blank-line{display:block;height:1.2rem;border-bottom:1px solid #7b838a}
+  .cgb-field{margin:.5rem 0}
+  .cgb-field>b{display:block;font-size:.86rem;color:#4a525a!important}
+  .cgb-field ul{margin:.3rem 0 .3rem 1.2rem;padding:0}
+  .cgb-rule{display:block;height:1.7rem;border-bottom:1px solid #7b838a}
+  .cgb-card{margin:1rem 0;padding:.9rem 1rem;border:1px solid #b9c0c5;border-left:6px solid #0b625a;border-radius:10px;break-inside:avoid-page}
+  .cgb-card--mid{border-left-color:#8a6408}
+  .cgb-card--low{border-left-color:#8a2a1a}
+  .cgb-card-title{margin:0 0 .25rem;font-size:1.08rem;color:#1c2026}
+  .cgb-card-n{display:inline-grid;place-items:center;min-width:1.6rem;height:1.6rem;margin-right:.3rem;border-radius:50%;background:#1c2026;color:#fff!important;font-size:.85rem}
+  .cgb-card-mark{margin:.2rem 0 .5rem}
+  .cgb-badge{display:inline-block;padding:.12rem .55rem;border:1.5px solid #1c2026;border-radius:999px;font-weight:700;font-size:.82rem}
+  .cgb-card-sub{font-size:.85rem;color:#4a525a!important}
+  .cgb-card-rows{margin:.2rem 0}
+  .cgb-card-rows div{margin:.35rem 0}
+  .cgb-card-rows dt{font-size:.74rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#4a525a!important}
+  .cgb-card-rows dd{margin:0;line-height:1.5}
+  .cgb-tablewrap{margin:.5rem 0;max-width:100%}
+  .cgb-table{width:100%;border-collapse:collapse;font-size:.86rem;table-layout:fixed}
+  .cgb-table th,.cgb-table td{padding:.4rem .5rem;border:1px solid #7b838a;text-align:left;vertical-align:top;overflow-wrap:anywhere}
+  .cgb-table th{background:#e8ecee;font-weight:700}
+  .cgb-table td{height:2.3rem}
+  .cgb-sign{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin:1.6rem 0 .4rem}
+  .cgb-sign p{margin:0;font-size:.82rem;color:#4a525a!important}
+  .cgb-sign-line{display:block;height:1.6rem;border-bottom:1px solid #1c2026;margin-bottom:.25rem}
+  .cgb-doc-note{margin:.9rem 0 0;font-size:.8rem;font-style:italic;color:#4a525a!important}
+  .cgb-pagebreak{height:0}
+  @media(max-width:800px){.cgb-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:560px){
+    .cgb{padding:.9rem}
+    .cgb-grid,.cgb-grid--2,.cgb-checks{grid-template-columns:minmax(0,1fr)}
+    .cgb-doc{padding:.9rem}
+    .cgb-meta div{grid-template-columns:minmax(0,1fr);gap:0}
+    .cgb-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+    .cgb-table,.cgb-table tbody,.cgb-table tr,.cgb-table td{display:block;width:100%}
+    .cgb-table tr{margin:0 0 .6rem;border:1px solid #7b838a;border-radius:8px;overflow:hidden}
+    .cgb-table td{border:0;border-bottom:1px solid #dde2e5;height:auto}
+    .cgb-table td::before{content:attr(data-label);display:block;font-size:.72rem;font-weight:700;color:#4a525a}
+    .cgb-table td.cgb-empty{display:none}
+    .cgb-sign{grid-template-columns:minmax(0,1fr)}
+    .cgb-actions .cgb-btn{flex:1 1 100%}
+  }
+  @media print{
+    @page{size:A4;margin:14mm}
+    body[data-cgb-print]{background:#fff!important}
+    body[data-cgb-print] > *:not(main){display:none!important}
+    body[data-cgb-print] main > *:not(.cgb-shell){display:none!important}
+    body[data-cgb-print] .cgb-shell{max-width:none;padding:0;margin:0}
+    body[data-cgb-print] .cgb{margin:0;padding:0;border:0;background:#fff}
+    body[data-cgb-print] .cgb > *:not(.cgb-form){display:none!important}
+    body[data-cgb-print] .cgb-form > *{display:none!important}
+    body[data-cgb-print="personal"] #cgb-doc:not([hidden]){display:block!important}
+    body[data-cgb-print="blank"] #cgb-doc-blank{display:block!important}
+    body[data-cgb-print] .cgb-doc{margin:0;padding:0;border:0;border-radius:0;font-size:10.5pt}
+    body[data-cgb-print] .cgb-table{font-size:9.5pt}
+    body[data-cgb-print] .cgb-table tr,body[data-cgb-print] .cgb-sign,body[data-cgb-print] .cgb-field,body[data-cgb-print] .cgb-card{break-inside:avoid}
+    body[data-cgb-print] .cgb-card{border-left-width:4px}
+    body[data-cgb-print] .cgb-doc-h{break-after:avoid}
+    body[data-cgb-print] .cgb-pagebreak{break-after:page}
+    body[data-cgb-print] .cgb-doc-brand,body[data-cgb-print] .cgb-doc-h,body[data-cgb-print] .cgb-table th{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>

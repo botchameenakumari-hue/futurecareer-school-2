@@ -19,7 +19,7 @@ export const bundle: SkillTestBundle = {
     breadcrumbName: 'Employability Skills Assessment Test',
     metaTitle: 'Employability Skills Assessment Test | Free Job-Ready Check',
     metaDescription:
-      'Free employability skills assessment test with 41 questions on work habits, digital basics, teamwork, learning on the job and proof of work. Instant result.',
+      'Free employability skills assessment test: 41 questions on work habits, digital basics, teamwork, learning and proof of work. About 12 minutes, no sign-up.',
     h1Lead: 'Employability Skills',
     h1Accent: 'Assessment Test',
     eyebrow: 'Work habits, digital basics, teamwork, learning and proof of work in one report',
@@ -27,13 +27,13 @@ export const bundle: SkillTestBundle = {
       'This employability skills assessment test shows how job-ready you look today, from the point of view of a manager who has to trust you with real work. You rate yourself on work habits, digital basics, working with others, learning on the job and proof of work, then get one area to fix first. It is made for final-year students, freshers and early professionals in India, and it is a different check from a soft skills test.',
     stats: [
       { value: '41', label: 'questions' },
-      { value: '5', label: 'job-ready areas' },
+      { value: '12 min', label: 'about, no sign-up' },
       { value: 'Free', label: 'PDF report' },
     ],
     main: 'picker',
     mainChecks: [
       'Five job-readiness areas scored from your own ratings',
-      'About 8 minutes, no sign-up',
+      'About 12 minutes, no sign-up',
       'Stage-based advice and a two-week routine for your weakest area',
     ],
     reportTitle: 'Employability Skills Report',
@@ -101,7 +101,7 @@ export const bundle: SkillTestBundle = {
         weak:
           'You wait to be taught, repeat the same mistakes or collect courses without using what you learn in real tasks.',
         plan: [
-          'Choose one tool used in the jobs you want, such as Excel, Canva, a CRM or a code editor, and use it on a small real task for 20 minutes a day for a week.',
+          'Choose one tool used in the jobs you want, such as Excel, Canva, a CRM or a code editor, and use it on one small real task each day until you can finish that task without asking anyone.',
           'Keep a mistake log with three columns: what happened, why it happened and what you will do next time.',
           'After you get feedback, change one thing within a week and show the person the changed version.',
         ],
@@ -122,7 +122,7 @@ export const bundle: SkillTestBundle = {
       },
     ],
     questions: [
-      { d: 'habits', text: 'I reach calls, classes or the office on time, and I tell people early when I will be late.' },
+      { d: 'habits', text: 'I reach calls, classes or the office on or before the start time.' },
       { d: 'digital', text: 'When I share a file or link at work, I check who can open it and whether it is the latest version.' },
       { d: 'team', text: 'When I hand work to someone else, I tell them what is done, what is left and where the files are.' },
       { d: 'learn', text: 'When I meet a new tool or software, I try it on my own for at least 20 minutes before I ask for help.' },
@@ -133,17 +133,17 @@ export const bundle: SkillTestBundle = {
       { d: 'learn', text: 'After a mistake, I write down what went wrong and what I will do differently.' },
       { d: 'proof', text: 'I can point to a piece of work, a number or a person that backs up each main claim on my resume.' },
       { d: 'habits', text: 'I write down instructions from a manager or teacher and repeat them back when they are unclear.' },
-      { d: 'digital', text: 'When I hand over a sheet or report, its headings are clear and I have checked the totals, so the other person can use it without asking me.' },
+      { d: 'digital', text: 'Before I hand over a sheet or report, I check its totals a second way.' },
       { d: 'team', text: 'I name teammates when I talk about a shared result, instead of saying only what I did.' },
       { d: 'learn', text: 'When I get feedback, I make one visible change within a week.' },
-      { d: 'proof', text: 'I have collected certificates for my resume, but I could not point to a task where I used what they taught.', reverse: true },
+      { d: 'proof', text: 'I have certificates on my resume for skills that I have never used in a real task.', reverse: true },
       { d: 'habits', text: 'I leave a message from a manager or teacher unanswered for a day or more because I have nothing to report yet.', reverse: true },
       { d: 'digital', text: 'I share work or college logins, or file links that anyone can open, because it is quicker than setting up proper access.', reverse: true },
       { d: 'team', text: 'When I disagree with a senior, I raise it privately with my reason and an alternative.' },
       { d: 'learn', text: 'When I do not know how to do something, I search the help pages or notes first and then ask a specific question that says what I tried.' },
       { d: 'proof', text: 'My resume, my LinkedIn profile and the way I talk about myself in an interview tell the same story.' },
       { d: 'habits', text: 'I keep information from my lab, internship or job private, even when friends ask about it.' },
-      { d: 'digital', text: 'I check an answer from an AI tool against a reliable source before I use it in work I submit, and I do not paste private data into it.' },
+      { d: 'digital', text: 'Before I use an answer from an AI tool in work that I submit, I check it against a reliable source.' },
       { d: 'team', text: 'I leave meetings and calls without noting what I am expected to do next.', reverse: true },
       { d: 'learn', text: 'I wait for someone to teach me a new tool or process instead of starting to learn it myself.', reverse: true },
       { d: 'proof', text: 'A teacher, senior or manager has seen my work and could speak about it if a recruiter asked.' },
@@ -217,7 +217,7 @@ export const bundle: SkillTestBundle = {
       },
       {
         q: 'Is the test free and how long does it take?',
-        a: 'It costs nothing and asks for no sign-up, and the 41 questions take about 8 minutes. At the end you can read your result on screen or save it as a PDF.',
+        a: 'It costs nothing and asks for no sign-up, and the 41 questions take about 12 minutes. At the end you can read your result on screen or save it as a PDF.',
       },
     ],
     related: [
@@ -272,7 +272,7 @@ export const bundle: SkillTestBundle = {
       'A free original 41-question employability skills assessment test covering reliable work habits, digital basics, working with others, learning on the job and proof of work, with five area scores, advice for your stage, a 14-day routine and a PDF report.',
     indexDescription:
       'Free employability skills assessment test: five scores for work habits, digital basics, teamwork, learning and proof of work.',
-    indexNote: 'Free, about 8 minutes, PDF report',
+    indexNote: 'Free, about 12 minutes, PDF report',
   },
 
   depth: {
@@ -476,7 +476,7 @@ export const bundle: SkillTestBundle = {
           'Marketing, analytics, design and software roles where tools change fast (Scalable when you build proof of work and basic sales sense, though entry-level posts are crowded)',
         ],
         routine: [
-          'Days 1 to 3: Choose one tool and spend 20 minutes a day on a small real task with it.',
+          'Days 1 to 3: Choose one tool and use it on a small real task each day.',
           'Days 4 to 7: Start a mistake log and add each slip with its cause and the fix.',
           'Days 8 to 11: Ask for feedback on one finished task and make one change within the week.',
           'Days 12 to 14: Turn what you learnt into a short sample, and keep it in your folder as proof.',
@@ -640,7 +640,7 @@ export const bundle: SkillTestBundle = {
       ['professional'],
       'learn',
       'I have done the same tasks in the same way for more than a year without learning anything new that changes how I work.',
-      'Pick one skill that appears in roles one step above yours and spend 30 minutes a week on it. Use it on a real task within a month.',
+      'Pick one skill that appears in roles one step above yours and practise it on a real task. Show the result to someone within a month.',
       'Set a quarterly check: write what new tool or method you used at work in the last three months. If the list is empty, choose one thing for the next quarter and tell your manager.',
       true,
     ),

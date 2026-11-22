@@ -123,6 +123,7 @@ export function createLifeSkillsPdf(PdfDocument, skills, state, meta) {
   pdf.text('FutureCareerSchool.com  |  Made in the browser on ' + safe(meta.dateText), MARGIN, 30.5);
   y = 42;
 
+  write('Name (optional): ____________________    Class or year: ______________    Date started: ______________', { size: 9.5, gap: 3 });
   write('Skills in this workbook', { size: 11.5, bold: true, color: [11, 118, 109], gap: 1 });
   write(skills.map((skill, index) => (skill.number || index + 1) + '. ' + skill.name).join('   '), { size: 10, gap: 3 });
   write('How to use it: read the notes, answer the three questions in your own words, rate yourself honestly and tick each day of the 7-day practice as you finish it. A self-rating is your own view, not a test result.', { size: 9.5, gap: 2.5 });
@@ -179,6 +180,14 @@ export function createLifeSkillsPdf(PdfDocument, skills, state, meta) {
       });
       y += 1.6;
     });
+
+    sectionLabel('After the 7 days');
+    const rating2 = Number((state.rating2 && state.rating2[skill.id]) || 0);
+    write('My rating after the 7 days: ' + (meta.ratingLabels[rating2] || meta.ratingLabels[0]), { gap: 2 });
+    write('One thing I will keep doing, and one real moment when I used this skill', { bold: true, gap: 1 });
+    const keepText = String((state.keep && state.keep[skill.id]) || '').trim();
+    if (keepText) write(keepText, { indent: 4, gap: 3 });
+    else ruledLines(3);
 
     sectionLabel('Questions and answers');
     skill.qa.forEach((item) => {

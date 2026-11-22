@@ -8547,7 +8547,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'medical-coding-salary-after-bsc-nursing-india',
     title: 'Medical coding salary after BSc nursing: real pay and what it replaces',
     description:
-      'Medical coding salary after BSc nursing in India: fresher pay, pay after CPC, how it compares with staff nurse pay, and what AI changes for entry roles.',
+      'Medical coders in India report about Rs 1.6-5 lakh a year, and a BSc nursing degree does not raise the first offer. See pay by year, CPC-A and AI risk.',
     publishedAtISO: '2026-11-15',
     readTimeMinutes: 16,
   },

@@ -13,7 +13,7 @@ export const bundle: SkillTestBundle = {
     breadcrumbName: 'Writing Skills Assessment Test',
     metaTitle: 'Writing Skills Assessment Test | Free Self-Rating, 41 Questions',
     metaDescription:
-      'Free writing skills assessment test: 41 questions on clarity, accuracy, tone, editing and work writing. Instant scores, a 14-day plan and a PDF report.',
+      'Free writing skills assessment test: 41 questions on clarity, accuracy, tone, editing and work writing. About 10 minutes, no sign-up, with a 14-day plan, PDF.',
     h1Lead: 'Writing Skills',
     h1Accent: 'Assessment Test',
     eyebrow: 'Clarity, accuracy, tone, editing and work writing in one report',
@@ -21,13 +21,13 @@ export const bundle: SkillTestBundle = {
       'This free writing skills assessment test shows which part of your writing needs work first: clarity, accuracy, tone, editing or writing for work. You rate what you really do when you write an answer, an email or a resume line, and you choose the best move in real situations. It is a self-rating, not a graded grammar exam, and it works for students, freshers and working professionals.',
     stats: [
       { value: '41', label: 'questions' },
-      { value: '5', label: 'writing areas' },
+      { value: '10 min', label: 'about, no sign-up' },
       { value: 'Free', label: 'PDF report' },
     ],
     main: 'picker',
     mainChecks: [
       'Five writing areas scored from your own answers',
-      'About 8 minutes, no sign-up',
+      'About 10 minutes, no sign-up',
       'Advice for your stage and a 14-day practice plan',
     ],
     reportTitle: 'Writing Skills Report',
@@ -112,7 +112,7 @@ export const bundle: SkillTestBundle = {
       { d: 'revise', text: 'After I finish writing, I leave it for a few minutes and then read it again from the top before it goes out.' },
       { d: 'work', text: 'My email subject lines tell the person what the message is about and what I need.' },
       { d: 'clarity', text: 'In emails, assignments and reports, my first two lines give the answer or the request, and the reasons come after them.' },
-      { d: 'accuracy', text: 'I know the grammar mistakes I make most often, such as tenses, articles or subject and verb agreement, and I look for them.' },
+      { d: 'accuracy', text: 'When I check my writing, I look for my own most common grammar mistakes, such as tenses, articles or subject and verb agreement.' },
       { d: 'audience', text: 'Before I send a message, I check that the greeting, length and level of detail suit the person who will get it.' },
       { d: 'revise', text: 'I read important writing aloud, or on paper or a different screen, to catch what I missed.' },
       { d: 'work', text: 'I end messages with a clear next step that says who does what by when.' },
@@ -130,7 +130,7 @@ export const bundle: SkillTestBundle = {
       { d: 'accuracy', text: 'I accept the changes made by a spell checker or an AI tool without reading them again.', reverse: true },
       { d: 'audience', text: 'I write to a manager or professor in the same style that I use in chat with friends.', reverse: true },
       { d: 'revise', text: 'I send or submit as soon as I finish writing because I am short of time or I feel it is fine.', reverse: true },
-      { d: 'work', text: 'I write phrases such as “do the needful” or “kindly revert” and expect the person to know exactly what I mean.', reverse: true },
+      { d: 'work', text: 'I write phrases such as “do the needful” or “kindly revert” instead of saying exactly what I want and by when.', reverse: true },
     ],
     readingTitle: 'How to read your writing skills result',
     readingSections: [
@@ -184,7 +184,7 @@ export const bundle: SkillTestBundle = {
       },
       {
         q: 'Is this writing skills assessment test free?',
-        a: 'Yes. It is free, needs no sign-up, takes about 8 minutes and gives an instant result that you can also download as a PDF report.',
+        a: 'Yes. It is free, needs no sign-up, takes about 10 minutes and gives an instant result that you can also download as a PDF report.',
       },
       {
         q: 'Is this a grammar test with marks and a pass score?',
@@ -246,9 +246,19 @@ export const bundle: SkillTestBundle = {
         description: 'A route into paid writing work, with the business side of it explained.',
       },
       {
-        href: '/services/assessments/soft-skills-self-assessment/',
-        title: 'Soft Skills Self-Assessment',
-        description: 'Leadership, teamwork, adaptability, ownership and problem solving in one report.',
+        href: '/services/assessments/presentation-skills-assessment/',
+        title: 'Presentation Skills Assessment',
+        description: 'The spoken side of the same skill: structure, slides, delivery and questions.',
+      },
+      {
+        href: '/services/assessments/employability-skills-assessment-test/',
+        title: 'Employability Skills Assessment Test',
+        description: 'Work habits, teamwork and proof of work, beyond writing.',
+      },
+      {
+        href: '/tools/resume-skills-evidence-builder/',
+        title: 'Resume Skills Evidence Builder',
+        description: 'Turn one real task into a truthful resume line that shows what you did.',
       },
     ],
     breadcrumbDescription: 'Free writing skills assessment test with five area scores and a 14-day practice plan.',
@@ -256,7 +266,7 @@ export const bundle: SkillTestBundle = {
       'A free original 41-question writing skills assessment test covering clarity and structure, grammar and accuracy, tone and audience, editing and revising, and writing for work, with five scores, an overall score, stage-based advice, a 14-day practice plan and a downloadable report.',
     indexDescription:
       'Free writing skills assessment test: 41 questions, five scores for clarity, accuracy, tone, editing and work writing, plus a 14-day plan.',
-    indexNote: 'Free, about 8 minutes, PDF report',
+    indexNote: 'Free, about 10 minutes, PDF report',
   },
 
   depth: {
@@ -486,10 +496,10 @@ export const bundle: SkillTestBundle = {
       work: {
         why: 'At work, writing is how people understand what you did, what you need and what happens next. A clear subject line, a short update and a resume line with a result save time for the other person and make you easier to rely on. These habits are useful in almost any job, and in a few roles, such as content, support and sales, they are a large part of the work.',
         roles: [
-          'First jobs and internships where you send emails, updates and reports to managers and teams',
-          'Job seekers writing resumes, cover letters, LinkedIn profiles and application answers',
+          'Internships and first jobs, where emails and updates are how managers judge you early',
+          'Application rounds that ask for a resume, a cover letter or a written task',
           'Copywriting and content writing (Scalable with a business layer: a job or freelance work is the entry, and an agency, newsletter or service you run is the layer that can grow, but the field is crowded and early pay per piece is low)',
-          'Support, sales, operations and project roles where writing is part of the daily work (Scalable with a business layer)',
+          'Support, sales, operations and project roles where writing is part of the daily work (Scalable with a business layer: a job is the entry, and a service you run is the layer that can grow, though many people apply for the same posts)',
         ],
         routine: [
           'Days 1 to 3: Write every email subject line as “action or topic, detail, date” and check that it is clear without opening the message.',

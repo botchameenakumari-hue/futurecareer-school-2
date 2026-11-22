@@ -13,7 +13,7 @@ export const bundle: SkillTestBundle = {
     breadcrumbName: 'Computer Skills Self-Assessment Test',
     metaTitle: 'Free Basic Computer Skills Assessment Test | Self-Rating',
     metaDescription:
-      'Free basic computer skills assessment test: rate what you can do with files, documents, Excel or Sheets, online safety and data. Instant result, no certificate.',
+      'Free basic computer skills assessment test: files, documents, Excel or Sheets, online safety and data. About 12 minutes, no sign-up, no certificate.',
     h1Lead: 'Free Basic Computer Skills',
     h1Accent: 'Assessment Test',
     eyebrow: 'Files, documents, spreadsheets, online safety and data in one self-rating',
@@ -21,13 +21,13 @@ export const bundle: SkillTestBundle = {
       'This free basic computer skills assessment test asks what you can actually do on a computer, in Excel or Google Sheets, online and with data, and shows which of five areas to practise first. It is a self-rating, not a certificate and not a timed knowledge exam, so there is nothing to pass or fail. It is made for students, freshers and adults returning to work in India.',
     stats: [
       { value: '44', label: 'questions' },
-      { value: '5', label: 'skill areas' },
+      { value: '12 min', label: 'about, no sign-up' },
       { value: 'Free', label: 'PDF report' },
     ],
     main: 'picker',
     mainChecks: [
       'Five computer skill areas scored from what you say you can do',
-      'About 8 minutes, no sign-up, no timer',
+      'About 12 minutes, no sign-up, no timer',
       'Free practice steps for where you are now, plus a 14-day routine',
     ],
     reportTitle: 'Computer Skills Report',
@@ -114,7 +114,7 @@ export const bundle: SkillTestBundle = {
       { d: 'basics', text: 'I can create folders, rename files, and move or copy them between folders, a pen drive and cloud storage.' },
       { d: 'docs', text: 'I can make a document look neat with a clear font, spacing, alignment, margins and page numbers.' },
       { d: 'sheets', text: 'I can sort a table and filter it to show only the rows I need.' },
-      { d: 'online', text: 'I use a different password for important accounts and keep two-step verification on for my email and banking.' },
+      { d: 'online', text: 'I use a different password for each of my important accounts, such as email and banking.' },
       { d: 'data', text: 'I can find and fix common problems in a list, such as blank cells, repeated rows and one name spelled two ways.' },
       { d: 'basics', text: 'I can install, update or remove a program or app on my own, and I know where to download it safely.' },
       { d: 'docs', text: 'I can build a short presentation with a clear title slide, readable text and a picture or chart where it helps.' },
@@ -124,7 +124,7 @@ export const bundle: SkillTestBundle = {
       { d: 'basics', text: 'I use keyboard shortcuts such as copy, paste, undo, save and find to work faster.' },
       { d: 'docs', text: 'I can save a document as a PDF and email it with a clear subject line and the right attachment.' },
       { d: 'sheets', text: 'I set up a sheet so others can read it, with a header row, clear column names and numbers stored as numbers.' },
-      { d: 'online', text: 'I can use email, video calls and shared files for study or work, and I check who can open a file before I send the link.' },
+      { d: 'online', text: 'I can use email, video calls and shared files for study or work.' },
       { d: 'data', text: 'I can answer a question such as which month sold the most by totalling and comparing the numbers.' },
       { d: 'basics', text: 'My files end up on the desktop or in Downloads with names like "final2", and I often cannot find the right one.', reverse: true },
       { d: 'docs', text: 'I press the space bar or Enter many times to push text into place instead of using tabs, alignment or lists.', reverse: true },
@@ -145,7 +145,7 @@ export const bundle: SkillTestBundle = {
         title: 'Basic computer skills come before Excel and data work',
         body: [
           'A person who cannot find a file or set up a clean table will struggle in Excel, however many formulas they learn. That is why this test starts with files and documents and then moves to spreadsheets, online safety and data.',
-          'If your spreadsheet and data areas are low but your basics are strong, you are ready to practise those two now. If your basics are low, give them a week first, because every other area depends on them.',
+          'If your spreadsheet and data areas are low but your basics are strong, you are ready to practise those two now. If your basics are low, work on them first, because every other area depends on them.',
         ],
       },
       {
@@ -174,7 +174,7 @@ export const bundle: SkillTestBundle = {
     faqs: [
       {
         q: 'Is this a free basic computer skills assessment test?',
-        a: 'Yes. You pay nothing and do not register. It takes about 8 minutes, and when you finish you see five area scores at once and can save a PDF report.',
+        a: 'Yes. You pay nothing and do not register. It takes about 12 minutes, and when you finish you see five area scores at once and can save a PDF report.',
       },
       {
         q: 'Is this a free Excel skills assessment test?',
@@ -194,7 +194,7 @@ export const bundle: SkillTestBundle = {
       },
       {
         q: 'How is the score worked out?',
-        a: 'You rate each statement from 1 (not true) to 5 (very true). A statement about a poor habit, such as typing totals by hand, counts the other way round, so agreeing with it lowers the score. Each everyday situation is worth 0 to 100 points, and the overall score is the average of your five area scores.',
+        a: 'You rate each statement from 1 (not true) to 5 (very true). A statement about a poor habit, such as typing totals by hand, counts the other way round, so agreeing with it lowers the score. Each everyday situation is worth 0 to 100 points, an area score is the average of everything asked about that area, and the overall score is the average of your five area scores.',
       },
       {
         q: 'What is a good score on a computer skills assessment?',
@@ -206,7 +206,7 @@ export const bundle: SkillTestBundle = {
       },
       {
         q: 'How can I improve my computer skills for free?',
-        a: 'Start with your lowest area and do one small task a day. Free tools such as Google Docs, Google Sheets or LibreOffice are enough for every step in your report, and so is Excel for the web, which is free with a Microsoft account but has fewer features than the desktop app. The 14-day routine gives four steps for that area, and retaking the test after a few weeks shows whether it moved.',
+        a: 'Start with your lowest area and do one small task at a time. Free tools such as Google Docs, Google Sheets or LibreOffice are enough for every step in your report, and so is Excel for the web, which is free with a Microsoft account but has fewer features than the desktop app. The 14-day routine gives four steps for that area, and retaking the test after a few weeks shows whether it moved.',
       },
       {
         q: 'I am returning to work after a break. Is this test for me?',
@@ -244,13 +244,28 @@ export const bundle: SkillTestBundle = {
         title: 'Internship Readiness Self-Assessment',
         description: 'Check how ready you are to start an internship, including the practical basics.',
       },
+      {
+        href: '/services/assessments/employability-skills-assessment-test/',
+        title: 'Employability Skills Assessment Test',
+        description: 'Beyond computer basics: work habits, teamwork, learning on the job and proof of work.',
+      },
+      {
+        href: '/services/assessments/skill-gap-assessment/',
+        title: 'Skill Gap Assessment',
+        description: 'Compare your tools and skills with a target role and see which gap to close first.',
+      },
+      {
+        href: '/tools/resume-skills-evidence-builder/',
+        title: 'Resume Skills Evidence Builder',
+        description: 'Turn a real spreadsheet or document task into a truthful resume line.',
+      },
     ],
     breadcrumbDescription: 'Free computer skills test that scores files, documents, spreadsheets, online safety and data, with a 14-day practice routine.',
     webAppDescription:
       'A free original 44-question computer skills self-assessment covering computer basics and files, documents and presentations, spreadsheets in Excel or Google Sheets, internet and online safety, and working with data, with five scores, an overall score, stage-based advice, a 14-day routine and a downloadable report. It is a self-rating, not a certificate or a timed exam.',
     indexDescription:
       'Free basic computer skills self-rating: files, documents, Excel or Sheets, online safety and data, with five scores and a 14-day routine.',
-    indexNote: 'Free, about 8 minutes, PDF report',
+    indexNote: 'Free, about 12 minutes, PDF report',
   },
 
   depth: {
@@ -304,7 +319,7 @@ export const bundle: SkillTestBundle = {
       'Spend ten minutes making three folders and moving five files into them, once by drag and drop and once by copy then paste. Rename two files so the name says what it is and the month.',
       'Take a plain page of text and change only the style settings: one font, size 11 or 12, line spacing of 1.15 or 1.5, and page numbers at the bottom. Compare it with the original and notice how much easier it reads.',
       'In a sheet with ten rows, turn on Filter from the Data menu and show only one city or category. Then sort a number column from largest to smallest and clear the filter.',
-      'Open the security settings of your email today and turn on two-step verification. Then change the password of one important account to a long phrase you use nowhere else.',
+      'Check that your email and banking accounts each have their own password, a long phrase you use nowhere else. Then open the security settings of your email and turn on two-step verification.',
       'Make a list of ten names and add a few mistakes on purpose: an extra space, small letters, a repeated name. Fix them with Find and Replace and Remove duplicates.',
       'Install one free program you need, such as a PDF viewer, from its official website only. Then find it in your list of installed apps and practise updating it and removing one you no longer use.',
       'Make a three-slide deck on any topic: a title slide, one slide with three short points and one slide with a picture or chart. Keep each slide to a heading and no more than three lines.',
@@ -569,7 +584,7 @@ export const bundle: SkillTestBundle = {
       o('Sort the folder by date modified, open the newest one, check that it has your last changes, and rename it clearly before sending', 100, 'Sorting by date and checking the content gives you a safe answer. Keep one clear name from now on so that you do not repeat this search.'),
     ]),
     sc('basics', 'Your computer becomes very slow while you have unsaved work open. What do you do first?', [
-      o('Restart the computer right away to get it moving', 33, 'A restart may lose everything you have not saved. Try to save first, even if it takes a minute.'),
+      o('Restart the computer right away to get it moving again, since a restart usually clears whatever has slowed it down', 33, 'A restart may lose everything you have not saved. Try to save first, even if it takes a minute.'),
       o('Save your work at once, close programs you are not using, and restart if it stays slow', 100, 'Saving first protects your work. Closing unused programs often fixes the slowness, and a restart is the next safe step.'),
       o('Wait and keep clicking until something happens', 17, 'Repeated clicks can freeze the computer further. Wait a short time, then save, close extra programs and restart if needed.'),
       o('Hold down the power button immediately', 0, 'A forced shutdown risks losing your work and sometimes damages files. Use it only when nothing else responds.'),
@@ -630,7 +645,7 @@ export const bundle: SkillTestBundle = {
       o('Copy the sheet first, make the names consistent with Find and Replace or a text formula, remove repeated rows after checking them, and note what you changed', 100, 'Working on a copy keeps the original safe, and a note lets someone else repeat or undo your steps. Check the repeated rows before you delete them.'),
       o('Count the rows as they are, since the names look close enough', 17, 'The counts will be wrong because the sheet sees each spelling as a different customer. Standardise the names first.'),
       o('Fix the names by hand in the original file and save', 33, 'Editing the original loses the way back. Work on a copy and write down the changes.'),
-      o('Fix the names and delete repeated rows in the original after a quick look', 50, 'You are fixing the right thing. Keep a copy and note the changes before you delete anything.'),
+      o('Fix the names and delete the repeated rows in the original file after a quick look at them, and save it under the same name so that everyone gets the clean version from now on', 50, 'You are fixing the right thing. Keep a copy and note the changes before you delete anything.'),
     ]),
     sc('data', 'You are asked which of three products sold the most last quarter, and the data has 600 rows. What do you do?', [
       o('Scroll through the rows and estimate which product appears most often', 17, 'Counting rows is not the same as adding sales, and an estimate may be wrong. Use a total for each product.'),
@@ -646,7 +661,7 @@ export const bundle: SkillTestBundle = {
     ]),
     // Stage specific
     { ...sc('docs', 'Student: your group project is being written by four people who keep sending different versions on a chat app. What do you do?', [
-      o('Ask everyone to send their part to you and combine them yourself', 67, 'This can work, but it makes you the only person with the full version. A shared document lets everyone see the whole and avoids late surprises.'),
+      o('Ask everyone to send their part to you by the end of the day and combine them yourself into one file, so that the report looks the same throughout', 67, 'This can work, but it makes you the only person with the full version. A shared document lets everyone see the whole and avoids late surprises.'),
       o('Move the report to one shared online document, give everyone edit access, agree who owns the final copy and use comments for changes', 100, 'One shared copy ends the version problem. Version history lets you see who changed what.'),
       o('Pick the version that arrived last and ask the others to follow it', 33, 'The last version may not include the others\' changes. Agree one master file and one owner.'),
       o('Keep editing your own copy and send it to the teacher in the end', 17, 'The group may end up with several different reports. Work in one shared file from today.'),

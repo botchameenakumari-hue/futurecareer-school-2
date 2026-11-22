@@ -23,6 +23,8 @@ export interface FormData {
   stage: string;
   values: Record<string, string>;
   options: OptionRow[];
+  /** True while the form holds the made-up example, so every copy says so. */
+  example?: boolean;
 }
 
 export const MARKS: Record<string, string> = {
@@ -64,23 +66,27 @@ export const PROMPTS: Record<FormMode, Prompt[]> = {
   general: [
     { key: 'goal', rows: 3, label: 'What decision or question do I want help with?', hint: 'For example: which course to take, whether to change fields, or how to restart after a break. One decision is easier to work on than five.' },
     { key: 'now', rows: 3, label: 'Where am I now?', hint: 'Study or work, for how long, what is going well and what is not. Facts first, feelings second.' },
+    { key: 'subjects', rows: 2, label: 'My subjects, results and activities', hint: 'What I study or studied, which subjects I like and which I find hard, results in words or numbers if I want to share them, and what I do outside class.' },
     { key: 'strengths', rows: 3, label: 'What am I good at, with a reason I can show?', hint: 'Something others ask me to help with, or something I finished. Leave out claims I cannot show.' },
     { key: 'energy', rows: 3, label: 'Which tasks give me energy and which drain me?', hint: 'Think of real tasks from the last few months, not job titles.' },
+    { key: 'family', rows: 2, label: 'What does my family hope for or worry about?', hint: 'One or two lines in their words, not mine. Leave it blank if the topic is private.' },
     { key: 'constraints', rows: 3, label: 'What limits my choices right now?', hint: 'Money, time, place, family duties, exam dates or rules. Skip anything private that I would rather not write down.' },
     { key: 'evidence', rows: 3, label: 'What evidence can I bring?', hint: 'Marksheets, project files, work samples, feedback, certificates, or results of any test I have taken. Bring copies, not originals.' },
-    { key: 'gaps', rows: 3, label: 'What evidence am I missing?', hint: 'Something I believe but have not tested yet, such as whether I would enjoy the daily work.' },
-    { key: 'questions', rows: 4, label: 'My top three questions for the counsellor', hint: 'For example: What should I test first? What is the main risk in my favourite option? How would someone in this route find their first paying client or employer?' },
+    { key: 'gaps', rows: 2, label: 'What evidence am I missing?', hint: 'Something I believe but have not tested yet, such as whether I would enjoy the daily work.' },
+    { key: 'questions', rows: 3, label: 'My top three questions for the counsellor', hint: 'For example: What should I test first? What is the main risk in my favourite option? How would someone in this route find their first paying client or employer?' },
     { key: 'outcome', rows: 2, label: 'What would make this session worth my time?', hint: 'The one thing I want to leave with, for example a shortlist of two options and a next step.' },
   ],
   it: [
     { key: 'goal', rows: 3, label: 'What career decision do I want help with?', hint: 'For example: service company to product company, testing to data, engineer to manager, starting consulting, or recovering after a layoff.' },
     { key: 'now', rows: 3, label: 'My current role, stack and situation', hint: 'Role, main tools or languages, years in each, type of employer, and what the work is like now.' },
+    { key: 'target', rows: 2, label: 'Where do I want to be in the next one to two years?', hint: 'The role, the kind of employer, the city or remote work, and what would count as a good move for me.' },
     { key: 'strengths', rows: 3, label: 'Where is my work visibly strong?', hint: 'Systems I built or fixed, incidents I handled, reviews I gave, people I helped. Describe only what I can show without sharing confidential details.' },
     { key: 'energy', rows: 3, label: 'Which work gives me energy and which drains me?', hint: 'For example: building, debugging, design, client calls, documentation, on-call duty, estimating or mentoring.' },
     { key: 'constraints', rows: 3, label: 'What limits my moves right now?', hint: 'Notice period, loans or EMIs, savings runway, visa or relocation limits, family duties, and the hours I can really spend on learning each week.' },
     { key: 'evidence', rows: 3, label: 'What proof can I show?', hint: 'Public repositories, shipped features, dashboards, certificates with a project behind them, performance feedback, talks or write-ups. Remove client and employer secrets.' },
-    { key: 'gaps', rows: 3, label: 'What proof am I missing?', hint: 'A skill I list but have not used in real work, or a role I want but have never tested with a small project.' },
-    { key: 'questions', rows: 4, label: 'My top three questions for the counsellor', hint: 'For example: Which gap should I close first? Is my target role crowded at entry level? How would I find my first paying client?' },
+    { key: 'gaps', rows: 2, label: 'What proof am I missing?', hint: 'A skill I list but have not used in real work, or a role I want but have never tested with a small project.' },
+    { key: 'jobsearch', rows: 3, label: 'Interviews and job search so far', hint: 'Roles I applied for, rounds I cleared, where I got stuck and any feedback I received. Leave it blank if I am not searching yet.' },
+    { key: 'questions', rows: 3, label: 'My top three questions for the counsellor', hint: 'For example: Which gap should I close first? Is my target role crowded at entry level? How would I find my first paying client?' },
     { key: 'outcome', rows: 2, label: 'What would make this session worth my time?', hint: 'The one thing I want to leave with, for example one target role, one gap to close and a date to review.' },
   ],
 };
@@ -91,7 +97,10 @@ export const OPTIONS_HINT = 'Name up to three options. For each one, pick a grow
 export const AFTER_SESSION: Array<{ heading: string; hint?: string; lines: number }> = [
   { heading: 'What the counsellor said, in my own words', lines: 5 },
   { heading: 'What we agreed is the real question', lines: 2 },
+  { heading: 'Strengths and interests the counsellor noticed, and the evidence for each', hint: 'Write the evidence beside each one. A strength with no evidence is only a guess.', lines: 3 },
   { heading: 'Evidence I will collect before the next decision', hint: 'One official page, one conversation, one small project or one cost check.', lines: 4 },
+  { heading: 'Tests, courses or people the counsellor suggested I look at', hint: 'Check each one on its official source before you pay or apply.', lines: 3 },
+  { heading: 'Questions I still need answered', lines: 2 },
   { heading: 'One next step and the date I will do it', lines: 2 },
   { heading: 'Review date', hint: 'When I will look at the evidence and decide whether to continue, compare or pause.', lines: 1 },
 ];
@@ -131,20 +140,32 @@ export interface SheetBlock {
   lines: number;
   table?: { head: string[]; rows: string[][] };
   newPage?: boolean;
+  /** Signature lines drawn at the end of the page. */
+  sign?: string[];
 }
 
 export interface SheetModel {
   title: string;
   subtitle: string;
+  /** Lines to write by hand under the title, for example date and name. */
+  handLines: string[];
   blocks: SheetBlock[];
 }
 
 export function sheetModel(data: FormData, blank: boolean): SheetModel {
   const prompts = PROMPTS[data.mode];
   const title = data.mode === 'it' ? 'IT Career Counselling Form' : 'Career Counselling Form';
-  const subtitle = blank
-    ? 'Blank copy. Fill it in before the session and bring it with you.'
-    : 'Prepared by me for my own career counselling session.';
+  const subtitle = data.example
+    ? 'Made-up example for a fictional person. Not a real client and not a real report.'
+    : blank
+      ? 'Blank copy. Fill it in before the session and bring it with you.'
+      : 'Prepared by me for my own career counselling session.';
+  const handLines = blank
+    ? [
+        'Date: ____________________    Name (optional): ______________________',
+        (data.mode === 'it' ? 'Current role and years: ________________' : 'Class, year or role: ________________') + '    Phone or email (optional): ________________',
+      ]
+    : ['Prepared on ' + new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) + '    Name (optional): ______________________'];
   const blocks: SheetBlock[] = [];
   blocks.push({
     heading: STAGE_QUESTION[data.mode],
@@ -179,7 +200,13 @@ export function sheetModel(data: FormData, blank: boolean): SheetModel {
     lines: 0,
     table: { head: ['Option', 'Growth mark', 'Main risk'], rows: [['', '', ''], ['', '', ''], ['', '', '']] },
   });
-  return { title, subtitle, blocks };
+  blocks.push({
+    heading: 'Signatures',
+    hint: 'Counselling gives guidance, not a promise of a result, a seat or a job. A parent or guardian signs only if the student is under 18.',
+    lines: 0,
+    sign: ['Counsellor name and date', 'My initials and date', 'Parent or guardian, if under 18'],
+  });
+  return { title, subtitle, handLines, blocks };
 }
 
 const esc = (value: unknown) => String(value == null ? '' : value).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string));
@@ -187,8 +214,7 @@ const esc = (value: unknown) => String(value == null ? '' : value).replace(/[&<>
 /** HTML for the print view (a plain black on white sheet). */
 export function sheetHtml(data: FormData, blank: boolean): string {
   const model = sheetModel(data, blank);
-  const today = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
-  const head = '<p class="ccs-title">' + esc(model.title) + '</p><p class="ccs-sub">' + esc(model.subtitle) + '</p><p class="ccs-meta">' + (blank ? 'Date: ____________________ &nbsp; Name (optional): ____________________' : 'Prepared on ' + esc(today) + ' &nbsp; Name (optional): ____________________') + '</p>';
+  const head = '<p class="ccs-title">' + esc(model.title) + '</p><p class="ccs-sub">' + esc(model.subtitle) + '</p>' + model.handLines.map((line) => '<p class="ccs-meta">' + esc(line).replace(/    /g, ' &nbsp; ') + '</p>').join('');
   const body = model.blocks.map((block) => {
     let html = (block.newPage ? '<h2 class="ccs-part ccs-newpage">After the session</h2>' : '') + '<section class="ccs-block"><h2>' + esc(block.heading) + '</h2>';
     if (block.hint) html += '<p class="ccs-hint">' + esc(block.hint) + '</p>';
@@ -198,6 +224,7 @@ export function sheetHtml(data: FormData, blank: boolean): string {
         block.table.rows.map((row) => '<tr>' + row.map((cell, i) => '<td data-label="' + esc(block.table!.head[i]) + '">' + (esc(cell) || '&nbsp;') + '</td>').join('') + '</tr>').join('') + '</tbody></table>';
     }
     for (let i = 0; i < block.lines; i += 1) html += '<div class="ccs-line"></div>';
+    if (block.sign) html += '<div class="ccs-sign">' + block.sign.map((label) => '<p><span class="ccs-sign-line"></span>' + esc(label) + '</p>').join('') + '</div>';
     return html + '</section>';
   }).join('');
   return head + body + '<p class="ccs-foot">futurecareerschool.com/tools/career-counselling-form/ . Your own preparation. It is not a test, a diagnosis or advice.</p>';
@@ -282,8 +309,8 @@ export function buildPdf(PdfDocument: JsPdfCtor, data: FormData, blank: boolean,
     pdf.setDrawColor(rule[0], rule[1], rule[2]);
     pdf.setLineWidth(0.2);
     for (let i = 0; i < count; i += 1) {
-      ensure(8);
-      y += 8;
+      ensure(7);
+      y += 7;
       pdf.line(M, y, W - M, y);
     }
     y += 2;
@@ -297,15 +324,14 @@ export function buildPdf(PdfDocument: JsPdfCtor, data: FormData, blank: boolean,
   pdf.text(pdfText(model.title), M, y + 6);
   y += 11;
   writeLines(wrap(model.subtitle, CW, 10, 'normal'), 10, 'normal', soft, 5);
-  const today = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
-  writeLines([blank ? 'Date: ______________________    Name (optional): ______________________' : 'Prepared on ' + today + '    Name (optional): ______________________'], 9.5, 'normal', ink, 7);
+  writeLines(model.handLines, 9.5, 'normal', ink, 7);
   y += 2;
 
   model.blocks.forEach((block) => {
     if (block.newPage) { pdf.addPage(); y = M; setText(14, 'bold', accent); pdf.text('After the session', M, y + 5); y += 10; }
     const headingLines = wrap(block.heading, CW, 11, 'bold');
     const hintLines = block.hint ? wrap(block.hint, CW, 8.5, 'italic') : [];
-    ensure(headingLines.length * 5.2 + hintLines.length * 4.2 + 14);
+    ensure(headingLines.length * 5.2 + hintLines.length * 4.2 + 14 + (block.table ? 6.5 + block.table.rows.length * 11 + 4 : 0));
     writeLines(headingLines, 11, 'bold', accent, 5.2);
     if (hintLines.length) writeLines(hintLines, 8.5, 'italic', soft, 4.2);
     y += 1;
@@ -316,6 +342,8 @@ export function buildPdf(PdfDocument: JsPdfCtor, data: FormData, blank: boolean,
     }
     if (block.table) {
       const colW = [CW * 0.34, CW * 0.26, CW * 0.4];
+      // Keep a short table on one page: header and every row, so it never splits.
+      ensure(6.5 + block.table.rows.length * 11 + 4);
       pdf.setDrawColor(rule[0], rule[1], rule[2]);
       pdf.setLineWidth(0.25);
       let x = M;
@@ -342,6 +370,21 @@ export function buildPdf(PdfDocument: JsPdfCtor, data: FormData, blank: boolean,
       y += 3;
     }
     if (block.lines) ruled(block.lines);
+    if (block.sign) {
+      ensure(24);
+      y += 12;
+      const gap = 8;
+      const w = (CW - gap * (block.sign.length - 1)) / block.sign.length;
+      pdf.setDrawColor(ink[0], ink[1], ink[2]);
+      pdf.setLineWidth(0.3);
+      block.sign.forEach((label, i) => {
+        const x = M + i * (w + gap);
+        pdf.line(x, y, x + w, y);
+        setText(8.5, 'normal', soft);
+        pdf.text(pdfText(label), x, y + 4.2);
+      });
+      y += 8;
+    }
     y += 2;
   });
 
@@ -354,4 +397,146 @@ export function buildPdf(PdfDocument: JsPdfCtor, data: FormData, blank: boolean,
     pdf.text('Page ' + page + ' of ' + total, W - M, H - 9, { align: 'right' });
   }
   return pdf;
+}
+
+
+// ---------- made-up examples ----------
+// Both examples describe a fictional person. They hold no figures, no fees and no pay.
+
+export const EXAMPLE_NOTE = 'This is a made-up example for a fictional person. Press Clear my answers before you write your own.';
+
+export const EXAMPLES: Record<FormMode, FormData> = {
+  general: {
+    mode: 'general',
+    stage: 'school',
+    example: true,
+    values: {
+      goal: 'After Class 12, should I study computer science or commerce with a digital skill? I need to choose before admissions open.',
+      now: 'Class 12, maths, physics and chemistry. Maths is my best subject and chemistry my weakest.',
+      subjects: 'I like maths and computer science. Chemistry practicals are hard for me. I run the quiz club in school.',
+      strengths: 'Explaining maths to friends. I built a small quiz app for the club and my classmates used it.',
+      energy: 'Energy: building the quiz app and solving puzzles. Drain: chapters that need memory only, and writing practical files.',
+      family: 'My parents want a safe degree that leads to a job. They worry about fees and about me living far from home.',
+      constraints: 'The family can pay for a local government or aided college. I cannot move to another city in the first year. Entrance exam dates must be checked.',
+      evidence: 'Class 12 marksheet, the link to the quiz app, and a note from the club teacher about my work.',
+      gaps: 'I have only tried coding for a few weeks. I do not know what the daily work in data or software looks like.',
+      questions: '1. What should I test first?\n2. What is the main risk in a computer science degree from a local college?\n3. How would someone in data work find a first paying client or employer?',
+      outcome: 'A shortlist of two options and one small thing to test.',
+    },
+    options: [
+      { name: 'BCA or B.Sc computer science, then software or data roles', mark: 'scalable', worry: 'Entry roles are crowded, so I need built work and not only a degree.' },
+      { name: 'B.Com with a digital marketing skill', mark: 'scalable', worry: 'Easy to enter, so I need a niche and a small portfolio.' },
+      { name: 'Degree, then a government exam', mark: 'notso', worry: 'Few seats and many attempts. I would need a second skill.' },
+    ],
+  },
+  it: {
+    mode: 'it',
+    stage: 'early-it',
+    example: true,
+    values: {
+      goal: 'Should I move from application support in a service company to data engineering, or stay and aim for a lead role?',
+      now: 'Application support engineer in a service company. Mostly SQL, Linux and ticket work. The work is steady but I am not building anything.',
+      target: 'A data engineering role in a product team, in my own city or remote.',
+      strengths: 'I wrote SQL scripts that removed a weekly manual report, and my team still uses them. I explain incidents clearly to clients.',
+      energy: 'Energy: automating repeated work and debugging data problems. Drain: night shifts and ticket queues.',
+      constraints: 'Notice period, an education loan EMI and a small savings cushion. I can study only on weekends and some evenings.',
+      evidence: 'The script repository with client names removed, a short write-up of the report automation, and my manager\'s feedback note.',
+      gaps: 'I have not used a cloud data tool in real work, and I have no finished data pipeline to show.',
+      jobsearch: 'Not searching yet. I want to know what proof to build first.',
+      questions: '1. Which gap should I close first?\n2. Is data engineering crowded at entry level?\n3. How would I find my first paying client for small data work?',
+      outcome: 'One target role, one gap to close and a date to review.',
+    },
+    options: [
+      { name: 'Data engineering in a product team', mark: 'scalable', worry: 'Tied to tools, so I need a pipeline I built and can show.' },
+      { name: 'Stay and aim for a support team lead', mark: 'notso', worry: 'Few seats, and the skills may not move with me.' },
+      { name: 'Small paid data projects beside my job', mark: 'business', worry: 'Clients must find and trust me first, and my employer rules may limit it.' },
+    ],
+  },
+};
+
+export const EXAMPLE_AFTER: Record<FormMode, Array<[string, string]>> = {
+  general: [
+    ['What we agreed is the real question', 'Do I enjoy building software for weeks, and not only for one weekend?'],
+    ['Evidence I will collect before the next decision', 'Build one small app and show it to my club teacher. Read the fee and eligibility pages of two colleges on their official sites.'],
+    ['One next step and the date I will do it', 'Start the small app and show it to my teacher by the date I write here.'],
+    ['Review date', 'End of next month: look at the app, the feedback and the fee pages, then choose or compare again.'],
+  ],
+  it: [
+    ['What we agreed is the real question', 'Can I show one finished data pipeline that a hiring team can read?'],
+    ['Evidence I will collect before the next decision', 'Build one small pipeline with public data, write what it does in a page, and ask two data engineers what they would check first.'],
+    ['One next step and the date I will do it', 'Choose the public data set and write the plan by the date I write here.'],
+    ['Review date', 'End of next month: look at the pipeline and the feedback, then decide whether to apply or to build a second one.'],
+  ],
+};
+
+// ---------- invitation letter ----------
+
+export type LetterKind = 'speaker' | 'parents';
+
+export interface LetterFields {
+  kind: LetterKind;
+  institution: string;
+  audience: string;
+  topic: string;
+  date: string;
+  time: string;
+  venue: string;
+  duration: string;
+  contact: string;
+  replyBy: string;
+}
+
+export const LETTER_KINDS: Record<LetterKind, string> = {
+  speaker: 'Invite a counsellor to speak at our school or college',
+  parents: 'Invite parents and students to a counselling session',
+};
+
+export function blankLetter(): LetterFields {
+  return { kind: 'speaker', institution: '', audience: '', topic: '', date: '', time: '', venue: '', duration: '', contact: '', replyBy: '' };
+}
+
+const fill = (value: string, placeholder: string) => (value || '').trim() || '[' + placeholder + ']';
+
+/** Plain text letter. Anything left empty stays as a [square bracket] placeholder, so it is easy to spot. */
+export function letterText(f: LetterFields): string {
+  const inst = fill(f.institution, 'name of school or college');
+  const audience = fill(f.audience, 'who the session is for, for example Class 12 students');
+  const topic = fill(f.topic, 'topic, for example choosing a course after Class 12');
+  const details = [
+    'Topic: ' + topic,
+    'Date: ' + fill(f.date, 'date'),
+    'Time: ' + fill(f.time, 'start time'),
+    'Venue: ' + fill(f.venue, 'room or hall and address'),
+    'Duration: ' + fill(f.duration, 'how long the session should run'),
+    'For: ' + audience,
+  ].join('\n');
+  const contact = fill(f.contact, 'contact person, phone or email');
+  const replyBy = fill(f.replyBy, 'reply-by date');
+  if (f.kind === 'parents') {
+    return [
+      'Date: [date of this letter]',
+      'Subject: Invitation to a career counselling session for ' + audience,
+      'Dear Parents and Students,',
+      inst + ' is holding a career counselling session. It is meant to help students and families think through study and career choices with a counsellor.',
+      details,
+      'Students may bring their latest marksheet and a short list of questions. Please confirm whether you will attend by ' + replyBy + '. For any query, contact ' + contact + '.',
+      'Yours sincerely,\n[Name and designation]\n' + inst,
+    ].join('\n\n');
+  }
+  return [
+    'Date: [date of this letter]',
+    'To,\n[Name of the counsellor or organisation]\n[Address or email]',
+    'Subject: Invitation to conduct a career counselling session at ' + inst,
+    'Respected Sir or Madam,',
+    inst + ' invites you to conduct a career counselling session for ' + audience + '.',
+    details,
+    'Please tell us by ' + replyBy + ' whether you can attend, what room set-up you need, and whether any fee or travel cost applies. For any query, contact ' + contact + '.',
+    'Thank you for your time.',
+    'Yours sincerely,\n[Name and designation]\n' + inst,
+  ].join('\n\n');
+}
+
+/** Print view of the letter. */
+export function letterHtml(f: LetterFields): string {
+  return '<p class="ccs-title">Invitation letter</p>' + letterText(f).split('\n\n').map((block) => '<p class="ccs-letter">' + esc(block).replace(/\n/g, '<br>') + '</p>').join('');
 }

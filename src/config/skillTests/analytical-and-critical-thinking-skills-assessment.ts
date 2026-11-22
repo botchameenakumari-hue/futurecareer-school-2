@@ -161,7 +161,7 @@ const Q_LIST: Q[] = [
   },
   {
     d: 'bias',
-    text: 'I change my conclusion when better evidence appears, without feeling that I have lost.',
+    text: 'I change my conclusion when better evidence appears.',
     tip: 'Practise saying “That changes what I think” once this week when a fact calls for it. Changing a conclusion after new facts is a sign of careful thinking.',
     up: 'Keep a short note each time you change your view and what caused it. Look for what usually persuades you, and whether you ever change too easily.',
   },
@@ -181,7 +181,7 @@ export const bundle: SkillTestBundle = {
     breadcrumbName: 'Analytical and Critical Thinking Skills Assessment',
     metaTitle: 'Analytical Skills Assessment | Free Critical Thinking Test',
     metaDescription:
-      'Free analytical skills assessment with 42 questions on framing, evidence, structure, bias checks and data sense. Instant scores and a plan for your stage.',
+      'Free analytical skills assessment: 42 questions on framing, evidence, structure, bias checks and data sense. About 10 minutes, no sign-up, plan for your stage.',
     h1Lead: 'Analytical and Critical Thinking',
     h1Accent: 'Skills Assessment',
     eyebrow: 'Framing, evidence, structure, bias checks and data sense in one report',
@@ -189,13 +189,13 @@ export const bundle: SkillTestBundle = {
       'This free analytical skills assessment rates the thinking habits you actually use: how you frame a question, weigh evidence, break a problem apart, check your own bias and read numbers. It is a thinking skills assessment of habits, not a timed puzzle, so it shows which one habit to practise first. It works for students, freshers and working professionals.',
     stats: [
       { value: '42', label: 'questions' },
-      { value: '5', label: 'thinking areas' },
+      { value: '10 min', label: 'about, no sign-up' },
       { value: 'Free', label: 'PDF report' },
     ],
     main: 'picker',
     mainChecks: [
       'Five thinking areas scored from your own ratings and real situations',
-      'About 8 minutes, no sign-up',
+      'About 10 minutes, no sign-up',
       'Advice for your stage and a four-step plan',
     ],
     reportTitle: 'Analytical Thinking Report',
@@ -287,14 +287,14 @@ export const bundle: SkillTestBundle = {
         title: 'This is not a reasoning test',
         body: [
           'A numerical or verbal reasoning test asks you to solve set puzzles against a clock. This self-rating asks what you do when a question is vague, a claim is unchecked or a chart looks convincing. A person can score well on timed puzzles and still skip these habits, and the other way round.',
-          'If you are preparing for a placement or recruitment test, use the reasoning tests for timed practice and use this page to see which thinking habit is holding your answers back.',
+          'If you are preparing for a placement or recruitment test, use the reasoning tests for timed practice and use this test to see which thinking habit is holding your answers back.',
         ],
       },
       {
         title: 'Where these habits show up in study and work',
         body: [
           'Job descriptions often ask for analytical or problem-solving skills, and interviewers usually ask for an example instead of a claim. One true story, such as how you checked a figure or changed your mind, is more convincing than the phrase on a CV.',
-          'Some people also turn these habits into paid work, for example checking figures, summarising research or preparing simple reports for small businesses. Demand, pay and the time it takes vary a great deal, and nothing on this page promises income or a job.',
+          'Some people also turn these habits into paid work, for example checking figures, summarising research or preparing simple reports for small businesses. Demand, pay and the time it takes vary a great deal, and nothing here promises income or a job.',
         ],
       },
       {
@@ -351,7 +351,7 @@ export const bundle: SkillTestBundle = {
       },
       {
         q: 'Is the test free, and do I need to sign up?',
-        a: 'Yes, it is free with no sign-up, and the 42 questions take about 8 minutes. You see your five scores straight away and can keep a copy as a PDF.',
+        a: 'Yes, it is free with no sign-up, and the 42 questions take about 10 minutes. You see your five scores straight away and can keep a copy as a PDF.',
       },
     ],
     related: [
@@ -371,9 +371,9 @@ export const bundle: SkillTestBundle = {
         description: 'Timed practice with passages and arguments for placement and recruitment tests.',
       },
       {
-        href: '/services/assessments/soft-skills-self-assessment/',
-        title: 'Soft Skills Self-Assessment',
-        description: 'Leadership, teamwork, adaptability, ownership and problem solving in one report.',
+        href: '/tools/career-decision-journal/',
+        title: 'Career Decision Journal',
+        description: 'Write down a decision, your assumptions and the evidence for and against, then review it later.',
       },
       {
         href: '/blog/skills/how-to-develop-analytical-skills-india/',
@@ -396,7 +396,7 @@ export const bundle: SkillTestBundle = {
       'A free original 42-question analytical and critical thinking skills assessment covering framing the question, weighing evidence, breaking problems into parts, checking your own thinking and data sense, with five scores, an overall score, stage-based advice and a downloadable report.',
     indexDescription:
       'Free analytical skills assessment: 42 questions, five scores for framing, evidence, structure, bias checks and data sense.',
-    indexNote: 'Free, about 8 minutes, PDF report',
+    indexNote: 'Free, about 10 minutes, PDF report',
   },
 
   depth: {
@@ -628,7 +628,7 @@ export const bundle: SkillTestBundle = {
     { ...x(['professional'], 'frame', 'In meetings, I ask what decision an analysis or report is meant to support.', 'Ask at the start: “What will we decide with this?”. Reports and charts built without a decision in mind tend to answer the wrong question.'), up: 'After the meeting, write the decision and the evidence that matters most in two lines and send them. Check whether others agree with your summary.' },
     { ...x(['professional'], 'evidence', 'When a senior person, vendor or consultant makes a recommendation, I ask what evidence supports it.', 'Ask politely: “What is this based on, and what would show it is not working?”. A good recommendation can answer both.'), up: 'Ask for one example where the approach did not work and what was different there. Compare it with your own situation before you decide.' },
     { ...x(['professional'], 'structure', 'When a team problem is complex, I help split it into parts with a clear owner for each.', 'Draw the problem as three or four parts on a page or whiteboard, and name who will check each one and by when.'), up: 'At the next meeting, review which parts were answered, which stayed unclear and whether the split missed anything. Adjust owners and dates.' },
-    { ...x(['professional'], 'bias', 'I decide how to handle a new situation mostly by how a similar one went last time.', 'Before you rely on the last case, write two ways the new situation differs and one way it is the same. Decide only after that.', true), up: 'Keep a record of decisions where past experience did not fit and what differed. Read it before the next similar choice.' },
+    { ...x(['professional'], 'bias', 'In a new situation, I reuse what worked last time without checking what is different.', 'Before you rely on the last case, write two ways the new situation differs and one way it is the same. Decide only after that.', true), up: 'Keep a record of decisions where past experience did not fit and what differed. Read it before the next similar choice.' },
     { ...x(['professional'], 'data', 'When someone shows a before-and-after result, I ask what else changed in that period.', 'Ask: “What else was different between the two periods, such as season, staff or prices?”. List at least two before you give the change credit.'), up: 'Ask whether a comparison group exists that did not get the change. If not, say plainly that the result is a possible effect and not proof.' },
   ],
 

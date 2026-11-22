@@ -543,6 +543,26 @@ export const LIVE_INDEXABLE_ROUTES = ([
     priority: '0.8',
   },
   {
+    path: '/tools/career-guidance-after-12th-pdf',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/career-guidance-after-10th-pdf',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/education-loan-emi-calculator',
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
+  {
+    path: '/tools/ctc-to-in-hand-salary-calculator',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
     path: '/tools/career-decision-journal',
     changefreq: 'monthly',
     priority: '0.8',
