@@ -80,7 +80,7 @@ Tier 2, built and live on main (commit `e4a81540e0`):
 
 Known limit on the three tools: the PDF font cannot draw Telugu, Hindi or other non-Latin scripts. The pages say so and point to Print then Save as PDF.
 
-Still to build: career guidance after 12th and 10th PDF pages, real PDF downloads on the three career chart pages, the career guidance questionnaire PDF, then the Tier 3 local pages.
+Still to build: real PDF downloads on the three career chart pages, then the Tier 3 local pages. (The 12th and 10th booklet PDFs and the questionnaire are now built; see the second pass.)
 
 
 ## Improvement pass (17 November 2026)
@@ -113,12 +113,36 @@ Sitewide fixes found on the way:
 
 Left as is, on purpose: FAQ answers on test pages stay collapsed like the 17 older tests; the "where to focus first" line still shows at a 100 percent score.
 
+## Second pass (22 to 23 November 2026)
+
+Built, checked and live on main (commits `a38257ae7e` and `712fa53e0f`). Each page is a working tool with a result or a file, registered in the sitemap, with 5 or more inbound links:
+- `/tools/career-guidance-after-12th-pdf/` and `/tools/career-guidance-after-10th-pdf/` (booklet PDFs)
+- `/tools/education-loan-emi-calculator/`
+- `/tools/ctc-to-in-hand-salary-calculator/`
+- `/tools/cgpa-to-percentage-calculator/`
+- `/tools/career-guidance-questionnaire-for-students/` (blank PDF, filled PDF, one-page summary)
+- `/tools/marks-needed-to-reach-target-percentage/`
+- `/tools/study-timetable-maker/`
+
+Also done: a second review round on the 7 tests, 3 tools and 17 blog pages (about 25 test questions and 2 wrong best answers fixed); score-contradiction fixes in the shared test template (a 100 percent result no longer says "weakest"); back-links from the older writing, communication, soft skills, reasoning, entrepreneurial and tool pages to the new tests.
+
+Checks run on the final build: public copy, blog links, internal URLs, inbound links, page media, scalability, assessment coverage, companion, stage score, methodology dataset and data policy all pass. Phone-width (360 and 390 px) loads and full quiz runs were clean.
+
+What I could not verify, and what you should do:
+- **Sources I could not open.** The fetch tools refused official sites. The CGPA page names no university rule and cites the CBSE 9.5 factor as unopened. The marks page cites the December 2023 CBSE statement through a news report. The study timetable page lists CDC, Dunlosky 2013, Tele-MANAS and NTA as unopened. Each page says so, dated 22 November 2026. Open them once and update the sources arrays.
+- **Questionnaire and timetable rules are our own design**, not tested with students; the pages say so.
+- **EPF wage ceiling** is reported as Rs 25,000 from 17 September 2026 (from the CTC tool research). Check any older page quoting Rs 15,000.
+- **Image audit.** `audit-images --strict` and `check-audit-consistency` fail for the new pages until they are in your Round 9 register and audit document (the page count is hard-coded there). Send the register or tell me to apply default images.
+- **Not covered by browser tests:** iOS Safari, Firefox, real printers and screen readers. `check-assessment-route-smoke` and the resume runtime check could not run (missing Playwright browser).
+- **Blog figures:** several pay figures (AmbitionBox ranges, Level 10 Rs 56,100, AIIMS posts) could not be re-verified; the reviewer reports list them. The generated figure captions on the 17 pages still read oddly and need regenerating.
+- **WHO IRIS link** for the life skills workbook should be opened once.
+
 ## Decisions for you
 
 1. **Local "near me" pages (Tier 3).** The business is online-first and based in Visakhapatnam. Pages for Bangalore, Chennai, Hyderabad, Delhi or Mumbai would claim a local presence that does not exist. Recommended: build only Visakhapatnam, Vizag and online-for-that-city pages, and skip "near me" pages for cities you do not serve. Tell me if you do serve other cities.
 2. **Image register.** The strict image audit fails for the new pages until they are added to your Round 9 needs register, which was not available to me. Send that file, or tell me to give the new pages default images.
 3. **Telugu and Hindi PDFs.** The PDF font cannot draw those scripts, so the pages point to Print, then Save as PDF. Say if you want a font bundled; it adds page weight.
 4. **Informational pages.** Keep the 17 as supporting pages (now with test links), or stop writing more of that kind. Recommended: keep, write no more.
-5. **Build order for what remains.** Recommended: career guidance after 12th and 10th PDF pages, then real downloads on the three career chart pages, then the questionnaire PDF.
+5. **Build order for what remains.** Recommended: real downloads on the three career chart pages, then the local Visakhapatnam pages. Also consider a Telugu-first version of the booklet and questionnaire.
 6. **Figures to re-check.** Several pay and rule figures rest on secondary sources (listed in the page source notes). The WHO life skills record should be opened once to confirm the citation.
 7. **Zero AI Overview risk is a judgement.** I cannot read live search results, so check Search Console in four to six weeks before building more.
