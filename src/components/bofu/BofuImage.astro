@@ -40,8 +40,30 @@ const showDiagrams = slug === '' || slug === 'career-guidance';
 
 {showDiagrams && (
   <div class="bofu-diagrams" aria-label="Career guidance diagrams">
-    <figure class="bofu-image"><img src="/images/bofu/session-flow.svg" alt="Five-stage career guidance session flow from context to review" title="How a guidance session moves from context to review" width="1600" height="720" loading="lazy" /><figcaption>A guidance session moves from context to clarity, options, a skill plan and review.</figcaption></figure>
-    <figure class="bofu-image"><img src="/images/bofu/skill-portfolio-chain.svg" alt="Skill portfolio chain from strengths to financial freedom" title="How strengths become skills, proof, paid work and freedom" width="1600" height="720" loading="lazy" /><figcaption>Strengths become skills, skills become visible proof, and proof leads to paid work and more freedom.</figcaption></figure>
+    <figure class="bofu-live-diagram">
+      <div class="bofu-live-diagram__kicker">The guidance loop</div>
+      <h2>How guidance becomes a next step</h2>
+      <ol>
+        <li><strong>Context</strong><span>Understand the student, constraints and goals.</span></li>
+        <li><strong>Clarity</strong><span>Name the decision that needs attention.</span></li>
+        <li><strong>Options</strong><span>Compare routes by fit, cost and upside.</span></li>
+        <li><strong>Skill plan</strong><span>Choose the next proof-building actions.</span></li>
+        <li><strong>Review</strong><span>Adjust the route as evidence arrives.</span></li>
+      </ol>
+      <figcaption>A guidance session moves from context to clarity, options, a skill plan and review.</figcaption>
+    </figure>
+    <figure class="bofu-live-diagram">
+      <div class="bofu-live-diagram__kicker">The portfolio chain</div>
+      <h2>Build a useful skill portfolio</h2>
+      <ol>
+        <li><strong>Strengths</strong><span>Start with what you can already do.</span></li>
+        <li><strong>Skill</strong><span>Build one valuable capability deliberately.</span></li>
+        <li><strong>Proof</strong><span>Show the capability through real work.</span></li>
+        <li><strong>Paid work</strong><span>Turn proof into useful opportunities.</span></li>
+        <li><strong>Freedom</strong><span>Build more choice into your working life.</span></li>
+      </ol>
+      <figcaption>Strengths become skills, skills become visible proof, and proof leads to paid work and more freedom.</figcaption>
+    </figure>
   </div>
 )}
 
@@ -62,5 +84,72 @@ const showDiagrams = slug === '' || slug === 'career-guidance';
     height: auto;
     border-radius: 18px;
     display: block;
+  }
+  .bofu-live-diagram {
+    margin: 24px auto 0;
+    max-width: 960px;
+    padding: clamp(20px, 4vw, 34px);
+    border: 1px solid rgba(148,163,184,.22);
+    border-radius: 22px;
+    background: linear-gradient(145deg, rgba(23,50,77,.98), rgba(29,61,63,.94));
+    color: #f8fafc;
+  }
+  .bofu-live-diagram__kicker {
+    color: #f0c674;
+    font-size: .76rem;
+    font-weight: 700;
+    letter-spacing: .1em;
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+  .bofu-live-diagram h2 {
+    margin: .55rem 0 1.35rem;
+    color: #f8fafc;
+    font-size: clamp(1.25rem, 3vw, 1.8rem);
+    line-height: 1.25;
+  }
+  .bofu-live-diagram ol {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: guidance-step;
+  }
+  .bofu-live-diagram li {
+    position: relative;
+    min-width: 0;
+    padding: 42px 12px 14px;
+    border: 1px solid rgba(226,232,240,.16);
+    border-radius: 14px;
+    background: rgba(255,255,255,.06);
+    counter-increment: guidance-step;
+  }
+  .bofu-live-diagram li::before {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    display: grid;
+    width: 24px;
+    height: 24px;
+    place-items: center;
+    border-radius: 50%;
+    background: #f0c674;
+    color: #17324d;
+    content: counter(guidance-step);
+    font-size: .82rem;
+    font-weight: 800;
+  }
+  .bofu-live-diagram li strong,
+  .bofu-live-diagram li span { display: block; }
+  .bofu-live-diagram li strong { color: #f0c674; font-size: .95rem; line-height: 1.3; }
+  .bofu-live-diagram li span { margin-top: .5rem; color: rgba(248,250,252,.84); font-size: .92rem; line-height: 1.45; }
+  .bofu-live-diagram figcaption { margin-top: 14px; color: rgba(255,255,255,.68); font-size: .85rem; line-height: 1.5; }
+  @media (max-width: 760px) {
+    .bofu-live-diagram ol { grid-template-columns: 1fr; }
+    .bofu-live-diagram li { padding: 16px 16px 16px 52px; }
+    .bofu-live-diagram li::before { top: 16px; left: 16px; }
+    .bofu-live-diagram li span { margin-top: .3rem; }
   }
 </style>

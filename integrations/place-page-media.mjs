@@ -196,6 +196,10 @@ function escapeAttr(value) {
   return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
+function escapeHtml(value) {
+  return String(value ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
 function categoryFiles(publicDir, category, pageSlug) {
   const root = path.join(publicDir, 'images', 'blog', category);
   if (!fs.existsSync(root)) return [];
@@ -227,7 +231,7 @@ function categoryFiles(publicDir, category, pageSlug) {
 }
 
 function generatedBlogFiles(publicDir, category, pageSlug) {
-  const root = path.join(publicDir, 'images', 'blog', 'generated-r10', generatedBlogKey(category, pageSlug));
+  const root = path.join(publicDir, 'images', 'blog', 'generated-r11', generatedBlogKey(category, pageSlug));
   if (!fs.existsSync(root)) return [];
   const order = { hero: 0, summary: 1, matrix: 2, chain: 3, checklist: 4, proof: 5, detail: 6 };
   return fs.readdirSync(root)
@@ -254,7 +258,7 @@ function generatedBlogKey(category, pageSlug) {
 }
 
 function generatedBlogSocial(publicDir, category, pageSlug) {
-  const file = path.join(publicDir, 'images', 'blog', 'generated-r10', generatedBlogKey(category, pageSlug), `${pageSlug}-social.jpg`);
+  const file = path.join(publicDir, 'images', 'blog', 'generated-r11', generatedBlogKey(category, pageSlug), `${pageSlug}-social.jpg`);
   return fs.existsSync(file) ? '/' + path.relative(publicDir, file).split(path.sep).join('/') : null;
 }
 
@@ -275,7 +279,7 @@ function visualType(src) {
 }
 
 function generatedDetailFiles(publicDir, category, pageSlug) {
-  const root = path.join(publicDir, 'images', 'blog', 'generated-r10', generatedBlogKey(category, pageSlug));
+  const root = path.join(publicDir, 'images', 'blog', 'generated-r11', generatedBlogKey(category, pageSlug));
   if (!fs.existsSync(root)) return [];
   return fs.readdirSync(root).filter((name) => new RegExp(`^${pageSlug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}-detail-\\d{2}\\.webp$`).test(name)).sort()
     .map((name) => '/' + path.relative(publicDir, path.join(root, name)).split(path.sep).join('/'));
@@ -487,9 +491,34 @@ function visualDescriptor(src, publicDir, pageTitle) {
     alt: meta?.alt || generatedVisualLabel(type, pageTitle),
     title: meta?.title || `${pageTitle}: ${meta?.alt || generatedVisualLabel(type, pageTitle)}`,
     caption: meta?.caption || meta?.alt || generatedVisualLabel(type, pageTitle),
+    heading: meta?.heading || '',
+    content: meta?.content || null,
     width: imageSize(publicDir, src)?.w || 1000,
     height: imageSize(publicDir, src)?.h || 1500,
   };
+}
+
+function liveVisualKicker(type) {
+  return ({ summary: 'Key ideas', matrix: 'Compare clearly', chain: 'Try the path', checklist: 'Check first', proof: 'Numbers in context', detail: 'Read the evidence' })[type] || 'Career evidence';
+}
+
+function liveVisualFigure(visual, index, className) {
+  const content = visual.content;
+  if (!content) return visualFigure(visual, '', index, className);
+  const heading = plainText(visual.heading || visual.caption || 'Career evidence').replace(/[:;]+$/, '').trim();
+  let body = '';
+  if (content.kind === 'table') {
+    const columns = Array.isArray(content.columns) ? content.columns : [];
+    const rows = Array.isArray(content.rows) ? content.rows : [];
+    body = `<div class="article-live-table-wrap"><table><thead><tr>${columns.map((column) => `<th scope="col">${escapeHtml(column)}</th>`).join('')}</tr></thead><tbody>${rows.map((row) => `<tr>${columns.map((column, columnIndex) => `<td data-label="${escapeAttr(column)}">${escapeHtml(row?.[columnIndex] || '')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+  } else if (content.kind === 'figures') {
+    const figures = Array.isArray(content.figures) ? content.figures : [];
+    body = `<div class="article-live-stats">${figures.map((figure) => `<div class="article-live-stat"><strong>${escapeHtml(figure.value || '')}</strong><span>${escapeHtml(figure.label || '')}</span><small>${escapeHtml(figure.source || '')}</small></div>`).join('')}</div>`;
+  } else {
+    const items = Array.isArray(content.items) ? content.items : [];
+    body = `<ul class="article-live-items">${items.map((item) => `<li class="article-live-item"><span class="article-live-item__label">${escapeHtml(item.heading || '')}</span><span class="article-live-item__text">${escapeHtml(item.text || '')}</span></li>`).join('')}</ul>`;
+  }
+  return `<figure class="${className} article-live-visual" data-visual-type="${escapeAttr(visual.type)}" role="group" aria-label="${escapeAttr(heading)}"><div class="article-live-card"><div class="article-live-card__kicker">${escapeHtml(liveVisualKicker(visual.type))}</div><h3>${escapeHtml(heading)}</h3>${body}</div><figcaption>${escapeHtml(visual.caption || heading)}</figcaption></figure>`;
 }
 
 function visualFigure(visual, pageTitle, index, className) {
@@ -512,7 +541,7 @@ function placeGeneratedVisuals(html, publicDir, generated, pageTitle, className,
   const used = new Set(); let index = 1;
   for (const visual of visuals) {
     if (visual === hero) continue;
-    out = insertAfterHeading(out, visualFigure(visual, pageTitle, index, className), keywords[visual.type] || keywords.detail || [], used);
+    out = insertAfterHeading(out, liveVisualFigure(visual, index, className), keywords[visual.type] || keywords.detail || [], used);
     index += 1;
   }
   return out;
