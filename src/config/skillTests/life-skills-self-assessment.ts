@@ -164,6 +164,26 @@ export const bundle: SkillTestBundle = {
       { q: 'Is the life skills assessment free?', a: 'Yes. It is free, needs no sign-up and provides an instant result with a downloadable PDF report.' },
     ],
     related: [
+      {
+        href: '/tools/life-skills-workbook-pdf/',
+        title: 'Life Skills Workbook (PDF)',
+        description: 'Reflection questions and a 7-day practice for each of the ten WHO life skills, with PDF download.',
+      },
+      {
+        href: '/services/assessments/employability-skills-assessment-test/',
+        title: 'Employability Skills Assessment Test',
+        description: 'Check the work habits, digital basics and proof employers trust.',
+      },
+      {
+        href: '/services/assessments/computer-skills-self-assessment-test/',
+        title: 'Computer Skills Self-Assessment Test',
+        description: 'Rate what you can do with files, documents, spreadsheets and online safety.',
+      },
+      {
+        href: '/services/assessments/business-skills-quiz-for-college-students/',
+        title: 'Business Quiz for College Students',
+        description: 'Test your business judgement on customers, pricing, cash and trust.',
+      },
       { href: '/services/assessments/soft-skills-self-assessment/', title: 'Soft Skills Self-Assessment', description: 'Leadership, teamwork and social skills, adaptability, ownership and problem solving.' },
       { href: '/services/assessments/decision-making-skills-assessment/', title: 'Decision-Making Skills Assessment', description: 'A deeper assessment of how you define, compare and commit to decisions.' },
       { href: '/services/assessments/time-management-self-assessment/', title: 'Time Management Self-Assessment', description: 'Priorities, planning, starting, focus and boundaries across study and work.' },

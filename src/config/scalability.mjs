@@ -184,4 +184,6 @@ export const POST_SCALE = {
   "government-jobs-after-ba-history-india": ["low", "Pay is fixed by pay level and the posts are exam-selected; teaching, writing or heritage content built beside or after the post is the business layer."],
   "high-salary-career-options-in-medical-without-neet": ["mid", "Most no-NEET medical roles follow a salaried ladder; regulatory or trial-support consulting, a pharmacy or collection centre, or a device-service firm gives a business layer."],
   "which-diploma-course-is-best-for-future-india": ["mid", "A diploma seat follows a fixed pay ladder; it scales when you add a trade skill and run your own installation, contracting or estimating service."],
+  "data-analyst-vs-software-engineer-salary-india": ["high", "Analysis and software skills sell directly as freelance projects, reports and products for small firms; employer type and one special skill set the pay band."],
+  "high-salary-courses-for-bipc-students": ["mid", "Most BiPC routes follow a salaried ladder with a pay ceiling or long study; pharmacy, diagnostics, clinic or data-skill services give a business layer, while MBBS and dentistry stay rank-gated."],
 };

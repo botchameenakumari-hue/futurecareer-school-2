@@ -200,6 +200,16 @@ export const bundle: SkillTestBundle = {
     ],
     related: [
       {
+        href: '/services/assessments/presentation-skills-assessment/',
+        title: 'Presentation Skills Assessment',
+        description: 'Rate structure, slides, delivery, questions and nerves before your next talk.',
+      },
+      {
+        href: '/services/assessments/business-skills-quiz-for-college-students/',
+        title: 'Business Quiz for College Students',
+        description: 'Test your business judgement on customers, pricing, cash and trust.',
+      },
+      {
         href: '/services/assessments/soft-skills-self-assessment/',
         title: 'Soft Skills Self-Assessment',
         description: 'Leadership, teamwork, adaptability, ownership and problem solving, scored in one broader report.',

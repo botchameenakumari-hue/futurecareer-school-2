@@ -528,6 +528,61 @@ export const LIVE_INDEXABLE_ROUTES = ([
     priority: '0.7',
   },
   {
+    path: '/tools/career-counselling-form',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/student-mentoring-form-and-report',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/life-skills-workbook-pdf',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/career-guidance-after-12th-pdf',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/career-guidance-after-10th-pdf',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/education-loan-emi-calculator',
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
+  {
+    path: '/tools/ctc-to-in-hand-salary-calculator',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/cgpa-to-percentage-calculator',
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
+  {
+    path: '/tools/career-guidance-questionnaire-for-students',
+    changefreq: 'monthly',
+    priority: '0.8',
+  },
+  {
+    path: '/tools/marks-needed-to-reach-target-percentage',
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
+  {
+    path: '/tools/study-timetable-maker',
+    changefreq: 'monthly',
+    priority: '0.7',
+  },
+  {
     path: '/tools/career-decision-journal',
     changefreq: 'monthly',
     priority: '0.8',

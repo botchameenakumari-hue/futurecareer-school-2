@@ -1,0 +1,354 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import BusinessPerspectiveNote from '../../components/BusinessPerspectiveNote.astro';
+import CgpaConverter from '../../components/CgpaConverter.astro';
+import { SCALE, SCALE_RULE } from '../../config/scalability.mjs';
+import { ruleById, cgpaToPercent, percentToCgpa, sgpaToCgpa, cgpaNeededForTarget, CHECKED_ON } from '../../scripts/cgpaConverter.mjs';
+import { CBSE_URL } from '../../scripts/cgpaSheet.mjs';
+
+const title = 'CGPA to Percentage Calculator: SGPA to CGPA and Back';
+const description = 'Free CGPA to percentage calculator with the working shown. Also percentage to CGPA, SGPA to CGPA by credits and a 4.0 scale. Private, with PDF.';
+const pageUrl = 'https://futurecareerschool.com/tools/cgpa-to-percentage-calculator/';
+
+// Worked examples come from the same code the calculator uses, so the text and the tool cannot disagree.
+const generic = ruleById('times10');
+const cbse = ruleById('cbse');
+const gpa4 = ruleById('gpa4');
+const exGeneric = cgpaToPercent('8.5', generic).percent;
+const exCbse = cgpaToPercent('8.5', cbse).percent;
+const exGpa4 = cgpaToPercent('3.5', gpa4).percent;
+const exBack = percentToCgpa('75', generic).cgpa;
+const exSg = sgpaToCgpa([{ sgpa: '8', credits: '20' }, { sgpa: '9', credits: '22' }, { sgpa: '7.5', credits: '24' }]);
+const exNeed = cgpaNeededForTarget('75', generic, '8', '120', '40');
+
+const steps = [
+  { h: 'Choose the rule', p: 'Pick the rule your university or board uses. If it publishes its own formula, choose My university’s formula and type it in from the notice.' },
+  { h: 'Open the tab you need', p: 'Use CGPA to percentage, Percentage to CGPA, SGPA list to CGPA, or CGPA needed for a target.' },
+  { h: 'Type your numbers', p: 'Use digits with a dot or comma, for example 8.5. The result and every step appear as you type.' },
+  { h: 'Check the working', p: 'Read the steps under the result. If a step does not match your university notice, change the rule.' },
+  { h: 'Download or print the sheet', p: 'The result sheet names the rule and where it comes from. Download it as a PDF or print it, and keep your university notice with it.' },
+];
+
+const ruleRows = [
+  { rule: 'CBSE indicative factor', formula: 'Percentage = CGPA x 9.5', scale: '10 point', status: 'Named source, text not opened', note: 'CBSE circular 24/2010 lists a 9.5 factor. Read the circular itself before you rely on it.' },
+  { rule: 'Generic CGPA x 10', formula: 'Percentage = CGPA x 10', scale: '10 point', status: 'Generic arithmetic', note: 'Many institutions use a rule of this shape, but no board or university is named here.' },
+  { rule: '4.0 scale as a proportion', formula: 'Percentage = GPA / 4 x 100', scale: '4.0 point', status: 'Plain proportion', note: 'Not an official conversion. Foreign universities and credential evaluators apply their own rules.' },
+  { rule: 'My university’s formula', formula: 'Percentage = (CGPA minus a) x m + b', scale: 'Your scale', status: 'Your own rule', note: 'Type m, a and b from your university’s notice. This covers formulas such as (CGPA minus 0.75) x 10.' },
+];
+
+const marks = [
+  {
+    mark: SCALE.high.label,
+    where: 'Skill-first routes you can sell directly, such as freelance work or your own projects. Clients mostly look at proof of work, not your percentage.',
+    risk: 'You must find and keep paying clients. No ladder is waiting for you.',
+    step: 'Name who pays, how they find and trust you, one piece of proof and a simple follow-up habit.',
+  },
+  {
+    mark: SCALE.mid.label,
+    where: 'A job first, with a practice, studio or product added later. Your percentage is often checked for the first job or admission, then proof matters more.',
+    risk: 'Without the extra layer, growth stays tied to one employer or to the hours you can work.',
+    step: 'Plan the business layer early: who would pay, how they would find and trust you, and what proof you can show.',
+  },
+  {
+    mark: SCALE.low.label,
+    where: 'Rank and cutoff ladders, such as entrance exam seats, government posts and any gate with a minimum percentage. Your marks are checked at every stage.',
+    risk: 'Many people compete for few places, and marks alone do not guarantee a result.',
+    step: 'Write a second route and keep a skill running that can grow on its own.',
+  },
+];
+const chunk = (s: string): string[] => { const a = s.split(/(?<=[.!?])\s+/); const o: string[] = []; for (let i = 0; i < a.length; i += 2) o.push(a.slice(i, i + 2).join(' ')); return o; };
+
+const sources = [
+  {
+    name: 'CBSE circular 24/2010 (listing)',
+    url: CBSE_URL,
+    supports: 'The listing title reads “Subject wise indicative percentage of marks = 9.5 x GP of ...”. It supports only that CBSE has published a 9.5 times grade point indicative factor.',
+    checked: 'Seen in a web search listing on ' + CHECKED_ON + '. The circular text could not be opened.',
+  },
+  {
+    name: 'Generic CGPA x 10 rule',
+    url: '',
+    supports: 'Plain arithmetic: a 10 point CGPA multiplied by 10 gives a number out of 100. It is shown as a generic rule, with no board or university named.',
+    checked: 'No source to open. Written on ' + CHECKED_ON + '.',
+  },
+  {
+    name: '4.0 scale as a plain proportion',
+    url: '',
+    supports: 'A GPA divided by 4 and multiplied by 100. It is a share of the top grade and not an official conversion.',
+    checked: 'No source to open. Written on ' + CHECKED_ON + '.',
+  },
+  {
+    name: 'SGPA to CGPA weighted by credits',
+    url: '',
+    supports: 'A weighted average, so each semester counts in proportion to its credits. Your university’s regulations decide which courses and credits count.',
+    checked: 'No source to open. Written on ' + CHECKED_ON + '.',
+  },
+];
+
+const couldNot = [
+  { name: 'CBSE circular 24/2010, full text', url: CBSE_URL },
+  { name: 'CBSE Academic circular, modified performance profile 2014', url: 'https://cbseacademic.nic.in/web_material/Circulars/2014/5_Modified_Performance_Profile_2014.pdf' },
+  { name: 'WES GPA calculator page, on how foreign evaluators convert grades', url: 'https://www.wes.org/advisor/tools/gpa-calculator/' },
+];
+
+const faqs = [
+  {
+    q: 'How do I convert CGPA to percentage?',
+    a: 'Pick the rule your university or board uses, then apply its formula to your CGPA. With the generic rule, ' + '8.5 x 10 = ' + exGeneric + ' percent. Type your CGPA in the calculator above and the steps are shown for you.',
+  },
+  {
+    q: 'What is the CGPA to percentage formula?',
+    a: 'There is no single formula. Some institutions multiply the CGPA by 10, CBSE lists a factor of 9.5, and others subtract a small number from the CGPA before multiplying. Use the formula in your own university’s notice, and type it into My university’s formula if it is not one of the listed rules.',
+  },
+  {
+    q: 'Is 9.5 the CBSE multiplier for CGPA to percentage?',
+    a: 'CBSE circular 24/2010 lists the wording “indicative percentage of marks = 9.5 x GP”. We could not open the circular text when this page was written, so open it and read the exact wording and what it applies to. With 9.5, a CGPA of 8.5 gives ' + exCbse + ' percent.',
+  },
+  {
+    q: 'Which rule should I use for my university?',
+    a: 'Use the one in your university’s own notice, exam office page or regulations. If you cannot find one, ask the exam office or registrar in writing. Until then, treat any result here as an estimate.',
+  },
+  {
+    q: 'How do I convert percentage to CGPA?',
+    a: 'Work the chosen formula backwards. With the generic rule, divide the percentage by 10, so 75 percent is CGPA ' + exBack + '. The Percentage to CGPA tab shows each step for whichever rule you choose.',
+  },
+  {
+    q: 'How do I convert SGPA to CGPA?',
+    a: 'Multiply each semester’s SGPA by its credits, add those up, and divide by the total credits. For example, 8 with 20 credits, 9 with 22 credits and 7.5 with 24 credits give ' + exSg.cgpa + '. Some universities drop certain courses or round differently, so check your regulations.',
+  },
+  {
+    q: 'What if my university does not use credits?',
+    a: 'Type 1 in the credits box for every semester so each semester counts equally. That gives a plain average of the SGPA values. Use it only if your regulations say CGPA is a plain average.',
+  },
+  {
+    q: 'What CGPA do I need to reach a target percentage?',
+    a: 'Use the CGPA needed for a target tab. With the generic rule, a target of 75 percent after 120 credits at CGPA 8 and 40 credits to come needs an average of ' + exNeed.needed + ' in those 40 credits. The tab also says when a target is not reachable.',
+  },
+  {
+    q: 'How do I convert a 4.0 GPA to a percentage?',
+    a: 'The calculator offers a plain proportion: GPA divided by 4, times 100, so 3.5 is ' + exGpa4 + ' percent. That is not an official conversion. Foreign universities and credential evaluators use their own rules, so ask the one you are applying to.',
+  },
+  {
+    q: 'Why does the calculator show no class or division, such as first class?',
+    a: 'Class and division labels come from a university’s own regulations, and we have not read one to quote. Look at your university’s rules or your certificate for the label.',
+  },
+  {
+    q: 'Can I use this result in a job, abroad or higher study application?',
+    a: 'Use the wording on your university certificate, or ask your university for its official conversion letter or rule. This result is a calculation from numbers you typed and it is not a certificate. If a form asks for a percentage and your university gives none, write the CGPA and say which scale it is on.',
+  },
+  {
+    q: 'How does the calculator round?',
+    a: 'It rounds half up to 2 decimal places, so 6.005 becomes 6.01. Your university may round differently or cut digits off. If your notice says how to round, follow it.',
+  },
+  {
+    q: 'Is my data sent anywhere, and can I type in Telugu?',
+    a: 'Nothing is sent to this site. Your numbers are saved only in this browser so they are still there when you return, and Clear my data removes them. You can type Telugu or Hindi in the “where did you copy it from” box, and the PDF keeps those letters in their correct shapes as pictures, so that text cannot be selected or copied.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'CGPA to Percentage Calculator',
+    description,
+    url: pageUrl,
+    applicationCategory: 'EducationalApplication',
+    operatingSystem: 'Any modern web browser',
+    isAccessibleForFree: true,
+    inLanguage: 'en-IN',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+    publisher: { '@type': 'Organization', name: 'FutureCareerSchool', url: 'https://futurecareerschool.com' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Career resources', item: 'https://futurecareerschool.com/career-resources/' },
+      { '@type': 'ListItem', position: 3, name: 'CGPA to percentage calculator', item: pageUrl },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={pageUrl} jsonLd={jsonLd}>
+  <Nav activePage="tools" />
+  <BusinessPerspectiveNote serviceBanner={true} />
+  <main>
+    <section class="tool-hero container">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">›</span><a href="/career-resources/">Career resources</a><span aria-hidden="true">›</span><span aria-current="page">CGPA to percentage calculator</span></nav>
+      <p class="eyebrow">FREE PRIVATE CALCULATOR WITH PDF</p>
+      <h1>CGPA to Percentage Calculator <span>with SGPA to CGPA and percentage to CGPA</span></h1>
+      <p class="lead">This CGPA to percentage calculator turns your CGPA into a percentage by the rule you choose, and also works out percentage to CGPA, SGPA to CGPA weighted by credits, and the CGPA you need for a target percentage. Every result shows its working and names the rule behind it.</p>
+      <p class="lead lead--small">Stuck between your marks and your next step? A <a href="/services/career-counselling-and-career-guidance/career-counselling-for-college-students/">career counsellor for college students</a> can help you plan around your result.</p>
+      <p class="tool-limits"><b>Private by design:</b> the calculator runs in your browser. It asks for no name or contact details and sends nothing to this site.</p>
+    </section>
+
+    <section class="container tool-shell cg-shell" aria-label="CGPA to percentage calculator">
+      <CgpaConverter />
+    </section>
+
+    <section class="container tool-section" id="how-to-use">
+      <h2>How to use the calculator</h2>
+      <ol class="step-grid">
+        {steps.map((s) => (<li><h3>{s.h}</h3><p>{s.p}</p></li>))}
+      </ol>
+    </section>
+
+    <section class="container tool-section" id="rules">
+      <h2>CGPA to percentage formula: the rules in the calculator</h2>
+      <p>Universities and boards do not all convert CGPA the same way. The calculator therefore lets you choose a rule and shows which one it used.</p>
+      <div class="marks-wrap">
+        <table class="marks-table">
+          <thead><tr><th scope="col">Rule</th><th scope="col">Formula</th><th scope="col">Scale</th><th scope="col">Status</th><th scope="col">What to know</th></tr></thead>
+          <tbody>
+            {ruleRows.map((r) => (
+              <tr>
+                <td data-label="Rule"><b>{r.rule}</b></td>
+                <td data-label="Formula">{r.formula}</td>
+                <td data-label="Scale">{r.scale}</td>
+                <td data-label="Status">{r.status}</td>
+                <td data-label="What to know">{r.note}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p>Your university may publish its own rule. Use the official one, copy it into My university’s formula, and keep the notice with your result sheet.</p>
+    </section>
+
+    <section class="container tool-section" id="examples">
+      <h2>Worked examples, with the maths shown</h2>
+      <p>These are examples to show the steps, not real results. They come from the same code as the calculator.</p>
+      <ul class="next-list">
+        <li><b>CGPA to percentage, generic rule:</b> 8.5 x 10 = {exGeneric} percent.</li>
+        <li><b>CGPA to percentage, CBSE indicative factor:</b> 8.5 x 9.5 = {exCbse} percent.</li>
+        <li><b>4.0 scale as a proportion:</b> 3.5 / 4 x 100 = {exGpa4} percent.</li>
+        <li><b>Percentage to CGPA, generic rule:</b> 75 / 10 = {exBack}.</li>
+        <li><b>SGPA to CGPA by credits:</b> (8 x 20 + 9 x 22 + 7.5 x 24) / (20 + 22 + 24) = 538 / 66 = {exSg.cgpa}.</li>
+        <li><b>CGPA needed for a target:</b> 75 percent is CGPA {exBack}. After 120 credits at CGPA 8, with 40 credits to come, you need an average of {exNeed.needed}.</li>
+      </ul>
+    </section>
+
+    <section class="container tool-explainer" id="limits">
+      <h2>What the calculator does not do</h2>
+      <div class="explainer-grid">
+        <article><h3>It does not know your university</h3><p>It cannot tell which rule your university uses. Choose a rule, or type your university’s own formula.</p></article>
+        <article><h3>It is not an official conversion</h3><p>The result sheet is a calculation from numbers you typed. It is not a certificate or a mark sheet.</p></article>
+        <article><h3>It gives no class or division</h3><p>First class, distinction and similar labels come from a university’s own regulations. Check yours.</p></article>
+        <article><h3>It is not for applications on its own</h3><p>For jobs, study abroad and higher studies, use the wording on your certificate or ask your university for its official conversion.</p></article>
+      </div>
+    </section>
+
+    <section class="container tool-section" id="growth-marks">
+      <h2>Your percentage is one input, not your whole route</h2>
+      <p>Some routes check your percentage at the door, and others look mainly at proof of work. Each kind of route below carries one of three marks and the risk that goes with it.</p>
+      {chunk(SCALE_RULE).map((c) => <p>{c}</p>)}
+      <div class="marks-wrap">
+        <table class="marks-table">
+          <thead><tr><th scope="col">Mark</th><th scope="col">Where your percentage matters</th><th scope="col">Risk</th><th scope="col">Basic sales and marketing step</th></tr></thead>
+          <tbody>
+            {marks.map((m) => (
+              <tr>
+                <td data-label="Mark"><b>{m.mark}</b></td>
+                <td data-label="Where your percentage matters">{m.where}</td>
+                <td data-label="Risk">{m.risk}</td>
+                <td data-label="Basic sales and marketing step">{m.step}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p>The marks describe a kind of route, not you, and none of them promises a result or an income.</p>
+    </section>
+
+    <section class="container tool-section" id="sources">
+      <h2>Sources and what we could not open</h2>
+      <p>Each rule below is listed with what supports it and the day it was checked. Third-party calculator websites are not used as sources.</p>
+      <ul class="src-list">
+        {sources.map((s) => (
+          <li>
+            <b>{s.name}.</b> {s.url && <a href={s.url} rel="noopener noreferrer">{s.url}</a>}
+            <span class="src-line">Supports: {s.supports}</span>
+            <span class="src-line">Checked: {s.checked}</span>
+          </li>
+        ))}
+      </ul>
+      <h3>What we could not open</h3>
+      <p>We tried these pages on {CHECKED_ON} and could not open their text, so nothing on this page quotes them. Open them yourself and read the exact wording.</p>
+      <ul class="src-list">
+        {couldNot.map((s) => (<li>{s.name}: <a href={s.url} rel="noopener noreferrer">{s.url}</a></li>))}
+      </ul>
+      <p>We have not read any university’s conversion notice, so no university is named here. Your university may publish its own rule: use the official one.</p>
+    </section>
+
+    <section class="container tool-section" id="next-steps">
+      <h2>Where to go next</h2>
+      <ul class="next-list">
+        <li>Need the marks you must score to reach a target percentage? Use the <a href="/tools/marks-needed-to-reach-target-percentage/">marks needed to reach target percentage calculator</a>.</li>
+        <li>Worried about a low CGPA? Read about <a href="/services/career-counselling-and-career-guidance/career-counselling-for-low-cgpa-students/">career counselling for low CGPA students</a>.</li>
+        <li>Finished with low marks? See <a href="/blog/career-options/career-options-after-graduation-with-low-marks-or-below-50-percent-india/">career options after graduation with low marks or below 50 percent</a>.</li>
+        <li>Have a backlog? Read <a href="/blog/career-guidance/what-to-do-after-failing-degree-subjects-or-having-backlogs-india/">what to do after failing degree subjects or having backlogs</a>.</li>
+        <li>Choosing a route after B.Tech? Read <a href="/blog/career-options/career-options-after-btech/">career options after B.Tech by branch, CGPA and money</a>.</li>
+        <li>Planning a loan for further study? Try the <a href="/tools/education-loan-emi-calculator/">education loan EMI calculator</a>.</li>
+      </ul>
+    </section>
+
+    <section class="container tool-section" id="faq">
+      <h2>CGPA to percentage calculator: common questions</h2>
+      <div class="faq-list">
+        {faqs.map((f) => (
+          <details class="faq-item" open>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .tool-hero{padding:2rem 1.25rem 2rem}.tool-hero h1{max-width:850px;overflow-wrap:anywhere}.tool-hero h1 span{color:var(--gold,#e5b84a);font-size:.6em;display:block;margin-top:.3rem}
+  .breadcrumb{display:flex;gap:.55rem;flex-wrap:wrap;color:rgba(255,255,255,.7);font-size:.85rem;margin-bottom:1.2rem}.breadcrumb a{color:#8de4d8;text-decoration:underline;text-underline-offset:2px}
+  .lead{max-width:780px;font-size:1.12rem;line-height:1.7}.lead--small{font-size:1rem;color:rgba(255,255,255,.85)}.lead a{color:#f3cf70;font-weight:700}
+  .tool-limits{max-width:780px;font-size:.9rem;line-height:1.6;color:rgba(255,255,255,.78)}
+  .tool-shell{max-width:1050px}
+  .tool-section{max-width:1050px;padding:1.5rem 1.25rem}.tool-section h2{margin-top:0}.tool-section p,.tool-section li{line-height:1.7;max-width:820px}
+  .step-grid{list-style:none;margin:1rem 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));gap:1rem;counter-reset:step}
+  .step-grid li{counter-increment:step;padding:1rem;border:1px solid rgba(255,255,255,.14);border-radius:14px}
+  .step-grid li::before{content:counter(step);display:inline-grid;place-items:center;width:1.9rem;height:1.9rem;margin-bottom:.4rem;border-radius:50%;background:#0b766d;color:#fff;font-weight:800}
+  .step-grid h3{margin:.1rem 0 .3rem}.step-grid p{margin:0}
+  .marks-wrap{margin:1rem 0;max-width:100%}
+  .marks-table{width:100%;border-collapse:collapse;font-size:.92rem}
+  .marks-table th,.marks-table td{padding:.7rem;border:1px solid rgba(255,255,255,.16);text-align:left;vertical-align:top;line-height:1.55;overflow-wrap:anywhere}
+  .marks-table th{background:rgba(18,154,141,.18)}
+  .tool-explainer{max-width:1050px;padding:1.5rem 1.25rem}.tool-explainer h2{margin-top:0}
+  .explainer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+  .explainer-grid article{padding:1rem;border:1px solid rgba(255,255,255,.14);border-radius:14px}.explainer-grid h3{margin-top:0}.explainer-grid p{margin-bottom:0;line-height:1.65}
+  .next-list{padding-left:1.2rem}.next-list a,.src-list a,.tool-section p a{color:#f3cf70;font-weight:700;overflow-wrap:anywhere}
+  .src-list{padding-left:1.2rem}.src-list li{margin-bottom:.9rem;overflow-wrap:anywhere}.src-line{display:block;margin-top:.2rem}
+  .faq-list{display:grid;gap:.8rem;margin-top:1rem;padding-bottom:3rem}
+  .faq-item{padding:.9rem 1rem;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(255,255,255,.03)}
+  .faq-item summary{cursor:pointer;font-weight:700;line-height:1.5;min-height:44px;display:flex;align-items:center}
+  .faq-item summary:focus-visible{outline:3px solid #e5b84a;outline-offset:3px}
+  .faq-item p{margin:.4rem 0 0;max-width:none;overflow-wrap:anywhere}
+  @media(max-width:720px){
+    .tool-hero{padding-top:1.5rem}
+    .explainer-grid{grid-template-columns:minmax(0,1fr)}
+    .marks-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+    .marks-table,.marks-table tbody,.marks-table tr,.marks-table td{display:block;width:100%}
+    .marks-table tr{margin-bottom:1rem;border:1px solid rgba(255,255,255,.16);border-radius:12px;overflow:hidden}
+    .marks-table td{border:0;border-bottom:1px solid rgba(255,255,255,.1)}
+    .marks-table td::before{content:attr(data-label);display:block;margin-bottom:.15rem;font-size:.75rem;font-weight:700;color:#f3cf70}
+  }
+</style>

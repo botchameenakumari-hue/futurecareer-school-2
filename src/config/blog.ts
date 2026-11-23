@@ -1347,7 +1347,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     slug: 'best-career-options-with-high-salary',
     title: 'Best career options with high salary: what actually pays',
     description:
-      'Best career options with high salary usually combine scarce skill, leverage, regulation, or revenue ownership. See which paths fit and what to avoid.',
+      'Best career options with high salary usually combine scarce skill, reach, regulation, or revenue ownership. See which paths fit and what to avoid.',
     publishedAtISO: '2026-05-13',
     readTimeMinutes: 19,
   },
@@ -8486,7 +8486,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     description:
       "Coding vs PCM for future engineers: PCM opens the engineering seat and coding builds proof. See how to split your effort from Class 8 to 12 and what it costs.",
     publishedAtISO: '2026-11-15',
-    readTimeMinutes: 13,
+    readTimeMinutes: 19,
   },
   {
     categorySlug: 'skills',
@@ -8495,16 +8495,16 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     description:
       'Data analyst vs software engineer salary in India: engineers average about 40% more on Indeed (Rs 8.79 vs 6.28 lakh), but city and employer shift the gap.',
     publishedAtISO: '2026-11-15',
-    readTimeMinutes: 12,
+    readTimeMinutes: 24,
   },
   {
     categorySlug: 'career-options',
     slug: 'data-scientist-vs-software-engineer-salary-india',
     title: 'Data scientist vs software engineer salary in India: pay by employer type',
     description:
-      'Data scientist vs software engineer salary in India is close at each stage. Employer type and one specialised skill decide the real gap. Pay bands inside.',
+      'Data scientist vs software engineer salary in India: both reach Rs 12 to 22 LPA at 3 to 5 years. Employer type and one skill decide the real gap.',
     publishedAtISO: '2026-11-15',
-    readTimeMinutes: 9,
+    readTimeMinutes: 21,
   },
   {
     categorySlug: 'college-degrees',
@@ -8513,7 +8513,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     description:
       "An education loan is secured or unsecured by size: no security to ₹4 lakh, a guarantor to ₹7.5 lakh, property above. See what each band puts at risk.",
     publishedAtISO: '2026-11-15',
-    readTimeMinutes: 10,
+    readTimeMinutes: 17,
   },
   {
     categorySlug: 'government-jobs',
@@ -8522,7 +8522,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     description:
       'Government psychologist salary in India per month runs from Rs 25,000 on entry contract posts to about Rs 91,000 (basic plus DA) at Level 10. See each post.',
     publishedAtISO: '2026-11-15',
-    readTimeMinutes: 11,
+    readTimeMinutes: 19,
   },
   {
     categorySlug: 'college-degrees',
@@ -8531,7 +8531,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     description:
       "Highest package is one student's best offer; median CTC is the middle salary of the batch. See what each means in placements, with a worked example.",
     publishedAtISO: '2026-11-15',
-    readTimeMinutes: 6,
+    readTimeMinutes: 13,
   },
   {
     categorySlug: 'skills',
@@ -8540,25 +8540,25 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     description:
       'Java or Python, which is better for future in India? Python grows faster with AI and data, Java is steadier in enterprise. See the data and the verdict by role.',
     publishedAtISO: '2026-11-15',
-    readTimeMinutes: 11,
+    readTimeMinutes: 20,
   },
   {
     categorySlug: 'medical-careers',
     slug: 'medical-coding-salary-after-bsc-nursing-india',
     title: 'Medical coding salary after BSc nursing: real pay and what it replaces',
     description:
-      'Medical coding salary after BSc nursing in India: fresher pay, pay after CPC, how it compares with staff nurse pay, and what AI changes for entry roles.',
+      'Medical coders in India report about Rs 1.6-5 lakh a year, and a BSc nursing degree does not raise the first offer. See pay by year, CPC-A and AI risk.',
     publishedAtISO: '2026-11-15',
-    readTimeMinutes: 11,
+    readTimeMinutes: 16,
   },
   {
     categorySlug: 'medical-careers',
     slug: 'mpt-salary-per-month-in-india',
     title: "MPT Salary per Month in India: What the MPT Really Changes",
     description:
-      "MPT salary per month in India has no official survey. Government posts start near Rs 35,400, private pay is negotiated, and teaching is where the MPT counts.",
+      "MPT salary per month in India has no official survey. One lecturer notice pays Rs 55,000 and a contract physio post Rs 35,000. See what the MPT changes.",
     publishedAtISO: '2026-11-15',
-    readTimeMinutes: 11,
+    readTimeMinutes: 17,
   },
   {
     categorySlug: 'college-degrees',
@@ -8567,7 +8567,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     description:
       'BBA scope in future depends on the role you build, not the degree. Sales and analytics roles are growing, clerical work is shrinking. See pay and next steps.',
     publishedAtISO: '2026-11-15',
-    readTimeMinutes: 11,
+    readTimeMinutes: 22,
   },
   {
     categorySlug: 'medical-careers',
@@ -8576,7 +8576,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     description:
       'BSc nursing scope abroad: UK joiners from India fell 54% in 2025-26, US green card dates run years behind, Gulf pay can be higher. Five routes compared.',
     publishedAtISO: '2026-11-15',
-    readTimeMinutes: 11,
+    readTimeMinutes: 22,
   },
   {
     categorySlug: 'government-jobs',
@@ -8585,16 +8585,16 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     description:
       'Government jobs after BA history run through UPSC, SSC CGL, bank PO, railways, state PSC and teaching. See degree rules, age limits, pay and post counts.',
     publishedAtISO: '2026-11-15',
-    readTimeMinutes: 13,
+    readTimeMinutes: 22,
   },
   {
     categorySlug: 'medical-careers',
     slug: 'high-salary-career-options-in-medical-without-neet',
     title: "High salary career options in medical without NEET: what really pays",
     description:
-      "High salary career options in medical without NEET come from scarce skills, not a degree label. See real pay ranges and which routes now lean on NEET.",
+      'High salary career options in medical without NEET: nine routes with sourced pay (top reports Rs 7 to 16 lakh a year) and the 2026 NEET rules.',
     publishedAtISO: '2026-11-15',
-    readTimeMinutes: 15,
+    readTimeMinutes: 22,
   },
   {
     categorySlug: 'college-degrees',
@@ -8603,16 +8603,16 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     description:
       'High salary courses for BiPC students ranked by how pay really grows: pharmacy, data, dentistry, MBBS, nursing and physio, with sourced pay ranges.',
     publishedAtISO: '2026-11-15',
-    readTimeMinutes: 14,
+    readTimeMinutes: 28,
   },
 {
   categorySlug: 'career-guidance',
   slug: 'i-am-confused-about-my-career-after-10th',
   title: 'I am confused about my career after 10th: what to decide now and what can wait',
   description:
-    'Confused about your career after 10th? You do not need a career yet. You need one route for Class 11 and 12 that keeps doors open. Here is how to pick it.',
+    'Confused about your career after 10th? You do not need a career yet, only one route for Class 11 and 12 that keeps doors open. Here is how to pick it.',
   publishedAtISO: '2026-11-15',
-  readTimeMinutes: 10,
+  readTimeMinutes: 20,
 },
   {
     categorySlug: 'freelancing-business',
@@ -8621,7 +8621,7 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     description:
       'Top freelance skills for earning lakhs per month in India: which eight can pass Rs 1 lakh, the billable hours it takes at each rate, and which skills stall.',
     publishedAtISO: '2026-11-15',
-    readTimeMinutes: 14,
+    readTimeMinutes: 22,
   },
   {
     categorySlug: 'college-degrees',
@@ -8630,6 +8630,6 @@ export const BLOG_PUBLISHED_POSTS: BlogPublishedPost[] = [
     description:
       'Which diploma course is best for future? No name is safe. Test approval, hands-on work, who pays and the step up, then compare six diploma families.',
     publishedAtISO: '2026-11-15',
-    readTimeMinutes: 13,
+    readTimeMinutes: 16,
   },
 ];

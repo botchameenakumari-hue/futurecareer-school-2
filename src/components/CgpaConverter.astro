@@ -1,0 +1,471 @@
+---
+import { RULES, MAX_SEMESTERS, MAX_CREDITS } from '../scripts/cgpaConverter.mjs';
+const ruleData = RULES.map((r) => ({ id: r.id, label: r.label, short: r.short, scaleMax: r.scaleMax, factor: r.factor, shift: r.shift, add: r.add, sourceStatus: r.sourceStatus }));
+---
+
+<section class="cg" id="cgpa-calculator" aria-labelledby="cg-title">
+  <h2 id="cg-title">Convert your CGPA, percentage or SGPA list</h2>
+  <p class="cg-note"><b>Private by design:</b> everything you type stays in this browser and is not sent to this site. Your last numbers are saved on this device so they are still there when you come back. Press Clear my data to remove them.</p>
+
+  <form class="cg-form" id="cg-form" novalidate onsubmit="return false">
+    <fieldset class="cg-box">
+      <legend>Step 1: choose the rule</legend>
+      <label for="cg-rule">Which rule should the calculator use?
+        <select id="cg-rule" data-cg="rule">
+          <option value="times10">Generic rule: CGPA x 10 (10 point scale)</option>
+          <option value="cbse">CBSE indicative factor: CGPA x 9.5 (Class 10)</option>
+          <option value="gpa4">4.0 scale as a plain proportion (GPA / 4 x 100)</option>
+          <option value="custom">My university's formula (I type it in)</option>
+        </select>
+      </label>
+      <p class="cg-hint" id="cg-rule-info" aria-live="polite"></p>
+
+      <div class="cg-custom" id="cg-custom" hidden>
+        <p class="cg-hint">Copy the formula from your university's own notice. The calculator works out: Percentage = (CGPA minus the first box) x the multiplier + the last box. For (CGPA - 0.75) x 10, put 10 in the multiplier and 0.75 in the first box.</p>
+        <div class="cg-grid">
+          <label for="cg-c-multiplier">Multiplier
+            <input id="cg-c-multiplier" type="text" inputmode="decimal" autocomplete="off" maxlength="10" data-cgc="multiplier" placeholder="for example 10">
+          </label>
+          <label for="cg-c-subtract">Subtract from CGPA first (optional)
+            <input id="cg-c-subtract" type="text" inputmode="decimal" autocomplete="off" maxlength="10" data-cgc="subtract" placeholder="for example 0.75">
+          </label>
+          <label for="cg-c-add">Add at the end (optional)
+            <input id="cg-c-add" type="text" inputmode="decimal" autocomplete="off" maxlength="10" data-cgc="add" placeholder="for example 5">
+          </label>
+          <label for="cg-c-scale">Top of your grade scale
+            <input id="cg-c-scale" type="text" inputmode="decimal" autocomplete="off" maxlength="6" data-cgc="scale" placeholder="10">
+          </label>
+        </div>
+        <label for="cg-c-note">Where did you copy it from? (optional, printed on your sheet)
+          <input id="cg-c-note" type="text" autocomplete="off" maxlength="120" data-cgc="note" placeholder="For example: the exam office notice dated 12 June">
+        </label>
+        <p class="cg-hint">Telugu and Hindi text is fine here. Do not type your name, roll number or other personal details.</p>
+      </div>
+    </fieldset>
+
+    <div class="cg-tabs" role="tablist" aria-label="Choose what to work out">
+      <button type="button" role="tab" id="cg-tab-c2p" aria-controls="cg-panel-c2p" aria-selected="true" data-cg-tab="c2p">CGPA to percentage</button>
+      <button type="button" role="tab" id="cg-tab-p2c" aria-controls="cg-panel-p2c" aria-selected="false" tabindex="-1" data-cg-tab="p2c">Percentage to CGPA</button>
+      <button type="button" role="tab" id="cg-tab-sg" aria-controls="cg-panel-sg" aria-selected="false" tabindex="-1" data-cg-tab="sg">SGPA list to CGPA</button>
+      <button type="button" role="tab" id="cg-tab-need" aria-controls="cg-panel-need" aria-selected="false" tabindex="-1" data-cg-tab="need">CGPA needed for a target</button>
+    </div>
+
+    <div id="cg-panel-c2p" role="tabpanel" aria-labelledby="cg-tab-c2p" class="cg-panel">
+      <label for="cg-in-cgpa">Your CGPA
+        <input id="cg-in-cgpa" type="text" inputmode="decimal" autocomplete="off" maxlength="10" data-cgi="cgpa" aria-describedby="cg-out-c2p" placeholder="for example 8.5">
+      </label>
+      <div class="cg-out" id="cg-out-c2p" aria-live="polite"></div>
+    </div>
+
+    <div id="cg-panel-p2c" role="tabpanel" aria-labelledby="cg-tab-p2c" class="cg-panel" hidden>
+      <label for="cg-in-pct">Your percentage
+        <input id="cg-in-pct" type="text" inputmode="decimal" autocomplete="off" maxlength="10" data-cgi="pct" aria-describedby="cg-out-p2c" placeholder="for example 78.5">
+      </label>
+      <div class="cg-out" id="cg-out-p2c" aria-live="polite"></div>
+    </div>
+
+    <div id="cg-panel-sg" role="tabpanel" aria-labelledby="cg-tab-sg" class="cg-panel" hidden>
+      <p class="cg-hint">Type each semester's SGPA and its credits, and leave unused rows empty. If your university does not use credits, type 1 in every credits box so each semester counts equally. You can add up to {MAX_SEMESTERS} semesters, with credits up to {MAX_CREDITS} each.</p>
+      <ol class="cg-rows" id="cg-rows"></ol>
+      <button type="button" class="cg-btn" id="cg-add-row" data-cg-act="add-row">Add a semester</button>
+      <div class="cg-out" id="cg-out-sg" aria-live="polite"></div>
+    </div>
+
+    <div id="cg-panel-need" role="tabpanel" aria-labelledby="cg-tab-need" class="cg-panel" hidden>
+      <p class="cg-hint">Find the average you need in the credits still to come, so the final CGPA reaches your target percentage by the chosen rule. With no credits, type 1 for each semester.</p>
+      <div class="cg-grid">
+        <label for="cg-n-target">Target percentage
+          <input id="cg-n-target" type="text" inputmode="decimal" autocomplete="off" maxlength="10" data-cgn="target" placeholder="for example 75">
+        </label>
+        <label for="cg-n-done">CGPA so far
+          <input id="cg-n-done" type="text" inputmode="decimal" autocomplete="off" maxlength="10" data-cgn="done" placeholder="for example 7.8">
+        </label>
+        <label for="cg-n-donecr">Credits done so far
+          <input id="cg-n-donecr" type="text" inputmode="decimal" autocomplete="off" maxlength="10" data-cgn="doneCredits" placeholder="for example 120">
+        </label>
+        <label for="cg-n-leftcr">Credits still to come
+          <input id="cg-n-leftcr" type="text" inputmode="decimal" autocomplete="off" maxlength="10" data-cgn="leftCredits" placeholder="for example 40">
+        </label>
+      </div>
+      <div class="cg-out" id="cg-out-need" aria-live="polite"></div>
+    </div>
+  </form>
+
+  <div class="cg-sheetwrap">
+    <div class="cg-screen">
+      <h3 class="cg-sheethead">Result sheet</h3>
+      <p class="cg-hint">The PDF and the printout use exactly this sheet. It names the rule and where it comes from, and shows every step.</p>
+    </div>
+    <article class="cg-doc" id="cg-sheet" aria-label="Preview of the result sheet"></article>
+    <div class="cg-actions cg-screen">
+      <button type="button" class="cg-btn cg-btn--primary" data-cg-act="pdf">Download result sheet (PDF)</button>
+      <button type="button" class="cg-btn" data-cg-act="print">Print result sheet</button>
+      <button type="button" class="cg-btn cg-btn--warn" data-cg-act="clear">Clear my data</button>
+    </div>
+    <p class="cg-status cg-screen" id="cg-status" role="status" aria-live="polite"></p>
+  </div>
+
+  <noscript><p class="cg-note">This calculator needs JavaScript. The formulas on this page are simple enough to work out on paper.</p></noscript>
+  <script is:inline type="application/json" id="cg-rule-data" set:html={JSON.stringify({ rules: ruleData, maxRows: MAX_SEMESTERS })} />
+</section>
+
+<script>
+  // @ts-nocheck
+  import {
+    RULES, MAX_SEMESTERS, ERROR_TEXT, ruleById, makeCustomRule, formulaText,
+    cgpaToPercent, percentToCgpa, sgpaToCgpa, cgpaNeededForTarget,
+  } from '../scripts/cgpaConverter.mjs';
+  import { sheetModel, modelToHtml, esc, buildPdf, hasUnsupportedText, prepareUnicodePdf } from '../scripts/cgpaSheet.mjs';
+
+  const KEY = 'fcs-cgpa-percentage-v1';
+  const root = document.getElementById('cgpa-calculator');
+  if (root) {
+    const blank = () => ({
+      ruleId: 'times10', tab: 'c2p',
+      custom: { multiplier: '', subtract: '', add: '', scale: '10', note: '' },
+      c2p: { cgpa: '' }, p2c: { pct: '' },
+      rows: [{ sgpa: '', credits: '' }, { sgpa: '', credits: '' }],
+      need: { target: '', done: '', doneCredits: '', leftCredits: '' },
+    });
+    let state = blank();
+    try {
+      const raw = JSON.parse(localStorage.getItem(KEY) || 'null');
+      if (raw && typeof raw === 'object') {
+        const b = blank();
+        state = {
+          ruleId: ['times10', 'cbse', 'gpa4', 'custom'].includes(raw.ruleId) ? raw.ruleId : b.ruleId,
+          tab: ['c2p', 'p2c', 'sg', 'need'].includes(raw.tab) ? raw.tab : b.tab,
+          custom: Object.assign(b.custom, pick(raw.custom, ['multiplier', 'subtract', 'add', 'scale', 'note'])),
+          c2p: Object.assign(b.c2p, pick(raw.c2p, ['cgpa'])),
+          p2c: Object.assign(b.p2c, pick(raw.p2c, ['pct'])),
+          rows: Array.isArray(raw.rows) && raw.rows.length ? raw.rows.slice(0, MAX_SEMESTERS).map((r) => ({ sgpa: str(r && r.sgpa), credits: str(r && r.credits) })) : b.rows,
+          need: Object.assign(b.need, pick(raw.need, ['target', 'done', 'doneCredits', 'leftCredits'])),
+        };
+      }
+    } catch (e) {}
+    function str(v) { return typeof v === 'string' ? v.slice(0, 120) : ''; }
+    function pick(o, keys) { const out = {}; if (o && typeof o === 'object') keys.forEach((k) => { if (k in o) out[k] = str(o[k]); }); return out; }
+
+    const $ = (sel) => root.querySelector(sel);
+    const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
+    const say = (t) => { $('#cg-status').textContent = t; };
+    const TABS = ['c2p', 'p2c', 'sg', 'need'];
+
+    const CUSTOM_ERR = {
+      'multiplier-empty': 'Type the multiplier from your university formula.',
+      'multiplier-not-a-number': 'The multiplier must be a number, for example 10.',
+      'multiplier-range': 'The multiplier must be more than 0 and not more than 100.',
+      'subtract-not-a-number': 'The subtract box must be a number or empty.',
+      'subtract-range': 'The subtract number must be between 0 and the top of the scale.',
+      'add-not-a-number': 'The add box must be a number or empty.',
+      'add-range': 'The add number must be between -100 and 100.',
+      'scale-not-a-number': 'The top of the scale must be a number, for example 10.',
+      'scale-range': 'The top of the scale must be more than 0 and not more than 100.',
+    };
+
+    function currentRule() {
+      if (state.ruleId !== 'custom') return { ok: true, rule: ruleById(state.ruleId) };
+      const c = state.custom;
+      return makeCustomRule(c.multiplier, c.subtract, c.add, c.scale, c.note);
+    }
+
+    const errText = (key) => ERROR_TEXT[key] || 'Check the numbers you typed.';
+    const bad = (msg) => '<p class="cg-err"><b>Check this:</b> ' + esc(msg) + '</p>';
+    const steps = (list) => '<h4 class="cg-h4">Working, step by step</h4><ol class="cg-steps">' + list.map((s) => '<li>' + esc(s) + '</li>').join('') + '</ol>';
+    const setInvalid = (sel, on) => { const el = $(sel); if (el) { if (on) el.setAttribute('aria-invalid', 'true'); else el.removeAttribute('aria-invalid'); } };
+
+    function compute() {
+      const rr = currentRule();
+      const out = { rr, rule: rr.ok ? rr.rule : null, c2p: null, p2c: null, sg: null, need: null };
+      if (!rr.ok) return out;
+      const rule = rr.rule;
+      if (state.c2p.cgpa.trim()) out.c2p = { input: state.c2p.cgpa, res: cgpaToPercent(state.c2p.cgpa, rule) };
+      if (state.p2c.pct.trim()) out.p2c = { input: state.p2c.pct, res: percentToCgpa(state.p2c.pct, rule) };
+      const anyRow = state.rows.some((r) => r.sgpa.trim() || r.credits.trim());
+      if (anyRow) {
+        const res = sgpaToCgpa(state.rows, rule.scaleMax);
+        out.sg = { rows: state.rows, top: rule.scaleMax, res, pct: res.ok ? cgpaToPercent(String(res.cgpa), rule) : null };
+      }
+      const n = state.need;
+      if (n.target.trim() || n.done.trim() || n.doneCredits.trim() || n.leftCredits.trim()) {
+        out.need = { inputs: { target: n.target, done: n.done, doneCredits: n.doneCredits, leftCredits: n.leftCredits }, res: cgpaNeededForTarget(n.target, rule, n.done, n.doneCredits, n.leftCredits) };
+      }
+      return out;
+    }
+
+    function renderRuleInfo(c) {
+      const info = $('#cg-rule-info');
+      $('#cg-custom').hidden = state.ruleId !== 'custom';
+      if (!c.rr.ok) { info.innerHTML = esc(CUSTOM_ERR[c.rr.error] || 'Check your rule.'); return; }
+      const r = c.rule;
+      const status = {
+        indicative: 'CBSE circular 24/2010 lists a 9.5 factor. The circular text could not be opened when this page was written, so read it before you rely on it.',
+        generic: 'Plain arithmetic used by many institutions. It is not the rule of any one board or university.',
+        proportion: 'A plain share of the top grade. It is not an official conversion, and foreign evaluators apply their own rules.',
+        custom: 'Your own rule. Check it against your university notice.',
+      }[r.sourceStatus];
+      info.innerHTML = '<b>' + esc(formulaText(r)) + '.</b> ' + esc(status);
+    }
+
+    function renderPanels(c) {
+      const o1 = $('#cg-out-c2p'); const o2 = $('#cg-out-p2c'); const o3 = $('#cg-out-sg'); const o4 = $('#cg-out-need');
+      setInvalid('#cg-in-cgpa', false); setInvalid('#cg-in-pct', false);
+      if (!c.rr.ok) {
+        const m = bad('Finish your own rule first. ' + (CUSTOM_ERR[c.rr.error] || ''));
+        o1.innerHTML = o2.innerHTML = o3.innerHTML = o4.innerHTML = m;
+        return;
+      }
+      const rule = c.rule;
+      // CGPA to percentage
+      if (!c.c2p) o1.innerHTML = '<p class="cg-empty">Type your CGPA. The scale for this rule runs from 0 to ' + rule.scaleMax + '.</p>';
+      else if (!c.c2p.res.ok) { o1.innerHTML = bad(errText(c.c2p.res.error)); setInvalid('#cg-in-cgpa', true); }
+      else o1.innerHTML = '<p class="cg-big">' + esc(c.c2p.res.percent) + ' percent</p><p class="cg-sub">CGPA ' + esc(c.c2p.res.cgpa) + ' by this rule: ' + esc(formulaText(rule)) + '</p>' + steps(c.c2p.res.steps);
+      // Percentage to CGPA
+      if (!c.p2c) o2.innerHTML = '<p class="cg-empty">Type your percentage, from 0 to 100.</p>';
+      else if (!c.p2c.res.ok) { o2.innerHTML = bad(errText(c.p2c.res.error)); setInvalid('#cg-in-pct', true); }
+      else o2.innerHTML = '<p class="cg-big">CGPA ' + esc(c.p2c.res.cgpa) + '</p><p class="cg-sub">' + esc(c.p2c.res.percent) + ' percent by this rule: ' + esc(formulaText(rule)) + ', worked backwards.</p>' + steps(c.p2c.res.steps);
+      // SGPA list
+      if (!c.sg) o3.innerHTML = '<p class="cg-empty">Type at least one semester.</p>';
+      else if (!c.sg.res.ok) o3.innerHTML = bad((c.sg.res.row ? 'Semester ' + c.sg.res.row + ': ' : '') + errText(c.sg.res.error));
+      else {
+        let pctLine = '';
+        if (c.sg.pct && c.sg.pct.ok) pctLine = '<p class="cg-sub">By the chosen rule this CGPA is ' + esc(c.sg.pct.percent) + ' percent (worked from the rounded CGPA).</p>';
+        else if (c.sg.pct) pctLine = '<p class="cg-sub">Percentage by the chosen rule: ' + esc(errText(c.sg.pct.error)) + '</p>';
+        o3.innerHTML = '<p class="cg-big">CGPA ' + esc(c.sg.res.cgpa) + '</p>' + pctLine + steps(c.sg.res.steps);
+      }
+      // Needed
+      if (!c.need) o4.innerHTML = '<p class="cg-empty">Fill the four boxes.</p>';
+      else if (!c.need.res.ok) o4.innerHTML = bad(errText(String(c.need.res.error).replace(/^target-/, '')) + (String(c.need.res.error).startsWith('target-') ? ' (target percentage)' : ''));
+      else if (!c.need.res.reachable) o4.innerHTML = '<p class="cg-big">Not reachable</p><p class="cg-sub">You would need an average of ' + esc(c.need.res.needed) + ' in the remaining credits, which is above the top of the scale. Try a lower target.</p>' + steps(c.need.res.steps);
+      else if (c.need.res.alreadyMet) o4.innerHTML = '<p class="cg-big">Already covered</p><p class="cg-sub">Your grade points so far already cover this target.</p>' + steps(c.need.res.steps);
+      else o4.innerHTML = '<p class="cg-big">Average ' + esc(c.need.res.needed) + ' needed</p><p class="cg-sub">That is the average grade you need over the remaining credits.</p>' + steps(c.need.res.steps);
+    }
+
+    function renderRows() {
+      const list = $('#cg-rows');
+      const keepFocus = document.activeElement && root.contains(document.activeElement) ? document.activeElement.id : '';
+      list.innerHTML = state.rows.map((r, i) =>
+        '<li class="cg-row"><label for="cg-sg-' + i + '">Semester ' + (i + 1) + ' SGPA<input id="cg-sg-' + i + '" type="text" inputmode="decimal" autocomplete="off" maxlength="10" data-row="' + i + '" data-f="sgpa" value="' + esc(r.sgpa) + '"></label>' +
+        '<label for="cg-cr-' + i + '">Semester ' + (i + 1) + ' credits<input id="cg-cr-' + i + '" type="text" inputmode="decimal" autocomplete="off" maxlength="10" data-row="' + i + '" data-f="credits" value="' + esc(r.credits) + '"></label>' +
+        '<button type="button" class="cg-mini" data-cg-act="remove-row" data-row="' + i + '" aria-label="Remove semester ' + (i + 1) + '"' + (state.rows.length <= 1 ? ' disabled' : '') + '>Remove</button></li>'
+      ).join('');
+      $('#cg-add-row').disabled = state.rows.length >= MAX_SEMESTERS;
+      if (keepFocus) { const el = document.getElementById(keepFocus); if (el) el.focus(); }
+    }
+
+    function renderSheet(c) {
+      const rule = c.rule || ruleById('times10');
+      const model = sheetModel({ rule, today: new Date(), ruleNote: state.custom.note, c2p: c.c2p, p2c: c.p2c, sg: c.sg, need: c.need });
+      $('#cg-sheet').innerHTML = modelToHtml(model);
+      return model;
+    }
+
+    function renderAll() {
+      const c = compute();
+      renderRuleInfo(c);
+      renderPanels(c);
+      renderSheet(c);
+      return c;
+    }
+
+    function fillInputs() {
+      $('#cg-rule').value = state.ruleId;
+      root.querySelectorAll('[data-cgc]').forEach((el) => { el.value = state.custom[el.getAttribute('data-cgc')] || ''; });
+      root.querySelectorAll('[data-cgn]').forEach((el) => { el.value = state.need[el.getAttribute('data-cgn')] || ''; });
+      $('#cg-in-cgpa').value = state.c2p.cgpa; $('#cg-in-pct').value = state.p2c.pct;
+      renderRows();
+    }
+
+    function showTab(name, focusTab) {
+      state.tab = name;
+      TABS.forEach((t) => {
+        const on = t === name;
+        const btn = $('#cg-tab-' + t);
+        btn.setAttribute('aria-selected', on ? 'true' : 'false');
+        btn.tabIndex = on ? 0 : -1;
+        $('#cg-panel-' + t).hidden = !on;
+      });
+      if (focusTab) $('#cg-tab-' + name).focus();
+      persist();
+    }
+
+    root.querySelectorAll('[data-cg-tab]').forEach((btn) => {
+      btn.addEventListener('click', () => showTab(btn.getAttribute('data-cg-tab')));
+      btn.addEventListener('keydown', (e) => {
+        const i = TABS.indexOf(state.tab);
+        let n = -1;
+        if (e.key === 'ArrowRight') n = (i + 1) % TABS.length;
+        else if (e.key === 'ArrowLeft') n = (i + TABS.length - 1) % TABS.length;
+        else if (e.key === 'Home') n = 0;
+        else if (e.key === 'End') n = TABS.length - 1;
+        if (n >= 0) { e.preventDefault(); showTab(TABS[n], true); }
+      });
+    });
+
+    function onField(e) {
+      const el = e.target;
+      if (el.matches('[data-cg="rule"]')) state.ruleId = el.value;
+      else if (el.hasAttribute('data-cgc')) state.custom[el.getAttribute('data-cgc')] = el.value;
+      else if (el.hasAttribute('data-cgn')) state.need[el.getAttribute('data-cgn')] = el.value;
+      else if (el.hasAttribute('data-cgi')) { if (el.getAttribute('data-cgi') === 'cgpa') state.c2p.cgpa = el.value; else state.p2c.pct = el.value; }
+      else if (el.hasAttribute('data-row')) state.rows[Number(el.getAttribute('data-row'))][el.getAttribute('data-f')] = el.value;
+      else return;
+      persist();
+      renderAll();
+    }
+    root.addEventListener('input', onField);
+    root.addEventListener('change', onField);
+
+    let pdfBusy = false;
+    async function downloadPdf() {
+      if (pdfBusy) return;
+      pdfBusy = true;
+      try {
+        const c = compute();
+        const model = renderSheet(c);
+        if (!model.any) { say('Enter your numbers first, so the sheet has a result to download.'); return; }
+        let unicodeReady = false;
+        const needsFont = hasUnsupportedText(model);
+        if (needsFont) {
+          say('Loading a font for your Telugu, Hindi or other text...');
+          unicodeReady = await prepareUnicodePdf(model);
+          if (!unicodeReady) { say('This device could not draw some of your text into the PDF. Use Print and choose Save as PDF instead, which keeps every script.'); return; }
+        }
+        say('Preparing the PDF...');
+        const mod = await import('jspdf');
+        const pdf = buildPdf(mod.jsPDF, model, unicodeReady);
+        pdf.save(model.fileName);
+        say(needsFont
+          ? 'PDF downloaded. Telugu, Hindi or other script text is drawn as pictures so the letters keep their shape, so that text cannot be selected or copied. It was made in this browser and not uploaded.'
+          : 'PDF downloaded. It was made in this browser and not uploaded.');
+      } catch (err) {
+        console.error('Unable to create the CGPA result sheet PDF:', err);
+        say('The PDF could not be made. Use Print and choose Save as PDF instead.');
+      } finally {
+        pdfBusy = false;
+      }
+    }
+
+    function printSheet() {
+      renderAll();
+      document.body.setAttribute('data-cg-print', 'sheet');
+      const done = () => { document.body.removeAttribute('data-cg-print'); window.removeEventListener('afterprint', done); };
+      window.addEventListener('afterprint', done);
+      window.print();
+    }
+
+    function clearData() {
+      state = blank();
+      try { localStorage.removeItem(KEY); } catch (e) {}
+      fillInputs(); showTab('c2p'); renderAll();
+      try { localStorage.removeItem(KEY); } catch (e) {}
+      say('Your numbers were cleared from this browser.');
+      $('#cg-in-cgpa').focus();
+    }
+
+    root.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-cg-act]');
+      if (!btn || btn.disabled) return;
+      const a = btn.getAttribute('data-cg-act');
+      if (a === 'pdf') downloadPdf();
+      else if (a === 'print') printSheet();
+      else if (a === 'clear') clearData();
+      else if (a === 'add-row') {
+        if (state.rows.length < MAX_SEMESTERS) { state.rows.push({ sgpa: '', credits: '' }); persist(); renderRows(); renderAll(); const el = $('#cg-sg-' + (state.rows.length - 1)); if (el) el.focus(); }
+      } else if (a === 'remove-row') {
+        const i = Number(btn.getAttribute('data-row'));
+        if (state.rows.length > 1) {
+          state.rows.splice(i, 1); persist(); renderRows(); renderAll();
+          const el = $('#cg-sg-' + Math.min(i, state.rows.length - 1)); if (el) el.focus();
+        }
+      }
+    });
+
+    fillInputs();
+    showTab(state.tab);
+    renderAll();
+  }
+</script>
+
+<style is:global>
+  .cg{margin:2rem 0;padding:1.3rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05);min-width:0}
+  .cg h2{margin:0 0 .6rem}
+  .cg p,.cg li{line-height:1.65}
+  .cg-note,.cg-hint,.cg-status{font-size:.88rem;color:rgba(255,255,255,.78)}
+  .cg-hint{margin:.3rem 0 .7rem}
+  .cg-status{min-height:1.4em;color:#9ff3e6;margin:.6rem 0 0}
+  .cg-form{display:grid;gap:1rem}
+  .cg-box{min-width:0;margin:0;padding:1rem;border:1px solid rgba(255,255,255,.17);border-radius:12px}
+  .cg-box legend{padding:0 .4rem;font-weight:700}
+  .cg label{display:grid;gap:.35rem;margin:.65rem 0;font-size:.92rem;font-weight:600;min-width:0}
+  .cg input,.cg select{width:100%;min-width:0;max-width:100%;box-sizing:border-box;min-height:46px;padding:.55rem .7rem;border:1px solid rgba(255,255,255,.3);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;font-weight:400}
+  .cg input[aria-invalid="true"]{border-color:#ffb4a3;border-width:2px}
+  .cg select option{color:#111;background:#fff}
+  .cg-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.1rem .9rem}
+  .cg-tabs{display:flex;flex-wrap:wrap;gap:.5rem}
+  .cg-tabs button{flex:1 1 10rem;min-height:46px;padding:.55rem .8rem;border:1px solid rgba(255,255,255,.25);border-radius:10px;background:rgba(255,255,255,.05);color:#fff;font-family:inherit;font-weight:700;font-size:.93rem;cursor:pointer}
+  .cg-tabs button[aria-selected="true"]{background:#0b766d;border-color:#2dd4bf}
+  .cg-panel{min-width:0}
+  .cg-panel[hidden],.cg-custom[hidden]{display:none}
+  .cg-out{margin-top:.8rem;padding:1rem;border-radius:12px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.14);min-width:0;overflow-wrap:anywhere}
+  .cg-big{margin:0 0 .2rem;font-size:1.7rem;font-weight:800;color:#9ff3e6;line-height:1.25}
+  .cg-sub{margin:.1rem 0 .5rem;color:rgba(255,255,255,.85)}
+  .cg-empty{margin:0;color:rgba(255,255,255,.75)}
+  .cg-err{margin:0;padding:.7rem .8rem;border-left:4px solid #ffb4a3;background:rgba(255,140,120,.1);color:#ffd9d0}
+  .cg-h4{margin:.8rem 0 .3rem;font-size:.95rem}
+  .cg-steps{margin:.2rem 0 0;padding-left:1.3rem}
+  .cg-steps li{margin:.25rem 0}
+  .cg-rows{margin:.4rem 0 .8rem;padding:0;list-style:none;display:grid;gap:.4rem}
+  .cg-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:.2rem .7rem;align-items:end;padding:.3rem 0;border-top:1px dashed rgba(255,255,255,.14)}
+  .cg-row label{margin:.3rem 0}
+  .cg-actions{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1rem}
+  .cg-btn{min-height:46px;padding:.55rem .95rem;border:1px solid rgba(255,255,255,.3);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font-family:inherit;font-weight:700;font-size:.93rem;cursor:pointer}
+  .cg-btn:disabled,.cg-mini:disabled{opacity:.5;cursor:not-allowed}
+  .cg-btn--primary{background:#0b766d;border-color:#2dd4bf}
+  .cg-btn--warn{border-color:rgba(255,140,120,.7);color:#ffd9d0}
+  .cg-mini{min-height:46px;padding:.25rem .8rem;border:1px solid rgba(255,255,255,.3);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font-family:inherit;font-weight:600;font-size:.85rem;cursor:pointer;margin-bottom:.65rem}
+  .cg select:focus-visible,.cg input:focus-visible,.cg button:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}
+  .cg-sheethead{margin:1.4rem 0 .2rem}
+  .cg-doc{margin-top:.6rem;padding:1.3rem;border:1px solid rgba(229,184,74,.42);border-radius:14px;background:#fff;color:#1c2026;min-width:0;overflow-wrap:anywhere}
+  .cg-doc *{color:inherit}
+  .cg-doc-brand{margin:0;font-size:.72rem;font-weight:800;letter-spacing:.08em;color:#0b766d!important}
+  .cg-doc-title{margin:.1rem 0;font-size:1.5rem;color:#1c2026}
+  .cg-doc-sub{margin:0 0 .6rem;color:#4b535b!important}
+  .cg-doc-head{border-bottom:3px solid #0b766d;margin-bottom:.8rem}
+  .cg-doc-h{margin:1.1rem 0 .4rem;padding-bottom:.25rem;border-bottom:1px solid #cfd6da;font-size:1.02rem;color:#0b766d!important}
+  .cg-doc-p{margin:.3rem 0;line-height:1.55}
+  .cg-meta{display:grid;gap:.25rem;margin:.4rem 0}
+  .cg-meta div{display:grid;grid-template-columns:minmax(9rem,15rem) minmax(0,1fr);gap:.5rem}
+  .cg-meta dt{font-weight:700}
+  .cg-meta dd{margin:0}
+  .cg-field{margin:.5rem 0}
+  .cg-field>b{display:block;font-size:.86rem;color:#4b535b!important}
+  .cg-field ol{margin:.3rem 0 .3rem 1.3rem;padding:0}
+  .cg-tablewrap{margin:.5rem 0;max-width:100%}
+  .cg-table{width:100%;border-collapse:collapse;font-size:.88rem}
+  .cg-table th,.cg-table td{padding:.4rem .5rem;border:1px solid #9aa2aa;text-align:left;overflow-wrap:anywhere}
+  .cg-table th{background:#e2f0ee}
+  .cg-doc-note{margin:.9rem 0 0;font-size:.82rem;font-style:italic;color:#4b535b!important}
+  @media(max-width:560px){
+    .cg{padding:.9rem}
+    .cg-grid{grid-template-columns:minmax(0,1fr)}
+    .cg-doc{padding:.9rem}
+    .cg-meta div{grid-template-columns:minmax(0,1fr);gap:0}
+    .cg-actions .cg-btn{flex:1 1 100%}
+    .cg-big{font-size:1.45rem}
+  }
+  @media print{
+    @page{size:A4;margin:14mm}
+    body[data-cg-print]{background:#fff!important}
+    body[data-cg-print] > *:not(main){display:none!important}
+    body[data-cg-print] main > *:not(.cg-shell){display:none!important}
+    body[data-cg-print] .cg-shell{max-width:none;padding:0;margin:0}
+    body[data-cg-print] .cg{margin:0;padding:0;border:0;background:#fff}
+    body[data-cg-print] .cg > *:not(.cg-sheetwrap){display:none!important}
+    body[data-cg-print] .cg-screen{display:none!important}
+    body[data-cg-print] .cg-doc{display:block;margin:0;padding:0;border:0;border-radius:0}
+    body[data-cg-print] .cg-table tr,body[data-cg-print] .cg-field{break-inside:avoid}
+    body[data-cg-print] .cg-doc-h{break-after:avoid}
+    body[data-cg-print] .cg-doc-brand,body[data-cg-print] .cg-doc-h,body[data-cg-print] .cg-table th{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>

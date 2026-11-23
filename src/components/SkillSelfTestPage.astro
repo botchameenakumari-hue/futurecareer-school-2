@@ -39,6 +39,7 @@ interface Props {
 const { testId: testIdProp, bundle } = Astro.props;
 const testId = (bundle ? bundle.test.id : testIdProp) as SkillTestId;
 const test = bundle ? bundle.test : SKILL_TESTS[testId];
+const canonicalUrl = new URL(test.pageUrl, "https://futurecareerschool.com").href;
 const baseDepth = bundle ? bundle.depth : SKILL_TEST_DEPTH[testId];
 const hasParent = !bundle && testId === 'confused-after-10th';
 const extraQs = bundle ? bundle.extras : EXTRA_QUESTIONS[testId];
@@ -117,7 +118,7 @@ const jsonLd = [
       { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
       { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://futurecareerschool.com/services/' },
       { '@type': 'ListItem', position: 3, name: 'Assessments', item: 'https://futurecareerschool.com/services/assessments/' },
-      { '@type': 'ListItem', position: 4, name: test.breadcrumbName, item: test.pageUrl },
+      { '@type': 'ListItem', position: 4, name: test.breadcrumbName, item: canonicalUrl },
     ],
   },
   {
@@ -125,7 +126,7 @@ const jsonLd = [
     '@type': 'WebApplication',
     name: test.breadcrumbName,
     description: test.webAppDescription,
-    url: test.pageUrl,
+    url: canonicalUrl,
     applicationCategory: 'EducationalApplication',
     operatingSystem: 'Any',
     isAccessibleForFree: true,
@@ -148,7 +149,7 @@ const jsonLd = [
 <BaseLayout
   title={test.metaTitle}
   description={test.metaDescription}
-  canonical={test.pageUrl}
+  canonical={canonicalUrl}
   jsonLd={jsonLd}
 >
   <Nav activePage="services" />
@@ -199,7 +200,7 @@ const jsonLd = [
             <div class="sst-decision">
               <label for="decision-input">What are you using this for? (optional)</label>
               <input id="decision-input" type="text" maxlength="140" autocomplete="off" placeholder="For example: deciding what to work on first this term" />
-              <small>It appears at the top of your result and in your PDF report. It stays on your device.</small>
+              <small>It appears at the top of your result. Your PDF report shows English letters and numbers only. It stays on your device.</small>
             </div>
             <button id="start-button" type="button" class="sst-btn sst-btn--primary" disabled>Choose where you are to begin</button>
           </div>
@@ -264,7 +265,7 @@ const jsonLd = [
         <div class="sst-heading"><span class="sst-kicker">Common questions</span><h2>Before you take the test</h2></div>
         <div class="sst-faq">
           {test.faqs.map((f) => (
-            <details>
+            <details class="faq-item" open>
               <summary>{f.q}</summary>
               <p>{f.a}</p>
             </details>
@@ -304,6 +305,8 @@ const jsonLd = [
 </BaseLayout>
 
 <style is:global>
+  /* While a question is on screen, the fixed privacy pill would sit over the Next button on phones. */
+  body:has(#quiz-shell:not([hidden])) #analytics-consent-manage { display: none !important; }
   .sst{background:#080c18;color:rgba(255,255,255,.86)}
   .sst h1,.sst h2,.sst h3{color:#fff}
   .sst-hero{padding:128px 0 64px;background:linear-gradient(165deg,#07101f 0%,#0d1a33 60%,#1b1608 100%)}
@@ -539,7 +542,7 @@ const jsonLd = [
       var lowest = ranked[0], second = ranked[1], highest = ranked[ranked.length - 1];
       var gap = highest.score - lowest.score;
       var st = DEPTH.stages.filter(function (x) { return x.key === stage; })[0] || DEPTH.stages[0];
-      var headline = PAR ? 'Where to focus first: ' + lc(lowest.d.name) : D.isStudent ? 'Your biggest source of confusion: ' + lc(lowest.d.name) : 'Where to focus first: ' + lc(lowest.d.name);
+      var headline = lowest.score >= 90 ? 'Every area is strong: now turn it into proof' : PAR ? 'Where to focus first: ' + lc(lowest.d.name) : D.isStudent ? 'Your biggest source of confusion: ' + lc(lowest.d.name) : 'Where to focus first: ' + lc(lowest.d.name);
       var overallText = overall >= 70 ? 'Your answers describe fairly strong habits overall.' : overall >= 45 ? 'Your answers describe a mixed pattern, with some strengths and some gaps.' : 'Your answers show several areas that need attention. That is a starting point, not a verdict.';
       var gapText = gap >= 35 ? 'Your areas differ a lot (' + gap + ' points between your highest and lowest), so focused work on ' + lc(lowest.d.name) + ' should make a clear difference.' : gap >= 15 ? 'Your areas differ moderately (' + gap + ' points). Start with ' + lc(lowest.d.name) + ' and keep ' + lc(highest.d.name) + ' going.' : 'Your areas are close together (' + gap + ' points), so pick the one that matters most for your next step.';
 
@@ -574,12 +577,12 @@ const jsonLd = [
           var q = Q[i], chosen = q.opts[answers[i]];
           var best = q.opts.reduce(function (a, b) { return b.s > a.s ? b : a; });
           var dn = DOMS.filter(function (d) { return d.key === q.d; })[0].name;
-          return '<div class="sst-low-item"><p><b>Situation ' + (n + 1) + ' (' + esc(dn) + '):</b> ' + esc(q.text) + '</p><p><b>You chose:</b> ' + esc(chosen.t) + '</p><p><b>What this suggests:</b> ' + esc(chosen.a) + '</p>' + (chosen.s < 100 ? '<p><b>A stronger approach:</b> ' + esc(best.t) + '. ' + esc(best.a) + '</p>' : '') + '</div>';
+          return '<div class="sst-low-item"><p><b>Situation ' + (n + 1) + ' (' + esc(dn) + '):</b> ' + esc(q.text) + '</p><p><b>You chose:</b> ' + esc(chosen.t) + '</p><p><b>What this suggests:</b> ' + esc(chosen.a) + '</p>' + (chosen.s < 100 ? '<p><b>A stronger approach:</b> ' + esc(String(best.t).replace(/[.!?]+$/, '')) + '. ' + esc(best.a) + '</p>' : '') + '</div>';
         }).join('') + '</div>';
       }
 
       var strongItems = [];
-      statIdx.forEach(function (i) { if (itemScore(Q[i], answers[i]) >= 100) strongItems.push(Q[i].text); });
+      statIdx.forEach(function (i) { if (!Q[i].reverse && itemScore(Q[i], answers[i]) >= 100) strongItems.push(Q[i].text); });
       var strongSection = '<div class="result-section"><h4>Keep using ' + esc(lc(highest.d.name)) + '</h4><p>' + esc(highest.d.strong) + ' ' + esc(highest.dd.why) + '</p>' +
         (strongItems.length ? '<p>Statements you rated as fully true:</p>' + list(strongItems.slice(0, 6)) : '') +
         (PAR ? '' : '<p>How to use it:</p>' + list(highest.dd.talkingPoints.concat(highest.dd.proof))) + '</div>';
@@ -647,8 +650,8 @@ const jsonLd = [
       // In 60 seconds
       var firstMove = plain(lowest.dd.routine[0]);
       var quick = '<div class="result-section"><h4>Your result in 60 seconds</h4>' + list([
-        'Focus first on ' + lc(lowest.d.name) + ' (' + lowest.score + '%), then ' + lc(second.d.name) + ' (' + second.score + '%).',
-        'Your strongest area is ' + lc(highest.d.name) + ' (' + highest.score + '%). Keep using it.',
+        lowest.score >= 90 ? 'Every area scores 90% or more. Pick the one you most want to show others and build proof for it.' : 'Focus first on ' + lc(lowest.d.name) + ' (' + lowest.score + '%), then ' + lc(second.d.name) + ' (' + second.score + '%).',
+        highest.score < 30 ? 'Your highest area is ' + lc(highest.d.name) + ' (' + highest.score + '%). It is a place to start, not yet a strength.' : 'Your strongest area is ' + lc(highest.d.name) + ' (' + highest.score + '%). Keep using it.',
         lowCount ? lowCount + ' of ' + statIdx.length + ' statements need a specific step. They are listed with a step for each below.' : 'No statement needs a specific step right now.',
         'One thing to do today: ' + firstMove,
         PAR ? 'Skills for earning power are covered in the section on skills to encourage.' : 'Skills for earning more, sooner: see the skill-led path to early financial freedom below and rate your nine skills.'
@@ -806,15 +809,15 @@ const jsonLd = [
       }
       var topTwo = ranked.slice(-2).reverse(), bottomTwo = ranked.slice(0, 2);
       var evidSection = '<div class="result-section"><h4>Evidence behind your score</h4>' +
-        '<p><b>Strongest dimensions:</b> ' + esc(nameList(topTwo)) + '.</p><p><b>Weakest dimensions:</b> ' + esc(nameList(bottomTwo)) + '.</p>' +
+        '<p><b>Strongest dimensions:</b> ' + esc(nameList(topTwo)) + '.</p><p><b>Lowest dimensions:</b> ' + esc(nameList(bottomTwo)) + '.</p>' +
         '<p><b>Why ' + esc(highest.d.name) + ' is your strongest area (' + highest.score + '%):</b></p>' + list(evidenceFor(highest, false)) +
-        '<p><b>Why ' + esc(lowest.d.name) + ' is your weakest area (' + lowest.score + '%):</b></p>' + list(evidenceFor(lowest, true)) + '</div>';
+        '<p><b>Why ' + esc(lowest.d.name) + ' is your lowest area (' + lowest.score + '%):</b></p>' + list(evidenceFor(lowest, true)) + '</div>';
 
       // Careers: recommended, and to investigate cautiously.
       careers = PAR ? '' : '<div class="result-section"><h4>' + (GENTLE ? 'Work and study settings to explore' : 'Careers and roles to explore') + '</h4>' +
         '<p><b>Recommended to explore, because they use your strongest areas:</b></p>' +
         topTwo.map(function (r) { return '<p>' + esc(r.d.name) + ' (' + r.score + '%):</p>' + list(r.dd.roles); }).join('') +
-        '<p><b>Investigate cautiously:</b> these lean on your lowest area, ' + esc(lc(lowest.d.name)) + ' (' + lowest.score + '%). They are not ruled out. Try a small experiment first and see how it feels.</p>' + list(lowest.dd.roles) +
+        (lowest.score >= 90 ? '' : '<p><b>Investigate cautiously:</b> these lean on your lowest area, ' + esc(lc(lowest.d.name)) + ' (' + lowest.score + '%). They are not ruled out. Try a small experiment first and see how it feels.</p>' + list(lowest.dd.roles)) +
         '<p>Roles are examples of where an area matters, not a prediction of what you should do. They are not automatically high-paying or scalable. ' + esc(D.scalabilityRule) + ' Use the route charts or tracker to inspect the specific option before you spend time or money.</p></div>';
 
       // Three experiments, each with a measure and a decision rule.

@@ -212,6 +212,11 @@ export const bundle: SkillTestBundle = {
     ],
     related: [
       {
+        href: '/tools/study-timetable-maker/',
+        title: 'Study Timetable Maker',
+        description: 'Turn your subjects, exam dates and free hours into a weekly timetable you can print or save as a PDF.',
+      },
+      {
         href: '/services/assessments/soft-skills-self-assessment/',
         title: 'Soft Skills Self-Assessment',
         description: 'Leadership, teamwork, adaptability, ownership and problem solving, scored separately.',

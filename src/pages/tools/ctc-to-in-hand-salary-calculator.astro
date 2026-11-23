@@ -1,0 +1,353 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import BusinessPerspectiveNote from '../../components/BusinessPerspectiveNote.astro';
+import CtcSalaryCalculator from '../../components/CtcSalaryCalculator.astro';
+import { SCALE, SCALE_RULE } from '../../config/scalability.mjs';
+import { computeOffer, inr, CHECKED_ON, TAX_YEAR } from '../../scripts/ctcSalary.mjs';
+
+const title = 'CTC to In-Hand Salary Calculator India: Tax Year 2026-27';
+const description = 'Turn your CTC into monthly in-hand pay with PF, gratuity, professional tax and income tax shown line by line. Compare two offers, then print or save a PDF.';
+const pageUrl = 'https://futurecareerschool.com/tools/ctc-to-in-hand-salary-calculator/';
+
+const steps = [
+  { h: 'Type the CTC and the variable part', p: 'Use the yearly CTC from the offer letter. If part of it is variable pay, type that part too, and try 100, 50 and 0 for how much of it is paid out.' },
+  { h: 'Copy the breakup from the offer letter', p: 'Set the basic pay percentage, whether the employer PF and gratuity sit inside the CTC, and what the PF is worked out on. If you do not know, keep the starting choices and ask HR for the real breakup.' },
+  { h: 'Pick your state and tax regime', p: 'The state sets professional tax. The new regime is the default. Switch to the old regime only if you have rent, 80C and similar deductions to enter.' },
+  { h: 'Read the table of every cut', p: 'The first number is your monthly in-hand pay. Below it you see each cut, what stays inside the CTC but never reaches the bank, and the income tax worked out slab by slab so you can check it.' },
+  { h: 'Compare, then save a copy', p: 'Choose Compare two offers to see two offers side by side. The table called Same CTC, one change at a time shows what a different structure does to the same CTC. Download the PDF or print the result.' },
+];
+
+// Worked examples are computed with the same engine as the tool, on the starting choices.
+const exampleCtcs = [400000, 600000, 800000, 1200000, 1800000, 2500000, 5000000];
+const examples = exampleCtcs.map((ctc) => {
+  const r = computeOffer({ ctc, state: 'ts' }) as { monthlyGross: number; pf: { employeePf: number }; pt: { perMonth: number }; monthlyTds: number; monthlyInHand: number; annualTakeHome: number };
+  return {
+    ctc: inr(ctc),
+    gross: inr(r.monthlyGross),
+    pf: inr(r.pf.employeePf / 12),
+    pt: inr(r.pt.perMonth),
+    tax: inr(r.monthlyTds),
+    inhand: inr(r.monthlyInHand),
+    share: Math.round((r.annualTakeHome / ctc) * 100) + '%',
+  };
+});
+
+const rulesUsed = [
+  { rule: 'New regime slabs', used: 'Nil up to Rs 4,00,000, then 5%, 10%, 15%, 20%, 25% and 30% in steps of Rs 4,00,000, with 30% above Rs 24,00,000.', src: 'S1, S2', edit: 'Fixed by law' },
+  { rule: 'New regime rebate', used: 'No tax if taxable income is up to Rs 12,00,000. Just above that, the tax is limited to the income above Rs 12,00,000.', src: 'S1, S2, S3', edit: 'Fixed by law' },
+  { rule: 'Standard deduction', used: 'Rs 75,000 in the new regime and Rs 50,000 in the old regime, taken off salary before the slabs.', src: 'S4', edit: 'Fixed by law' },
+  { rule: 'Old regime slabs and rebate', used: 'Nil up to Rs 2,50,000, then 5%, 20% and 30% above Rs 5,00,000 and Rs 10,00,000. Rebate up to Rs 12,500 if taxable income is up to Rs 5,00,000.', src: 'S2', edit: 'Fixed by law' },
+  { rule: 'Surcharge and cess', used: 'Surcharge of 10%, 15% and 25% above Rs 50 lakh, Rs 1 crore and Rs 2 crore, then 25% in the new regime and 37% in the old above Rs 5 crore. Marginal relief applies, and cess is 4%.', src: 'S2, S5', edit: 'Fixed by law' },
+  { rule: 'Rounding', used: 'Taxable income and the final tax are rounded to the nearest Rs 10.', src: 'S6', edit: 'Fixed by law' },
+  { rule: 'Employer NPS', used: 'Not taxed up to 14% of basic in the new regime and 10% in the old regime. Anything above that is added to taxable salary.', src: 'S7', edit: 'You set the NPS %' },
+  { rule: 'Old regime deductions', used: '80C up to Rs 1,50,000 (your PF counts), health insurance Rs 25,000 for you and Rs 50,000 for parents, extra NPS Rs 50,000, home loan interest Rs 2,00,000, HRA by the lowest-of-three rule, and professional tax.', src: 'S8, S9, S10', edit: 'You enter the amounts' },
+  { rule: 'HRA cities', used: '50% of basic for Mumbai, Delhi, Kolkata, Chennai, Bengaluru, Hyderabad, Pune and Ahmedabad. 40% elsewhere. Old regime only.', src: 'S8, S9', edit: 'You pick the city type' },
+  { rule: 'PF', used: 'You pay 12% and the employer adds 12%, on the wage ceiling or on your full basic pay, as you choose. The ceiling is Rs 25,000 a month since 17 September 2026.', src: 'S11, S12', edit: 'You set the base and the ceiling' },
+  { rule: 'Gratuity', used: '15 days of wages for each year, with a month counted as 26 days. That is 4.81% of basic. It is paid on leaving, usually after 5 years.', src: 'S12, S13', edit: 'You set the %' },
+  { rule: 'Variable pay and joining bonus', used: 'Taxed as salary in the year they are paid. The extra tax is worked out as tax with the bonus minus tax without it.', src: 'S15', edit: 'You set the payout %' },
+  { rule: 'Insurance paid by the employer', used: 'Group health insurance paid by the employer is not taxed as salary and never reaches your bank.', src: 'S14', edit: 'You enter the amount' },
+  { rule: 'Professional tax', used: 'Charged by the state on a monthly or half-yearly slab, never above Rs 2,500 a year. Eight states are built in, plus a box to type your own yearly amount.', src: 'S16 to S22', edit: 'Pick the state or type the amount' },
+];
+
+const sources = [
+  { id: 'S1', what: 'New regime slabs for tax year 2026-27 (section 202 of the Income-tax Act, 2025)', url: 'https://www.incometaxindia.gov.in/w/section-202-78', kind: 'Official' },
+  { id: 'S2', what: 'New and old regime slabs, rebate and surcharge rates', url: 'https://www.incometax.gov.in/iec/foportal/help/individual/return-applicable-1', kind: 'Official' },
+  { id: 'S3', what: 'Income-tax Act, 2025 in force from 1 April 2026, Income-tax Rules 2026 notified 20 March 2026', url: 'https://www.pib.gov.in/PressReleasePage.aspx?PRID=2248005&reg=3&lang=2', kind: 'Official' },
+  { id: 'S4', what: 'Standard deduction of Rs 75,000 (new) and Rs 50,000 (other cases), section 19 of the 2025 Act, and that Budget 2026 changed no slabs or standard deduction', url: 'https://eztax.in/income-tax-act-2025/section-19', kind: 'Secondary (text of the Act)' },
+  { id: 'S5', what: 'Budget 2026-27 left slabs and standard deduction unchanged', url: 'https://www.taxscan.in/top-stories/budget-2026-no-change-on-income-tax-slabs-and-standard-deduction-1442583', kind: 'Secondary (news report)' },
+  { id: 'S6', what: 'Rounding of income and tax to a multiple of Rs 10 (section 516)', url: 'https://www.incometaxindia.gov.in/w/section-516-3', kind: 'Official' },
+  { id: 'S7', what: 'Employer NPS limits: 14% of salary in the new regime, 10% for private employers in the old regime (section 124)', url: 'https://www.taxheal.com/?p=117319', kind: 'Secondary' },
+  { id: 'S8', what: 'HRA exemption: lowest of HRA received, rent minus 10% of salary, and 50% or 40% of salary', url: 'https://www.incometaxindia.gov.in/w/deductions/allowances-allowed-to-a-salaried-employee', kind: 'Official (wording of the earlier law)' },
+  { id: 'S9', what: 'Eight cities at 50% for HRA under the Income-tax Rules, 2026', url: 'https://www.moneylife.in/article/new-income-tax-rules-from-1st-april-hra-exemption-extended-to-8-cities-fewer-forms-but-landlord-disclosure-now-mandatory/79998.html', kind: 'Secondary (news report)' },
+  { id: 'S10', what: 'Old regime limits: 80C Rs 1,50,000, extra NPS Rs 50,000, health insurance Rs 25,000 and Rs 50,000', url: 'https://www.incorpx.io/blog/tax-saving-deductions-new-income-tax-act-2025', kind: 'Secondary' },
+  { id: 'S11', what: 'EPF wage ceiling raised from Rs 15,000 to Rs 25,000 a month from 17 September 2026', url: 'https://www.labour.gov.in/static/uploads/2026/09/4f607a88c5342aeb980c6b999997caab.pdf', kind: 'Official (Ministry of Labour)' },
+  { id: 'S12', what: 'Labour codes FAQs: 50% wages rule, gratuity, PF rate and ceiling (as on 25 October 2026)', url: 'https://www.labour.gov.in/static/uploads/2026/11/da640b1558a315e81e22ce5ac12f463f.pdf', kind: 'Official (Ministry of Labour)' },
+  { id: 'S13', what: 'Gratuity formula of 15/26 of last drawn salary for each year, tax-free up to Rs 20 lakh', url: 'https://www.incometaxindia.gov.in/w/%E2%80%8B%E2%80%8Bretirement-benefits', kind: 'Official' },
+  { id: 'S14', what: 'Group health insurance paid by the employer is not a taxable perquisite', url: 'https://www.incometaxindia.gov.in/w/perquisites', kind: 'Official' },
+  { id: 'S15', what: 'Bonus is salary in the year it is paid, and TDS is the extra tax from adding it', url: 'https://zdblogs.zohocorp.com/payroll/academy/in/taxes-and-compliances/tax-on-bonus.html', kind: 'Secondary (payroll guide)' },
+  { id: 'S16', what: 'Telangana professional tax schedule (Andhra Pradesh uses the same slabs under the same Act)', url: 'https://www.tgct.gov.in/tgportal/AllActs/APPT/APPTSchedule.aspx', kind: 'Official' },
+  { id: 'S17', what: 'Gujarat professional tax schedule, effective 1 April 2022', url: 'https://commercialtax.gujarat.gov.in/vatwebsite/download/schedule/Rate_of_Profession_Tax.pdf', kind: 'Official' },
+  { id: 'S18', what: 'Karnataka professional tax: Rs 200 a month and Rs 300 in February from 1 April 2025 at gross pay of Rs 25,000 and above', url: 'https://ksandk.com/newsletter/karnataka-professional-tax-higher-income/', kind: 'Secondary (law firm note)' },
+  { id: 'S19', what: 'Maharashtra professional tax for men and women', url: 'https://cleartax.in/s/professional-tax-maharashtra', kind: 'Secondary' },
+  { id: 'S20', what: 'Tamil Nadu: Greater Chennai Corporation slabs revised from October 2024, and Rs 1,250 per half year at the top', url: 'https://akriviahcm.com/resources/wp-content/uploads/2025/02/Revision-of-Chennai-Corporation-Professional-Tax-1.pdf', kind: 'Secondary (copy of the notification)' },
+  { id: 'S21', what: 'West Bengal professional tax slabs', url: 'https://www.greythr.com/wiki/acts/professional-tax-west-bengal/', kind: 'Secondary' },
+  { id: 'S22', what: 'Kerala professional tax slabs, with Rs 1,250 per half year at the top (Kerala Panchayat Raj Profession Tax Rules, 1996)', url: 'https://cleartax.in/s/professional-tax-kerala', kind: 'Secondary' },
+];
+
+const recent = [
+  { when: '17 September 2026', what: 'The EPF wage ceiling rose from Rs 15,000 to Rs 25,000 a month. The most PF you must pay on the ceiling is now Rs 3,000 a month instead of Rs 1,800.', src: 'S11' },
+  { when: '8 May 2026', what: 'The central rules under the four labour codes were notified. The codes themselves have applied since 21 November 2025, and basic pay plus dearness allowance must be at least 50% of total pay.', src: 'S12' },
+  { when: '1 April 2026', what: 'The Income-tax Act, 2025 came into force. The slabs, rebate and standard deduction stayed the same as the year before, and the 50% HRA list grew from four cities to eight.', src: 'S3, S5, S9' },
+  { when: '1 April 2025', what: 'Karnataka raised the gross pay at which professional tax starts to Rs 25,000 a month, and set Rs 300 for February.', src: 'S18' },
+];
+
+const limits = [
+  'It is an estimate, not tax advice and not your payslip. Payslips differ by employer, by how TDS is spread over the year, and by what each employer counts in basic pay.',
+  'It assumes you work the whole tax year with one employer. If you join mid-year or change jobs, the tax and totals change.',
+  'It counts salary only. Other income, capital gains, interest and income from a second job are not included.',
+  'It uses the slabs for people under 60.',
+  'It leaves out ESI (employee state insurance), which can apply at low pay, plus allowances and reimbursements paid on bills, meal cards, stock options and loans from the employer. Ask HR if your offer has any of these.',
+  'Employer contributions to PF and NPS above Rs 7.5 lakh a year are taxable. The tool warns you but does not add the excess.',
+  'Professional tax comes from the slab for your state, on your fixed monthly pay. It cannot know about a local rule your employer follows.',
+  'Rules change. Check the official notice or ask your payroll team before you sign or negotiate.',
+];
+
+const compareTips = [
+  { h: 'Compare take-home, not CTC', p: 'Two offers with the same CTC can leave very different pay in your bank. Look at monthly in-hand and annual take-home side by side.' },
+  { h: 'Check how much is variable', p: 'A bonus counted at target in the CTC may be paid at less. Try 50 and 0 in the payout box to see the weak-year case.' },
+  { h: 'Count what you save, not only what you spend', p: 'Employer PF, gratuity and NPS never reach your bank, yet they are real savings. A higher basic lowers cash now and builds savings.' },
+  { h: 'Use the real city', p: 'Rent, professional tax and the HRA limit change with the city, so set the state for each offer.' },
+];
+
+const growthRows = [
+  { kind: 'A salaried job with a fixed pay ladder and nothing else built beside it', mark: SCALE.low.label, risk: 'Pay grows only as fast as one employer\'s hikes and bands, and a layoff or a weak appraisal hits all of your income at once.', step: 'Keep one skill running that can earn outside the job, and note who would pay for it.' },
+  { kind: 'A salaried job that builds a skill clients can pay for, with proof you can show', mark: SCALE.mid.label, risk: 'The extra income needs a plan for who pays, how they find and trust you, and time that the job may not leave free.', step: 'Write down your first possible client, one piece of proof, and how you would follow up.' },
+  { kind: 'Skill-led work you sell yourself, such as freelance or consulting', mark: SCALE.high.label, risk: 'Income is uneven, and there is no PF, gratuity or fixed hike. This calculator does not fit, because there is no CTC.', step: 'Keep a cash buffer and price your work to cover what an employer would have paid for you.' },
+];
+
+const faqs = [
+  { q: 'What is CTC and how do I get in-hand salary from it?', a: 'CTC means cost to company: everything your employer spends on you in a year. To reach in-hand pay, take out the variable pay that is not guaranteed, the employer PF, gratuity, NPS and insurance, then your own PF, professional tax and income tax. This calculator does each step and shows every line.' },
+  { q: 'Why is my in-hand salary lower than CTC divided by 12?', a: 'Part of the CTC never reaches your bank: the employer share of PF, gratuity, insurance and any bonus that is paid once or only if targets are met. On top of that, your own PF, professional tax and income tax are cut from pay. Open the table called Inside the CTC but never in your bank account to see the amounts for your offer.' },
+  { q: 'Will a 12 lakh CTC pay income tax in the new regime?', a: 'On the starting choices of this tool it does not. Taxable income up to Rs 12,00,000 pays no tax in the new regime because of the rebate, and the standard deduction of Rs 75,000 is taken off first. Just above Rs 12,00,000 the tax is limited to the income above that line, so the tax rises slowly instead of jumping.' },
+  { q: 'Is the employer PF part of my CTC?', a: 'In most offers it is, so it lowers the cash pay while it builds your PF balance. Some employers pay it on top of the CTC. Use the box Is the employer PF inside the CTC to match your letter.' },
+  { q: 'What changed with the PF wage ceiling?', a: 'The Ministry of Labour raised the EPF wage ceiling from Rs 15,000 to Rs 25,000 a month with effect from 17 September 2026. If your employer works PF on the ceiling, your PF share can now be up to Rs 3,000 a month. Sources do not say how every payroll treats existing staff, so ask HR which wage your PF uses, and edit the ceiling in More choices if needed.' },
+  { q: 'What is gratuity and will I get it?', a: 'Gratuity is a lump sum the employer pays when you leave, worked out as 15 days of wages for each completed year. Most staff need five years of continuous service, though fixed-term employees can qualify after one year and the rule is waived on death or disablement. Because you may not stay five years, treat it as a possible benefit, not monthly cash.' },
+  { q: 'New tax regime or old tax regime, which is better for me?', a: 'The new regime is the default and has lower slabs but almost no deductions. The old regime has higher slabs but lets you subtract HRA, 80C, health insurance and home loan interest. Enter your own deductions, then use the row Old tax regime with the deductions you entered in the table Same CTC, one change at a time to see both results for your numbers.' },
+  { q: 'How are variable pay and a joining bonus taxed?', a: 'Both are salary and are taxed in the year they are paid, at your slab rates. The tool works out the extra tax as the tax with the bonus minus the tax without it. Many employers take that extra tax from the bonus payout, so monthly pay stays steady and the bonus month looks smaller than expected.' },
+  { q: 'How do I compare two job offers with this calculator?', a: 'Choose Compare two offers, fill in both, and read the side by side table. It shows the difference in monthly in-hand pay, annual take-home, tax and what stays inside the CTC. Set the state for each offer, because professional tax and rent change with the city.' },
+  { q: 'Is professional tax for my state included?', a: 'Eight states are built in: Andhra Pradesh, Telangana, Karnataka, Maharashtra, Tamil Nadu, West Bengal, Gujarat and Kerala. For another state, choose Another state and type the yearly amount from your payslip, and if your place charges none, choose No professional tax. State slabs change, so check the official notice.' },
+  { q: 'Why does my real payslip differ from this estimate?', a: 'Employers split pay in their own way and may spread TDS differently, count different allowances, or follow a mid-year start. Your basic pay, the PF base and the month you joined all change the result. Treat the tool as a way to ask better questions of HR, then compare it with your offer letter breakup.' },
+  { q: 'Is my salary information sent anywhere?', a: 'No. Everything you type stays in this browser, and the PDF is made on your own device. Press Clear my data to remove what the page saved, especially on a shared computer.' },
+  { q: 'Can I type an offer name in Telugu or Hindi and still get a PDF?', a: 'Yes. The PDF draws Telugu and Hindi letters as pictures so they keep their shape, which means that text cannot be selected or copied from the PDF, and a small font file loads only when you press the download button with such text. Other scripts use the fonts on your device, so check the file or use Print result and choose Save as PDF.' },
+];
+
+const jsonLd = [
+  {
+    '@type': 'WebApplication',
+    name: 'CTC to In-Hand Salary Calculator',
+    url: pageUrl,
+    description,
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any modern web browser',
+    isAccessibleForFree: true,
+    inLanguage: 'en-IN',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+    provider: { '@type': 'Organization', name: 'Future Career School', url: 'https://futurecareerschool.com' },
+  },
+  {
+    '@type': 'WebPage',
+    name: title,
+    url: pageUrl,
+    description,
+    dateModified: '2026-11-17',
+    inLanguage: 'en-IN',
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://futurecareerschool.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Career resources', item: 'https://futurecareerschool.com/career-resources/' },
+      { '@type': 'ListItem', position: 3, name: 'CTC to in-hand salary calculator', item: pageUrl },
+    ],
+  },
+  {
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={pageUrl} jsonLd={jsonLd}>
+  <Nav activePage="tools" />
+  <BusinessPerspectiveNote serviceBanner={true} />
+  <main>
+    <section class="cs-hero container">
+      <nav class="cs-crumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true"> / </span><a href="/career-resources/">Career resources</a><span aria-hidden="true"> / </span><span aria-current="page">CTC to in-hand salary calculator</span></nav>
+      <p class="eyebrow">FREE PRIVATE CALCULATOR WITH PDF</p>
+      <h1>CTC to In-Hand Salary Calculator <span>for India</span></h1>
+      <p class="cs-lead">This CTC to in-hand salary calculator turns the CTC in your offer letter into the money that reaches your bank each month, and shows every cut along the way. It works out income tax slab by slab for the tax year {TAX_YEAR} so you can check it, and it can put two offers side by side.</p>
+      <p class="cs-limits"><b>Private by design:</b> it runs in your browser and sends nothing. It is an estimate, not tax advice. Rules checked on {CHECKED_ON}.</p>
+    </section>
+
+    <section class="container ctc-shell cs-tool" aria-label="CTC to in-hand salary calculator">
+      <CtcSalaryCalculator />
+    </section>
+
+    <section class="container cs-section" id="how-to-use">
+      <h2>How to use the calculator</h2>
+      <ol class="cs-steps">
+        {steps.map((s) => (<li><h3>{s.h}</h3><p>{s.p}</p></li>))}
+      </ol>
+    </section>
+
+    <section class="container cs-section" id="examples">
+      <h2>CTC and monthly in-hand pay: worked examples</h2>
+      <p>These rows come from the same calculator, on its starting choices: new regime, Telangana professional tax, basic pay at 50% of the CTC, PF on the Rs 25,000 wage ceiling, employer PF and gratuity inside the CTC, and no variable pay.</p>
+      <p>An illustration, not your offer. Change the choices above and the numbers move.</p>
+      <div class="ctc-tablewrap">
+        <table class="ctc-table">
+          <thead><tr><th scope="col">Yearly CTC</th><th scope="col" class="ctc-num">Cash pay a month</th><th scope="col" class="ctc-num">Your PF</th><th scope="col" class="ctc-num">Professional tax</th><th scope="col" class="ctc-num">Income tax (TDS)</th><th scope="col" class="ctc-num">In hand a month</th><th scope="col" class="ctc-num">Share of CTC that reaches you</th></tr></thead>
+          <tbody>
+            {examples.map((e) => (
+              <tr>
+                <th scope="row" data-label="Yearly CTC">{e.ctc}</th>
+                <td class="ctc-num" data-label="Cash pay a month">{e.gross}</td>
+                <td class="ctc-num" data-label="Your PF">{e.pf}</td>
+                <td class="ctc-num" data-label="Professional tax">{e.pt}</td>
+                <td class="ctc-num" data-label="Income tax (TDS)">{e.tax}</td>
+                <td class="ctc-num" data-label="In hand a month"><strong>{e.inhand}</strong></td>
+                <td class="ctc-num" data-label="Share of CTC that reaches you">{e.share}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p>The share is lower at small CTCs because PF takes a bigger slice of a small basic pay, and lower again at very large CTCs because the top slabs and surcharge apply. In between, the rebate removes income tax up to a taxable income of Rs 12,00,000.</p>
+      <p>The blog guide on <a href="/blog/college-degrees/highest-package-vs-median-ctc-meaning-india/">highest package and median CTC</a> explains why a headline CTC is not monthly pay, and how to read the number a college quotes.</p>
+    </section>
+
+    <section class="container cs-section" id="compare">
+      <h2>How to compare two offers</h2>
+      <div class="cs-cards">
+        {compareTips.map((t) => (<article><h3>{t.h}</h3><p>{t.p}</p></article>))}
+      </div>
+      <p>If you are choosing between a first job and further study, the <a href="/tools/education-cost-payback-planner/">education cost and payback planner</a> takes a take-home figure like the one above and tests it against what the route costs.</p>
+    </section>
+
+    <section class="container cs-section" id="rules">
+      <h2>The rules this calculator uses</h2>
+      <p>Every rule below was checked on {CHECKED_ON} for the tax year {TAX_YEAR}. The last column says what you can change when your employer does it differently.</p>
+      <div class="ctc-tablewrap">
+        <table class="ctc-table">
+          <thead><tr><th scope="col">Rule</th><th scope="col">What the tool uses</th><th scope="col">Source</th><th scope="col">Can you edit it?</th></tr></thead>
+          <tbody>
+            {rulesUsed.map((r) => (
+              <tr>
+                <th scope="row" data-label="Rule">{r.rule}</th>
+                <td data-label="What the tool uses">{r.used}</td>
+                <td data-label="Source">{r.src}</td>
+                <td data-label="Can you edit it?">{r.edit}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <h3>What changed recently</h3>
+      <ul class="cs-list">
+        {recent.map((r) => (<li><b>{r.when}:</b> {r.what} <span class="cs-src">Source {r.src}.</span></li>))}
+      </ul>
+      <p>On the labour codes, the Ministry of Labour FAQ says the new wage definition does not reduce wages, because pay above 50% is added back into wages. That also raises the base for PF and gratuity, so the cash in your bank can fall if your basic pay was below 50% of total pay. The tool shows a warning when your basic is under 50%.</p>
+    </section>
+
+    <section class="container cs-section" id="limits">
+      <h2>What it does not do</h2>
+      <ul class="cs-list">
+        {limits.map((l) => (<li>{l}</li>))}
+      </ul>
+    </section>
+
+    <section class="container cs-section" id="growth">
+      <h2>A salary is one income, so read the offer for growth too</h2>
+      <p>{SCALE_RULE}</p>
+      <div class="ctc-tablewrap">
+        <table class="ctc-table">
+          <thead><tr><th scope="col">Kind of income</th><th scope="col">Mark</th><th scope="col">Risk to write down</th><th scope="col">Basic sales and marketing step</th></tr></thead>
+          <tbody>
+            {growthRows.map((g) => (
+              <tr>
+                <th scope="row" data-label="Kind of income">{g.kind}</th>
+                <td data-label="Mark"><b>{g.mark}</b></td>
+                <td data-label="Risk to write down">{g.risk}</td>
+                <td data-label="Basic sales and marketing step">{g.step}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p>The marks describe a kind of income, not a person, and none of them promises a result. If a first offer is the only income you can get right now, take it and keep building a skill beside it. For a second opinion on an offer, a switch or a first job, see <a href="/services/career-counselling-and-career-guidance/career-counselling-for-college-students/">career counselling for college students</a>, or <a href="/services/career-counselling-and-career-guidance/career-coaching-for-professionals/">career coaching for professionals</a> if you already work.</p>
+    </section>
+
+    <section class="container cs-section" id="related">
+      <h2>Related tools and guides</h2>
+      <ul class="cs-list">
+        <li>Weighing a first job against the cost of a course? Use the <a href="/tools/course-cost-planner/">course cost planner</a>.</li>
+        <li>Thinking of leaving a job? The <a href="/tools/career-change-runway-calculator/">career change runway calculator</a> shows how long your savings last on your in-hand pay.</li>
+        <li>Want to turn a skill into a second income? Try the <a href="/tools/skill-to-service-mapper/">skill to service mapper</a>.</li>
+        <li>Negotiating an offer? Read <a href="/career-resources/salary-negotiation-what-to-say-and-what-never-to-say/">what to say and what never to say in a salary negotiation</a>.</li>
+        <li>Not sure how much you need to earn? Read the <a href="/career-resources/freedom-number-how-much-do-you-actually-need-to-earn/">freedom number guide</a>.</li>
+      </ul>
+    </section>
+
+    <section class="container cs-section" id="sources">
+      <h2>Sources, checked {CHECKED_ON}</h2>
+      <p>Official sources are marked as such. Secondary sources are news reports, law-firm notes and payroll guides that quote the official text, and you should confirm them on the official notice before relying on them. Professional tax has no single national source, so each state is listed on its own.</p>
+      <div class="ctc-tablewrap">
+        <table class="ctc-table">
+          <thead><tr><th scope="col">Ref</th><th scope="col">What it supports</th><th scope="col">Type</th><th scope="col">Checked</th></tr></thead>
+          <tbody>
+            {sources.map((s) => (
+              <tr>
+                <th scope="row" data-label="Ref">{s.id}</th>
+                <td data-label="What it supports"><a href={s.url} target="_blank" rel="noopener">{s.what}</a><span class="cs-url">{s.url}</span></td>
+                <td data-label="Type">{s.kind}</td>
+                <td data-label="Checked">{CHECKED_ON}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p>Where sources disagree, the page says so. Kerala's lower slabs and Maharashtra's threshold for women differ between sources, and the Andhra Pradesh and West Bengal state portals could not be read, so those slabs rest on secondary sources. Check your payslip against the state notice.</p>
+    </section>
+
+    <section class="container cs-section" id="faq">
+      <h2>CTC to in-hand salary calculator: common questions</h2>
+      <div class="cs-faq">
+        {faqs.map((f) => (
+          <details class="faq-item" open>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .cs-hero{padding:2rem 1.25rem 1rem}
+  .cs-hero h1{max-width:880px;overflow-wrap:anywhere}
+  .cs-hero h1 span{color:var(--gold,#e5b84a)}
+  .cs-crumb{font-size:.85rem;color:rgba(255,255,255,.75);margin-bottom:1.2rem}
+  .cs-crumb a{color:#8de4d8;text-decoration:underline;text-underline-offset:2px}
+  .cs-lead{max-width:800px;font-size:1.1rem;line-height:1.7}
+  .cs-limits{max-width:800px;font-size:.9rem;line-height:1.6;color:rgba(255,255,255,.8)}
+  .cs-tool{max-width:1100px}
+  .cs-section{max-width:1100px;padding:1.4rem 1.25rem}
+  .cs-section h2{margin-top:0}
+  .cs-section p,.cs-section li{line-height:1.7;max-width:860px}
+  .cs-section a{color:#f3cf70;font-weight:700}
+  .cs-steps{list-style:none;margin:1rem 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));gap:1rem;counter-reset:cs}
+  .cs-steps li{counter-increment:cs;padding:1rem;border:1px solid rgba(255,255,255,.2);border-radius:14px}
+  .cs-steps li::before{content:counter(cs);display:inline-grid;place-items:center;width:1.9rem;height:1.9rem;margin-bottom:.4rem;border-radius:50%;background:#0b766d;color:#fff;font-weight:800}
+  .cs-steps h3{margin:.1rem 0 .3rem}
+  .cs-steps p{margin:0}
+  .cs-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));gap:1rem;margin:1rem 0}
+  .cs-cards article{padding:1rem;border:1px solid rgba(255,255,255,.2);border-radius:14px}
+  .cs-cards h3{margin:0 0 .3rem}
+  .cs-cards p{margin:0}
+  .cs-list{padding-left:1.2rem}
+  .cs-list li{margin-bottom:.5rem}
+  .cs-src{color:rgba(255,255,255,.75);font-size:.86rem}
+  .cs-url{display:block;margin-top:.25rem;font-size:.78rem;color:rgba(255,255,255,.75);overflow-wrap:anywhere;word-break:break-all}
+  .cs-faq{display:grid;gap:.8rem;margin-top:1rem;padding-bottom:3rem}
+  .cs-faq .faq-item{padding:.9rem 1rem;border:1px solid rgba(255,255,255,.2);border-radius:12px;background:rgba(255,255,255,.04)}
+  .cs-faq summary{cursor:pointer;font-weight:700;line-height:1.5;min-height:44px;display:flex;align-items:center}
+  .cs-faq summary:focus-visible{outline:3px solid #e5b84a;outline-offset:3px}
+  .cs-faq p{margin:.4rem 0 0;max-width:none}
+  .cs-section .ctc-table{min-width:0}
+  @media(max-width:720px){.cs-hero{padding-top:1.5rem}}
+  @media(max-width:560px){.cs-hero,.cs-section{padding-left:.2rem;padding-right:.2rem}}
+</style>

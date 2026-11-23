@@ -28,7 +28,7 @@ if (missing.length || misclassifiedLanding.length) {
 const companionCount = entries.filter((entry) => entry.companion).length;
 const selfTestCount = entries.filter((entry) => entry.selfTest).length;
 const landingCount = entries.filter((entry) => landingOnly.has(entry.slug)).length;
-if (companionCount !== 19 || selfTestCount !== 17 || landingCount !== 5) {
+if (companionCount !== 19 || selfTestCount !== 24 || landingCount !== 5) {
   throw new Error(`Unexpected assessment coverage counts: companion=${companionCount}, self-test=${selfTestCount}, landing=${landingCount}.`);
 }
 

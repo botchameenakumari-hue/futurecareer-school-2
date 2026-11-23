@@ -216,6 +216,21 @@ export const bundle: SkillTestBundle = {
     ],
     related: [
       {
+        href: '/services/assessments/writing-skills-assessment-test/',
+        title: 'Writing Skills Assessment Test',
+        description: 'Rate clarity, accuracy, tone and editing in the emails and reports you write.',
+      },
+      {
+        href: '/services/assessments/employability-skills-assessment-test/',
+        title: 'Employability Skills Assessment Test',
+        description: 'Check the work habits, digital basics and proof employers trust.',
+      },
+      {
+        href: '/services/assessments/computer-skills-self-assessment-test/',
+        title: 'Computer Skills Self-Assessment Test',
+        description: 'Rate what you can do with files, documents, spreadsheets and online safety.',
+      },
+      {
         href: '/blog/job-search/internship-vs-full-time-job-india/',
         title: 'Internship vs Full-Time Job in India',
         description: 'How the two differ and how to choose between them.',

@@ -1,0 +1,248 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import BusinessPerspectiveNote from '../../components/BusinessPerspectiveNote.astro';
+import StudentMentoringForm from '../../components/StudentMentoringForm.astro';
+import { SCALE, SCALE_RULE } from '../../config/scalability.mjs';
+import { exampleState, recordModel, reportModel, modelToHtml, DEFAULT_SCALE } from '../../scripts/studentMentoring';
+
+const title = 'Student Mentoring Form and Report Format | Free PDF';
+const description = 'Free student mentoring form and report format. Record each session, track agreed actions, then download a PDF or print it. Private, with no sign-up.';
+const pageUrl = 'https://futurecareerschool.com/tools/student-mentoring-form-and-report/';
+
+const exampleDate = '2026-11-17';
+const example = exampleState();
+const exampleRecordHtml = modelToHtml(recordModel(example.sessions[1], exampleDate, true));
+const exampleReportHtml = modelToHtml(reportModel(example, exampleDate, DEFAULT_SCALE));
+
+const steps = [
+  { h: 'Choose the role', p: 'Pick who is filling the form in. Add initials and a class only if you want them, or leave the boxes empty.' },
+  { h: 'Fill in the session record', p: 'Write the goal, what changed since the last session, what is in the way, what went well, and up to four actions with dates. Add the follow-up date, how progress will be checked and any extra support needed.' },
+  { h: 'Save to the report log', p: 'Press Save to report log. The session stays in this browser and the form moves on to the next session number.' },
+  { h: 'Build the mentoring report', p: 'After several sessions, open the Mentoring report tab. Add the focus, your observations, overall progress and the next steps, then download the PDF or print it.' },
+  { h: 'Print a blank form if you prefer paper', p: 'Leave the fields empty and press Print record. The empty form has ruled lines, tick boxes, a table for handwritten actions and three signature lines.' },
+];
+
+const marks = [
+  {
+    mark: SCALE.high.label,
+    meaning: 'Income and reach can grow through skills, proof of work and paid projects, not only through hours worked.',
+    risk: 'It needs steady learning and visible proof. A title or certificate alone does not make an option scalable.',
+    step: 'Name who pays, how they find and trust you, one piece of proof and a simple follow-up habit.',
+  },
+  {
+    mark: SCALE.mid.label,
+    meaning: 'A job is the way in, and a consulting practice, studio, clinic, agency or product on top can make it scalable.',
+    risk: 'Without that extra layer, growth stays tied to one employer or to the hours you can work.',
+    step: 'Plan the business layer early: who would pay, how they would find and trust you, and what proof you can show.',
+  },
+  {
+    mark: SCALE.low.label,
+    meaning: 'Growth is capped by seats, hours or a single employer. Examples are MBBS and BDS, NDA, government exams, integrated law, pilot training, merchant navy and pure research.',
+    risk: 'Competition at several levels, many years before pay grows, and few people reaching the top. Effort alone does not guarantee a result.',
+    step: 'Write a second route and keep a skill running that can grow on its own.',
+  },
+];
+
+const faqs = [
+  {
+    q: 'What should a student mentoring form include?',
+    a: 'A student mentoring form should record who took part and how the session was held, the goal, progress since the last session, obstacles, what went well, agreed actions with dates and a follow-up. This one also has fields for extra support or a referral, an optional option the mentor suggested with a growth mark, and a short student feedback block. Keep each entry short enough that someone else could act on it.',
+  },
+  {
+    q: 'What is a student mentoring report format?',
+    a: 'A student mentoring report format summarises several sessions in one document: the focus, the sessions at a glance, the actions agreed and finished, strengths seen, the options suggested, extra support, student feedback, the mentor’s observations with overall progress, and the next steps. The report tab builds that layout from the sessions you save, and the example above shows it filled in for a made-up student. You add the focus, observations and next steps in your own words.',
+  },
+  {
+    q: 'How do I write a student mentoring report?',
+    a: 'Save each session as soon as it ends, while the details are fresh. At the end of the term, open the report tab, add the focus, your observations and the next steps, and check that every action shows the right status. Write what you saw and what was done, not guesses about the student’s character.',
+  },
+  {
+    q: 'Can a student use this to track what a mentor suggested?',
+    a: 'Yes. Choose Student keeping a personal record, write the mentor’s suggestion in the option field, mark it for growth and note the risk. Add the actions you agreed to and update their status as you finish them.',
+  },
+  {
+    q: 'Is there a career guidance feedback form for the student?',
+    a: 'Part 9 of the session record is a short career guidance feedback form for the student. It asks what was most useful, what was unclear or did not fit, how clear the advice was, whether the student felt listened to and whether they know the next step. It is optional, it is saved with the session, and the report summarises it.',
+  },
+  {
+    q: 'Does the tool collect names or contact details?',
+    a: 'No, the only identity field is an optional box for initials, and it stays in this browser. Nothing is sent to this site, and the PDF is made on your own device. Avoid typing full names, phone numbers, email addresses or health and family details into the free-text boxes.',
+  },
+  {
+    q: 'Can I keep records for many students at once?',
+    a: 'The log holds one student at a time, because the report summarises one student’s sessions. Download the report PDF for that student, press Clear all saved data and start the next student. If you print the blank record, a school can keep paper copies in its own files.',
+  },
+  {
+    q: 'Where are my entries kept, and how do I keep a copy?',
+    a: 'Entries are kept in the local storage of the browser on this device. Clearing browser data, using a private window or switching to another device removes them. Download the PDF to keep a copy, and press Clear all saved data when you finish on a shared computer.',
+  },
+  {
+    q: 'Can I type in Telugu or Hindi and still get a PDF?',
+    a: 'Yes, the PDF keeps Telugu and Hindi letters in their correct shapes by drawing those lines as pictures. That text cannot be selected or copied from the PDF, and a small font file loads only when you press a PDF button with it. Other scripts use the fonts on your device, so check the file or use Print and choose Save as PDF.',
+  },
+  {
+    q: 'How should a mentor’s career suggestion be judged?',
+    a: 'A suggestion is a starting point, not a decision. Judge it for growth: can skills, proof of work and paid projects grow income and reach beyond one employer? Mark it Scalable, Scalable with a business layer or Not so scalable, and write down the risk.',
+  },
+  {
+    q: 'Can a senior student use this to mentor a junior?',
+    a: 'Yes. Choose Senior student mentoring a junior and record what was discussed and what was agreed. Senior students should not advise on health, legal or money decisions, and a serious worry should go to a teacher, counsellor or another trusted adult.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@type': 'WebApplication',
+    name: 'Student Mentoring Form and Report Format',
+    url: pageUrl,
+    applicationCategory: 'EducationalApplication',
+    operatingSystem: 'Any modern web browser',
+    description,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+    publisher: { '@type': 'Organization', name: 'FutureCareerSchool', url: 'https://futurecareerschool.com' },
+  },
+  {
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={pageUrl} jsonLd={jsonLd}>
+  <Nav activePage="tools" />
+  <BusinessPerspectiveNote serviceBanner={true} />
+  <main>
+    <section class="tool-hero container">
+      <p class="eyebrow">FREE PRIVATE FORM AND REPORT</p>
+      <h1>Student Mentoring <span>Form and Report Format</span></h1>
+      <p class="lead">Use this student mentoring form to record each session, then turn the saved sessions into a student mentoring report you can download as a PDF or print. It is made for school and college mentors, teachers, senior students who mentor juniors, and students who track what a mentor suggested.</p>
+      <p class="tool-jump"><a href="#student-mentoring-form">Start the form</a><a href="#example">See the report example</a><a href="#faq">Questions</a></p>
+      <p class="tool-limits"><b>Private by design:</b> it runs in this browser, asks for no names or contact details (initials only if you want) and uploads nothing.</p>
+    </section>
+
+    <section class="container tool-shell smr-shell" aria-label="Student mentoring form and report builder">
+      <StudentMentoringForm />
+    </section>
+
+    <section class="container tool-section" id="example">
+      <h2>A student mentoring report format: a made-up example</h2>
+      <p>This example is for a fictional student with the initials AB. It is not a real student and not a real school record. The first document is one session record, and the second is the mentoring report built from three such sessions.</p>
+      <h3>One filled session record</h3>
+      <article class="smr-doc smr-example-doc" aria-label="Example session record" set:html={exampleRecordHtml} />
+      <h3>The mentoring report built from three sessions</h3>
+      <article class="smr-doc smr-example-doc" aria-label="Example mentoring report" set:html={exampleReportHtml} />
+      <p>Press <b>Fill with a made-up example</b> in the tool above to load these three sessions and open the report tab.</p>
+    </section>
+
+    <section class="container tool-section" id="how-to-use">
+      <h2>How to use the form and the report</h2>
+      <ol class="step-grid">
+        {steps.map((s) => (
+          <li><h3>{s.h}</h3><p>{s.p}</p></li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="container tool-section" id="growth-marks">
+      <h2>Mark every suggested option for growth</h2>
+      <p>A mentor’s suggestion is a starting point. Career choices should be judged for growth, so each option in the record carries one of three marks and the risk that goes with it.</p>
+      <p>{SCALE_RULE}</p>
+      <div class="marks-wrap">
+        <table class="marks-table">
+          <thead>
+            <tr><th scope="col">Mark</th><th scope="col">What it means</th><th scope="col">Risk to write down</th><th scope="col">Basic sales and marketing step</th></tr>
+          </thead>
+          <tbody>
+            {marks.map((m) => (
+              <tr>
+                <td data-label="Mark"><b>{m.mark}</b></td>
+                <td data-label="What it means">{m.meaning}</td>
+                <td data-label="Risk to write down">{m.risk}</td>
+                <td data-label="Basic sales and marketing step">{m.step}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p>If you are not sure how to mark an option, leave it as Not yet checked and look it up before anyone acts on it. The marks describe an option, not a student, and none of them promises a result or an income.</p>
+    </section>
+
+    <section class="container tool-explainer" id="what-this-is">
+      <h2>What the record and report do and do not do</h2>
+      <div class="explainer-grid">
+        <article><h3>It is a record</h3><p>It keeps a dated note of what was discussed, what was agreed and what happened next, so the next session starts from facts instead of memory.</p></article>
+        <article><h3>It is not an assessment</h3><p>The form does not score a student, rate a mentor or predict a career. Entries are not treated as research data.</p></article>
+        <article><h3>It is not a counselling or safeguarding file</h3><p>Do not write health details, family problems or anything about another person. If a student shares a serious worry, follow your school or college rules and involve a qualified adult or counsellor.</p></article>
+        <article><h3>It is not stored by us</h3><p>Entries stay in this browser and are not sent to this site. Download the PDF to keep a copy, because clearing browser data removes the log.</p></article>
+      </div>
+    </section>
+
+    <section class="container tool-section" id="next-steps">
+      <h2>Where to go next</h2>
+      <ul class="next-list">
+        <li>Helping a student plan for a target percentage? Use the <a href="/tools/marks-needed-to-reach-target-percentage/">marks needed to reach target percentage calculator</a>.</li>
+        <li>Need a mentor or a plan that continues through the year? Read how the <a href="/services/career-counselling-and-career-guidance/career-mentoring-program/">career mentoring program</a> works.</li>
+        <li>Mentoring a junior for the first time? Read the guide to <a href="/blog/skills/mentoring-skills-and-how-to-mentor-juniors-india/">mentoring skills and how to mentor juniors</a>.</li>
+        <li>Want to test one suggestion with a small experiment? Use the <a href="/tools/career-decision-journal/">career decision journal</a>, which is a personal worksheet and not a session log.</li>
+        <li>Is the real problem a disagreement between a student and the family? Use the <a href="/tools/student-parent-career-intake/">student and parent career intake</a> to put both views side by side.</li>
+        <li>Getting ready for a career counselling session instead of recording mentoring sessions? Fill in the <a href="/tools/career-counselling-form/">career counselling form</a>.</li>
+        <li>Want a student to practise skills such as decision making and coping with stress between sessions? Use the <a href="/tools/life-skills-workbook-pdf/">life skills workbook</a>.</li>
+        <li>Running career guidance for a school? See <a href="/services/career-counselling-and-career-guidance/career-counselling-for-school-students/">career counselling for school students</a>.</li>
+      </ul>
+    </section>
+
+    <section class="container tool-section" id="faq">
+      <h2>Student mentoring form and report: common questions</h2>
+      <div class="faq-list">
+        {faqs.map((f) => (
+          <details open>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .tool-hero{max-width:1050px;padding:2rem 1.25rem 1rem}.tool-jump{display:flex;flex-wrap:wrap;gap:.5rem;margin:.9rem 0}.tool-jump a{display:inline-flex;align-items:center;min-height:44px;padding:.4rem .9rem;border:1px solid rgba(255,255,255,.28);border-radius:999px;color:#f3cf70;font-weight:700;text-decoration:none}.tool-jump a:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}.tool-section{scroll-margin-top:90px}.smr-example-doc{max-width:820px;margin:.6rem 0 1.2rem}
+  .tool-hero h1{max-width:850px;overflow-wrap:anywhere}.tool-hero h1 span{color:var(--gold,#e5b84a)}
+  .lead{max-width:780px;font-size:1.05rem;line-height:1.6}
+  .tool-limits{max-width:780px;font-size:.9rem;line-height:1.6;color:var(--muted,#b9c2c1)}
+  .tool-shell{max-width:1050px}
+  .tool-section{max-width:1050px;padding:1.5rem 1.25rem}.tool-section h2{margin-top:0}.tool-section p,.tool-section li{line-height:1.7;max-width:820px}
+  .step-grid{list-style:none;margin:1rem 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));gap:1rem;counter-reset:step}
+  .step-grid li{counter-increment:step;padding:1rem;border:1px solid rgba(255,255,255,.14);border-radius:14px}
+  .step-grid li::before{content:counter(step);display:inline-grid;place-items:center;width:1.9rem;height:1.9rem;margin-bottom:.4rem;border-radius:50%;background:#0b766d;color:#fff;font-weight:800}
+  .step-grid h3{margin:.1rem 0 .3rem}.step-grid p{margin:0}
+  .marks-wrap{margin:1rem 0;max-width:100%}
+  .marks-table{width:100%;border-collapse:collapse;font-size:.92rem}
+  .marks-table th,.marks-table td{padding:.7rem;border:1px solid rgba(255,255,255,.16);text-align:left;vertical-align:top;line-height:1.55}
+  .marks-table th{background:rgba(18,154,141,.18)}
+  .tool-explainer{max-width:1050px;padding:1.5rem 1.25rem}.tool-explainer h2{margin-top:0}
+  .explainer-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1rem}
+  .explainer-grid article{padding:1rem;border:1px solid rgba(255,255,255,.14);border-radius:14px}.explainer-grid h3{margin-top:0}.explainer-grid p{margin-bottom:0;line-height:1.65}
+  .next-list{padding-left:1.2rem}.next-list a{color:#f3cf70;font-weight:700}
+  .faq-list{display:grid;gap:.8rem;margin-top:1rem;padding-bottom:3rem}
+  .faq-list details{padding:.9rem 1rem;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(255,255,255,.03)}
+  .faq-list summary{cursor:pointer;font-weight:700;line-height:1.5}
+  .faq-list summary:focus-visible{outline:3px solid #e5b84a;outline-offset:3px}
+  .faq-list p{margin:.6rem 0 0;max-width:none}
+  @media(max-width:720px){
+    .tool-hero{padding-top:1.5rem}
+    .explainer-grid{grid-template-columns:minmax(0,1fr)}
+    .marks-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+    .marks-table,.marks-table tbody,.marks-table tr,.marks-table td{display:block;width:100%}
+    .marks-table tr{margin-bottom:1rem;border:1px solid rgba(255,255,255,.16);border-radius:12px;overflow:hidden}
+    .marks-table td{border:0;border-bottom:1px solid rgba(255,255,255,.1)}
+    .marks-table td::before{content:attr(data-label);display:block;margin-bottom:.15rem;font-size:.75rem;font-weight:700;color:#f3cf70}
+  }
+</style>

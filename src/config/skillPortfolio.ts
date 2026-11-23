@@ -394,6 +394,13 @@ export const PF_AUDIENCE: Record<string, Record<string, Audience>> = {
   'promotion-readiness-assessment': { early: 'early', mid: 'experienced', lead: 'experienced', govt: 'experienced' },
   'job-fit-self-assessment': { current: 'experienced', offer: 'early', newjob: 'early', seeking: 'early' },
   'career-readiness-self-assessment': { college: 'college', final: 'early', working: 'experienced', restart: 'experienced' },
+  'writing-skills-assessment-test': { student: 'college', fresher: 'early', professional: 'experienced' },
+  'employability-skills-assessment-test': { student: 'college', fresher: 'early', professional: 'experienced' },
+  'analytical-and-critical-thinking-skills-assessment': { student: 'college', fresher: 'early', professional: 'experienced' },
+  'presentation-skills-assessment': { student: 'college', fresher: 'early', professional: 'experienced' },
+  'computer-skills-self-assessment-test': { student: 'college', fresher: 'early', returning: 'experienced' },
+  'business-skills-quiz-for-college-students': { early: 'college', senior: 'college', starter: 'early', working: 'experienced' },
+  'skill-gap-assessment': { tech: 'early', business: 'early', creative: 'early', government: 'early', healthcare: 'early' },
 };
 
 export const PF_GENTLE_TESTS = ['burnout-self-assessment', 'exam-stress-self-assessment'];

@@ -15,11 +15,12 @@ const jumpLinks = [
   { id: 'bands', label: 'The three loan-size bands' },
   { id: 'meaning', label: 'What secured and unsecured mean for you' },
   { id: 'no-collateral', label: 'Large loans without collateral' },
+  { id: 'route', label: 'Which route to try first' },
   { id: 'cost', label: 'Does a secured loan cost less?' },
   { id: 'default', label: 'What happens if repayment fails' },
   { id: 'ask', label: 'What to ask the bank' },
   { id: 'money', label: 'Money check' },
-  { id: 'checkpoint', label: 'The four questions and three proofs' },
+  { id: 'checkpoint', label: 'Check before you commit' },
   { id: 'mistakes', label: 'Expensive mistakes' },
   { id: 'next-step', label: 'What to do next' },
   { id: 'faq', label: 'FAQs' },
@@ -28,21 +29,44 @@ const jumpLinks = [
 const bandRows = [
   {
     size: 'Up to ₹4 lakh',
-    security: 'No security. Banks are told not to insist on collateral at this size.',
-    behind: 'A parent or guardian signs as co-borrower.',
+    security: 'No security and no margin money (your own share of the fee). Banks are told not to ask for collateral at this size.',
+    behind: 'Usually a parent or guardian signs with you as co-borrower.',
     kind: 'Unsecured in plain words',
   },
   {
     size: '₹4 lakh to ₹7.5 lakh',
-    security: 'A third-party guarantee. No property is pledged.',
+    security: 'Usually a third-party guarantee and no property. The credit guarantee scheme below can remove even the guarantee.',
     behind: 'Parent as co-borrower, plus a guarantor who agrees to repay if the borrowers do not.',
-    kind: 'Unsecured, but a named person is on the hook',
+    kind: 'Unsecured, but a named person must repay if you cannot',
   },
   {
     size: 'Above ₹7.5 lakh',
-    security: 'Tangible collateral of suitable value, such as property or a fixed deposit, plus your future income earmarked for repayment.',
+    security: 'Property or a fixed deposit of enough value, such as a house, a plot or a bank deposit.',
     behind: 'Parent as co-borrower, and the pledged asset.',
     kind: 'Secured',
+  },
+];
+
+const routeRows = [
+  {
+    situation: 'You have a merit seat at an institution on the PM-Vidyalaxmi list',
+    first: 'PM-Vidyalaxmi, applied for through a bank or the Vidya Lakshmi portal',
+    risk: 'The co-borrower\'s income and credit record. No property and no guarantor.',
+  },
+  {
+    situation: 'The gap is up to ₹7.5 lakh and the family has no property to offer',
+    first: 'A bank loan that carries the government credit guarantee',
+    risk: "The co-borrower's income and credit record. The guarantee takes the place of security.",
+  },
+  {
+    situation: 'The gap is above ₹7.5 lakh and the college has a strong, checked record',
+    first: 'An unsecured offer from a bank or NBFC, priced against a secured one',
+    risk: 'A higher rate, stricter checks on the co-borrower and their credit record.',
+  },
+  {
+    situation: 'The gap is above ₹7.5 lakh and only a secured loan is on offer',
+    first: 'The secured loan, but only after the rupee check and a lower-cost college comparison',
+    risk: 'The pledged house, plot or deposit.',
   },
 ];
 
@@ -56,12 +80,12 @@ const askItems = [
     body: 'Management quota and NRI quota seats are left out of the scheme. Check before you apply, not after a collateral request arrives.',
   },
   {
-    title: 'Who is liable, and for how much?',
-    body: 'Get the co-borrower and any guarantor named in writing, with a plain statement that each can be asked to repay the full balance.',
+    title: 'Who must repay, and how much?',
+    body: 'Get the co-borrower and any guarantor named in writing, with a plain line that each can be asked for the full balance.',
   },
   {
     title: 'Is the rate fixed or floating, and what are the benchmark and the spread?',
-    body: 'Lenders are expected to disclose both. A rate quoted as one number hides how it can move.',
+    body: 'Ask for both numbers in writing. A rate quoted as one figure hides how it can move.',
   },
   {
     title: 'What happens to interest in the moratorium, and what other charges apply?',
@@ -72,95 +96,94 @@ const askItems = [
 const checkpointItems = [
   {
     num: '01',
-    title: 'Your fit: will you still want this course when the EMI starts?',
-    body: 'A loan keeps charging for years, even if your first job is not the dream one. Borrow only for a course you would finish and use.',
+    title: 'Your fit',
+    body: 'Will you still want this course when the first EMI is due? Interest runs for years, whether or not your first job is the one you hoped for. If you have doubts about the subject, settle them before the loan, not after.',
   },
   {
     num: '02',
-    title: 'Your situation: which asset is pledged and who signs?',
-    body: 'Name the property or deposit, the co-borrower and any guarantor. Ask whether the family could carry the EMI if your first job started late.',
+    title: 'Your situation',
+    body: 'Can your family carry this? Write down the pledged asset, the co-borrower and any guarantor, then work out who pays the EMI for the months before your first salary starts.',
   },
   {
     num: '03',
-    title: 'Job market: does the likely starting pay carry the EMI?',
-    body: 'Use the median placement figure for your course at this college, not the highest package in the brochure. Placement reports need a careful read.',
+    title: 'Job market',
+    body: 'Does the median starting pay for this course at this college cover the EMI, with room left for rent and food? Use the median in the placement report, not the highest package in the brochure.',
   },
   {
     num: '04',
-    title: 'AI-proof: which part of this work will you still be paid for?',
-    body: 'Some tasks in the field will become cheap with AI tools. Borrow against the part that still needs your judgment, and build that skill alongside the degree.',
+    title: 'AI-proof',
+    body: 'What does a fresher in this job do all day? Work that AI tools already do fast, such as routine drafting, data entry or basic coding, may pay less over time, so borrow only if the course also builds judgment, client work or hands-on skill.',
   },
 ];
 
 const mistakeItems = [
   {
     num: '01',
-    title: 'Pledging the family home to save half a point of interest',
-    body: 'The rupee gap on a ₹10 lakh loan can be modest, while the downside is the roof over the family. Run both quotes before you decide.',
+    title: 'Signing as guarantor without reading the role',
+    body: "A guarantor repays if the borrowers do not, and the loan can show on the guarantor's credit report. Treat the signature like a loan in your own name.",
   },
   {
     num: '02',
-    title: 'Reading "collateral-free" as "nobody is liable"',
-    body: 'The co-borrower is liable for the full debt from the first day. A loan with no pledged asset still carries real risk for your parents.',
-  },
-  {
-    num: '03',
-    title: 'Signing as guarantor without reading the role',
-    body: 'A guarantor repays if the borrower does not, and the loan appears on the guarantor\'s credit report as a possible liability. Treat the signature as a loan in your own name.',
-  },
-  {
-    num: '04',
     title: 'Going to an NBFC before checking the government-backed routes',
     body: 'PM-Vidyalaxmi and the credit guarantee scheme can remove the collateral request for eligible students. Check them first, then compare private lenders.',
   },
   {
-    num: '05',
+    num: '03',
     title: 'Taking the full sanctioned amount because it was offered',
-    body: 'Borrow the real gap after scholarships and family savings, not the limit. Every extra lakh also earns interest during the moratorium.',
+    body: 'Borrow the real gap after scholarships and family savings, not the limit. Each extra lakh starts costing interest from the day it is paid out.',
   },
   {
-    num: '06',
+    num: '04',
+    title: 'Trusting a verbal "no collateral"',
+    body: 'Each bank applies its own rules, so a promise made at the counter is worth nothing until the sanction letter says the same thing.',
+  },
+  {
+    num: '05',
     title: 'Treating the degree as the whole repayment plan',
-    body: 'A loan is repaid from income, and income follows skill and proof of work more than the certificate. Keep time and money for projects, tools and practice.',
+    body: 'The EMI is paid from your salary, and a salary follows skill and proof of work more than the certificate. Set aside money for a laptop, internet and projects while you study.',
   },
 ];
 
 const faqItems = [
   {
     q: 'Is an education loan secured or unsecured in India?',
-    a: 'It can be either. Loans up to ₹4 lakh usually need no security, loans from ₹4 lakh to ₹7.5 lakh usually need a third-party guarantee, and loans above ₹7.5 lakh usually need tangible collateral. Each bank applies its own rules, so confirm the band in your sanction letter.',
+    a: 'Both exist, and the loan size usually decides. Under the IBA model scheme, loans up to ₹4 lakh need no security, loans from ₹4 lakh to ₹7.5 lakh usually need a third-party guarantee, and loans above ₹7.5 lakh usually need property or a deposit. Each bank applies its own rules, so confirm the band in your sanction letter.',
   },
   {
     q: 'Up to what amount is an education loan collateral-free?',
-    a: 'Under the Indian Banks\' Association model scheme, no security is asked up to ₹4 lakh, and the credit guarantee scheme backs collateral-free loans up to ₹7.5 lakh for eligible students. Under PM-Vidyalaxmi, students admitted on merit to listed institutions can borrow without collateral or a guarantor, with no upper cap on the amount.',
+    a: 'Up to ₹4 lakh under the IBA model scheme, with no margin money. A government credit guarantee lets banks lend up to ₹7.5 lakh without collateral, and PM-Vidyalaxmi offers collateral-free loans to merit students at its listed institutions, with the amount following the fee and related costs.',
   },
   {
     q: 'Can I get a large education loan without collateral?',
-    a: 'Yes, in some cases. PM-Vidyalaxmi covers 1,425 institutions on its list, excluding management and NRI quota seats, and some NBFCs and banks sanction larger unsecured loans for strong institutions. Expect a higher rate or stricter checks on the co-borrower.',
+    a: 'Yes, in some cases. PM-Vidyalaxmi covers 1,425 institutions and leaves out management and NRI quota seats, and some NBFCs lend without security for small and mid-size amounts. Expect stricter checks on the co-borrower, and compare written offers.',
   },
   {
     q: 'Is my parent a co-borrower or a guarantor?',
-    a: 'Usually a co-borrower. A co-borrower is jointly liable from the first day, and the bank can ask for the full balance from them. A guarantor is liable only if the borrowers default, but the loan still appears on their credit report.',
+    a: "Usually a co-borrower. A co-borrower owes the full balance from the first day. A guarantor repays only if the borrowers default, but the loan can still appear on the guarantor's credit report.",
   },
   {
     q: 'Does a secured education loan have a lower interest rate?',
-    a: 'Often, but the gap can be small. In June 2026 The Week reported SBI at 9.40% with collateral and 9.90% without. Rates change, so compare written quotes from at least two lenders.',
+    a: 'Often, but the gap can be small. In June 2026 The Week reported SBI at 9.40% with collateral and 9.90% without, a half-point gap that adds about ₹33,000 over ten years on ₹10 lakh. Rates float, so compare written quotes from at least two lenders.',
   },
   {
     q: 'What counts as collateral for an education loan?',
-    a: 'Residential or commercial property, fixed deposits, government securities, National Savings Certificates and life insurance policies with a surrender value are common examples. The bank values the asset and decides what it accepts.',
+    a: 'Property and fixed deposits are the usual choices. Banks may also look at other assets, such as an insurance policy with a surrender value, and each bank decides what it accepts after valuing the asset.',
   },
   {
     q: 'What happens to a secured education loan if I cannot repay?',
-    a: 'An account overdue for 90 days or more is classed as non-performing, and the bank sends notices. For a secured loan, the bank can then move against the pledged asset, usually under the SARFAESI Act. Speak to the lender early about a longer tenure or a short pause.',
+    a: 'An account overdue for 90 days or more is classed as non-performing, and the bank sends notices. For a secured loan, the bank can then give a 60-day notice and move against the pledged asset under the SARFAESI Act, without first going to court. Speak to the lender early about a longer repayment period or a short pause.',
   },
   {
-    q: 'Does the Section 80E tax benefit depend on the loan being secured?',
-    a: 'No. The deduction depends on the lender, the interest paid and the tax regime you file under, not on collateral. Confirm the current rules on the Income Tax Department website before you plan around it.',
+    q: 'Does the education loan tax benefit depend on the loan being secured?',
+    a: 'No, collateral does not decide it. The deduction for education loan interest, earlier Section 80E and now Section 129 of the Income-tax Act 2025, covers interest on a loan from a financial institution or an approved charitable institution for up to eight tax years. It is not available under the new tax regime, so check which regime you file under.',
   },
   {
     q: 'Are NBFC education loans secured or unsecured?',
-    a: 'Both exist. NBFCs often sanction larger unsecured loans than public sector banks, usually at a higher rate. Compare the full cost, the co-borrower rules and the prepayment charges with a bank offer.',
+    a: 'Both exist. Some NBFCs lend without security for small and mid-size amounts and may ask for property, a deposit or a guarantor at very large amounts. Rates vary widely between lenders, so compare the full cost, the co-borrower rules and the prepayment charges with a bank offer.',
+  },
+  {
+    q: 'Does my college change whether the loan needs security?',
+    a: 'It can. PM-Vidyalaxmi works only for listed institutions, and The Week reports that admission to an IIT or IIM generally brings faster approval and better rates. A college outside those lists may be asked for more security.',
   },
 ];
 
@@ -188,24 +211,22 @@ const faqJsonLd = {
   jsonLdExtras={[faqJsonLd]}
 >
   <p class="lead-para">
-    <strong>Whether an education loan is secured or unsecured depends mostly on how much you borrow.</strong>
-    Small loans usually need no collateral (nothing pledged), mid-size loans usually need a guarantor, and large loans usually need property or deposits as security. The loan type is one decision, and the skill portfolio you build alongside the degree is what repays it and moves you toward earlier financial freedom.
+    <strong>An education loan is secured or unsecured depending mostly on how much you borrow.</strong>
+    Small loans usually need no security, mid-size loans usually need a guarantor, and large loans usually need property or a fixed deposit. The loan type is one decision. The loan is repaid from your future pay, so the skills and proof you build beside the degree matter as much as the paperwork.
   </p>
 
   <div class="key-takeaways">
     <p class="key-takeaways__label">The short version</p>
     <ul>
-      <li><strong>Short answer:</strong> under the Indian Banks' Association model scheme that many banks follow, loans up to ₹4 lakh need no security, loans up to ₹7.5 lakh need a third-party guarantee, and larger loans need tangible collateral. Each bank sets its own rules, so confirm the band in the sanction letter.</li>
-      <li><strong>Decision filter:</strong> "unsecured" does not mean nobody is at risk. Your co-borrower, usually a parent, is liable for the full debt, and a secured loan puts the pledged asset on the line as well.</li>
-      <li><strong>Next step:</strong> get one written offer with collateral and one without, compare the rupee gap, and check PM-Vidyalaxmi first if your institution is on its list. A skill you can show is what repays the loan.</li>
+      <li><strong>Short answer:</strong> under the Indian Banks' Association (IBA) model scheme, which many banks follow, a loan up to ₹4 lakh needs no security, a loan up to ₹7.5 lakh usually needs a guarantor (someone who agrees to repay if you cannot), and a bigger loan needs property or a deposit. Government schemes can remove the security even for bigger loans, and each bank sets its own rules, so confirm the band in the sanction letter.</li>
+      <li><strong>Decision filter:</strong> "unsecured" does not mean nobody is at risk. Your co-borrower (usually a parent, who signs the loan with you) can be asked for the full debt, and a secured loan puts the pledged asset on the line as well.</li>
+      <li><strong>Next step:</strong> check PM-Vidyalaxmi first if your institution is on its list, then get one secured and one unsecured quote and compare the rupee gap. Borrow the smallest amount that closes the real gap, because the EMI will be paid from your own pay.</li>
     </ul>
   </div>
 
-  <p>
-    Families usually ask this question when an admission letter arrives and a bank officer asks for property papers. That is the moment to slow down, because pledging a home to save half a point of interest is a poor trade, as the numbers below show.
+  <p class="more-guides">
+    Families often meet this question with an admission letter in one hand and a request for property papers in the other. If a loan of this size worries you, <a href="/services/career-counselling-and-career-guidance/career-counselling-for-college-students/">career counselling for college students</a> helps you make the decisions that unlock high income opportunities by checking the course, the loan and the skill plan together. Related money decisions sit in <a href="/blog/college-degrees/">College Degrees</a>.
   </p>
-
-  <p class="more-guides">If this loan decision carries real money for your family, <a href="/services/career-counselling-and-career-guidance/career-counselling-for-college-students/">career counselling for college students</a> is the direct route, and more <a href="/blog/college-degrees/">College Degrees guides</a> sit in the same section.</p>
 
   <nav class="jump-nav" aria-label="Article sections">
     <p class="jump-nav__label">Jump to section</p>
@@ -216,7 +237,7 @@ const faqJsonLd = {
     </ul>
   </nav>
 
-  <p class="note-line">General information, not financial advice. Get every term in writing, and never pay an agent who promises a guaranteed loan.</p>
+  <p class="note-line">General information, not financial advice; get the terms in writing. No agent can promise that a loan will be approved, so never pay one for a guarantee. Figures were checked on 16 November 2026.</p>
 
   <h2 id="answer">The short answer: the amount you borrow decides if an education loan is secured or unsecured</h2>
 
@@ -225,7 +246,7 @@ const faqJsonLd = {
   </p>
 
   <p>
-    A <strong>secured</strong> loan means you or your family pledge something the bank can sell if repayment fails, such as a house, a fixed deposit or an insurance policy with a surrender value. An <strong>unsecured</strong> loan means nothing is pledged, so the bank relies on your admission, your course and the co-borrower's income and credit record.
+    A <strong>secured</strong> loan means you or your family pledge something the bank can sell if repayment fails, such as a house, a fixed deposit or an insurance policy with a surrender value. An <strong>unsecured</strong> loan means nothing is pledged, so the bank decides on your seat, your course and how steadily the co-borrower earns and repays. Security and collateral mean the same thing here.
   </p>
 
   <div class="callout">
@@ -239,7 +260,7 @@ const faqJsonLd = {
   <h2 id="bands">The three loan-size bands, and what each one asks for</h2>
 
   <p>
-    The Indian Banks' Association (IBA) model scheme is the pattern many public sector banks follow. The RBI forwarded it to banks in 2001 and said <a href="https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=369&Mode=0" rel="noopener" target="_blank">no security may be insisted upon for loans up to ₹4 lakh</a>. A <a href="https://eparlib.sansad.in/bitstream/123456789/591371/1/94990.pdf" rel="noopener" target="_blank">Lok Sabha reply</a> listed the three bands below, and a June 2026 report in <a href="https://www.theweek.in/theweek/business/2026/06/20/education-loans-what-you-need-to-know-about-approval-repayment.html" rel="noopener" target="_blank">The Week</a> describes the same bands as typical today.
+    The Indian Banks' Association (IBA) model scheme is the pattern many public sector banks follow. In 2001 the RBI asked banks to adopt it and said <a href="https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=369&Mode=0" rel="noopener" target="_blank">no security may be insisted upon for loans up to ₹4 lakh</a>. A June 2026 report in <a href="https://www.theweek.in/theweek/business/2026/06/20/education-loans-what-you-need-to-know-about-approval-repayment.html" rel="noopener" target="_blank">The Week</a> describes the same three bands as typical today.
   </p>
 
   <div class="table-wrap">
@@ -265,7 +286,9 @@ const faqJsonLd = {
     </table>
   </div>
 
-  <p class="note-line">Banks apply their own version of these bands, and some private lenders ignore them. Confirm the band in your sanction letter, not in a verbal promise.</p>
+  <p class="note-line">Banks apply their own version of these bands, and some private lenders ignore them. Confirm the band in your sanction letter (the bank's written approval with the terms), not in a verbal promise.</p>
+
+  <p>To see what an EMI from any of these bands would take from a first salary, run your numbers through the free <a href="/tools/education-cost-payback-planner/">education cost payback planner</a>.</p>
 
   <h2 id="meaning">What secured and unsecured mean for you in practice</h2>
 
@@ -274,8 +297,8 @@ const faqJsonLd = {
       <div class="split-card__label">Secured loan</div>
       <ul>
         <li>The bank holds a claim on your asset until the loan is cleared.</li>
-        <li>The rate is often a little lower. The Week reported SBI at 9.40% with collateral against 9.90% without, in June 2026.</li>
-        <li>Valuation and legal papers add steps and charges, so ask for the full list.</li>
+        <li>The rate is often lower, but the gap can be small, as the rupee check below shows.</li>
+        <li>The bank values the asset and checks the papers first, which takes time and costs money.</li>
         <li>If repayment fails, the bank can act against the asset.</li>
       </ul>
     </div>
@@ -283,8 +306,8 @@ const faqJsonLd = {
       <div class="split-card__label">Unsecured loan</div>
       <ul>
         <li>No asset is pledged. The bank judges your admission, institution, course and the co-borrower.</li>
-        <li>The rate is often higher, and NBFCs (non-bank lenders) can sanction larger unsecured amounts at a higher cost.</li>
-        <li>The co-borrower's credit score matters. Lenders generally prefer a score near 750 or above.</li>
+        <li>NBFCs (non-bank lenders) sometimes lend without security, and their rates vary a lot. <a href="https://propelld.com/site/blog/nbfc-education-loan" rel="noopener" target="_blank">One comparison page</a>, updated in November 2026, lists about 9.5% to 19.5% across lenders.</li>
+        <li>The co-borrower's credit score matters. Lenders generally prefer 750 or above.</li>
         <li>If repayment fails, no asset is seized, but the lender can still recover the debt.</li>
       </ul>
     </div>
@@ -292,53 +315,90 @@ const faqJsonLd = {
 
   <div class="honest-take">
     <p class="honest-take__label">Honest take</p>
-    <p>Your parent is not a bystander on an unsecured loan. A co-borrower is jointly liable from day one, and the bank can ask them for the full balance without chasing you first.</p>
-    <p>A guarantor is liable only if the borrowers default, yet the loan still shows on their credit report. For a lender comparison built around study abroad, read <a href="/blog/study-abroad/education-loan-for-study-abroad-india/">education loan for study abroad India</a>.</p>
+    <p>Your parent is not a bystander on an unsecured loan. A co-borrower owes the full balance from day one, and the bank can ask them for it.</p>
+    <p>A guarantor owes only if the borrowers default, yet the loan can still show on their credit report. A large study-abroad loan is riskier again: repayment may depend on a visa, a job abroad and the exchange rate, so read <a href="/blog/study-abroad/education-loan-for-study-abroad-india/">education loan for study abroad India</a> before you plan around one.</p>
   </div>
 
   <h2 id="no-collateral">Large loans that are still collateral-free</h2>
 
   <p>
-    The ₹7.5 lakh line is not a wall. Government-backed routes let some students borrow more without pledging property.
+    The ₹7.5 lakh line is not a wall. Government-backed routes let some students borrow without pledging property.
   </p>
 
   <div class="scheme-grid">
     <div class="scheme-card">
       <h3>PM-Vidyalaxmi</h3>
-      <p>Students admitted on merit to the 1,425 institutions on the scheme list get loans with no collateral and no third-party guarantor. There is no upper cap on the amount, which follows fees and related costs. Interest is capped at the bank's benchmark rate plus 0.5%, and repayment can run up to 15 years after the moratorium, which is the course plus one year with no monthly instalment (EMI) to pay.</p>
-      <p class="scheme-row scheme-row--gold"><span>Watch out</span>Management quota and NRI quota seats are excluded. In 2025-26, 70,852 of 110,667 applications on the portal were sanctioned, so keep a backup plan.</p>
+      <p>Students admitted on merit to the 1,425 listed institutions get loans with no collateral and no guarantor. The loan amount follows fees and related costs, and the July 2026 scheme document is the place to confirm any limit.</p>
+      <p>Interest is capped at the bank's external benchmark lending rate plus 0.5%. Repayment starts after the moratorium (the course plus one year, with no monthly instalment, or EMI, to pay) and can run up to 15 years.</p>
+      <p class="scheme-row scheme-row--gold"><span>Watch out</span>Management quota and NRI quota seats are excluded. In 2025-26, 70,852 loans were sanctioned against 110,667 applications, so keep a backup plan.</p>
     </div>
     <div class="scheme-card">
       <h3>Interest help</h3>
-      <p>This lowers your cost, not the collateral rule. PM-Vidyalaxmi gives 3% interest subvention (the government pays that share of the interest) during the moratorium on loans up to ₹10 lakh when family income is below ₹8 lakh. A central scheme gives full interest subvention for technical and professional courses when family income is up to ₹4.5 lakh.</p>
-      <p class="scheme-row scheme-row--gold"><span>Watch out</span>Only 1 lakh fresh slots a year exist for the 3% benefit, and it cannot be combined with another subsidy or scholarship.</p>
+      <p>This lowers your cost, not the collateral rule. PM-Vidyalaxmi gives 3% interest subvention (the government pays that share of the interest) during the moratorium on loans up to ₹10 lakh, when family income is up to ₹8 lakh.</p>
+      <p>A separate central scheme pays the full interest during the moratorium on loans up to ₹10 lakh for technical and professional courses at accredited institutions, when family income is up to ₹4.5 lakh.</p>
+      <p class="scheme-row scheme-row--gold"><span>Watch out</span>Only 1 lakh students a year can get the 3% benefit, and you cannot combine it with another interest subsidy or scholarship.</p>
     </div>
     <div class="scheme-card">
       <h3>Credit guarantee</h3>
-      <p>The Credit Guarantee Fund Scheme for Education Loans, set up in 2015, backs 75% of a collateral-free loan up to ₹7.5 lakh. It is meant for students who cannot arrange collateral or a guarantor, with no family income ceiling.</p>
+      <p>The Credit Guarantee Fund Scheme for Education Loans, set up in 2015, covers 75% of a collateral-free loan up to ₹7.5 lakh. It has no family income limit.</p>
       <p class="scheme-row scheme-row--teal"><span>Best for</span>Students who cannot offer collateral or a guarantor and need a loan up to ₹7.5 lakh.</p>
     </div>
   </div>
 
   <p>
-    The details come from the <a href="https://static.pib.gov.in/WriteReadData/specificdocs/documents/2026/jul/doc2026729936401.pdf" rel="noopener" target="_blank">Government of India PM-Vidyalaxmi document of July 2026</a> and a <a href="https://www.businesstoday.in/amp/education/story/collateral-free-loans-interest-subsidies-centre-puts-rs-1050-crore-into-education-loan-schemes-546001-2026-07-30" rel="noopener" target="_blank">Business Today report</a>. Apply through a bank or the government's <a href="https://www.vidyalakshmi.co.in/" rel="noopener" target="_blank">Vidya Lakshmi loan portal</a>, and confirm the current list and limits there.
+    Sources for these figures: the Government of India's <a href="https://static.pib.gov.in/WriteReadData/specificdocs/documents/2026/jul/doc2026729936401.pdf" rel="noopener" target="_blank">PM-Vidyalaxmi document of 29 July 2026</a> and a <a href="https://www.businesstoday.in/education/story/collateral-free-loans-interest-subsidies-centre-puts-rs-1050-crore-into-education-loan-schemes-546001-2026-07-30" rel="noopener" target="_blank">Business Today report of 30 July 2026</a>. Apply through a bank or the <a href="https://www.vidyalakshmi.co.in/" rel="noopener" target="_blank">Vidya Lakshmi loan portal</a>, and confirm the current list and limits there.
+  </p>
+
+  <h2 id="route">Which route to try first</h2>
+
+  <p>
+    Start with the route that puts the least family property at risk, and move down only when the one above does not fit. The order follows the risk to what your family owns, not which loan is cheapest.
+  </p>
+
+  <div class="table-wrap">
+    <table class="paths-table">
+      <thead>
+        <tr>
+          <th>Your situation</th>
+          <th>Try first</th>
+          <th>What it puts at risk</th>
+        </tr>
+      </thead>
+      <tbody>
+        {routeRows.map((row) => (
+          <tr>
+            <td data-label="Your situation"><strong>{row.situation}</strong></td>
+            <td data-label="Try first">{row.first}</td>
+            <td data-label="What it puts at risk">{row.risk}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    A slightly higher rate is a fair price for keeping the family's property out of the contract, and the next section puts that price in rupees.
   </p>
 
   <h2 id="cost">Does a secured loan cost less? A rupee check</h2>
 
   <p>
-    SBI's rates, as reported by The Week in June 2026, were 9.40% with collateral and 9.90% without. That is a gap of half a point, and rates move, so treat it as a starting point.
+    In June 2026 The Week reported SBI at 9.40% with collateral and 9.90% without. Rates float with the market, so read both as the size of a gap, not as today's offer.
   </p>
 
   <div class="highlight-box highlight-box--teal">
     <p><strong>An illustration, not a real offer.</strong> On ₹10 lakh repaid over ten years, 9.40% gives an EMI near ₹12,885 and about ₹5.46 lakh in total interest. At 9.90%, the EMI is near ₹13,160 and total interest is about ₹5.79 lakh.</p>
-    <p>The gap is about ₹33,000 over the whole repayment, before counting interest during the moratorium. That is the price of keeping the family home out of the contract. Test it against your own written quotes.</p>
+    <p>That half-point gap is about ₹33,000 over the whole repayment, and a full-point gap is about ₹66,000. Interest during the moratorium comes on top. If the whole amount were paid out on day one and interest ran as simple interest, five years at 9.40% would add about ₹4.7 lakh, though real loans are paid out in instalments, so the true figure is usually lower.</p>
   </div>
+
+  <p>
+    To run these numbers with your own loan, moratorium and payout pattern, use the <a href="/tools/education-loan-emi-calculator/">education loan EMI calculator</a>.
+  </p>
 
   <div class="honest-take">
     <p class="honest-take__label">Honest take</p>
-    <p>The type of loan matters less than its size. The safest education loan is the smallest one that closes the real gap, taken for a course whose placement median you have checked.</p>
-    <p>If the only way to afford a college is to pledge the family home, compare a lower-cost college and a stronger skill route first.</p>
+    <p>Size beats type. A smaller unsecured loan puts less at risk than a bigger secured one, and the surest way to cut risk is to need less money.</p>
+    <p>Before a family pledges its home to save a fraction of a percent, price the saving in rupees, then see what a lower-fee seat, a scholarship or a government college would do to the amount you must borrow.</p>
   </div>
 
   <h2 id="default">What happens if repayment fails</h2>
@@ -355,27 +415,27 @@ const faqJsonLd = {
       <div class="ladder-step__num">2</div>
       <div>
         <div class="ladder-step__title">Overdue for 90 days</div>
-        <p>The account is classed as non-performing, and the bank sends notices to you and every co-borrower or guarantor.</p>
+        <p>The bank classes the account as non-performing, which means it treats the loan as unpaid, and sends notices to you and every co-borrower or guarantor.</p>
       </div>
     </div>
     <div class="ladder-step">
       <div class="ladder-step__num">3</div>
       <div>
         <div class="ladder-step__title">Secured loan: the asset is at risk</div>
-        <p>The bank can move against the pledged property or deposit, usually under the SARFAESI Act, which lets lenders act on secured assets after notice without first going to court. Your loan agreement spells out the steps.</p>
+        <p>The bank can give a 60-day notice and then take over or sell the pledged property or deposit under the SARFAESI Act, without first going to court. Your loan agreement spells out the steps.</p>
       </div>
     </div>
     <div class="ladder-step">
       <div class="ladder-step__num">4</div>
       <div>
         <div class="ladder-step__title">Unsecured loan: no asset, still a debt</div>
-        <p>There is nothing to seize, but the lender can pursue recovery through legal action, and the co-borrower remains liable.</p>
+        <p>There is nothing to seize, but the lender can pursue recovery through legal action, and the co-borrower still owes the balance.</p>
       </div>
     </div>
   </div>
 
   <p>
-    Talk to the lender before the account turns overdue. Many banks will discuss a longer tenure or a short pause if you ask early, though the options depend on the bank.
+    Speak to the lender before the account turns overdue. Ask about a longer repayment period or a short pause, and know that what is offered depends on the bank.
   </p>
 
   <h2 id="ask">What to ask the bank before you sign</h2>
@@ -395,22 +455,28 @@ const faqJsonLd = {
   <h2 id="money">Money check before you pay for a degree with a loan</h2>
 
   <p>
-    Our strongest suggestion: keep a course or degree fee near a tenth of the family education budget, and treat spending above roughly a fifth as a caution that needs course-specific evidence. This does not apply to very cheap online courses. Free YouTube lessons and low-priced courses on sites like Udemy or Coursera need little budget care, and the same course sold as a university certificate can cost 30 to 100 times more.
+    Our strongest suggestion: keep the fee for a course or degree near a tenth of the family's whole education budget, and treat anything above about a fifth as a caution that needs proof for that exact course. This line is for degrees and costly programmes, not for free tutorials or low-priced online courses.
   </p>
 
   <p>
-    An illustration, not a real fee: on a Rs 3 lakh education budget, a tenth is Rs 30,000 for the main course and a fifth is Rs 60,000. Spend the rest on tools, practice and a reserve.
+    An illustration, not a real fee: take a family whose whole education budget is ₹20 lakh, so the suggested fee is about ₹2 lakh and the caution starts near ₹4 lakh. A degree that needs ₹12 lakh of borrowing sits far above both, so it needs strong proof for this course and college, such as a checked placement median, a licence requirement, or lab and clinical access. Whatever is left should pay for tools, practice and a reserve.
   </p>
 
   <p>
-    A loan that needs the family home as security is a fresh reason to stop and compare. Check a lower-cost college and a skill-first route before you sign, and keep money aside for internet, tools and projects that build proof of work. <strong>A high-income skill portfolio, built alongside the degree, is what repays the loan.</strong>
+    Some fields can be learned and shown through free YouTube lessons, good online courses, projects and internships, so compare that route before you borrow. Medicine, nursing and other licensed fields still need the formal degree.
   </p>
-
-  <h2 id="checkpoint">Check before you commit: the four questions and the three proofs</h2>
 
   <p>
-    Answer the <strong>four questions</strong> first, then pass the <strong>three proofs</strong>. Together they show whether this loan is a decision or a hope.
+    A loan that needs the family home as security is a reason to compare a lower-cost college and a skill-first route before you sign. Money kept for internet, tools and projects builds the proof of work that makes repayment realistic. <strong>Build skills and proof of work while you study, because the EMI is paid from your pay and not from the certificate.</strong>
   </p>
+
+  <h2 id="checkpoint">Check before you commit</h2>
+
+  <p>
+    The four questions test the loan against your life, and the three proofs test it against the real world, so pass both before you sign.
+  </p>
+
+  <h3>The four questions</h3>
 
   <div class="protocol">
     {checkpointItems.map((item) => (
@@ -424,22 +490,24 @@ const faqJsonLd = {
     ))}
   </div>
 
+  <h3>The three proofs</h3>
+
   <div class="gates-block">
     <div class="gates-row">
       <div class="gate">
         <span class="gate__num">Proof 1</span>
         <span class="gate__name">Show it</span>
-        <p>Make a one-page repayment sheet: loan amount, rate, moratorium interest, EMI and the starting pay needed. Add one small piece of work in your field that you could show an employer.</p>
+        <p>Make a one-page repayment sheet with the loan amount, rate, moratorium interest, EMI and the starting pay you need. Next to it, keep one small piece of real work from your subject that a hiring manager could open and judge.</p>
       </div>
       <div class="gate">
         <span class="gate__num">Proof 2</span>
         <span class="gate__name">Say it</span>
-        <p>Explain to your parents in 30 seconds to 2 minutes, without notes, what is pledged, who is liable and what the EMI is.</p>
+        <p>Explain to your parents in 30 seconds to 2 minutes, without notes, what is pledged, who must repay and what the EMI is.</p>
       </div>
       <div class="gate">
         <span class="gate__num">Proof 3</span>
         <span class="gate__name">Get it checked</span>
-        <p>Show the sheet to a bank officer, a recent graduate of the same course and someone who has repaid an education loan. Ask what they would check twice.</p>
+        <p>Show the sheet to a bank officer, a recent graduate of the same course and someone who has repaid an education loan. Ask what they would check twice, and whether the plan looks useful to them.</p>
       </div>
     </div>
   </div>
@@ -461,16 +529,37 @@ const faqJsonLd = {
   <h2 id="next-step">What to do next</h2>
 
   <p>
-    Find your loan size, match it to the band in the table, and ask the bank to confirm the security in writing. Then request one secured and one unsecured quote and compare the rupee gap over the full repayment.
+    Find your loan size, match it to a band in the table, and ask the bank to confirm the security in writing. Then get one secured and one unsecured quote and compare the rupee gap over the full repayment.
   </p>
 
-  <p>
-    A specialist can look at your course, your family's finances and your skill plan together. A sensible first step is <a href="/services/career-counselling-and-career-guidance/career-counselling-for-college-students/">career counselling for college students</a>. The aim is the decisions that unlock high income opportunities and an earlier path to financial freedom.
-  </p>
+  <p><strong>Try it now:</strong> <a href="/tools/course-cost-planner/">Use the free course cost planner</a> to total fees, living cost and loan interest before you borrow.</p>
+
 
   <p>
-    Read also <a href="/blog/college-degrees/education-loan-worth-it-india-private-college/">education loan worth it for a private college</a>, <a href="/blog/college-degrees/private-college-vs-government-college-career-outcomes-india/">private college vs government college career outcomes</a>, <a href="/blog/college-degrees/how-to-read-college-placement-report-india/">how to read a college placement report</a> and <a href="/blog/college-degrees/scholarships-for-sc-and-st-students-for-professional-and-postgraduate-courses-india/">scholarships for professional and postgraduate courses</a>.
+    If the numbers still feel heavy, <a href="/services/career-counselling-and-career-guidance/career-counselling-for-college-students/">career counselling for college students</a> works through the course, the loan and the skill plan with you. The goal is a debt your family can carry and skills that keep your options open.
   </p>
+
+  <h3>Read next</h3>
+
+  <ul class="read-next">
+    <li><a href="/blog/college-degrees/education-loan-worth-it-india-private-college/">Education loan worth it for a private college</a>: placement data and repayment math for a large loan.</li>
+    <li><a href="/blog/college-degrees/private-college-vs-government-college-career-outcomes-india/">Private college vs government college career outcomes</a>: what the fee gap buys and what it does not.</li>
+    <li><a href="/blog/college-degrees/how-to-read-college-placement-report-india/">How to read a college placement report</a>: the median, the denominator and the role mix behind a brochure figure.</li>
+    <li><a href="/blog/college-degrees/scholarships-for-sc-and-st-students-for-professional-and-postgraduate-courses-india/">Scholarships for SC and ST students in professional and postgraduate courses</a>: a way to borrow less.</li>
+  </ul>
+
+  <h2 id="sources">Sources checked</h2>
+
+  <p>Figures were read between 16 and 22 November 2026. Rules, rates and lists change, so confirm each one with the lender or the official page before you sign.</p>
+
+  <ul class="read-next">
+    <li><a href="https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=369&Mode=0" rel="noopener" target="_blank">RBI notification on the model education loan scheme</a></li>
+    <li><a href="https://www.theweek.in/theweek/business/2026/06/20/education-loans-what-you-need-to-know-about-approval-repayment.html" rel="noopener" target="_blank">The Week: education loans, approval and repayment</a> (20 June 2026)</li>
+    <li><a href="https://static.pib.gov.in/WriteReadData/specificdocs/documents/2026/jul/doc2026729936401.pdf" rel="noopener" target="_blank">Government of India: PM-Vidyalaxmi document</a> (29 July 2026)</li>
+    <li><a href="https://www.businesstoday.in/education/story/collateral-free-loans-interest-subsidies-centre-puts-rs-1050-crore-into-education-loan-schemes-546001-2026-07-30" rel="noopener" target="_blank">Business Today: collateral-free loans and interest subsidies</a> (30 July 2026)</li>
+    <li>Income-tax Act 2025, Section 129 (interest on education loan); confirm the current wording on the <a href="https://www.incometaxindia.gov.in/" rel="noopener" target="_blank">Income Tax Department site</a></li>
+    <li><a href="https://www.vidyalakshmi.co.in/" rel="noopener" target="_blank">Vidya Lakshmi loan portal</a></li>
+  </ul>
 
   <h2 id="faq">FAQs on whether an education loan is secured or unsecured</h2>
 
@@ -911,6 +1000,9 @@ const faqJsonLd = {
       line-height: 1.72 !important;
       color: rgba(255, 255, 255, 0.68) !important;
     }
+
+    .read-next { margin: 0.6rem 0 1.4rem !important; padding-left: 1.1rem !important; }
+    .read-next li { margin: 0.45rem 0 !important; line-height: 1.7 !important; }
 
     @media (max-width: 820px) {
       .scheme-grid,

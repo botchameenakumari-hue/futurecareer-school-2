@@ -357,6 +357,16 @@ export const bundle: SkillTestBundle = {
     ],
     related: [
       {
+        href: '/tools/study-timetable-maker/',
+        title: 'Study Timetable Maker',
+        description: 'Turn your subjects, exam dates and free hours into a weekly timetable you can print or save as a PDF.',
+      },
+      {
+        href: '/tools/life-skills-workbook-pdf/',
+        title: 'Life Skills Workbook (PDF)',
+        description: 'Reflection questions and a 7-day practice for each of the ten WHO life skills.',
+      },
+      {
         href: '/services/assessments/time-management-self-assessment/',
         title: 'Time Management Self-Assessment',
         description: 'How you plan, prioritise and protect your hours, scored by area.',

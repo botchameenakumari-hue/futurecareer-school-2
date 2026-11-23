@@ -16,6 +16,13 @@ import { bundle as resilienceAndGrowthMindsetAssessment } from './resilience-and
 import { bundle as studyHabitsSelfAssessment } from './study-habits-self-assessment';
 import { bundle as timeManagementSelfAssessment } from './time-management-self-assessment';
 import { bundle as socialSkillsSelfAssessment } from './social-skills-self-assessment';
+import { bundle as writingSkillsAssessmentTest } from './writing-skills-assessment-test';
+import { bundle as employabilitySkillsAssessmentTest } from './employability-skills-assessment-test';
+import { bundle as analyticalAndCriticalThinkingSkillsAssessment } from './analytical-and-critical-thinking-skills-assessment';
+import { bundle as presentationSkillsAssessment } from './presentation-skills-assessment';
+import { bundle as skillGapAssessment } from './skill-gap-assessment';
+import { bundle as businessSkillsQuizForCollegeStudents } from './business-skills-quiz-for-college-students';
+import { bundle as computerSkillsSelfAssessmentTest } from './computer-skills-self-assessment-test';
 
 export const SKILL_TEST_BUNDLES: SkillTestBundle[] = [
   burnoutSelfAssessment,
@@ -32,4 +39,11 @@ export const SKILL_TEST_BUNDLES: SkillTestBundle[] = [
   studyHabitsSelfAssessment,
   timeManagementSelfAssessment,
   socialSkillsSelfAssessment,
+  writingSkillsAssessmentTest,
+  employabilitySkillsAssessmentTest,
+  analyticalAndCriticalThinkingSkillsAssessment,
+  presentationSkillsAssessment,
+  skillGapAssessment,
+  businessSkillsQuizForCollegeStudents,
+  computerSkillsSelfAssessmentTest,
 ];

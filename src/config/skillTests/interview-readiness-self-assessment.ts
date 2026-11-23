@@ -208,6 +208,16 @@ export const bundle: SkillTestBundle = {
     ],
     related: [
       {
+        href: '/services/assessments/presentation-skills-assessment/',
+        title: 'Presentation Skills Assessment',
+        description: 'Rate structure, slides, delivery, questions and nerves before your next talk.',
+      },
+      {
+        href: '/services/assessments/writing-skills-assessment-test/',
+        title: 'Writing Skills Assessment Test',
+        description: 'Rate clarity, accuracy, tone and editing in the writing you do for study and work.',
+      },
+      {
         href: '/blog/interviews/interview-preparation-for-freshers-india/',
         title: 'Interview Preparation for Freshers in India',
         description: 'A step-by-step guide to preparing for your first interviews.',

@@ -1,0 +1,492 @@
+---
+import { STATES } from '../scripts/ctcSalary.mjs';
+
+const stateOptions = Object.entries(STATES).map(([value, s]) => ({ value, label: s.label }));
+const offers = [
+  { id: 'a', title: 'Offer A' },
+  { id: 'b', title: 'Offer B' },
+];
+---
+
+<section class="ctc" id="ctc-calculator" aria-labelledby="ctc-title">
+  <h2 id="ctc-title">CTC to in-hand salary calculator</h2>
+  <p class="ctc-note"><b>Private by design:</b> everything you type stays in this browser. Nothing is sent to this site, and the PDF is made on your own device. Press Clear my data when you finish on a shared computer.</p>
+
+  <form class="ctc-form" id="ctc-form" novalidate onsubmit="return false" autocomplete="off">
+    <div class="ctc-choices">
+      <fieldset class="ctc-seg">
+        <legend>What do you want to check?</legend>
+        <label><input type="radio" name="ctc-mode" value="one" checked /> <span>One offer</span></label>
+        <label><input type="radio" name="ctc-mode" value="two" /> <span>Compare two offers</span></label>
+      </fieldset>
+      <fieldset class="ctc-seg">
+        <legend>Tax regime</legend>
+        <label><input type="radio" name="ctc-regime" value="new" checked /> <span>New regime (default)</span></label>
+        <label><input type="radio" name="ctc-regime" value="old" /> <span>Old regime</span></label>
+      </fieldset>
+      <fieldset class="ctc-seg">
+        <legend>Show first</legend>
+        <label><input type="radio" name="ctc-view" value="month" checked /> <span>Per month</span></label>
+        <label><input type="radio" name="ctc-view" value="year" /> <span>Per year</span></label>
+      </fieldset>
+    </div>
+
+    <div class="ctc-offers">
+      {offers.map((o) => (
+        <fieldset class="ctc-box" id={`ctc-box-${o.id}`} data-offer={o.id} hidden={o.id === 'b'}>
+          <legend tabindex="-1" id={`ctc-legend-${o.id}`}><span data-title={o.id}>{o.id === 'a' ? 'Your offer' : 'Offer B'}</span></legend>
+          <div class="ctc-grid">
+            <label class="ctc-wide">Offer name (optional)
+              <input type="text" data-k="label" maxlength="60" placeholder="For example: Company name and city" />
+            </label>
+            <label>Annual CTC (Rs)
+              <input type="text" inputmode="decimal" data-k="ctc" data-money="1" aria-describedby={`ctc-${o.id}-hint-ctc`} />
+              <span class="ctc-hint" id={`ctc-${o.id}-hint-ctc`} data-hint="ctc">The total in the offer letter for one year. For 12 lakh type 1200000.</span>
+            </label>
+            <label>Variable pay inside that CTC (Rs a year)
+              <input type="text" inputmode="decimal" data-k="variable" data-money="1" aria-describedby={`ctc-${o.id}-hint-var`} />
+              <span class="ctc-hint" id={`ctc-${o.id}-hint-var`}>Bonus counted at target. Type 0 if there is none.</span>
+            </label>
+            <label>How much variable pay is paid out (%)
+              <input type="text" inputmode="decimal" data-k="payoutPct" aria-describedby={`ctc-${o.id}-hint-pay`} />
+              <span class="ctc-hint" id={`ctc-${o.id}-hint-pay`}>100 means the full target. Try 50 or 0 to see a weak year.</span>
+            </label>
+            <label>Joining bonus (Rs, paid once)
+              <input type="text" inputmode="decimal" data-k="joiningBonus" data-money="1" />
+            </label>
+            <label>Is the joining bonus inside the CTC?
+              <select data-k="joiningInCtc">
+                <option value="no">No, it is on top of the CTC</option>
+                <option value="yes">Yes, it is inside the CTC</option>
+              </select>
+            </label>
+            <label>Basic pay (% of fixed pay)
+              <input type="text" inputmode="decimal" data-k="basicPct" aria-describedby={`ctc-${o.id}-hint-basic`} />
+              <span class="ctc-hint" id={`ctc-${o.id}-hint-basic`}>Fixed pay is the CTC without variable pay. 50 is a common split. Ask HR for the real basic.</span>
+            </label>
+            <label>PF is worked out on
+              <select data-k="pfBase">
+                <option value="ceiling">The PF wage ceiling only</option>
+                <option value="actual">My full basic pay</option>
+              </select>
+            </label>
+            <label>Is the employer PF inside the CTC?
+              <select data-k="employerPfInCtc">
+                <option value="yes">Yes, it is inside the CTC</option>
+                <option value="no">No, it is paid on top</option>
+              </select>
+            </label>
+            <label>Is gratuity inside the CTC?
+              <select data-k="gratuityInCtc">
+                <option value="yes">Yes, it is inside the CTC</option>
+                <option value="no">No, it is not counted</option>
+              </select>
+            </label>
+            <label>Where you work (professional tax)
+              <select data-k="state">
+                {stateOptions.map((s) => <option value={s.value}>{s.label}</option>)}
+              </select>
+            </label>
+            <label data-only-state="other" hidden>Professional tax for the year (Rs)
+              <input type="text" inputmode="decimal" data-k="customPt" />
+            </label>
+          </div>
+
+          <details class="ctc-more">
+            <summary>More choices: HRA, PF ceiling, gratuity rate, NPS, insurance, other cuts</summary>
+            <div class="ctc-grid">
+              <label>HRA (% of basic)
+                <input type="text" inputmode="decimal" data-k="hraPct" />
+              </label>
+              <label>PF wage ceiling (Rs a month)
+                <input type="text" inputmode="decimal" data-k="pfCeiling" aria-describedby={`ctc-${o.id}-hint-ceil`} />
+                <span class="ctc-hint" id={`ctc-${o.id}-hint-ceil`}>Rs 25,000 since 17 September 2026. Type 15000 if your employer has not changed it yet.</span>
+              </label>
+              <label>Gratuity (% of basic)
+                <input type="text" inputmode="decimal" data-k="gratuityPct" aria-describedby={`ctc-${o.id}-hint-grat`} />
+                <span class="ctc-hint" id={`ctc-${o.id}-hint-grat`}>4.81 is 15 days of wages for each year, with a month counted as 26 days.</span>
+              </label>
+              <label>Employer NPS (% of basic)
+                <input type="text" inputmode="decimal" data-k="employerNpsPct" />
+              </label>
+              <label>Employer-paid insurance (Rs a year)
+                <input type="text" inputmode="decimal" data-k="insurance" data-money="1" />
+              </label>
+              <label>Other employer costs inside the CTC (Rs a year)
+                <input type="text" inputmode="decimal" data-k="otherEmployerCost" data-money="1" />
+              </label>
+              <label>Other cuts from your pay (Rs a month)
+                <input type="text" inputmode="decimal" data-k="otherDeductionMonth" data-money="1" />
+              </label>
+              <label data-only="old" hidden>Rent you pay (Rs a month)
+                <input type="text" inputmode="decimal" data-k="rentMonth" data-money="1" />
+              </label>
+              <label data-only="old" hidden>Where you rent
+                <select data-k="metro">
+                  <option value="no">Any other place (HRA limit 40% of basic)</option>
+                  <option value="yes">Mumbai, Delhi, Kolkata, Chennai, Bengaluru, Hyderabad, Pune or Ahmedabad (50%)</option>
+                </select>
+              </label>
+            </div>
+          </details>
+          {o.id === 'b' && <p class="ctc-copyrow"><button type="button" class="ctc-btn" data-act="copy-a">Copy the first offer's choices into this one</button></p>}
+        </fieldset>
+      ))}
+    </div>
+
+    <fieldset class="ctc-box ctc-oldbox" id="ctc-old" hidden>
+      <legend>Old regime deductions (the new regime allows none of these)</legend>
+      <p class="ctc-hint">Enter only what you can claim and prove. Each line stops at its legal limit. Your own PF share already counts toward the Rs 1,50,000 limit of section 80C.</p>
+      <div class="ctc-grid">
+        <label>Other 80C investments (Rs a year)
+          <input type="text" inputmode="decimal" data-g="other80c" data-money="1" />
+        </label>
+        <label>Health insurance for you and family (Rs a year)
+          <input type="text" inputmode="decimal" data-g="health80d" data-money="1" />
+        </label>
+        <label>Health insurance for parents (Rs a year)
+          <input type="text" inputmode="decimal" data-g="parents80d" data-money="1" />
+        </label>
+        <label>Your own extra NPS (Rs a year)
+          <input type="text" inputmode="decimal" data-g="npsExtra" data-money="1" />
+        </label>
+        <label>Home loan interest, home you live in (Rs a year)
+          <input type="text" inputmode="decimal" data-g="homeLoan" data-money="1" />
+        </label>
+        <label>Other deductions you can claim (Rs a year)
+          <input type="text" inputmode="decimal" data-g="otherOldDeductions" data-money="1" />
+        </label>
+      </div>
+    </fieldset>
+
+    <div class="ctc-actions">
+      <button type="button" class="ctc-btn ctc-btn--primary" data-act="pdf">Download PDF</button>
+      <button type="button" class="ctc-btn" data-act="print">Print result</button>
+      <button type="button" class="ctc-btn" data-act="reset">Reset to the example</button>
+      <button type="button" class="ctc-btn ctc-btn--warn" data-act="clear">Clear my data</button>
+    </div>
+    <p class="ctc-status" id="ctc-status" role="status"></p>
+  </form>
+
+  <div class="ctc-result" id="ctc-result" aria-labelledby="ctc-result-title">
+    <h3 id="ctc-result-title" class="ctc-result-title">Your result</h3>
+    <p class="ctc-hint">The result updates as you type. The PDF and the printout carry exactly what you see here.</p>
+    <div class="ctc-doc" id="ctc-doc"></div>
+  </div>
+  <p class="ctc-sr" id="ctc-live" role="status" aria-live="polite"></p>
+  <noscript><p class="ctc-note">This calculator needs JavaScript. Without it you can still use the rules and the worked examples further down this page.</p></noscript>
+</section>
+
+<script>
+  // @ts-nocheck
+  import { defaultInputs, STATES, inr, lakh } from '../scripts/ctcSalary.mjs';
+  import { resultModel, modelToHtml } from '../scripts/ctcSalaryDoc.mjs';
+
+  const KEY = 'fcs-ctc-salary-v1';
+  const root = document.getElementById('ctc-calculator');
+  if (root) {
+    const $ = (sel) => root.querySelector(sel);
+    const $$ = (sel) => Array.from(root.querySelectorAll(sel));
+    const docEl = $('#ctc-doc');
+    const statusEl = $('#ctc-status');
+    const liveEl = $('#ctc-live');
+
+    const exampleA = () => Object.assign(defaultInputs(), { ctc: 1200000, state: 'ts' });
+    const exampleB = () => Object.assign(defaultInputs(), { ctc: 1400000, state: 'ka', basicPct: 40, variable: 200000, payoutPct: 100 });
+    const globalKeys = ['other80c', 'health80d', 'parents80d', 'npsExtra', 'homeLoan', 'otherOldDeductions'];
+    const fresh = () => ({ mode: 'one', view: 'month', regime: 'new', a: exampleA(), b: exampleB(), g: Object.fromEntries(globalKeys.map((k) => [k, 0])) });
+
+    let state = fresh();
+    try {
+      const raw = JSON.parse(localStorage.getItem(KEY) || 'null');
+      if (raw && typeof raw === 'object') {
+        const f = fresh();
+        state = {
+          mode: raw.mode === 'two' ? 'two' : 'one',
+          view: raw.view === 'year' ? 'year' : 'month',
+          regime: raw.regime === 'old' ? 'old' : 'new',
+          a: Object.assign(f.a, raw.a || {}),
+          b: Object.assign(f.b, raw.b || {}),
+          g: Object.assign(f.g, raw.g || {}),
+        };
+      }
+    } catch (e) {}
+
+    const persist = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
+    const say = (text) => { statusEl.textContent = text; };
+    const yesNo = (v) => (v === true || v === 'yes' ? 'yes' : 'no');
+
+    function fillForm() {
+      ['a', 'b'].forEach((id) => {
+        const box = $('#ctc-box-' + id);
+        box.querySelectorAll('[data-k]').forEach((el) => {
+          const k = el.getAttribute('data-k');
+          let v = state[id][k];
+          if (['joiningInCtc', 'employerPfInCtc', 'gratuityInCtc', 'metro'].includes(k)) v = yesNo(v);
+          el.value = v === undefined || v === null ? '' : String(v);
+        });
+      });
+      $$('[data-g]').forEach((el) => { el.value = String(state.g[el.getAttribute('data-g')] ?? 0); });
+      $$('input[name="ctc-mode"]').forEach((el) => { el.checked = el.value === state.mode; });
+      $$('input[name="ctc-regime"]').forEach((el) => { el.checked = el.value === state.regime; });
+      $$('input[name="ctc-view"]').forEach((el) => { el.checked = el.value === state.view; });
+      syncVisibility();
+      updateHints();
+    }
+
+    function syncVisibility() {
+      $('#ctc-box-b').hidden = state.mode !== 'two';
+      $('[data-title="a"]').textContent = state.mode === 'two' ? 'Offer A' : 'Your offer';
+      $('#ctc-old').hidden = state.regime !== 'old';
+      $$('[data-only="old"]').forEach((el) => { el.hidden = state.regime !== 'old'; });
+      ['a', 'b'].forEach((id) => {
+        const el = $('#ctc-box-' + id + ' [data-only-state="other"]');
+        if (el) el.hidden = state[id].state !== 'other';
+      });
+    }
+
+    function updateHints() {
+      ['a', 'b'].forEach((id) => {
+        const hint = $('#ctc-' + id + '-hint-ctc');
+        if (!hint) return;
+        const text = String(state[id].ctc ?? '').trim();
+        const n = Number(text.replace(/,/g, ''));
+        hint.textContent = text !== '' && Number.isFinite(n) && n > 0
+          ? 'You typed ' + inr(n) + ', which is ' + lakh(n) + ' a year.'
+          : 'The total in the offer letter for one year. For 12 lakh type 1200000.';
+      });
+    }
+
+    const inputsFor = (id) => Object.assign({}, state[id], state.g, { regime: state.regime });
+    let model = null;
+    let generated = '';
+
+    function render() {
+      const offers = state.mode === 'two' ? [inputsFor('a'), inputsFor('b')] : [inputsFor('a'), null];
+      const d = new Date();
+      generated = d.getDate() + ' ' + ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.getMonth()] + ' ' + d.getFullYear();
+      model = resultModel({ offers, view: state.view }, generated);
+      if (!model.ok) {
+        docEl.innerHTML = '<p class="ctc-error" role="alert">' + String(model.reason).replace(/</g, '&lt;') + '</p>';
+        liveEl.textContent = model.reason;
+        setButtons(false);
+        return;
+      }
+      docEl.innerHTML = modelToHtml(model);
+      setButtons(true);
+      const r = model.results;
+      liveEl.textContent = model.two
+        ? 'Monthly in-hand: ' + model.names[0] + ' ' + inr(r[0].monthlyInHand) + ', ' + model.names[1] + ' ' + inr(r[1].monthlyInHand) + '.'
+        : 'Monthly in-hand ' + inr(r[0].monthlyInHand) + '. Annual take-home ' + inr(r[0].annualTakeHome) + '.';
+    }
+
+    function setButtons(on) {
+      $$('[data-act="pdf"],[data-act="print"]').forEach((b) => { b.disabled = !on; b.setAttribute('aria-disabled', on ? 'false' : 'true'); });
+    }
+
+    let timer = 0;
+    const refreshSoon = () => { clearTimeout(timer); timer = setTimeout(() => { render(); }, 120); };
+
+    root.addEventListener('input', (e) => {
+      const el = e.target;
+      if (!(el instanceof HTMLElement)) return;
+      const box = el.closest('[data-offer]');
+      if (el.hasAttribute('data-k') && box) {
+        state[box.getAttribute('data-offer')][el.getAttribute('data-k')] = el.value;
+        if (el.getAttribute('data-k') === 'ctc') updateHints();
+      } else if (el.hasAttribute('data-g')) {
+        state.g[el.getAttribute('data-g')] = el.value;
+      } else return;
+      persist();
+      refreshSoon();
+    });
+    root.addEventListener('change', (e) => {
+      const el = e.target;
+      if (!(el instanceof HTMLElement)) return;
+      if (el.name === 'ctc-mode') { state.mode = el.value; syncVisibility(); persist(); render(); if (state.mode === 'two') { const l = $('#ctc-legend-b'); if (l) l.focus(); } return; }
+      if (el.name === 'ctc-regime') { state.regime = el.value; syncVisibility(); persist(); render(); return; }
+      if (el.name === 'ctc-view') { state.view = el.value; persist(); render(); return; }
+      const box = el.closest('[data-offer]');
+      if (el.hasAttribute('data-k') && box) {
+        state[box.getAttribute('data-offer')][el.getAttribute('data-k')] = el.value;
+        if (el.getAttribute('data-k') === 'state') syncVisibility();
+        persist(); render();
+      }
+    });
+
+    let pdfBusy = false;
+    async function downloadPdf() {
+      if (pdfBusy || !model || !model.ok) return;
+      pdfBusy = true;
+      try {
+        const pdfMod = await import('../scripts/ctcSalaryPdf.mjs');
+        let unicodeReady = false;
+        if (pdfMod.hasUnsupportedText(model)) {
+          say('Loading a font for your Telugu, Hindi or other text...');
+          unicodeReady = await pdfMod.prepareUnicodePdf(model);
+          if (!unicodeReady) { say('This device could not draw some of your text into the PDF. Use Print result and choose Save as PDF instead, which keeps every script.'); return; }
+        }
+        say('Preparing the PDF...');
+        const mod = await import('jspdf');
+        const pdf = pdfMod.buildPdf(mod.jsPDF, model, unicodeReady);
+        pdf.save(model.fileName);
+        say(unicodeReady
+          ? 'PDF downloaded. Offer names in Telugu, Hindi or other scripts are drawn as pictures so the letters keep their shape, so that text cannot be selected or copied. It was made in this browser and not uploaded.'
+          : 'PDF downloaded. It was made in this browser and not uploaded.');
+      } catch (err) {
+        console.error('Unable to create the salary PDF:', err);
+        say('The PDF could not be made. Use Print result and choose Save as PDF instead.');
+      } finally { pdfBusy = false; }
+    }
+
+    function printDoc() {
+      if (!model || !model.ok) return;
+      render();
+      document.body.setAttribute('data-ctc-print', '1');
+      const done = () => { document.body.removeAttribute('data-ctc-print'); window.removeEventListener('afterprint', done); };
+      window.addEventListener('afterprint', done);
+      window.print();
+    }
+
+    root.addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-act]');
+      if (!btn) return;
+      const act = btn.getAttribute('data-act');
+      if (act === 'pdf') downloadPdf();
+      else if (act === 'print') printDoc();
+      else if (act === 'reset') {
+        const keepMode = state.mode;
+        state = fresh(); state.mode = keepMode;
+        persist(); fillForm(); render(); say('The form is back to the example.');
+      } else if (act === 'clear') {
+        try { localStorage.removeItem(KEY); } catch (err) {}
+        state = fresh();
+        fillForm(); render();
+        say('Your data was cleared from this browser and the form is back to the example.');
+        statusEl.setAttribute('tabindex', '-1'); statusEl.focus();
+      } else if (act === 'copy-a') {
+        state.b = Object.assign({}, state.a);
+        persist(); fillForm(); render();
+        const first = $('#ctc-box-b [data-k="ctc"]'); if (first) first.focus();
+        say('Offer B now has the same choices as offer A. Change what differs.');
+      }
+    });
+
+    fillForm();
+    render();
+    persist();
+  }
+</script>
+
+<style is:global>
+  .ctc{margin:1.4rem 0 2rem;padding:1.2rem;border:1px solid rgba(18,154,141,.45);border-radius:18px;background:rgba(18,154,141,.05);min-width:0}
+  .ctc h2{margin:0 0 .5rem}
+  .ctc p,.ctc li{line-height:1.6}
+  .ctc-note,.ctc-hint,.ctc-status{font-size:.86rem;color:rgba(255,255,255,.78)}
+  .ctc-hint{display:block;font-weight:400;line-height:1.45}
+  .ctc-status{min-height:1.4em;color:#9ff3e6;margin:.6rem 0 0}
+  .ctc-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .ctc-form{display:grid;gap:1rem;margin-top:.9rem}
+  .ctc-choices{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.7rem}
+  .ctc-seg{margin:0;padding:.6rem .8rem .7rem;border:1px solid rgba(255,255,255,.2);border-radius:12px;min-width:0}
+  .ctc-seg legend{padding:0 .35rem;font-weight:700;font-size:.9rem}
+  .ctc-seg label{display:flex;align-items:center;gap:.55rem;min-height:44px;font-weight:600;font-size:.92rem;cursor:pointer}
+  .ctc-seg input{width:22px;height:22px;min-height:0;margin:0;accent-color:#2dd4bf;flex:none}
+  .ctc-offers{display:grid;gap:1rem}
+  .ctc-box{min-width:0;margin:0;padding:1rem;border:1px solid rgba(255,255,255,.2);border-radius:14px}
+  .ctc-box[hidden]{display:none}
+  .ctc-box legend{padding:0 .4rem;font-weight:800;font-size:1.02rem}
+  .ctc-box legend:focus-visible{outline:3px solid #e5b84a;outline-offset:3px}
+  .ctc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));gap:.1rem 1rem}
+  .ctc-wide{grid-column:1 / -1}
+  .ctc label{display:grid;gap:.3rem;margin:.6rem 0;font-size:.9rem;font-weight:600;min-width:0;align-content:start}
+  .ctc label[hidden]{display:none}
+  .ctc input[type=text],.ctc select{width:100%;min-width:0;max-width:100%;box-sizing:border-box;min-height:44px;padding:.5rem .7rem;border:1px solid rgba(255,255,255,.28);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;font-weight:400}
+  .ctc select option{color:#111;background:#fff}
+  .ctc input::placeholder{color:rgba(255,255,255,.68);opacity:1}
+  .ctc input:focus-visible,.ctc select:focus-visible,.ctc button:focus-visible,.ctc summary:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}
+  .ctc-more{margin-top:.6rem;border-top:1px dashed rgba(255,255,255,.2);padding-top:.4rem}
+  .ctc-more summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center;line-height:1.4}
+  .ctc-copyrow{margin:.4rem 0 0}
+  .ctc-actions{display:flex;flex-wrap:wrap;gap:.6rem}
+  .ctc-btn{min-height:46px;padding:.55rem .95rem;border:1px solid rgba(255,255,255,.28);border-radius:10px;background:rgba(255,255,255,.08);color:#fff;font-family:inherit;font-weight:700;font-size:.92rem;cursor:pointer}
+  .ctc-btn--primary{background:#0b766d;border-color:#2dd4bf}
+  .ctc-btn--warn{border-color:rgba(255,140,120,.7);color:#ffd1c8}
+  .ctc-btn[disabled]{opacity:.5;cursor:not-allowed}
+  .ctc-result{margin-top:1.2rem}
+  .ctc-result-title{margin:0 0 .2rem}
+  .ctc-doc{margin-top:.6rem;padding:1.1rem;border:1px solid rgba(229,184,74,.5);border-radius:14px;background:rgba(8,12,24,.55);color:#f2f5f7;min-width:0;overflow-wrap:anywhere}
+  .ctc-error{margin:0;padding:.8rem;border-left:4px solid #ff9a86;background:rgba(255,140,120,.12);color:#ffd9d1}
+  .ctc-doc-head{border-bottom:3px solid #2dd4bf;margin-bottom:.7rem}
+  .ctc-doc-brand{margin:0;font-size:.72rem;font-weight:800;letter-spacing:.08em;color:#8de4d8}
+  .ctc-doc-title{margin:.1rem 0 .1rem;font-size:1.45rem;color:#fff}
+  .ctc-doc-sub{margin:0 0 .6rem;color:rgba(255,255,255,.8)}
+  .ctc-meta{display:grid;gap:.3rem;margin:.4rem 0}
+  .ctc-meta div{display:grid;grid-template-columns:minmax(7rem,12rem) minmax(0,1fr);gap:.5rem}
+  .ctc-meta dt{font-weight:700}
+  .ctc-meta dd{margin:0}
+  .ctc-doc-h{margin:1.3rem 0 .45rem;padding-bottom:.25rem;border-bottom:1px solid rgba(255,255,255,.25);font-size:1.02rem;color:#8de4d8}
+  .ctc-doc-p{margin:.35rem 0;line-height:1.6}
+  .ctc-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(12.5rem,1fr));gap:.6rem;margin:.6rem 0}
+  .ctc-stat{padding:.7rem .8rem;border:1px solid rgba(255,255,255,.22);border-radius:12px;display:grid;gap:.15rem;align-content:start}
+  .ctc-stat--main{background:rgba(18,154,141,.22);border-color:#2dd4bf}
+  .ctc-stat-label{font-size:.8rem;font-weight:700;color:rgba(255,255,255,.85)}
+  .ctc-stat-value{font-size:1.55rem;line-height:1.15;color:#fff;overflow-wrap:normal}
+  .ctc-stat-sub{font-size:.78rem;color:rgba(255,255,255,.78);line-height:1.4}
+  .ctc-doc-list{margin:.6rem 0;padding:.6rem .8rem;border-left:4px solid #e5b84a;background:rgba(229,184,74,.1)}
+  .ctc-doc-listtitle{margin:0;font-weight:800;color:#f5d98c}
+  .ctc-doc-list ul{margin:.3rem 0 0 1.1rem;padding:0}
+  .ctc-tablewrap{margin:.5rem 0;max-width:100%}
+  .ctc-table{width:100%;border-collapse:collapse;font-size:.88rem}
+  .ctc-doc .ctc-table{table-layout:fixed}
+  .ctc-table td,.ctc-table th{overflow-wrap:anywhere}
+  .ctc-table .ctc-num{overflow-wrap:normal}
+  .ctc-table th,.ctc-table td{padding:.45rem .55rem;border:1px solid rgba(255,255,255,.22);text-align:left;vertical-align:top;line-height:1.45}
+  .ctc-table thead th{background:rgba(18,154,141,.25);font-weight:700}
+  .ctc-table tbody th{font-weight:400}
+  .ctc-table .ctc-num{text-align:right;white-space:nowrap}
+  .ctc-table tr.ctc-strong th,.ctc-table tr.ctc-strong td{font-weight:800;background:rgba(255,255,255,.07)}
+  .ctc-doc-note{margin:1rem 0 0;font-size:.8rem;font-style:italic;color:rgba(255,255,255,.78)}
+  @media(max-width:560px){
+    .ctc{padding:.8rem}
+    .ctc-box{padding:.7rem}
+    .ctc-doc{padding:.7rem}
+    .ctc-grid,.ctc-choices{grid-template-columns:minmax(0,1fr)}
+    .ctc-meta div{grid-template-columns:minmax(0,1fr);gap:0}
+    .ctc-actions .ctc-btn{flex:1 1 100%}
+    .ctc-stat-value{font-size:1.4rem}
+    .ctc-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+    .ctc-table,.ctc-table tbody{display:block;width:100%}
+    .ctc-table tr{display:flex;flex-wrap:wrap;margin:0 0 .5rem;border:1px solid rgba(255,255,255,.22);border-radius:10px;overflow:hidden}
+    .ctc-table tbody th{flex:1 1 100%;border:0;border-bottom:1px solid rgba(255,255,255,.14);font-weight:600}
+    .ctc-table td{flex:1 1 6rem;min-width:0;border:0;padding:.35rem .5rem;text-align:left}
+    .ctc-table td::before{content:attr(data-label);display:block;font-size:.7rem;font-weight:700;color:#f3cf70}
+    .ctc-table .ctc-num{text-align:left;white-space:normal}
+    .ctc-table td[data-empty="1"]{display:none}
+    .ctc-table td:not(.ctc-num){flex:1 1 100%}
+    .ctc-table tr.ctc-strong th{font-weight:800}
+  }
+  @media print{
+    @page{size:A4;margin:12mm}
+    body[data-ctc-print]{background:#fff!important}
+    body[data-ctc-print] > *:not(main){display:none!important}
+    body[data-ctc-print] main > *:not(.ctc-shell){display:none!important}
+    body[data-ctc-print] .ctc-shell{max-width:none;padding:0;margin:0}
+    body[data-ctc-print] .ctc{margin:0;padding:0;border:0;background:#fff}
+    body[data-ctc-print] .ctc > *:not(.ctc-result){display:none!important}
+    body[data-ctc-print] .ctc-result > *:not(.ctc-doc){display:none!important}
+    body[data-ctc-print] .ctc-doc{margin:0;padding:0;border:0;border-radius:0;background:#fff;color:#111;font-size:10pt}
+    body[data-ctc-print] .ctc-doc *{color:#111!important}
+    body[data-ctc-print] .ctc-doc-brand,body[data-ctc-print] .ctc-doc-h{color:#0b766d!important}
+    body[data-ctc-print] .ctc-doc-head{border-bottom-color:#0b766d}
+    body[data-ctc-print] .ctc-doc-h{border-bottom-color:#999;break-after:avoid}
+    body[data-ctc-print] .ctc-table{font-size:9pt}
+    body[data-ctc-print] .ctc-table th,body[data-ctc-print] .ctc-table td{border-color:#888}
+    body[data-ctc-print] .ctc-table thead th{background:#e2f0ee!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    body[data-ctc-print] .ctc-table tr.ctc-strong th,body[data-ctc-print] .ctc-table tr.ctc-strong td{background:#f1f3f3!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    body[data-ctc-print] .ctc-table tr{break-inside:avoid}
+    body[data-ctc-print] .ctc-stat{border-color:#888;background:#fff!important;break-inside:avoid}
+    body[data-ctc-print] .ctc-stat--main{background:#e2f0ee!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    body[data-ctc-print] .ctc-doc-list{background:#fff8e1!important;border-left-color:#b58a00;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
+</style>

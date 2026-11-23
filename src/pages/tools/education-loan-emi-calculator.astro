@@ -1,0 +1,419 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import BusinessPerspectiveNote from '../../components/BusinessPerspectiveNote.astro';
+import EducationLoanEmiCalculator from '../../components/EducationLoanEmiCalculator.astro';
+import { SCALE, SCALE_RULE } from '../../config/scalability.mjs';
+import { CHECKED_ON, compareTreatments, fmtNum, monthsText, validate } from '../../scripts/educationLoanEmi.mjs';
+
+const title = 'Education Loan EMI Calculator India: Moratorium and Interest';
+const description = 'Work out your education loan EMI, the interest in the moratorium, the total cost and a year-by-year schedule. Compare two offers, then print or save a PDF.';
+const pageUrl = 'https://futurecareerschool.com/tools/education-loan-emi-calculator/';
+
+// The worked illustration is produced by the same maths as the tool, so the page and the tool always agree.
+const ex = validate(
+  { label: '', amount: '1000000', rate: '9.5', moratoriumMonths: '12', tenureYears: '10', treatment: 'capitalise', accrual: 'simple', fee: '0', insurance: '0' },
+  { courseYears: '4', payout: 'year', salary: '' },
+).values;
+const exCmp = compareTreatments(ex);
+const exNothing = exCmp.rows[2].result;
+const exPay = exCmp.rows[0].result;
+const rsx = (n) => 'Rs ' + fmtNum(n);
+
+const steps = [
+  { h: 'Enter the course', p: 'Type the course length in years and choose how the lender pays the money out. Interest runs only on the money paid out so far, so a loan paid out each year or each semester costs less than the same loan paid out at once.' },
+  { h: 'Enter the offer', p: 'Type the loan amount, the yearly interest rate, the moratorium in months and the number of years of EMIs, all from the offer or sanction letter. If you do not know the moratorium, ask the lender. Lenders count it differently.' },
+  { h: 'Choose how the interest is treated', p: 'Pick whether you will pay the interest while studying, pay it only in the course, or pay nothing until the EMIs start. The result always shows all three side by side, so you can see what the choice is worth.' },
+  { h: 'Add an expected salary, if you want to', p: 'The calculator then shows the EMI as a share of that pay. Not sure what your first salary will be in hand after tax and deductions?', link: { href: '/tools/ctc-to-in-hand-salary-calculator/', label: 'Work it out with the CTC to in-hand salary calculator' }, after: ', then enter that figure.' },
+  { h: 'Compare, then keep a copy', p: 'Tick the box to compare a second offer, with its own amount, rate and fees. Then download the result as a PDF or print it. The PDF is made in your browser and nothing is uploaded.' },
+];
+
+const rules = [
+  {
+    topic: 'Moratorium',
+    says: 'PM-Vidyalaxmi defines the moratorium as the course period plus one year. A June 2026 report in The Week describes it as the course plus 6 months after graduation or employment, whichever comes first. Lenders differ, so enter what your sanction letter says.',
+    source: 'PIB document of 29 July 2026; The Week, 20 June 2026',
+  },
+  {
+    topic: 'Interest in the moratorium',
+    says: 'A Bank of Maharashtra page on the model education loan scheme says simple interest applies during the moratorium and the loan is compounded monthly after that. An SBI page (last updated 7 September 2026) says accrued interest during the course and moratorium is added to the principal, and that the EMI is worked on the principal alone if all interest is paid before repayment starts.',
+    source: 'Bank of Maharashtra and SBI product pages (examples of published terms, not a recommendation)',
+  },
+  {
+    topic: 'Repayment period',
+    says: 'PM-Vidyalaxmi allows up to 15 years, not counting the moratorium. The Week reports 12 to 15 years after the moratorium at government banks, 7 to 10 years at private banks, and a 10-year total for NBFCs with the moratorium included.',
+    source: 'PIB document of 29 July 2026; The Week, 20 June 2026',
+  },
+  {
+    topic: 'Interest rates',
+    says: 'The Week reported in June 2026 that rates across lenders ranged from around 9 to 16 per cent, with SBI at 9.40 per cent with collateral and 9.90 per cent without. Rates change, and fixed and floating rates move differently. Use the rate in your own offer.',
+    source: 'The Week, 20 June 2026',
+  },
+  {
+    topic: 'Rate cap and interest help',
+    says: 'PM-Vidyalaxmi caps the rate at the bank\'s external benchmark rate plus 0.5 per cent and allows banks up to 1 per cent extra concession for paying interest during study and the moratorium. It gives 3 per cent interest subvention in the moratorium on loans up to Rs 10 lakh for family income up to Rs 8 lakh, with a cap of 1 lakh new slots a year. A central interest subsidy gives full interest subvention in the moratorium for family income up to Rs 4.5 lakh on technical and professional courses.',
+    source: 'PIB document of 29 July 2026',
+  },
+  {
+    topic: 'Who PM-Vidyalaxmi covers',
+    says: 'Merit admission to one of 1,425 listed institutions, with management and NRI quota seats left out, and no combining with other interest subvention, scholarships or fee reimbursement. Loans up to Rs 7.5 lakh carry a 75 per cent government credit guarantee. This calculator does not check whether you qualify.',
+    source: 'PIB document of 29 July 2026',
+  },
+  {
+    topic: 'Processing fee',
+    says: 'One public bank page lists no processing fee up to Rs 10 lakh, Rs 5,000 plus GST above Rs 10 lakh and up to Rs 20 lakh, and 0.50 per cent plus GST above Rs 20 lakh. Fees differ by lender, so type what your offer says.',
+    source: 'SBI Student Loan Scheme page, last updated 7 September 2026',
+  },
+  {
+    topic: 'Prepayment charges',
+    says: 'The RBI (Pre-payment Charges on Loans) Directions, 2025 apply to loans sanctioned or renewed on or after 1 January 2026 and bar pre-payment charges on loans to individuals for non-business purposes. Ask the lender how this applies to your loan.',
+    source: 'RBI notification of 2 July 2025, as summarised by Taxmann',
+  },
+];
+
+const marks = [
+  {
+    mark: SCALE.high.label,
+    meaning: 'Income can grow through skills, proof of work and paid projects, so a fixed EMI takes a smaller share of your income over time.',
+    risk: 'It needs steady learning and visible proof. A certificate alone does not make a route scalable, and early income can be uneven.',
+    step: 'Name who pays, how they find and trust you, one piece of proof and a simple follow-up habit.',
+  },
+  {
+    mark: SCALE.mid.label,
+    meaning: 'A job is the way in, and a practice, studio, clinic, agency or product on top can grow income beyond one salary.',
+    risk: 'Without that extra layer, pay stays tied to one employer, so the EMI has to fit a fixed salary.',
+    step: 'Plan the business layer early: who would pay, how they would find and trust you, and what proof you can show.',
+  },
+  {
+    mark: SCALE.low.label,
+    meaning: 'Growth is capped by seats, hours or a single employer. Examples are MBBS and BDS, NDA, government exams, integrated law, pilot training, merchant navy and pure research.',
+    risk: 'Pay follows a fixed ladder, years can pass before it grows and few reach the top, so a large loan has little room to absorb a slow start.',
+    step: 'Borrow the least you can, write a second route and keep a skill running that can grow on its own.',
+  },
+];
+
+const questions = [
+  { n: '01', t: 'Your fit', b: 'Will you still want this course when the first EMI is due? Interest runs whether or not your first job is the one you hoped for, so settle doubts about the subject before you borrow.' },
+  { n: '02', t: 'Your situation', b: 'Who pays the EMI in the months before your first salary starts? Name the co-borrower, any guarantor and any property or deposit that would be pledged.' },
+  { n: '03', t: 'Job market', b: 'Does the usual starting pay for this course at this college, taken from its placement report, cover the EMI with room left for rent and food? Use the typical figure, not the highest package in the brochure.' },
+  { n: '04', t: 'AI-proof', b: 'What does a fresher in this job do all day, and do AI tools already do that work fast? A course that builds judgement, client work or hands-on skill holds its value better than routine drafting or data entry.' },
+];
+const proofs = [
+  { n: '01', t: 'Show it', b: 'Finish one real piece of work in this field before you borrow, such as a small project, a case study or a sample, so you know the daily work suits you.' },
+  { n: '02', t: 'Say it', b: 'Explain the course, the job you expect and the repayment plan in two minutes to someone who works in that field. If the plan sounds weak out loud, it is weak on paper.' },
+  { n: '03', t: 'Get it checked', b: 'Ask the lender for the loan terms in writing, then ask a working professional or a counsellor to check the numbers with you before you sign.' },
+];
+
+const faqs = [
+  {
+    q: 'How is an education loan EMI calculated?',
+    a: 'The EMI is the balance when repayment starts, multiplied by the monthly rate and by (1 + monthly rate) raised to the number of EMIs, then divided by that same factor minus 1. The monthly rate is the yearly rate divided by 12. This calculator works month by month, so the balance includes any interest added during the course and moratorium.',
+  },
+  {
+    q: 'What is a moratorium in an education loan?',
+    a: 'A moratorium is the period with no EMIs, covering the course and a set time after it. PM-Vidyalaxmi counts it as the course plus one year, and a June 2026 report puts it at the course plus 6 months after graduation or employment, whichever comes first. Check your sanction letter, because the moratorium is not the same as no interest.',
+  },
+  {
+    q: 'Does interest build up during the moratorium?',
+    a: 'Yes. Interest is charged on the money paid out so far through the course and the moratorium, usually as simple interest. If you do not pay it, it is added to the loan when the EMIs start, so your EMI is worked on a bigger balance.',
+  },
+  {
+    q: 'How much cheaper is the loan if I pay the interest during study?',
+    a: `It can save a lot. As an illustration, not a real offer: on ${rsx(ex.amount)} at ${ex.rate}% with a 4-year course paid out each year, a 12-month moratorium and 10 years of EMIs, paying nothing gives total interest of ${rsx(exNothing.totalInterest)} and an EMI of ${rsx(exNothing.emi)}, while paying the interest every month gives ${rsx(exPay.totalInterest)} and ${rsx(exPay.emi)} but costs about ${rsx(exPay.avgPaidPerPreMonth)} a month for ${monthsText(exPay.preMonths)} first. The calculator runs this with your own numbers.`,
+  },
+  {
+    q: 'What is the longest repayment period for an education loan?',
+    a: 'PM-Vidyalaxmi allows up to 15 years after the moratorium. A June 2026 report found 12 to 15 years at government banks, 7 to 10 years at private banks and a 10-year total for NBFCs. A longer period lowers the EMI but raises the total interest, so look at both numbers.',
+  },
+  {
+    q: 'Does a staged payout reduce the interest?',
+    a: 'Yes, because interest runs only on the money paid out so far. If the lender pays the fee each year or each semester instead of all at the start, you carry a smaller balance in the early months and pay less interest. Choose the payout pattern in the calculator to see the difference.',
+  },
+  {
+    q: 'Are the processing fee and insurance part of the EMI?',
+    a: 'Not in this calculator. It treats them as costs you pay yourself, adds them to the total cost and leaves the EMI unchanged. Some lenders add fees or insurance to the loan, so check how your offer treats them.',
+  },
+  {
+    q: 'Can I claim a tax deduction on education loan interest?',
+    a: 'Under the Income-tax Act 2025, section 129 (earlier section 80E) allows a deduction for interest paid on a higher education loan from a bank, a notified financial institution or an approved charitable institution, for the year you start paying interest and the next seven years or until it is fully paid. It is available only if you choose the old tax regime, because section 202 disallows it in the new regime. Check the current text or ask a tax professional.',
+  },
+  {
+    q: 'What is PM-Vidyalaxmi and does it change my EMI?',
+    a: 'PM-Vidyalaxmi is a government scheme for collateral-free, guarantor-free education loans for students admitted on merit to listed institutions. It caps the interest rate and gives interest subvention to some families, which lowers the interest you pay in the moratorium. Eligibility and the list of institutions are on the official PM-Vidyalaxmi and Vidya Lakshmi pages, so check them there.',
+  },
+  {
+    q: 'What share of my salary should the EMI be?',
+    a: 'The official sources checked for this page give no single safe percentage. Use the share the calculator shows to compare offers, then add rent, food, family costs and savings to see what is left. A lender will also look at your co-borrower\'s income and other loans.',
+  },
+  {
+    q: 'Why is my bank\'s EMI a few rupees different?',
+    a: 'Banks round the EMI differently, charge interest by the day on the exact payout dates, and may change a floating rate during the loan. The result here is an estimate worked month by month. The sanction letter and the repayment schedule from the lender are the real figures.',
+  },
+  {
+    q: 'Is my information sent anywhere?',
+    a: 'No. The numbers stay in this browser, the PDF is made on your own device, and nothing is uploaded. The calculator saves your entries on this device so they are still there when you return, and Clear my data removes them.',
+  },
+];
+
+const sources = [
+  { url: 'https://static.pib.gov.in/WriteReadData/specificdocs/documents/2026/jul/doc2026729936401.pdf', name: 'PIB document on PM-Vidyalaxmi, dated 29 July 2026', supports: 'Moratorium as course plus one year, repayment up to 15 years, rate cap, interest subvention limits, credit guarantee, 1,425 institutions and exclusions.' },
+  { url: 'https://www.incometaxindia.gov.in/w/section-129-90', name: 'Income Tax Department, Income-tax Act 2025, section 129', supports: 'Deduction for interest on a higher education loan, who can claim, which lenders count, and the eight-year period.' },
+  { url: 'https://www.incometaxindia.gov.in/w/section-202-78', name: 'Income Tax Department, Income-tax Act 2025, section 202', supports: 'Chapter VIII deductions, other than sections 124(1), 124(2), 125(2) and 146, are not allowed in the new regime.' },
+  { url: 'https://businesstoday.in/personal-finance/tax/story/income-tax-2026-what-deductions-you-lose-under-new-tax-regime-from-april-1-523398-2026-04-01', name: 'Business Today, 1 April 2026', supports: 'Education loan interest deduction listed among those lost under the new regime from 1 April 2026.' },
+  { url: 'https://bankofmaharashtra.bank.in/model-education-loan-scheme', name: 'Bank of Maharashtra, model education loan scheme page', supports: 'One-year moratorium, up to 180 EMIs, simple interest in the moratorium and monthly compounding after it, margin bands.' },
+  { url: 'https://sbi.bank.in/web/personal-banking/loans/education-loans/student-loan-scheme', name: 'SBI Student Loan Scheme page, last updated 7 September 2026', supports: 'Accrued interest added to the principal, up to 15 years after the holiday, and one lender\'s processing fee bands. Used as an example, not a recommendation.' },
+  { url: 'https://www.theweek.in/theweek/business/2026/06/20/education-loans-what-you-need-to-know-about-approval-repayment.html', name: 'The Week, 20 June 2026', supports: 'Rate range across lenders, SBI rates with and without collateral, moratorium wording and repayment periods by lender type.' },
+  { url: 'https://www.taxmann.com/post/blog/rbi-bans-pre-payment-charges-on-floating-rate-loans', name: 'Taxmann summary of the RBI (Pre-payment Charges on Loans) Directions, 2025', supports: 'Start date of 1 January 2026 and the bar on pre-payment charges on loans to individuals for non-business purposes.' },
+  { url: 'https://www.vidyalakshmi.co.in/Students/', name: 'Vidya Lakshmi portal', supports: 'One application to several banks; built under the guidance of the Department of Financial Services, the Department of Higher Education and the Indian Banks Association.' },
+];
+
+const related = [
+  { href: '/blog/college-degrees/education-loan-secured-or-unsecured-india/', label: 'Education loan: secured or unsecured', text: 'Read which loan sizes need no security, a guarantor or property, before you pick an offer to enter here.' },
+  { href: '/tools/course-cost-planner/', label: 'Course cost planner', text: 'Add up the full cost of the course first, so the loan amount you enter is the real gap.' },
+  { href: '/tools/education-cost-payback-planner/', label: 'Education cost and payback planner', text: 'See how long your expected salary takes to cover the cost of the route, including the pay you give up while studying.' },
+  { href: '/blog/college-degrees/education-loan-worth-it-india-private-college/', label: 'Is an education loan worth it for a private college', text: 'Check the placement and pay evidence behind the course before you borrow.' },
+  { href: '/blog/study-abroad/education-loan-for-study-abroad-india/', label: 'Education loan for study abroad', text: 'Study abroad adds exchange rate and visa risk to the repayment, which this calculator cannot predict.' },
+  { href: '/tools/scholarship-application-planner/', label: 'Scholarship application planner', text: 'A scholarship lowers the amount you borrow, and every rupee not borrowed saves its interest as well.' },
+];
+
+const breadcrumbs = [
+  { name: 'Home', url: 'https://futurecareerschool.com/' },
+  { name: 'Career resources', url: 'https://futurecareerschool.com/career-resources/' },
+  { name: 'Education loan EMI calculator', url: pageUrl },
+];
+
+const jsonLd = [
+  {
+    '@type': 'WebApplication',
+    name: 'Education Loan EMI Calculator',
+    url: pageUrl,
+    description,
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Any modern web browser',
+    isAccessibleForFree: true,
+    inLanguage: 'en-IN',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+    publisher: { '@type': 'Organization', name: 'FutureCareerSchool', url: 'https://futurecareerschool.com' },
+  },
+  {
+    '@type': 'WebPage',
+    '@id': pageUrl,
+    url: pageUrl,
+    name: title,
+    description,
+    inLanguage: 'en-IN',
+    dateModified: '2026-11-17',
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs.map((b, i) => ({ '@type': 'ListItem', position: i + 1, name: b.name, item: b.url })),
+  },
+  {
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={pageUrl} jsonLd={jsonLd}>
+  <Nav activePage="tools" />
+  <BusinessPerspectiveNote serviceBanner={true} />
+  <main>
+    <section class="tool-hero container">
+      <nav class="breadcrumb" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/career-resources/">Career resources</a><span aria-hidden="true">/</span><span aria-current="page">Education loan EMI calculator</span></nav>
+      <p class="eyebrow">FREE PRIVATE CALCULATOR WITH PDF</p>
+      <h1>Education Loan EMI Calculator <span>with moratorium interest</span></h1>
+      <p class="lead">This education loan EMI calculator works out your monthly EMI, the interest that builds up in the course and the moratorium, and the total you repay, with a year-by-year schedule. It also compares two offers.</p>
+      <p class="tool-limits"><b>Estimate only:</b> banks round and charge differently and rates change. Rules checked on {CHECKED_ON}. General information, not financial advice; get the loan terms in writing.</p>
+    </section>
+
+    <section class="container tool-shell elc-shell" aria-label="Education loan EMI calculator">
+      <EducationLoanEmiCalculator />
+    </section>
+
+    <p class="container tool-limits tool-service">Unsure the course is worth the loan? <a href="/services/career-counselling-and-career-guidance/career-counselling-for-college-students/">Career counselling for college students</a> can check the course, the loan and the skill plan together. More money decisions sit in <a href="/blog/college-degrees/">College Degrees</a>.</p>
+
+    <section class="container tool-section" id="how-to-use">
+      <h2>How to use the calculator</h2>
+      <ol class="step-grid">
+        {steps.map((s) => (
+          <li><h3>{s.h}</h3><p>{s.p}{s.link && <> <a href={s.link.href}>{s.link.label}</a>{s.after}</>}</p></li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="container tool-section" id="how-interest-works">
+      <h2>How the interest and the EMI are worked out</h2>
+      <p>Money is paid out in equal parts at the start of a month. For each month of the course and the moratorium, interest is the yearly rate divided by 12, times the money paid out so far. This is simple interest, as in the IBA model scheme.</p>
+      <p>What happens next depends on what you do with that interest. If you pay it each month, the balance stays at what was paid out. If you do not, it is added to the loan when the EMIs start, and the EMI is worked out on that bigger balance.</p>
+      <p>The formula is EMI = B × i × (1 + i)<sup>n</sup> ÷ ((1 + i)<sup>n</sup> - 1), where B is the balance when the EMIs start, i is the yearly rate divided by 12 and n is the number of monthly EMIs. At a 0% rate, the EMI is simply B ÷ n.</p>
+      <div class="example-box">
+        <p><b>An illustration, not a real offer.</b> Take {rsx(ex.amount)} at {ex.rate}% a year, a 4-year course with the money paid out at the start of each year, a 12-month moratorium and 10 years of EMIs.</p>
+        <p>Interest before the EMIs is {rsx(exNothing.interestAccrued)}. If you pay none of it, the balance when the EMIs start is {rsx(exNothing.balanceAtStart)}, the EMI is {rsx(exNothing.emi)} and the total interest is {rsx(exNothing.totalInterest)}.</p>
+        <p>If you pay the interest every month instead, the balance stays at {rsx(exPay.balanceAtStart)}, the EMI is {rsx(exPay.emi)} and the total interest is {rsx(exPay.totalInterest)}. You pay about {rsx(exPay.avgPaidPerPreMonth)} a month for {monthsText(exPay.preMonths)} to get there.</p>
+      </div>
+    </section>
+
+    <section class="container tool-section" id="rules">
+      <h2>Loan rules and schemes behind the numbers</h2>
+      <p>Banks follow the Indian Banks' Association (IBA) model scheme in broad terms, but each lender sets its own moratorium, rate and fees. The table shows what each source says, checked on {CHECKED_ON}. Where rules change, check the official notice before you act.</p>
+      <div class="marks-wrap">
+        <table class="marks-table">
+          <thead>
+            <tr><th scope="col">Topic</th><th scope="col">What the source says</th><th scope="col">Source</th></tr>
+          </thead>
+          <tbody>
+            {rules.map((r) => (
+              <tr>
+                <td data-label="Topic"><b>{r.topic}</b></td>
+                <td data-label="What the source says">{r.says}</td>
+                <td data-label="Source">{r.source}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p>For eligibility and the current list of institutions, use the official PM-Vidyalaxmi and <a href="https://www.vidyalakshmi.co.in/Students/" rel="noopener" target="_blank">Vidya Lakshmi</a> pages, where you can apply to several banks with one form.</p>
+    </section>
+
+    <section class="container tool-section" id="tax">
+      <h2>Tax on education loan interest: section 129 and the old section 80E</h2>
+      <p>The Income-tax Act 2025 took effect on 1 April 2026, and its section 129 replaces the old section 80E. It lets an individual deduct the interest paid on a loan taken for higher education of themselves, a spouse, children or a student they are the legal guardian of.</p>
+      <p>The loan must come from a bank, a financial institution notified by the Central Government or an approved charitable institution. The deduction is for the year you first pay interest and the seven years after it, or until the interest is fully paid, whichever is earlier. It is for interest, not for the principal you repay, and the section text sets no money cap.</p>
+      <p>It is available only if you choose the old tax regime. Section 202, which sets out the new regime, disallows Chapter VIII deductions other than sections 124(1), 124(2), 125(2) and 146, and section 129 is not among them.</p>
+      <p>The tax you save depends on your income and slab. Check the current text on the Income Tax Department site or ask a tax professional, because the Act can be amended.</p>
+    </section>
+
+    <section class="container tool-section" id="growth-marks">
+      <h2>Mark the course you are borrowing for</h2>
+      <p>A loan is repaid from income, so the route it pays for matters as much as the rate. Each route carries one of three marks and the risk that goes with it.</p>
+      <p>{SCALE_RULE}</p>
+      <div class="marks-wrap">
+        <table class="marks-table">
+          <thead>
+            <tr><th scope="col">Mark</th><th scope="col">What it means for repaying a loan</th><th scope="col">Risk to write down</th><th scope="col">Basic sales and marketing step</th></tr>
+          </thead>
+          <tbody>
+            {marks.map((m) => (
+              <tr>
+                <td data-label="Mark"><b>{m.mark}</b></td>
+                <td data-label="What it means for repaying a loan">{m.meaning}</td>
+                <td data-label="Risk to write down">{m.risk}</td>
+                <td data-label="Basic sales and marketing step">{m.step}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p>The marks describe a route, not a person, and none of them promises a result or an income.</p>
+    </section>
+
+    <section class="container tool-section" id="money-check">
+      <h2>Money check before you pay</h2>
+      <p>Our strongest suggestion is to keep the course fee near a tenth of the family education budget, and to treat spending above roughly a fifth as a caution that needs course-specific evidence. An illustration, not a real fee: with a family education budget of Rs 20 lakh, a fee near Rs 2 lakh fits the suggestion, and a fee above about Rs 4 lakh needs strong evidence for that course.</p>
+      <p>The suggestion does not apply to free or very cheap online courses, which need little budget care. A loan adds interest to the fee, so run the calculator on the amount you would borrow, and keep money for tools, practice and a reserve. For study abroad, repayment can depend on a visa, a job abroad and the exchange rate, which makes a large loan riskier.</p>
+    </section>
+
+    <section class="container tool-section" id="check-before-you-commit">
+      <h2>Check before you commit</h2>
+      <p>Answer the four questions first and then collect the three proofs, because an EMI is only safe when the course, the family plan and the job evidence all hold up.</p>
+      <div class="card-grid">
+        {questions.map((q) => (<article><span class="card-num">{q.n}</span><h3>{q.t}</h3><p>{q.b}</p></article>))}
+      </div>
+      <div class="card-grid card-grid--three">
+        {proofs.map((q) => (<article><span class="card-num">{q.n}</span><h3>{q.t}</h3><p>{q.b}</p></article>))}
+      </div>
+    </section>
+
+    <section class="container tool-explainer" id="limits">
+      <h2>What the calculator does and does not do</h2>
+      <div class="explainer-grid">
+        <article><h3>It is an estimate</h3><p>It works month by month from the numbers you type. Banks charge interest by the day on the real payout dates, round the EMI differently and may change a floating rate.</p></article>
+        <article><h3>It does not quote or recommend a lender</h3><p>It cannot tell you what a bank will offer or approve. Rates, fees and moratorium rules are for you to take from the offer and sanction letter.</p></article>
+        <article><h3>It does not check scheme eligibility</h3><p>PM-Vidyalaxmi, the interest subsidy and the credit guarantee have income limits, institution lists and seat caps. Check them on the official pages.</p></article>
+        <article><h3>It does not give tax or legal advice</h3><p>The tax lines show the rule as checked on {CHECKED_ON}. The tax you save depends on your income, your regime and the lender certificate.</p></article>
+        <article><h3>It does not predict your salary or your job</h3><p>The salary line is your own guess turned into a share. A loan for a course with weak job evidence stays a risk even when the EMI looks small.</p></article>
+        <article><h3>It keeps your numbers on your device</h3><p>Entries are saved in this browser so they are still there when you return. Clear my data removes them, and a private window or another device starts blank.</p></article>
+      </div>
+    </section>
+
+    <section class="container tool-section" id="next-steps">
+      <h2>Where to go next</h2>
+      <ul class="next-list">
+        {related.map((r) => (<li><a href={r.href}>{r.label}</a>. {r.text}</li>))}
+      </ul>
+    </section>
+
+    <section class="container tool-section" id="faq">
+      <h2>Education loan EMI calculator: common questions</h2>
+      <div class="faq-list">
+        {faqs.map((f) => (
+          <details class="faq-item" open>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section class="container tool-section" id="sources">
+      <h2>Sources, all checked on {CHECKED_ON}</h2>
+      <ul class="source-list">
+        {sources.map((s) => (
+          <li><a href={s.url} rel="noopener" target="_blank">{s.name}</a><span class="src-url">{s.url}</span><span class="src-what">Supports: {s.supports}</span><span class="src-when">Checked {CHECKED_ON}.</span></li>
+        ))}
+      </ul>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .tool-hero{padding:2rem 1.25rem 1rem}.tool-hero h1{max-width:850px;overflow-wrap:anywhere}.tool-hero h1 span{color:var(--gold,#e5b84a)}
+  .breadcrumb{display:flex;gap:.5rem;flex-wrap:wrap;font-size:.85rem;color:rgba(255,255,255,.75);margin-bottom:1.2rem}.breadcrumb a{color:#9fe8dc;text-decoration:underline;text-underline-offset:2px}
+  .lead{max-width:780px;font-size:1.08rem;line-height:1.65}
+  .tool-limits{max-width:780px;font-size:.92rem;line-height:1.6;color:rgba(255,255,255,.8);margin-top:.6rem}.tool-limits a{color:#f3cf70;font-weight:700}.tool-service{max-width:1050px;padding:0 1.25rem}
+  .tool-shell{max-width:1050px}
+  .tool-section{max-width:1050px;padding:1.5rem 1.25rem}.tool-section h2{margin-top:0;margin-bottom:.7rem}.tool-section p,.tool-section li{line-height:1.7;max-width:820px}.tool-section p{margin:.6rem 0}
+  .tool-section a{color:#f3cf70;font-weight:700}
+  .step-grid{list-style:none;margin:1rem 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));gap:1rem;counter-reset:step}
+  .step-grid li{counter-increment:step;padding:1rem;border:1px solid rgba(255,255,255,.22);border-radius:14px;max-width:none}
+  .step-grid li::before{content:counter(step);display:inline-grid;place-items:center;width:1.9rem;height:1.9rem;margin-bottom:.4rem;border-radius:50%;background:#0b766d;color:#fff;font-weight:800}
+  .step-grid h3{margin:.1rem 0 .3rem}.step-grid p{margin:0}
+  .example-box{margin:1rem 0;padding:1rem 1.1rem;border:1px solid rgba(229,184,74,.55);border-left:4px solid #e5b84a;border-radius:12px;background:rgba(229,184,74,.07)}
+  .marks-wrap{margin:1rem 0;max-width:100%}
+  .marks-table{width:100%;border-collapse:collapse;font-size:.92rem}
+  .marks-table th,.marks-table td{padding:.7rem;border:1px solid rgba(255,255,255,.22);text-align:left;vertical-align:top;line-height:1.55}
+  .marks-table th{background:rgba(18,154,141,.25)}
+  .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));gap:1rem;margin:1rem 0}
+  .card-grid article{padding:1rem;border:1px solid rgba(255,255,255,.22);border-radius:14px}
+  .card-grid h3{margin:.2rem 0 .4rem}.card-grid p{margin:0}
+  .card-num{font-weight:800;color:#f3cf70}
+  .tool-explainer{max-width:1050px;padding:1.5rem 1.25rem}.tool-explainer h2{margin-top:0}
+  .explainer-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem}
+  .explainer-grid article{padding:1rem;border:1px solid rgba(255,255,255,.22);border-radius:14px}.explainer-grid h3{margin-top:0}.explainer-grid p{margin-bottom:0;line-height:1.65}
+  .next-list{padding-left:1.2rem}.next-list li{margin-bottom:.5rem}
+  .faq-list{display:grid;gap:.8rem;margin-top:1rem}
+  .faq-item{padding:.9rem 1rem;border:1px solid rgba(255,255,255,.22);border-radius:12px;background:rgba(255,255,255,.03)}
+  .faq-item summary{cursor:pointer;font-weight:700;line-height:1.5;min-height:44px;display:flex;align-items:center}
+  .faq-item summary:focus-visible{outline:3px solid #e5b84a;outline-offset:3px}
+  .faq-item p{margin:.4rem 0 0;max-width:none;overflow-wrap:anywhere}
+  .source-list{list-style:none;padding:0;margin:.5rem 0 3rem;display:grid;gap:.8rem}
+  .source-list li{padding:.8rem 1rem;border:1px solid rgba(255,255,255,.18);border-radius:12px;display:grid;gap:.2rem;max-width:none}
+  .src-url{font-size:.82rem;color:rgba(255,255,255,.75);overflow-wrap:anywhere}.src-what,.src-when{font-size:.9rem;color:rgba(255,255,255,.85)}
+  @media(max-width:900px){.explainer-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:720px){
+    .tool-hero{padding-top:1rem}.lead{font-size:1rem}
+    .explainer-grid{grid-template-columns:minmax(0,1fr)}
+    .marks-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+    .marks-table,.marks-table tbody,.marks-table tr,.marks-table td{display:block;width:100%}
+    .marks-table tr{margin-bottom:1rem;border:1px solid rgba(255,255,255,.22);border-radius:12px;overflow:hidden}
+    .marks-table td{border:0;border-bottom:1px solid rgba(255,255,255,.12)}
+    .marks-table td::before{content:attr(data-label);display:block;margin-bottom:.15rem;font-size:.75rem;font-weight:700;color:#f3cf70}
+  }
+</style>

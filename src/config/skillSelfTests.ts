@@ -542,6 +542,16 @@ const COMMUNICATION: SkillTest = {
       description: 'A workplace behaviour-style profile that shows how you naturally tend to communicate.',
     },
     {
+      href: '/services/assessments/writing-skills-assessment-test/',
+      title: 'Writing Skills Assessment',
+      description: 'A deeper test of clarity, structure and editing for emails, reports and applications.',
+    },
+    {
+      href: '/services/assessments/presentation-skills-assessment/',
+      title: 'Presentation Skills Assessment',
+      description: 'Preparing, speaking and answering questions when you present to a group.',
+    },
+    {
       href: '/services/assessments/verbal-reasoning-test/',
       title: 'Verbal Reasoning Test',
       description: 'A free test of reading, language and evidence-based reasoning, with detailed explanations.',
@@ -770,6 +780,11 @@ const SOFT_SKILLS: SkillTest = {
       href: '/services/assessments/communication-skills-assessment/',
       title: 'Communication Skills Assessment',
       description: 'Listening, speaking, writing, feedback and presenting, scored separately.',
+    },
+    {
+      href: '/services/assessments/employability-skills-assessment-test/',
+      title: 'Employability Skills Assessment',
+      description: 'Job-search and workplace skills that employers check for, scored by area.',
     },
     {
       href: '/services/assessments/entrepreneurial-aptitude-test/',

@@ -208,6 +208,16 @@ export const bundle: SkillTestBundle = {
     ],
     related: [
       {
+        href: '/services/assessments/skill-gap-assessment/',
+        title: 'Skill Gap Assessment',
+        description: 'Compare your skills with the ones a chosen role asks for.',
+      },
+      {
+        href: '/services/assessments/employability-skills-assessment-test/',
+        title: 'Employability Skills Assessment Test',
+        description: 'Check the work habits, digital basics and proof employers trust.',
+      },
+      {
         href: '/services/assessments/graduates-and-early-professionals/',
         title: 'Assessments for Graduates and Early Professionals',
         description: 'Tests and guidance for the first years after college.',
