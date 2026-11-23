@@ -42,7 +42,7 @@ const checks = [
   ['social-skills assessment evidence', audit.includes('/services/assessments/social-skills-self-assessment/') && audit.includes('25-question, five-domain')],
   ['career route finder evidence', audit.includes('/tools/career-route-finder/') && audit.includes('612-record editorial catalogue')],
   ['student business calculator evidence', audit.includes('/tools/student-business-idea-feasibility-calculator/') && audit.includes('14-day test plan')],
-  ['degree pathway planner evidence', audit.includes('/tools/degree-career-project-planner/') && audit.includes('four subject families')],
+  ['degree pathway planner evidence', audit.includes('/tools/degree-career-project-planner/') && audit.includes('ten degree families')],
   ['verification workbench evidence', audit.includes('/tools/career-database-verification-workbench/') && audit.includes('verification workbench')],
   ['course verification workbench evidence', audit.includes('/tools/course-eligibility-verification-workbench/') && audit.includes('Course-rule verification workflow') && audit.includes('15-record queue')],
   ['career decision journal evidence', audit.includes('/tools/career-decision-journal/') && audit.toLowerCase().includes('career decision journal')],

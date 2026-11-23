@@ -316,3 +316,69 @@ export function shareNote(r) {
   if (left < 0) return 'The EMI is more than the salary you entered, so it could not be paid from that salary.';
   return 'The EMI is ' + fmtPct(r.emiShare) + ' of that salary and leaves ' + fmtRsPlain(left) + ' a month before rent, food and other costs.';
 }
+
+// ---------- next steps and plain text (used on screen, in print, in the PDF and for "Copy my result") ----------
+
+const rsP = (n) => 'Rs ' + fmtNum(n);
+
+/** Three dated-free, number-led next steps for a single offer. v = values from validate(), r = calcOffer(v). */
+export function nextSteps(v, r) {
+  const steps = [];
+  steps.push('Ask the lender for the sanction letter and the full repayment schedule in writing. Check that the EMI, the moratorium, the rate and every fee match what you typed here. A difference of a few rupees is normal.');
+  if (r.preMonths > 0 && r.capitalised > 0) {
+    const payAll = compareTreatments(v).rows[0];
+    const extraMonths = Math.max(1, r.treatment === 'pay_study' ? r.moratorium : r.preMonths);
+    const when = r.treatment === 'pay_study' ? 'the moratorium months' : 'the course and the moratorium';
+    steps.push(rsP(r.capitalised) + ' of interest is added to the loan when the EMIs start. Paying that interest as it builds up would cost about ' + rsP(payAll.extraBefore / extraMonths) + ' a month more through ' + when + ' (' + monthsText(extraMonths) + ') and cut the total interest by ' + rsP(payAll.saving) + '. Talk with your family about which one you can keep up.');
+  } else if (r.preMonths > 0) {
+    steps.push('You pay the interest before the EMIs, about ' + rsP(r.avgPaidPerPreMonth) + ' a month for ' + monthsText(r.preMonths) + '. Keep that money ready every month, because missed interest is added to the loan.');
+  } else {
+    steps.push('The EMIs start straight away, so the first payment falls due one month after the loan is paid out. Make sure the money for it is ready.');
+  }
+  if (r.emiShare == null) steps.push('Add the starting in-hand salary you expect to see the EMI against it. If you only know the package, work out the in-hand pay first.');
+  else if (r.salaryLeft < 0) steps.push('The EMI is more than the salary you typed. Borrow less, ask for a longer repayment period, or compare a lower-cost course before you sign.');
+  else steps.push('The EMI is ' + fmtPct(r.emiShare) + ' of the salary you typed and leaves ' + rsP(r.salaryLeft) + ' a month. Check that rent, food and family costs fit in what is left, and ask who pays the EMI if the first job starts late or pays less.');
+  return steps;
+}
+
+/** Steps when two offers are compared. a and b are { values, result }. */
+export function nextStepsCompare(a, b) {
+  const steps = [];
+  steps.push('Ask both lenders for the sanction letter and the full repayment schedule in writing. Compare the moratorium, the rate type (fixed or floating), the fees and what each lender needs as security.');
+  const dEmi = a.result.emi - b.result.emi;
+  const dInt = a.result.totalInterest - b.result.totalInterest;
+  if (Math.abs(dEmi) < 0.5 && Math.abs(dInt) < 0.5) steps.push('The two offers cost the same on these numbers, so choose on the written terms and the service.');
+  else if (dEmi * dInt < 0) {
+    const lowEmi = dEmi < 0 ? 'A' : 'B';
+    const lowInt = dInt < 0 ? 'A' : 'B';
+    steps.push('Offer ' + lowEmi + ' has the lower EMI by ' + rsP(Math.abs(dEmi)) + ', but offer ' + lowInt + ' has the lower total interest by ' + rsP(Math.abs(dInt)) + '. Choose by what your family can pay every month and what the loan costs in all.');
+  } else {
+    const best = dEmi < 0 ? 'A' : 'B';
+    steps.push('On these numbers offer ' + best + ' has both the lower EMI and the lower total interest, by ' + rsP(Math.abs(dEmi)) + ' a month and ' + rsP(Math.abs(dInt)) + ' in all. Check that its fees and terms are not worse.');
+  }
+  steps.push('Check the EMI against the salary you expect, and ask who pays the EMI if the first job starts late or pays less.');
+  return steps;
+}
+
+/** The result as plain text for WhatsApp or a note. offers = [{ name, values, result }]. */
+export function resultText(offers, dateLabel) {
+  const two = offers.length > 1;
+  const lines = ['Education loan EMI estimate' + (two ? ': two offers' : '') + ' (made on ' + dateLabel + ', not a bank quote)'];
+  offers.forEach((o) => {
+    const v = o.values; const r = o.result;
+    lines.push('');
+    lines.push((two ? 'Offer ' + o.name + (v.label ? ' (' + v.label + ')' : '') : 'Your loan' + (v.label ? ' (' + v.label + ')' : '')) + ':');
+    lines.push('- Loan ' + rsP(r.amount) + ' at ' + v.rate + '% a year, course ' + monthsText(r.courseMonths) + ', moratorium ' + monthsText(r.moratorium) + ', repayment ' + monthsText(r.tenure));
+    lines.push('- Interest before the EMIs: ' + TREATMENTS[r.treatment].short);
+    lines.push('- EMI: ' + rsP(r.emi) + ' a month for ' + monthsText(r.tenure) + ', starting after ' + monthsText(r.preMonths));
+    lines.push('- Balance when EMIs start: ' + rsP(r.balanceAtStart));
+    lines.push('- Total interest: ' + rsP(r.totalInterest) + '; total payable to the lender: ' + rsP(r.totalToLender));
+    if (r.fees > 0) lines.push('- Fee and insurance you pay yourself: ' + rsP(r.fees));
+    if (r.emiShare != null) lines.push('- ' + shareNote(r));
+  });
+  const steps = two ? nextStepsCompare(offers[0], offers[1]) : nextSteps(offers[0].values, offers[0].result);
+  lines.push('', 'Next three steps:');
+  steps.forEach((s, i) => lines.push((i + 1) + '. ' + s));
+  lines.push('', 'General information, not financial advice. Get the loan terms in writing. Free calculator: https://' + TOOL_URL);
+  return lines.join('\n');
+}

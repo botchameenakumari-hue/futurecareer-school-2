@@ -69,7 +69,7 @@ export function initTimetable(root) {
     progressText: $('#stm-progress-text'), progress: $('#stm-progress'), hours: $('#stm-hours'), weekLabel: $('#stm-week-label'), weekSelect: $('#stm-week-select'),
     prev: $('#stm-prev'), next: $('#stm-next'), today: $('#stm-today'), showAll: $('#stm-showall'), grid: $('#stm-grid'), legend: $('#stm-legend'), days: $('#stm-days'),
     status: $('#stm-status'), saved: $('#stm-saved'), exampleFlag: $('#stm-example-flag'), editor: $('#stm-editor'), hintHours: $('#stm-hint-hours'), sleepLine: $('#stm-sleep-line'),
-    pdfBtn: $('#stm-pdf'), printBtn: $('#stm-print-btn'), make: $('#stm-make'),
+    pdfBtn: $('#stm-pdf'), printBtn: $('#stm-print-btn'), make: $('#stm-make'), focus: $('#stm-today-list'), focusTitle: $('#stm-today-title'),
   };
 
   const st = { raw: defaultRaw(), plan: null, week: 0, showAll: false, example: false };
@@ -108,6 +108,15 @@ export function initTimetable(root) {
   const confOptions = (sel) => [[1, '1: find it hard'], [2, '2'], [3, '3: okay'], [4, '4'], [5, '5: comfortable']].map((o) => opt(o[0], o[1], sel)).join('');
   const weightOptions = (sel) => [[1, '1: small'], [2, '2'], [3, '3: medium'], [4, '4'], [5, '5: very big']].map((o) => opt(o[0], o[1], sel)).join('');
 
+  const COMMON_SUBJECTS = ['Maths', 'Science', 'English', 'Social Science', 'Telugu', 'Hindi', 'Physics', 'Chemistry', 'Biology', 'Computer Science', 'Economics', 'Accountancy'];
+  function renderChips() {
+    const box = $('#stm-chips');
+    if (!box) return;
+    const have = st.raw.subjects.map((s) => String(s.name || '').trim().toLowerCase());
+    const full = st.raw.subjects.length >= E.LIMITS.maxSubjects && !st.raw.subjects.some((s) => !String(s.name || '').trim());
+    box.innerHTML = COMMON_SUBJECTS.map((n) => '<button type="button" class="stm-chip" data-chip="' + R.esc(n) + '"' + (have.includes(n.toLowerCase()) || full ? ' disabled' : '') + '>' + R.esc(n) + '</button>').join('');
+  }
+
   function renderSubjects() {
     els.subjects.innerHTML = st.raw.subjects.map((s, i) => {
       const n = i + 1;
@@ -120,6 +129,7 @@ export function initTimetable(root) {
         '<button type="button" class="stm-mini stm-remove" data-remove-subject="' + i + '" aria-label="Remove subject ' + n + '">Remove</button></div>';
     }).join('');
     $('#stm-add-subject').disabled = st.raw.subjects.length >= E.LIMITS.maxSubjects;
+    renderChips();
   }
 
   function renderBlocks() {
@@ -274,6 +284,14 @@ export function initTimetable(root) {
     els.legend.innerHTML = R.legendHtml(plan);
     const dates = st.showAll ? null : weeks[st.week].dates.filter((d, i) => weeks[st.week].inPlan[i]);
     els.days.innerHTML = R.dayListHtml(plan, dates, {});
+    const first = plan.days[0].date; const last = plan.days[plan.days.length - 1].date;
+    const focusDate = t < first ? first : t <= last ? t : '';
+    els.focusTitle.hidden = !focusDate; els.focus.hidden = !focusDate;
+    $('#stm-copy').hidden = !focusDate; $('#stm-wa').hidden = !focusDate;
+    if (focusDate) {
+      els.focusTitle.textContent = focusDate === t ? 'Today' : 'Your first day';
+      els.focus.innerHTML = R.dayListHtml(plan, [focusDate], {});
+    } else els.focus.innerHTML = '';
     els.showAll.textContent = st.showAll ? 'Show only this week' : 'Show every day of the plan';
     els.showAll.setAttribute('aria-pressed', st.showAll ? 'true' : 'false');
     els.exampleFlag.hidden = !st.example;
@@ -420,6 +438,19 @@ export function initTimetable(root) {
     const t = e.target;
     const link = t.closest('a[data-field]');
     if (link) { e.preventDefault(); const el = fieldEl(link.getAttribute('data-field')); if (el) { el.focus(); el.scrollIntoView({ block: 'center' }); } return; }
+    const chip = t.closest('[data-chip]');
+    if (chip) {
+      readRaw();
+      const name = chip.getAttribute('data-chip');
+      if (st.raw.subjects.some((s) => String(s.name || '').trim().toLowerCase() === name.toLowerCase())) { say(name + ' is already in your list.'); return; }
+      let k = st.raw.subjects.findIndex((s) => !String(s.name || '').trim());
+      if (k < 0) { if (st.raw.subjects.length >= E.LIMITS.maxSubjects) { say('The list is full. Remove a subject to add another.'); return; } st.raw.subjects.push(blankSubject()); k = st.raw.subjects.length - 1; }
+      st.raw.subjects[k].name = name;
+      renderSubjects(); persistSoon();
+      say(name + ' added. Set how confident you are and how much it counts.');
+      const nextChip = $('#stm-chips [data-chip]:not(:disabled)'); if (nextChip && document.activeElement === document.body) nextChip.focus();
+      return;
+    }
     const rs = t.closest('[data-remove-subject]');
     if (rs) {
       readRaw();
@@ -451,9 +482,16 @@ export function initTimetable(root) {
       renderBlocks(); persistSoon();
       byId('stm-block-' + (st.raw.blocks.length - 1) + '-label').focus();
     } else if (id === 'stm-example') {
+      const own = !st.example && (st.plan || readRawQuiet().subjects.some((x) => String(x.name || '').trim()));
+      if (own && !window.confirm('Replace what you have typed, and your timetable, with a made-up example? Your own entries will be lost.')) return;
       st.raw = exampleRaw(); st.plan = null; renderForm(); make(true); st.example = true; if (st.plan) { renderResults(); persist(); }
     } else if (id === 'stm-clear') {
+      if (!st.example && hasChanges() && !window.confirm('Clear your timetable and everything you typed? Sessions you ticked done will be lost.')) return;
       clearAll();
+    } else if (id === 'stm-copy') {
+      copyPlan();
+    } else if (id === 'stm-wa') {
+      openWhatsApp();
     } else if (id === 'stm-replace-yes') {
       make(true);
     } else if (id === 'stm-replace-no') {
@@ -488,7 +526,7 @@ export function initTimetable(root) {
     if (t.id === 'stm-ed-day') { fillEditorTimes(t.value, null); return; }
     if (t.closest('#stm-form')) { readRaw(); persistSoon(); updateHints(); }
   });
-  root.addEventListener('input', (e) => { if (e.target.closest && e.target.closest('#stm-form')) { readRaw(); persistSoon(); updateHints(); } });
+  root.addEventListener('input', (e) => { if (e.target.closest && e.target.closest('#stm-form')) { readRaw(); persistSoon(); updateHints(); if (/-name$/.test(e.target.id || '')) renderChips(); } });
 
   els.form.addEventListener('submit', (e) => { e.preventDefault(); make(false); });
   byId('stm-ed-form').addEventListener('submit', saveEditor);
@@ -502,6 +540,29 @@ export function initTimetable(root) {
     els.saved.textContent = '';
     say('Your data was cleared from this browser.');
     byId('stm-subject-0-name').focus();
+  }
+
+  // ---------- WhatsApp ----------
+  async function copyPlan() {
+    const text = st.plan ? R.planText(st.plan, todayIso()) : '';
+    if (!text) { say('There are no days left in this plan to copy. Make a new timetable.'); return; }
+    let ok = false;
+    try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {}
+    if (!ok) {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, ta.value.length);
+        ok = document.execCommand('copy'); document.body.removeChild(ta);
+      } catch (e) {}
+    }
+    say(ok ? 'Copied. Open WhatsApp and paste it into any chat.' : 'Your browser did not allow copying. Use Open WhatsApp with my plan instead.');
+  }
+  function openWhatsApp() {
+    const text = st.plan ? R.planText(st.plan, todayIso()) : '';
+    if (!text) { say('There are no days left in this plan to send. Make a new timetable.'); return; }
+    const w = window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank', 'noopener');
+    say(w ? 'WhatsApp is opening. Pick a chat to send your plan to.' : 'Your browser blocked the new tab. Use Copy the next 4 days for WhatsApp instead.');
   }
 
   // ---------- PDF and print ----------

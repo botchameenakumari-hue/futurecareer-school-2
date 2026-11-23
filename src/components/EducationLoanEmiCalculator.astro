@@ -97,6 +97,7 @@ const offers = [
     </div>
   </form>
 
+  <p id="elc-examplenote" class="elc-examplenote" hidden><b>These are example numbers, not your loan.</b> Type the amount, rate and moratorium from your offer or sanction letter. The result below changes as you type.</p>
   <p id="elc-status" class="elc-status" role="status" aria-live="polite"></p>
 
   <div id="elc-results" class="elc-results" tabindex="-1" hidden></div>
@@ -104,6 +105,7 @@ const offers = [
   <div id="elc-outputs" class="elc-outputs" hidden>
     <div class="elc-actions" role="group" aria-label="Save or print the result">
       <button type="button" class="elc-btn elc-btn--primary" data-elc="pdf">Download the result as a PDF</button>
+      <button type="button" class="elc-btn" data-elc="copy">Copy my result</button>
       <button type="button" class="elc-btn" data-elc="print">Print the result</button>
     </div>
     <p id="elc-outstatus" class="elc-status" role="status" aria-live="polite"></p>
@@ -116,8 +118,9 @@ const offers = [
 <script>
   // @ts-nocheck
   import {
-    ACCRUALS, LIMITS, PAYOUTS, TREATMENTS, TREATMENT_ORDER, amountWords, calcOffer, compareTreatments, defaultShared, defaultValues, fmtNum, fmtPct, fmtRs, monthsText, parseNumber, savingSentence, shareNote, validate,
+    ACCRUALS, LIMITS, PAYOUTS, TREATMENTS, TREATMENT_ORDER, amountWords, calcOffer, compareTreatments, defaultShared, defaultValues, fmtNum, fmtPct, fmtRs, monthsText, nextSteps, nextStepsCompare, parseNumber, resultText, savingSentence, shareNote, validate,
   } from '../scripts/educationLoanEmi.mjs';
+  import { copyText } from '../scripts/moneyToolKit';
   import { buildDoc, buildPdf, esc, hasUnsupportedText, modelToHtml, prepareUnicodePdf, scheduleRows, SCHEDULE_HEAD, todayLabel } from '../scripts/educationLoanEmiDoc.mjs';
 
   const root = document.querySelector('#education-loan-emi-calculator');
@@ -128,6 +131,7 @@ const offers = [
     const SHARED_KEYS = ['courseYears', 'payout', 'salary'];
     const state = { a: defaultValues(), b: defaultValues(), shared: defaultShared(), compare: false };
     let lastModel = null;
+    let lastText = '';
     let timer = 0;
     let pdfBusy = false;
 
@@ -259,9 +263,12 @@ const offers = [
         rows.map((row) => '<tr>' + row.map((c, i) => '<' + (i === 0 ? 'th scope="row"' : 'td') + ' data-label="' + esc(i === 0 ? 'Measure' : head[i] || 'Difference') + '" class="' + (i ? 'r' : '') + '">' + esc(c) + '</' + (i === 0 ? 'th' : 'td') + '>').join('') + '</tr>').join('') + '</tbody></table></div>' +
         '<p class="elc-p">A lower total is not always better. A longer repayment period gives a lower EMI but more interest, and a higher fee can still be worth it. Compare the sanction letters line by line.</p>';
     }
+    function stepsBlock(list) {
+      return '<div class="elc-steps"><h4 class="elc-h4">Your next three steps</h4><ol>' + list.map((t) => '<li>' + esc(t) + '</li>').join('') + '</ol><p class="elc-small">Before you sign: check on the official PM-Vidyalaxmi and Vidya Lakshmi pages whether you qualify for interest help, and borrow only the gap that the <a href="https://futurecareerschool.com/tools/course-cost-planner/">course cost planner</a> shows. This is general information, not financial advice.</p></div>';
+    }
     function offerBlock(tag, v, r, heading) {
       return '<div class="elc-offerblock">' + (heading ? '<h3 class="elc-h3">' + esc(tag) + '</h3>' : '') +
-        cards(r) +
+        cards(r) + (heading ? '' : stepsBlock(nextSteps(v, r))) +
         '<h4 class="elc-h4">Principal and interest</h4>' + bars(r) +
         '<h4 class="elc-h4">What if you pay the interest during study?</h4>' + treatmentsTable(v) +
         '<h4 class="elc-h4">Year by year</h4>' + yearBars(r) + scheduleTable(r) +
@@ -270,6 +277,10 @@ const offers = [
         '</div>';
     }
 
+    function isExampleNumbers() {
+      const d = defaultValues(); const ds = defaultShared();
+      return !state.compare && OFFER_KEYS.every((k) => k === 'label' || state.a[k] === d[k]) && SHARED_KEYS.every((k) => state.shared[k] === ds[k]);
+    }
     function say(text) { $('#elc-status').textContent = text; }
     function sayOut(text) { $('#elc-outstatus').textContent = text; }
 
@@ -290,6 +301,7 @@ const offers = [
       const sharedErr = Object.keys(va.errors).some((k) => SHARED_KEYS.includes(k));
       const bad = Object.keys(va.errors).length > 0 || (vb && Object.keys(vb.errors).some((k) => !SHARED_KEYS.includes(k)));
       const results = $('#elc-results');
+      $('#elc-examplenote').hidden = !isExampleNumbers();
       if (bad) {
         results.hidden = true; results.innerHTML = '';
         $('#elc-outputs').hidden = true;
@@ -303,7 +315,7 @@ const offers = [
       const rb = vb ? calcOffer(vb.values) : null;
       const two = !!rb;
       let html = '';
-      if (two) html += '<h3 class="elc-h3">Two offers side by side</h3>' + compareTable(ra, rb);
+      if (two) html += '<h3 class="elc-h3">Two offers side by side</h3>' + compareTable(ra, rb) + stepsBlock(nextStepsCompare({ values: va.values, result: ra }, { values: vb.values, result: rb }));
       html += offerBlock(two ? 'Offer A' + (state.a.label ? ': ' + state.a.label : '') : 'Your result', va.values, ra, two);
       if (two) html += offerBlock('Offer B' + (state.b.label ? ': ' + state.b.label : ''), vb.values, rb, true);
       results.innerHTML = html;
@@ -315,6 +327,7 @@ const offers = [
       const offers = [{ name: 'A', raw: state.a, values: va.values, result: ra }];
       if (two) offers.push({ name: 'B', raw: state.b, values: vb.values, result: rb });
       lastModel = buildDoc({ offers, shared: state.shared, date: todayLabel() });
+      lastText = resultText(offers.map((o) => ({ name: o.name, values: o.values, result: o.result })), todayLabel());
       $('#elc-printdoc').innerHTML = modelToHtml(lastModel);
     }
     function schedule() { window.clearTimeout(timer); timer = window.setTimeout(recalc, 220); }
@@ -344,6 +357,11 @@ const offers = [
         pdfBusy = false;
         btn.removeAttribute('aria-disabled');
       }
+    }
+    async function copyResult() {
+      if (!lastModel || !lastText) { sayOut('Fix the numbers marked in red first, then copy.'); return; }
+      const ok = await copyText(lastText);
+      sayOut(ok ? 'Copied. Paste it into WhatsApp or a note.' : 'Copy did not work on this phone. Use Print the result and choose Save as PDF instead.');
     }
     function printResult() {
       if (!lastModel) { sayOut('Fix the numbers marked in red first, then print.'); return; }
@@ -398,6 +416,7 @@ const offers = [
       const action = btn.getAttribute('data-elc');
       if (action === 'pdf') downloadPdf();
       else if (action === 'print') printResult();
+      else if (action === 'copy') copyResult();
       else if (action === 'example') toExample();
       else if (action === 'clear') clearAll();
     });
@@ -444,6 +463,12 @@ const offers = [
   .elc-results{margin-top:1rem;outline:none}
   .elc-h3{margin:1.4rem 0 .6rem;font-size:1.3rem;color:#fff}
   .elc-h4{margin:1.3rem 0 .5rem;font-size:1.05rem;color:#f3cf70}
+  .elc-examplenote{margin:.8rem 0 0;padding:.7rem .9rem;border-left:3px solid #e5b84a;background:rgba(229,184,74,.1);color:#f7e2a8;font-size:.95rem}
+  .elc-steps{margin:1rem 0 0;padding:1rem;border:1px solid rgba(45,212,191,.4);border-radius:12px;background:rgba(45,212,191,.07)}
+  .elc-steps .elc-h4{margin-top:0}
+  .elc-steps ol{margin:0;padding-left:1.3rem}
+  .elc-steps li{margin:.4rem 0;color:rgba(255,255,255,.88)}
+  .elc-steps a{color:#8de4d8}
   .elc-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));gap:.7rem}
   .elc-card{display:grid;gap:.25rem;align-content:start;padding:.85rem;border:1px solid rgba(255,255,255,.25);border-radius:12px;background:rgba(0,0,0,.2);min-width:0}
   .elc-card span{font-size:.82rem;font-weight:650;color:rgba(255,255,255,.8)}

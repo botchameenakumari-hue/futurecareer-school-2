@@ -10,6 +10,8 @@ const sectionChoices = ALL_SECTIONS.map((s) => ({ id: s.id, label: byStage(s.tit
   <h2 id="cq-title">Career guidance questionnaire: answer online or print a blank form</h2>
   <p class="cq-note"><b>Private by design:</b> your answers stay in this browser. The tool asks for no phone number or email, a first name is optional, and nothing is sent to this site. On a shared computer, press Clear my answers when you finish.</p>
 
+  <p class="cq-example"><button type="button" class="cq-btn" data-cq="example">Try an example</button> <span class="cq-hint">Fills in a sample student, so you see the summary and next steps in seconds. Your own answers are asked about first.</span></p>
+
   <div class="cq-setup">
     <fieldset class="cq-box cq-stage">
       <legend>1. Who is it for?</legend>
@@ -35,6 +37,7 @@ const sectionChoices = ALL_SECTIONS.map((s) => ({ id: s.id, label: byStage(s.tit
         ))}
       </div>
       <div class="cq-actions cq-actions--tight">
+        <button type="button" class="cq-btn" data-cq="set-quick">Use the short set (enjoy and good at)</button>
         <button type="button" class="cq-btn" data-cq="set-class">Use the 20-minute class set</button>
         <button type="button" class="cq-btn" data-cq="set-all">Use every section</button>
       </div>
@@ -81,8 +84,11 @@ const sectionChoices = ALL_SECTIONS.map((s) => ({ id: s.id, label: byStage(s.tit
         <button type="button" class="cq-btn cq-btn--primary" data-cq="pdf-filled">Download filled PDF</button>
         <button type="button" class="cq-btn" data-cq="pdf-summary">Download summary only</button>
         <button type="button" class="cq-btn" data-cq="print-summary">Print summary</button>
+        <button type="button" class="cq-btn" data-cq="copy-points">Copy my talking points for WhatsApp</button>
+        <button type="button" class="cq-btn" data-cq="wa-points">Open WhatsApp with my talking points</button>
         <button type="button" class="cq-btn cq-btn--warn" data-cq="clear">Clear my answers</button>
       </div>
+      <p class="cq-hint">The copied talking points hold what you enjoy, what you do well, what matters to you and your next three steps. They leave out your name, your limits, your family answers and anything you typed.</p>
       <p class="cq-status" id="cq-status-summary" role="status" aria-live="polite"></p>
       <p class="cq-hint">The filled PDF has the summary first, then the same paper form with your answers marked.</p>
     </div>
@@ -95,9 +101,9 @@ const sectionChoices = ALL_SECTIONS.map((s) => ({ id: s.id, label: byStage(s.tit
 <script>
   // @ts-nocheck
   import {
-    STORAGE_KEY, STAGES, STAGE_KEYS, ALL_SECTIONS, SECTION_ORDER, DEFAULT_SECTIONS, CLASS_SET, START, SCALE_LABELS, MARKS,
+    STORAGE_KEY, STAGES, STAGE_KEYS, ALL_SECTIONS, SECTION_ORDER, DEFAULT_SECTIONS, CLASS_SET, QUICK_SET, START, SCALE_LABELS, MARKS,
     blankState, normaliseState, sectionsToShow, sectionTitle, sectionIntro, qLabel, qOptions, scaleLabels, getAnswer, countAnswered,
-    summaryModel, summaryHtml, formHtml, esc, byStage, buildPdf, pdfFileName, hasUnsupportedText, prepareUnicodePdf, todayLabel, OPTION_ROWS,
+    summaryModel, summaryHtml, formHtml, esc, byStage, buildPdf, pdfFileName, hasUnsupportedText, prepareUnicodePdf, todayLabel, OPTION_ROWS, exampleState, talkingPointsText,
   } from '../scripts/careerQuestionnaire';
 
   const root = document.getElementById('career-questionnaire');
@@ -222,6 +228,7 @@ const sectionChoices = ALL_SECTIONS.map((s) => ({ id: s.id, label: byStage(s.tit
 
     function onChange(e) {
       const el = e.target;
+      if (typeof exampleShown !== 'undefined') exampleShown = false;
       if (el.hasAttribute('data-cq-section')) {
         const id = el.getAttribute('data-cq-section');
         state.sections[id] = el.checked;
@@ -333,6 +340,38 @@ const sectionChoices = ALL_SECTIONS.map((s) => ({ id: s.id, label: byStage(s.tit
       if (previewOn) { renderDocs(); blankWrap.scrollIntoView({ block: 'start' }); }
     }
 
+    let exampleShown = false;
+    function useExample() {
+      if (countAnswered(state).done > 0 && !exampleShown && !window.confirm('Replace your answers with a sample student? Your own answers will be lost.')) return;
+      const ex = exampleState(state);
+      QUICK_SET.concat(['studies', 'values', 'limits', 'support', 'questions']).forEach((id) => { ex.sections[id] = true; });
+      state = ex;
+      exampleShown = true;
+      persist(); refreshAll(); showTab('summary');
+      say('summary', 'A sample student is filled in. Go to Answer online to change any answer, or press Clear my answers to start fresh.');
+      const h = $('#cq-summary-head'); h.scrollIntoView({ block: 'start' }); h.focus({ preventScroll: true });
+    }
+
+    async function copyPoints() {
+      const text = talkingPointsText(state);
+      let ok = false;
+      try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {}
+      if (!ok) {
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, ta.value.length);
+          ok = document.execCommand('copy'); document.body.removeChild(ta);
+        } catch (e) {}
+      }
+      say('summary', ok ? 'Copied. Open WhatsApp and paste it into any chat.' : 'Your browser did not allow copying. Use Open WhatsApp with my talking points instead.');
+    }
+
+    function openWhatsApp() {
+      const w = window.open('https://wa.me/?text=' + encodeURIComponent(talkingPointsText(state)), '_blank', 'noopener');
+      say('summary', w ? 'WhatsApp is opening. Pick a chat to send your talking points to.' : 'Your browser blocked the new tab. Use Copy my talking points for WhatsApp instead.');
+    }
+
     function clearAll() {
       if (!window.confirm('Clear all answers, the name and the section choices from this browser? This cannot be undone.')) return;
       state = blankState();
@@ -350,6 +389,10 @@ const sectionChoices = ALL_SECTIONS.map((s) => ({ id: s.id, label: byStage(s.tit
       else if (a === 'print-blank') printDoc('blank');
       else if (a === 'preview-blank') togglePreview();
       else if (a === 'set-class') { SECTION_ORDER.concat(['parent']).forEach((id) => { state.sections[id] = CLASS_SET.includes(id); }); persist(); refreshAll(); say('sec', 'The 20-minute class set is on: ' + CLASS_SET.length + ' sections.'); }
+      else if (a === 'set-quick') { SECTION_ORDER.concat(['parent']).forEach((id) => { state.sections[id] = QUICK_SET.includes(id); }); persist(); refreshAll(); say('sec', 'The short set is on: ' + QUICK_SET.length + ' sections. Answer them, then press See my summary.'); }
+      else if (a === 'example') useExample();
+      else if (a === 'copy-points') copyPoints();
+      else if (a === 'wa-points') openWhatsApp();
       else if (a === 'set-all') { SECTION_ORDER.concat(['parent']).forEach((id) => { state.sections[id] = DEFAULT_SECTIONS.includes(id); }); persist(); refreshAll(); say('sec', 'Every student section is on. The parent or guardian section stays off unless you tick it.'); }
       else if (a === 'see-summary') { renderDocs(); showTab('summary'); const h = $('#cq-summary-head'); h.scrollIntoView({ block: 'start' }); h.focus({ preventScroll: true }); }
       else if (a === 'pdf-filled') downloadPdf('filled', 'summary');
@@ -406,6 +449,9 @@ const sectionChoices = ALL_SECTIONS.map((s) => ({ id: s.id, label: byStage(s.tit
   .cq-btn--warn{border-color:rgba(255,140,120,.8);color:#ffd1c8}
   .cq input:focus-visible,.cq textarea:focus-visible,.cq select:focus-visible,.cq button:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}
   .cq-opt input:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}
+  .cq-example{margin:.4rem 0 1rem;display:flex;flex-wrap:wrap;align-items:center;gap:.6rem}
+  .cq-example .cq-hint{margin:0;flex:1 1 14rem}
+  .cq-doc a{color:#0b625a!important;text-decoration:underline;overflow-wrap:anywhere}
   .cq-tabs{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.3rem 0 1rem}
   .cq-tabs button{flex:1 1 11rem;min-height:46px;padding:.55rem .9rem;border:1px solid rgba(255,255,255,.5);border-radius:10px;background:rgba(255,255,255,.05);color:#fff;font-family:inherit;font-weight:700;font-size:.95rem;cursor:pointer}
   .cq-tabs button[aria-selected="true"]{background:#0b766d;border-color:#2dd4bf}

@@ -180,6 +180,7 @@ const actionRows = [0, 1, 2, 3];
         <div class="smr-actions">
           <button type="button" class="smr-btn smr-btn--primary" data-smr="save" id="smr-save">Save to report log</button>
           <button type="button" class="smr-btn" data-smr="pdf-record">Download record PDF</button>
+          <button type="button" class="smr-btn" data-smr="copy-record">Copy as text</button>
           <button type="button" class="smr-btn" data-smr="print-record">Print record</button>
           <button type="button" class="smr-btn" data-smr="new">Start a new record</button>
         </div>
@@ -231,6 +232,7 @@ const actionRows = [0, 1, 2, 3];
 
       <div class="smr-actions">
         <button type="button" class="smr-btn smr-btn--primary" data-smr="pdf-report">Download report PDF</button>
+        <button type="button" class="smr-btn" data-smr="copy-report">Copy as text</button>
         <button type="button" class="smr-btn" data-smr="print-report">Print report</button>
         <button type="button" class="smr-btn smr-btn--warn" data-smr="clear-all">Clear all saved data</button>
       </div>
@@ -252,7 +254,7 @@ const actionRows = [0, 1, 2, 3];
   // @ts-nocheck
   import {
     STORAGE_KEY, MAX_SESSIONS, blankDraft, blankReport, normaliseDraft, nextSessionNo, todayISO, fmtDate,
-    recordModel, reportModel, modelToHtml, esc, buildPdf, hasUnsupportedText, prepareUnicodePdf, DEFAULT_SCALE,
+    recordModel, reportModel, modelToHtml, modelToText, esc, buildPdf, hasUnsupportedText, prepareUnicodePdf, DEFAULT_SCALE,
     exampleState, EXAMPLE_NOTE,
   } from '../scripts/studentMentoring';
 
@@ -466,12 +468,24 @@ const actionRows = [0, 1, 2, 3];
       window.print();
     }
 
+    async function copyDoc(kind) {
+      const model = kind === 'record' ? recordModel(state.draft) : reportModel(state, todayISO(), scale);
+      const text = modelToText(model);
+      let ok = false;
+      try { await navigator.clipboard.writeText(text); ok = true; } catch (err) {
+        try { const area = document.createElement('textarea'); area.value = text; area.style.cssText = 'position:fixed;left:-9999px'; document.body.appendChild(area); area.select(); ok = document.execCommand('copy'); area.remove(); } catch (err2) { ok = false; }
+      }
+      say(kind, ok ? 'Copied as text. Paste it into WhatsApp or a message. Share it only with people who should see it.' : 'Copy did not work on this device. Use Download PDF or Print instead.');
+    }
+
     root.addEventListener('click', (e) => {
       const btn = e.target.closest('[data-smr]');
       if (!btn) return;
       const action = btn.getAttribute('data-smr');
       if (action === 'save') saveSession();
       else if (action === 'new') newRecord();
+      else if (action === 'copy-record') copyDoc('record');
+      else if (action === 'copy-report') copyDoc('report');
       else if (action === 'pdf-record') downloadPdf('record');
       else if (action === 'pdf-report') downloadPdf('report');
       else if (action === 'print-record') printDoc('record');

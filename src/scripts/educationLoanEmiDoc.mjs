@@ -3,7 +3,7 @@
 // dynamic import on click, so it is never loaded with the page.
 import { createUnicodeText, flattenTexts, isUnicodeLine, needsUnicode, prepareUnicodeText } from './pdfUnicodeText.mjs';
 import {
-  ACCRUALS, CHECKED_ON, PAYOUTS, TOOL_URL, TREATMENTS, TREATMENT_ORDER, compareTreatments, fmtPct, fmtRsPlain, monthsText, savingSentence, shareNote,
+  ACCRUALS, CHECKED_ON, PAYOUTS, TOOL_URL, TREATMENTS, TREATMENT_ORDER, compareTreatments, fmtPct, fmtRsPlain, monthsText, nextSteps, nextStepsCompare, savingSentence, shareNote,
 } from './educationLoanEmi.mjs';
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -119,6 +119,12 @@ export function buildDoc(state) {
     });
     blocks.push({ t: 'p', text: 'A lower total is not always better. A longer repayment period gives a lower EMI but more interest, and a lender with a higher fee can still cost less overall. Compare the sanction letters line by line.' });
   }
+  blocks.push({ t: 'h', text: 'Your next three steps' });
+  blocks.push({
+    t: 'list',
+    title: 'Before you sign anything',
+    items: two ? nextStepsCompare(state.offers[0], state.offers[1]) : nextSteps(state.offers[0].values, state.offers[0].result),
+  });
   blocks.push({ t: 'h', text: 'Rules to check before you rely on this' });
   blocks.push({
     t: 'list',

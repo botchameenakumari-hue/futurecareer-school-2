@@ -69,6 +69,14 @@ export function roundHalfUp(value, dp = 2) {
   return r === 0 ? 0 : r;
 }
 
+/** Round up to dp places, for a minimum you still need, so the figure shown is always enough. A tiny tolerance stops 6.000000000000001 from becoming 6.01. */
+export function roundUp(value, dp = 2) {
+  if (!Number.isFinite(value)) return NaN;
+  const k = 10 ** dp;
+  const r = Math.ceil(value * k - 1e-7) / k;
+  return r === 0 ? 0 : r;
+}
+
 const num = (n) => String(roundHalfUp(n, 6));
 
 /** Builds a rule from what the person typed: percentage = multiplier x (CGPA - subtract) + add. */
@@ -217,14 +225,14 @@ export function cgpaNeededForTarget(targetPercentRaw, rule, doneCgpaRaw, doneCre
   ];
   if (needed > rule.scaleMax + 1e-9) {
     steps.push('Average needed in the remaining credits: ' + num(needed) + ', which is above the top of the scale (' + num(rule.scaleMax) + ')');
-    return { ok: true, reachable: false, needed: roundHalfUp(needed, dp), targetCgpa, steps };
+    return { ok: true, reachable: false, needed: roundUp(needed, dp), targetCgpa, steps };
   }
   if (needed <= 0) {
     steps.push('Your grade points so far already cover the target, so no minimum is needed in the remaining credits.');
     return { ok: true, reachable: true, alreadyMet: true, needed: 0, targetCgpa, steps };
   }
-  steps.push('Average needed in the remaining credits (half up to ' + dp + ' places): ' + roundHalfUp(needed, dp));
-  return { ok: true, reachable: true, needed: roundHalfUp(needed, dp), targetCgpa, steps };
+  steps.push('Average needed in the remaining credits (rounded up to ' + dp + ' places, so it is always enough): ' + roundUp(needed, dp));
+  return { ok: true, reachable: true, needed: roundUp(needed, dp), targetCgpa, steps };
 }
 
 export const ERROR_TEXT = {

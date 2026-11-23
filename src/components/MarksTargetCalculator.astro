@@ -6,6 +6,8 @@ import { MAX_ROWS, MAX_BOARD_ROWS, MAX_AVG_ROWS } from '../scripts/marksTarget.m
   <h2 id="mt-title">Work out your marks, percentage or attendance</h2>
   <p class="mt-note"><b>Private by design:</b> everything you type stays in this browser and is not sent to this site. Your numbers are saved on this device so they are still there when you come back. Press Clear my data to remove them.</p>
 
+  <p class="mt-example"><button type="button" class="mt-btn" data-act="example">Try an example</button> <span class="mt-hint">Fills the open tab with sample numbers so you see an answer straight away. Then type your own.</span></p>
+
   <form class="mt-form" id="mt-form" novalidate onsubmit="return false">
     <div class="mt-tabs" role="tablist" aria-label="Choose what to work out">
       <button type="button" role="tab" id="mt-tab-need" aria-controls="mt-panel-need" aria-selected="true" data-mt-tab="need">Marks needed</button>
@@ -113,6 +115,8 @@ import { MAX_ROWS, MAX_BOARD_ROWS, MAX_AVG_ROWS } from '../scripts/marksTarget.m
     <div class="mt-actions mt-screen">
       <button type="button" class="mt-btn mt-btn--primary" data-act="pdf">Download result sheet (PDF)</button>
       <button type="button" class="mt-btn" data-act="print">Print result sheet</button>
+      <button type="button" class="mt-btn" data-act="copy">Copy my result for WhatsApp</button>
+      <button type="button" class="mt-btn" data-act="wa">Open WhatsApp with my result</button>
       <button type="button" class="mt-btn mt-btn--warn" data-act="clear">Clear my data</button>
     </div>
     <p class="mt-status mt-screen" id="mt-status" role="status" aria-live="polite"></p>
@@ -125,7 +129,7 @@ import { MAX_ROWS, MAX_BOARD_ROWS, MAX_AVG_ROWS } from '../scripts/marksTarget.m
 <script>
   // @ts-nocheck
   import { marksNeeded, overallPercent, attendance, boardBest, averageCalc, MAX_ROWS, MAX_BOARD_ROWS, MAX_AVG_ROWS } from '../scripts/marksTarget.mjs';
-  import { sheetModel, modelToHtml, esc, buildPdf, hasUnsupportedText, prepareUnicodePdf, errorLine } from '../scripts/marksTargetSheet.mjs';
+  import { sheetModel, modelToHtml, esc, buildPdf, hasUnsupportedText, prepareUnicodePdf, errorLine, nextStep, resultText } from '../scripts/marksTargetSheet.mjs';
 
   const KEY = 'fcs-marks-target-v1';
   const root = document.getElementById('marks-target-calculator');
@@ -292,7 +296,14 @@ import { MAX_ROWS, MAX_BOARD_ROWS, MAX_AVG_ROWS } from '../scripts/marksTarget.m
       let res;
       try { res = compute(tab); } catch (err) { console.error('Marks calculator error:', err); res = { ok: false, error: 'bad' }; }
       results[tab] = res;
-      $('#mt-out-' + tab).innerHTML = OUT[tab](res);
+      let html = OUT[tab](res);
+      const next = nextStep(tab, res);
+      if (next) {
+        const nextHtml = '<p class="mt-next"><b>What to do next:</b> ' + esc(next).replace(/https:\/\/futurecareerschool\.com\/[^\s<]*[^\s<.,]/g, (u) => '<a href="' + u + '">' + u + '</a>') + '</p>';
+        const lead = html.match(/^(?:<p class="mt-(?:big|sub)">[\s\S]*?<\/p>)+/);
+        html = lead ? lead[0] + nextHtml + html.slice(lead[0].length) : html + nextHtml;
+      }
+      $('#mt-out-' + tab).innerHTML = html;
       markInvalid(tab, res);
       return res;
     }
@@ -388,6 +399,7 @@ import { MAX_ROWS, MAX_BOARD_ROWS, MAX_AVG_ROWS } from '../scripts/marksTarget.m
     function onField(e) {
       const el = e.target;
       if (el.hasAttribute('data-act-change')) return;
+      if (typeof exampleTabs !== 'undefined') exampleTabs[state.tab] = false;
       if (el.hasAttribute('data-fld')) {
         const [grp, key] = el.getAttribute('data-fld').split('.');
         state[grp][key] = el.value;
@@ -465,6 +477,56 @@ import { MAX_ROWS, MAX_BOARD_ROWS, MAX_AVG_ROWS } from '../scripts/marksTarget.m
       window.print();
     }
 
+    const EXAMPLES = {
+      need: () => ({ target: '75', mode: 'weights', pass: '', rows: [{ name: 'Internal marks', got: '24', max: '30', weight: '30' }, { name: 'Final exam', got: '', max: '100', weight: '70' }] }),
+      overall: () => ({ rows: [{ name: 'Maths', got: '78', max: '100', weight: '' }, { name: 'Science', got: '66', max: '100', weight: '' }, { name: 'English', got: '82', max: '100', weight: '' }] }),
+      att: () => ({ attended: '42', held: '60', target: '75', total: '' }),
+      board: () => ({ count: '5', rows: [82, 76, 91, 68, 88, 79].map((g, i) => ({ name: 'Subject ' + (i + 1), got: String(g), max: '100', must: false })) }),
+      avg: () => ({ rows: [{ name: 'Test 1', value: '62', weight: '' }, { name: 'Test 2', value: '71', weight: '' }, { name: 'Test 3', value: '68', weight: '' }], target: '70', more: '2' }),
+    };
+    function hasTyped(tab) {
+      const g = state[tab];
+      const rows = g.rows || [];
+      return rows.some((r) => ['got', 'max', 'value'].some((k) => r[k] && String(r[k]).trim() && !(tab === 'board' && k === 'max' && r[k] === '100'))) ||
+        ['target', 'attended', 'held', 'more', 'total'].some((k) => g[k] && String(g[k]).trim() && !(tab === 'att' && k === 'target' && g[k] === '75'));
+    }
+    const exampleTabs = {};
+    function useExample() {
+      const tab = state.tab;
+      if (hasTyped(tab) && !exampleTabs[tab] && !window.confirm('Replace the numbers on this tab with a sample? Your own numbers on this tab will be lost.')) return;
+      state[tab] = EXAMPLES[tab]();
+      exampleTabs[tab] = true;
+      fillFixed(); persist(); renderAll();
+      say('Sample numbers are filled in on this tab. Change any box to use your own numbers.');
+    }
+
+    async function copyResult() {
+      renderPanel(state.tab);
+      const model = renderSheet();
+      const text = model.any ? resultText(model) : '';
+      if (!text) { say('Enter your numbers first, so there is a result to copy.'); return; }
+      let ok = false;
+      try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {}
+      if (!ok) {
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, ta.value.length);
+          ok = document.execCommand('copy'); document.body.removeChild(ta);
+        } catch (e) {}
+      }
+      say(ok ? 'Copied. Open WhatsApp and paste it into any chat.' : 'Your browser did not allow copying. Use Open WhatsApp with my result instead.');
+    }
+
+    function openWhatsApp() {
+      renderPanel(state.tab);
+      const model = renderSheet();
+      const text = model.any ? resultText(model) : '';
+      if (!text) { say('Enter your numbers first, so there is a result to send.'); return; }
+      const w = window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank', 'noopener');
+      say(w ? 'WhatsApp is opening. Pick a chat to send your result to.' : 'Your browser blocked the new tab. Use Copy my result for WhatsApp instead.');
+    }
+
     function clearData() {
       state = blank();
       try { localStorage.removeItem(KEY); } catch (e) {}
@@ -481,6 +543,9 @@ import { MAX_ROWS, MAX_BOARD_ROWS, MAX_AVG_ROWS } from '../scripts/marksTarget.m
       if (a === 'pdf') downloadPdf();
       else if (a === 'print') printSheet();
       else if (a === 'clear') clearData();
+      else if (a === 'example') useExample();
+      else if (a === 'copy') copyResult();
+      else if (a === 'wa') openWhatsApp();
       else if (a === 'add-row') {
         const list = btn.getAttribute('data-list');
         if (state[list].rows.length < LIMIT[list]) {
@@ -513,6 +578,10 @@ import { MAX_ROWS, MAX_BOARD_ROWS, MAX_AVG_ROWS } from '../scripts/marksTarget.m
   .mt p,.mt li{line-height:1.65}
   .mt-note,.mt-hint,.mt-status,.mt-fine{font-size:.88rem;color:rgba(255,255,255,.8)}
   .mt-hint{margin:.3rem 0 .7rem}
+  .mt-example{margin:.4rem 0 1rem;display:flex;flex-wrap:wrap;align-items:center;gap:.6rem}
+  .mt-example .mt-hint{margin:0;flex:1 1 14rem}
+  .mt-next{margin:.6rem 0;padding:.7rem .9rem;border:1px solid rgba(229,184,74,.6);border-radius:10px;background:rgba(229,184,74,.08);line-height:1.6;overflow-wrap:anywhere}
+  .mt-next a{color:#f3cf70;font-weight:700}
   .mt-fine{margin:.5rem 0}
   .mt-status{min-height:1.4em;color:#9ff3e6;margin:.6rem 0 0}
   .mt-form{display:grid;gap:1rem}

@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Nav from '../../components/Nav.astro';
 import Footer from '../../components/Footer.astro';
 import BusinessPerspectiveNote from '../../components/BusinessPerspectiveNote.astro';
+import ToolNextStep from '../../components/ToolNextStep.astro';
 import CgpaConverter from '../../components/CgpaConverter.astro';
 import { SCALE, SCALE_RULE } from '../../config/scalability.mjs';
 import { ruleById, cgpaToPercent, percentToCgpa, sgpaToCgpa, cgpaNeededForTarget, CHECKED_ON } from '../../scripts/cgpaConverter.mjs';
@@ -27,7 +28,7 @@ const steps = [
   { h: 'Choose the rule', p: 'Pick the rule your university or board uses. If it publishes its own formula, choose My university’s formula and type it in from the notice.' },
   { h: 'Open the tab you need', p: 'Use CGPA to percentage, Percentage to CGPA, SGPA list to CGPA, or CGPA needed for a target.' },
   { h: 'Type your numbers', p: 'Use digits with a dot or comma, for example 8.5. The result and every step appear as you type.' },
-  { h: 'Check the working', p: 'Read the steps under the result. If a step does not match your university notice, change the rule.' },
+  { h: 'Check the working and the next step', p: 'Read the steps under the result, and the line that says what to do next. If a step does not match your university notice, change the rule. Press Try an example to see how it works.' },
   { h: 'Download or print the sheet', p: 'The result sheet names the rule and where it comes from. Download it as a PDF or print it, and keep your university notice with it.' },
 ];
 
@@ -111,6 +112,10 @@ const faqs = [
     a: 'Use the one in your university’s own notice, exam office page or regulations. If you cannot find one, ask the exam office or registrar in writing. Until then, treat any result here as an estimate.',
   },
   {
+    q: 'Can I see an example first, and send my result to a parent on WhatsApp?',
+    a: 'Yes. Press Try an example and the open tab fills with sample numbers and the generic rule. Press Copy my result for WhatsApp when you have your own result. The text holds the result, the rule used and one next step, and it leaves out anything you typed in the notes box.',
+  },
+  {
     q: 'How do I convert percentage to CGPA?',
     a: 'Work the chosen formula backwards. With the generic rule, divide the percentage by 10, so 75 percent is CGPA ' + exBack + '. The Percentage to CGPA tab shows each step for whichever rule you choose.',
   },
@@ -140,7 +145,7 @@ const faqs = [
   },
   {
     q: 'How does the calculator round?',
-    a: 'It rounds half up to 2 decimal places, so 6.005 becomes 6.01. Your university may round differently or cut digits off. If your notice says how to round, follow it.',
+    a: 'It rounds half up to 2 decimal places, so 6.005 becomes 6.01. The average you still need is rounded up instead, so it is always enough. Your university may round differently or cut digits off, so follow its notice if it says how to round.',
   },
   {
     q: 'Is my data sent anywhere, and can I type in Telugu?',
@@ -313,6 +318,7 @@ const jsonLd = [
         ))}
       </div>
     </section>
+    <ToolNextStep toolName="CGPA to Percentage Calculator" audience="graduate" />
   </main>
   <Footer />
 </BaseLayout>

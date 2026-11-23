@@ -16,6 +16,8 @@ const classNo = is12 ? '12' : '10';
   <h2 id="cgb-title">{is12 ? 'Build your career guidance booklet after 12th' : 'Build your career guidance booklet after 10th'}</h2>
   <p class="cgb-note"><b>Private by design:</b> your answers stay in this browser. Nothing is sent to this site, the PDF is made on your own device, and the form asks for no phone number or email. The name box is optional, so use initials if you like. On a shared computer, press Clear my data when you finish.</p>
 
+  <p class="cgb-example cgb-screen"><button type="button" class="cgb-btn" data-cgb="example">Try an example</button> <span class="cgb-hint">Fills in a sample student so you can see a result in seconds. You can change any answer after.</span></p>
+
   <form class="cgb-form" id="cgb-form" novalidate onsubmit="return false">
     <div class="cgb-screen">
       {is12 ? (
@@ -101,6 +103,18 @@ const classNo = is12 ? '12' : '10';
         <p class="cgb-hint">Do not type a phone number, email address, ID number or health detail.</p>
       </fieldset>
 
+      <section class="cgb-quick" id="cgb-quick" aria-labelledby="cgb-quick-title" hidden>
+        <h3 id="cgb-quick-title" tabindex="-1">Your result at a glance</h3>
+        <ol class="cgb-quick-routes" id="cgb-quick-routes"></ol>
+        <h4>Your next three steps</h4>
+        <ol class="cgb-quick-steps" id="cgb-quick-steps"></ol>
+        <div class="cgb-actions">
+          <button type="button" class="cgb-btn cgb-btn--primary" data-cgb="copy">Copy my result for WhatsApp</button>
+          <button type="button" class="cgb-btn" data-cgb="wa">Open WhatsApp with my result</button>
+        </div>
+        <p class="cgb-hint">The copied text holds the routes and the steps. It does not hold your name or your worry line.</p>
+      </section>
+
       <div class="cgb-actions">
         <button type="button" class="cgb-btn cgb-btn--primary" data-cgb="pdf">Download my booklet (PDF)</button>
         <button type="button" class="cgb-btn" data-cgb="print">Print my booklet</button>
@@ -125,8 +139,8 @@ const classNo = is12 ? '12' : '10';
 
 <script>
   // @ts-nocheck
-  import { STORAGE_PREFIX, bookletModel, blankModel, modelToHtml, buildPdf, hasUnsupportedText, prepareUnicodePdf } from '../scripts/careerGuidanceBooklet';
-  import { blankAnswers, cleanAnswers, routesForStream12, routeOptions10, ROUTES12 } from '../data/careerGuidanceBooklet.mjs';
+  import { STORAGE_PREFIX, bookletModel, blankModel, modelToHtml, buildPdf, hasUnsupportedText, prepareUnicodePdf, quickResult } from '../scripts/careerGuidanceBooklet';
+  import { blankAnswers, cleanAnswers, routesForStream12, routeOptions10, ROUTES12, exampleAnswers } from '../data/careerGuidanceBooklet.mjs';
 
   const root = document.getElementById('career-guidance-booklet');
   if (root) {
@@ -176,9 +190,21 @@ const classNo = is12 ? '12' : '10';
       if (c) c.textContent = n >= 3 ? 'Three picked. Untick one to choose a different one.' : n ? n + ' picked.' : '';
     }
 
+    const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    let quick = null;
+    function renderQuick() {
+      const box = $('#cgb-quick');
+      quick = quickResult(stage, answers);
+      if (!quick) { box.hidden = true; $('#cgb-quick-routes').innerHTML = ''; $('#cgb-quick-steps').innerHTML = ''; return; }
+      $('#cgb-quick-routes').innerHTML = quick.routes.map((r) => '<li><b>' + esc(r.title) + '</b><span class="cgb-quick-mark cgb-quick-mark--' + esc(r.scale) + '">' + esc(r.mark) + '</span>' + (r.note ? '<span class="cgb-quick-note">' + esc(r.note) + '</span>' : '') + '</li>').join('');
+      $('#cgb-quick-steps').innerHTML = quick.steps.map((st) => '<li><b>By ' + esc(st.by) + '.</b> ' + esc(st.text) + '</li>').join('');
+      box.hidden = false;
+    }
+
     function render(announce) {
       const model = bookletModel(stage, answers);
       const sum = $('#cgb-summary');
+      renderQuick();
       if (model) {
         if (announce) sum.textContent = 'Your booklet preview is updated below the buttons. It lists ' + model.blocks.filter((b) => b.t === 'card').length + ' routes in detail.';
         docEl.innerHTML = modelToHtml(model);
@@ -195,6 +221,7 @@ const classNo = is12 ? '12' : '10';
 
     function onField(e) {
       const el = e.target;
+      if (typeof exampleShown !== 'undefined') exampleShown = false;
       if (el.hasAttribute('data-interest')) {
         answers.interests = [...root.querySelectorAll('[data-interest]')].filter((b) => b.checked).map((b) => b.getAttribute('data-interest'));
         syncInterestLimit();
@@ -247,6 +274,42 @@ const classNo = is12 ? '12' : '10';
       window.print();
     }
 
+    async function copyResult() {
+      if (!quick) { say('Choose your answers first, then copy your result.'); return; }
+      let ok = false;
+      try { await navigator.clipboard.writeText(quick.text); ok = true; } catch (e) {}
+      if (!ok) {
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = quick.text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, ta.value.length);
+          ok = document.execCommand('copy');
+          document.body.removeChild(ta);
+        } catch (e) {}
+      }
+      say(ok ? 'Copied. Open WhatsApp and paste it into any chat.' : 'Your browser did not allow copying. Use Open WhatsApp with my result instead, or select the result above and copy it.');
+    }
+
+    function openWhatsApp() {
+      if (!quick) { say('Choose your answers first, then send your result.'); return; }
+      const w = window.open('https://wa.me/?text=' + encodeURIComponent(quick.text), '_blank', 'noopener');
+      say(w ? 'WhatsApp is opening. Pick a chat to send your result to.' : 'Your browser blocked the new tab. Use Copy my result for WhatsApp instead.');
+    }
+
+    let exampleShown = false;
+    function useExample() {
+      const hasAnswers = stage === 'after12' ? !!answers.stream : (answers.interests.length > 0 || answers.earn !== 'later');
+      if (hasAnswers && !exampleShown && !window.confirm('Replace your answers with a sample student? Your own answers will be lost.')) return;
+      answers = cleanAnswers(stage, Object.assign(blankAnswers(stage), exampleAnswers(stage)));
+      exampleShown = true;
+      persist();
+      fillForm();
+      render(true);
+      say('A sample student is filled in. Change any answer to make it yours.');
+      const q = $('#cgb-quick-title');
+      if (q && !$('#cgb-quick').hidden) q.focus();
+    }
+
     function clearAll() {
       if (!window.confirm('Clear your answers and the booklet from this browser? This cannot be undone.')) return;
       answers = blankAnswers(stage);
@@ -266,6 +329,9 @@ const classNo = is12 ? '12' : '10';
       else if (a === 'print') printDoc('personal');
       else if (a === 'print-blank') printDoc('blank');
       else if (a === 'clear') clearAll();
+      else if (a === 'copy') copyResult();
+      else if (a === 'wa') openWhatsApp();
+      else if (a === 'example') useExample();
     });
 
     fillForm();
@@ -298,6 +364,18 @@ const classNo = is12 ? '12' : '10';
   .cgb-btn--primary{background:#0b766d;border-color:#2dd4bf}
   .cgb-btn--warn{border-color:rgba(255,140,120,.7);color:#ffd1c8}
   .cgb select:focus-visible,.cgb input:focus-visible,.cgb textarea:focus-visible,.cgb button:focus-visible,.cgb h3:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}
+  .cgb-example{margin:.4rem 0 1rem;display:flex;flex-wrap:wrap;align-items:center;gap:.6rem}
+  .cgb-example .cgb-hint{margin:0;flex:1 1 14rem}
+  .cgb-quick{margin:0 0 .8rem;padding:1rem;border:2px solid rgba(229,184,74,.6);border-radius:14px;background:rgba(229,184,74,.07);min-width:0}
+  .cgb-quick[hidden]{display:none}
+  .cgb-quick h3{margin:0 0 .5rem}
+  .cgb-quick h4{margin:1rem 0 .4rem}
+  .cgb-quick h3:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}
+  .cgb-quick ol{margin:0;padding-left:1.3rem}
+  .cgb-quick li{margin:.5rem 0;line-height:1.55;overflow-wrap:anywhere}
+  .cgb-quick-mark{display:inline-block;margin-left:.5rem;padding:.05rem .55rem;border:1px solid rgba(255,255,255,.55);border-radius:999px;font-size:.78rem;font-weight:700;white-space:normal}
+  .cgb-quick-note{display:block;font-size:.84rem;color:rgba(255,255,255,.8)}
+  .cgb-quick .cgb-actions{margin-top:.9rem}
   .cgb-previewhead h3{margin:1.2rem 0 .2rem}
   .cgb-empty{padding:1rem;border:1px dashed rgba(255,255,255,.3);border-radius:12px;margin:0}
   .cgb-empty[hidden],.cgb-doc[hidden]{display:none}
@@ -366,6 +444,7 @@ const classNo = is12 ? '12' : '10';
     body[data-cgb-print] .cgb{margin:0;padding:0;border:0;background:#fff}
     body[data-cgb-print] .cgb > *:not(.cgb-form){display:none!important}
     body[data-cgb-print] .cgb-form > *{display:none!important}
+    body[data-cgb-print] .cgb-example{display:none!important}
     body[data-cgb-print="personal"] #cgb-doc:not([hidden]){display:block!important}
     body[data-cgb-print="blank"] #cgb-doc-blank{display:block!important}
     body[data-cgb-print] .cgb-doc{margin:0;padding:0;border:0;border-radius:0;font-size:10.5pt}

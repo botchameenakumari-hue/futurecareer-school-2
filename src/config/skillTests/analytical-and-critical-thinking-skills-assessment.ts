@@ -785,22 +785,22 @@ export const bundle: SkillTestBundle = {
 
   stagePlan: {
     student: [
-      'This week, take one question from homework or a project and write in one sentence what it is asking before you start.',
-      'For your next project, note the source of every fact you use and find a second source for the two most important ones.',
-      'After your next test, sort each lost mark into three groups: did not understand the question, wrong method, or careless slip. Act on the biggest group.',
-      'Pick one chart or percentage from the news and write what it does not tell you, then compare notes with a friend.',
+      'This week, take one question from homework or a project and write in one sentence what it is asking before you start. Done when the sentence is written above your work.',
+      'For your next project, note the source of every fact you use and find a second source for the two most important ones. Done when every fact has a source and the two key facts have two sources each.',
+      'After your next test, sort each lost mark into three groups: did not understand the question, wrong method, or careless slip. Act on the biggest group. Done when every lost mark is in one of the three groups and you have picked one habit to change.',
+      'Pick one chart or percentage from the news and write what it does not tell you, then compare notes with a friend. Done when you have written one thing the chart or percentage does not tell you.',
     ],
     fresher: [
-      'Before each task this week, write what the finished result should look like and confirm it in one line with your manager or senior.',
-      'Before you send any sheet or report, check its totals against the source and look for wrong units and repeated rows.',
-      'When something goes wrong, list at least three possible causes before you change anything, and note which one was true.',
-      'Keep one short note each week: a decision you made, the evidence you had and what you would check next time. Use it for interview examples.',
+      'Before each task this week, write what the finished result should look like and confirm it in one line with your manager or senior. Done when your manager or senior has said yes to your one line.',
+      'Before you send any sheet or report, check its totals against the source and look for wrong units and repeated rows. Done when the totals match the source and wrong units and repeated rows are gone.',
+      'When something goes wrong, list at least three possible causes before you change anything, and note which one was true. Done when three causes are written down and you have marked the true one.',
+      'Keep one short note each week: a decision you made, the evidence you had and what you would check next time. Use it for interview examples. Done when you have one note for each of four weeks.',
     ],
     professional: [
-      'In your next meeting, ask what decision the analysis is meant to support before you discuss the findings.',
-      'For one recommendation you receive this week, ask what evidence supports it and what would show it is wrong.',
-      'Pick one project you are attached to and review it as if you had just taken it over. Write what you would do from today.',
-      'Present your next conclusion in this order: the point, the strongest reasons, the main doubt and the next step. Ask for feedback on clarity.',
+      'In your next meeting, ask what decision the analysis is meant to support before you discuss the findings. Done when you have asked the question and written down the answer.',
+      'For one recommendation you receive this week, ask what evidence supports it and what would show it is wrong. Done when you have asked for the evidence and written what would show it is wrong.',
+      'Pick one project you are attached to and review it as if you had just taken it over. Write what you would do from today. Done when you have one written action for tomorrow.',
+      'Present your next conclusion in this order: the point, the strongest reasons, the main doubt and the next step. Ask for feedback on clarity. Done when one person has said your conclusion back to you.',
     ],
   },
 

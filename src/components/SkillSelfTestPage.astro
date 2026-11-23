@@ -349,7 +349,7 @@ const jsonLd = [
   .sst-scale{display:grid;grid-template-columns:repeat(5,1fr);gap:.6rem}
   .sst-scale button{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:12px;color:#fff;padding:.8rem .3rem;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:.3rem;font-family:inherit}
   .sst-scale button strong{font-size:1.2rem}
-  .sst-scale button span{font-size:.75rem;color:rgba(255,255,255,.7)}
+  .sst-scale button span{font-size:.875rem;color:rgba(255,255,255,.7)}
   .sst-scale button[aria-checked="true"]{background:rgba(229,184,74,.18);border-color:var(--gold)}
   .sst-scenario{display:grid;gap:.6rem}
   .sst-scenario button{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:12px;color:#fff;padding:.85rem 1rem;cursor:pointer;text-align:left;font-family:inherit;line-height:1.55}
@@ -515,6 +515,12 @@ const jsonLd = [
       }
     } catch (e) {}
 
+    // Arrow keys move focus between the options of a radio group (stage cards, scale, situations).
+    document.addEventListener('keydown', function (e) {
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      var rg = document.activeElement && document.activeElement.getAttribute && document.activeElement.getAttribute('role') === 'radio' ? document.activeElement : null;
+      if (rg && /^Arrow(Left|Right|Up|Down)$/.test(e.key)) { var sibs = Array.prototype.filter.call(rg.parentElement.querySelectorAll('[role="radio"]'), function (x) { return !x.hidden && x.offsetParent !== null; }), at = sibs.indexOf(rg), step = (e.key === 'ArrowRight' || e.key === 'ArrowDown') ? 1 : -1; if (at > -1 && sibs.length) { e.preventDefault(); sibs[(at + step + sibs.length) % sibs.length].focus(); } e.stopImmediatePropagation(); return; }
+    });
     // Keyboard: 1-5 (or 1-4 for situations) to answer, Enter for next, left arrow for back.
     document.addEventListener('keydown', function (e) {
       if (quizShell.hidden || e.ctrlKey || e.metaKey || e.altKey) return;
@@ -544,7 +550,7 @@ const jsonLd = [
       var st = DEPTH.stages.filter(function (x) { return x.key === stage; })[0] || DEPTH.stages[0];
       var headline = lowest.score >= 90 ? 'Every area is strong: now turn it into proof' : PAR ? 'Where to focus first: ' + lc(lowest.d.name) : D.isStudent ? 'Your biggest source of confusion: ' + lc(lowest.d.name) : 'Where to focus first: ' + lc(lowest.d.name);
       var overallText = overall >= 70 ? 'Your answers describe fairly strong habits overall.' : overall >= 45 ? 'Your answers describe a mixed pattern, with some strengths and some gaps.' : 'Your answers show several areas that need attention. That is a starting point, not a verdict.';
-      var gapText = gap >= 35 ? 'Your areas differ a lot (' + gap + ' points between your highest and lowest), so focused work on ' + lc(lowest.d.name) + ' should make a clear difference.' : gap >= 15 ? 'Your areas differ moderately (' + gap + ' points). Start with ' + lc(lowest.d.name) + ' and keep ' + lc(highest.d.name) + ' going.' : 'Your areas are close together (' + gap + ' points), so pick the one that matters most for your next step.';
+      var gapText = gap >= 35 ? 'Your areas differ a lot (' + gap + (gap === 1 ? ' point' : ' points') + ' between your highest and lowest), so focused work on ' + lc(lowest.d.name) + ' should make a clear difference.' : gap >= 15 ? 'Your areas differ moderately (' + gap + (gap === 1 ? ' point' : ' points') + '). Start with ' + lc(lowest.d.name) + ' and keep ' + lc(highest.d.name) + ' going.' : 'Your areas are close together (' + gap + (gap === 1 ? ' point' : ' points') + '), so pick the one that matters most for your next step.';
 
       var statIdx = [], scenIdx = [];
       Q.forEach(function (q, i) { (q.opts ? scenIdx : statIdx).push(i); });
@@ -583,15 +589,16 @@ const jsonLd = [
 
       var strongItems = [];
       statIdx.forEach(function (i) { if (!Q[i].reverse && itemScore(Q[i], answers[i]) >= 100) strongItems.push(Q[i].text); });
-      var strongSection = '<div class="result-section"><h4>Keep using ' + esc(lc(highest.d.name)) + '</h4><p>' + esc(highest.d.strong) + ' ' + esc(highest.dd.why) + '</p>' +
+      var LOWTOP = highest.score < 45, HIGHBOTTOM = lowest.score >= 90;
+      var strongSection = '<div class="result-section"><h4>' + (LOWTOP ? 'Your best area so far: ' : 'Keep using ') + esc(lc(highest.d.name)) + '</h4><p>' + (LOWTOP ? esc(highest.dd.why) + ' Start here, because it is the easiest place to build from. ' + esc(highest.dd.midStep) : esc(highest.d.strong) + ' ' + esc(highest.dd.why)) + '</p>' +
         (strongItems.length ? '<p>Statements you rated as fully true:</p>' + list(strongItems.slice(0, 6)) : '') +
-        (PAR ? '' : '<p>How to use it:</p>' + list(highest.dd.talkingPoints.concat(highest.dd.proof))) + '</div>';
+        (PAR || LOWTOP ? '' : '<p>How to use it:</p>' + list(highest.dd.talkingPoints.concat(highest.dd.proof))) + '</div>';
 
       var nextStep = !PAR && lowest.d.next ? '<p><a class="btn-gold" href="' + lowest.d.next.href + '">' + esc(lowest.d.next.label) + '</a></p>' : '';
       var phrasesList = !PAR && D.phrases && D.phrases[lowest.d.key] ? '<p><b>Words you can use</b></p>' + list(D.phrases[lowest.d.key]) : '';
-      var deep = '<div class="result-section"><h4>Deep dive: ' + esc(lc(lowest.d.name)) + '</h4><p>' + esc(lowest.dd.why) + '</p>' +
-        '<p><b>Your 14-day routine</b></p>' + list(lowest.dd.routine) +
-        '<p><b>Common mistakes to avoid</b></p>' + list(lowest.dd.mistakes) + phrasesList +
+      var deep = '<div class="result-section"><h4>' + (HIGHBOTTOM ? 'Keep sharpening: ' : 'Deep dive: ') + esc(lc(lowest.d.name)) + '</h4><p>' + esc(lowest.dd.why) + '</p>' +
+        (HIGHBOTTOM ? '' : '<p><b>Your 14-day routine</b></p>' + list(lowest.dd.routine)) +
+        '<p><b>Common mistakes to avoid</b></p>' + list(lowest.dd.mistakes) + (HIGHBOTTOM ? '' : phrasesList) +
         '<p><b>How to show progress to others</b></p>' + list(lowest.dd.proof) + nextStep + '</div>';
 
       var secondSection = '<div class="result-section"><h4>Then work on ' + esc(lc(second.d.name)) + ' (' + second.score + '%)</h4><p>' + esc(second.dd.why) + '</p>' + list(PAR ? second.dd.routine : second.d.plan) + '<p><b>One move to try first:</b> ' + esc(second.dd.midStep) + '</p></div>';
@@ -648,14 +655,14 @@ const jsonLd = [
       try { localStorage.setItem(D.storeKey, JSON.stringify({ date: new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }), stage: stage, overall: overall, scores: curScores })); } catch (e) {}
 
       // In 60 seconds
-      var firstMove = plain(lowest.dd.routine[0]);
-      var quick = '<div class="result-section"><h4>Your result in 60 seconds</h4>' + list([
+      var firstMove = lowest.score >= 90 ? plain(lowest.dd.proof[0]) : plain(lowest.dd.routine[0]);
+      var quick = '<div class="result-section" id="quick-result"><h4>Your result in 60 seconds</h4>' + list([
         lowest.score >= 90 ? 'Every area scores 90% or more. Pick the one you most want to show others and build proof for it.' : 'Focus first on ' + lc(lowest.d.name) + ' (' + lowest.score + '%), then ' + lc(second.d.name) + ' (' + second.score + '%).',
         highest.score < 30 ? 'Your highest area is ' + lc(highest.d.name) + ' (' + highest.score + '%). It is a place to start, not yet a strength.' : 'Your strongest area is ' + lc(highest.d.name) + ' (' + highest.score + '%). Keep using it.',
         lowCount ? lowCount + ' of ' + statIdx.length + ' statements need a specific step. They are listed with a step for each below.' : 'No statement needs a specific step right now.',
         'One thing to do today: ' + firstMove,
         PAR ? 'Skills for earning power are covered in the section on skills to encourage.' : 'Skills for earning more, sooner: see the skill-led path to early financial freedom below and rate your nine skills.'
-      ]) + (PAR ? '' : '<p><a href="#pf-intro">Jump to the skill-led path to early financial freedom</a></p>') + '</div>';
+      ]) + (PAR ? '' : '<p><a href="#pf-intro">Jump to the skill-led path to early financial freedom</a></p>') + '<div data-result-actions><button type="button" class="sst-btn sst-btn--ghost" data-copy="quick-result">Copy this summary</button><a class="sst-btn sst-btn--ghost" target="_blank" rel="noopener noreferrer" href="https://wa.me/?text=' + encodeURIComponent(D.reportTitle + ': ' + overall + '% overall. ' + (lowest.score >= 90 ? 'Every area is strong.' : 'First area to practise: ' + lc(lowest.d.name) + '.') + ' Free test: ' + ((D.report && D.report.url) || location.href.split('#')[0])) + '">Share my result on WhatsApp</a></div></div>';
 
       // Week by week
       var weeks = '<div class="result-section"><h4>Your four weeks, week by week</h4>' + list([
@@ -809,13 +816,13 @@ const jsonLd = [
       }
       var topTwo = ranked.slice(-2).reverse(), bottomTwo = ranked.slice(0, 2);
       var evidSection = '<div class="result-section"><h4>Evidence behind your score</h4>' +
-        '<p><b>Strongest dimensions:</b> ' + esc(nameList(topTwo)) + '.</p><p><b>Lowest dimensions:</b> ' + esc(nameList(bottomTwo)) + '.</p>' +
+        '<p><b>' + (highest.score < 45 ? 'Highest dimensions so far' : 'Strongest dimensions') + ':</b> ' + esc(nameList(topTwo)) + '.</p>' + (lowest.score >= 90 ? '' : '<p><b>Lowest dimensions:</b> ' + esc(nameList(bottomTwo)) + '.</p>') +
         '<p><b>Why ' + esc(highest.d.name) + ' is your strongest area (' + highest.score + '%):</b></p>' + list(evidenceFor(highest, false)) +
         '<p><b>Why ' + esc(lowest.d.name) + ' is your lowest area (' + lowest.score + '%):</b></p>' + list(evidenceFor(lowest, true)) + '</div>';
 
       // Careers: recommended, and to investigate cautiously.
       careers = PAR ? '' : '<div class="result-section"><h4>' + (GENTLE ? 'Work and study settings to explore' : 'Careers and roles to explore') + '</h4>' +
-        '<p><b>Recommended to explore, because they use your strongest areas:</b></p>' +
+        '<p><b>' + (highest.score < 45 ? 'Where to look first, because these are your best areas so far:' : 'Recommended to explore, because they use your strongest areas:') + '</b></p>' +
         topTwo.map(function (r) { return '<p>' + esc(r.d.name) + ' (' + r.score + '%):</p>' + list(r.dd.roles); }).join('') +
         (lowest.score >= 90 ? '' : '<p><b>Investigate cautiously:</b> these lean on your lowest area, ' + esc(lc(lowest.d.name)) + ' (' + lowest.score + '%). They are not ruled out. Try a small experiment first and see how it feels.</p>' + list(lowest.dd.roles)) +
         '<p>Roles are examples of where an area matters, not a prediction of what you should do. They are not automatically high-paying or scalable. ' + esc(D.scalabilityRule) + ' Use the route charts or tracker to inspect the specific option before you spend time or money.</p></div>';
@@ -834,7 +841,7 @@ const jsonLd = [
       var experiments = [
         { t: 'Experiment 1: ' + lowest.d.name, a: plain(lowest.dd.routine[0]), m: measureFor(lowest) },
         { t: 'Experiment 2: ' + second.d.name, a: second.dd.midStep, m: measureFor(second) },
-        { t: 'Experiment 3: use your strength in ' + lc(highest.d.name), a: strongMove, m: 'Write one sentence on what worked and one on what to change.' }
+        { t: highest.score < 45 ? 'Experiment 3: practise ' + lc(highest.d.name) + ' once more' : 'Experiment 3: use your strength in ' + lc(highest.d.name), a: strongMove, m: 'Write one sentence on what worked and one on what to change.' }
       ];
       var experSection = '<div class="result-section"><h4>Three experiments to run</h4><p>An experiment is a small, time-boxed trial. Run each one for 7 days, then decide.</p>' + experiments.map(function (e) {
         return '<h5>' + esc(e.t) + '</h5><p><b>Try:</b> ' + esc(e.a) + '</p><p><b>Measure:</b> ' + esc(e.m) + '</p><p><b>Keep it if</b> the second rating is higher or it felt useful. <b>Change it if</b> it was unclear or too big. <b>Drop it if</b> it made no difference after a fair try.</p>';

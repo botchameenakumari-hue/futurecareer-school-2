@@ -1,30 +1,97 @@
 <section class="cep" id="career-experiment-planner" aria-labelledby="cep-title">
   <p class="eyebrow">TEST BEFORE YOU COMMIT</p>
   <h2 id="cep-title">Build a 30-day career experiment</h2>
-  <p>Choose one direction, define a real output, and decide what evidence would make you continue, change the test, or pause before committing to a course or job path.</p>
-  <p class="cep-note"><b>Limit:</b> one experiment cannot prove career fit or future income. It is a low-risk learning test, not a prediction.</p>
+  <p>Pick one direction, decide what small thing you will make, and set dates. You get a week-by-week plan, a review day and three steps to start this week.</p>
+  <p class="cep-note"><b>Limit:</b> one experiment cannot prove career fit or future income. It is a low-cost learning test, not a prediction. Your answers stay in this browser.</p>
   <form id="cep-form" class="cep-form" novalidate>
-    <label>Direction you want to test<input name="direction" maxlength="140" placeholder="For example: data analysis or UX research" required /></label>
-    <label>Work activity you want to experience<textarea name="activity" rows="3" maxlength="500" placeholder="Name the daily work, not only the job title" required></textarea></label>
-    <label>Small output you can finish in 30 days<textarea name="output" rows="3" maxlength="500" placeholder="A public-data analysis, prototype, lesson, interview set or process improvement" required></textarea></label>
-    <label>What evidence would change your mind?<textarea name="evidence" rows="3" maxlength="500" placeholder="Notice energy, learning friction, feedback quality and whether you want a harder second test" required></textarea></label>
-    <div class="cep-actions"><button class="cep-primary" type="submit">Create 30-day experiment</button><button type="button" data-cep="clear">Clear</button></div>
+    <button type="button" class="cep-example" data-cep="example">Try an example</button>
+    <label><span>Direction you want to test</span><input name="direction" maxlength="140" placeholder="For example: data analysis, nursing, graphic design" autocomplete="off" required /></label>
+    <label><span>Daily work you want to feel</span><textarea name="activity" rows="2" maxlength="500" placeholder="Describe what a person in this work actually does in a day, not the job title" required></textarea></label>
+    <label><span>Small thing you will finish in 30 days</span><textarea name="output" rows="2" maxlength="500" placeholder="For example: a one-page summary, a poster set, a lesson for 3 juniors, or 5 short interviews" required></textarea></label>
+    <label><span>What would tell you to continue, change or stop?</span><textarea name="evidence" rows="2" maxlength="500" placeholder="For example: did I enjoy it for an hour without checking my phone? Did a senior understand my work?" required></textarea></label>
+    <div class="cep-row">
+      <label><span>Hours you can give each week</span><select name="hours"><option value="2">2 hours</option><option value="3" selected>3 hours</option><option value="5">5 hours</option><option value="8">8 hours</option></select></label>
+      <label><span>Start date</span><input name="start" type="date" /></label>
+    </div>
+    <label><span>Who will look at your finished work? (optional)</span><input name="reviewer" maxlength="100" placeholder="A teacher, senior, cousin or friend" autocomplete="off" /></label>
+    <div class="cep-actions"><button class="cep-primary" type="submit">Create my 30-day plan</button><button type="button" data-cep="clear">Clear</button></div>
     <p id="cep-status" class="cep-status" role="status" aria-live="polite"></p>
   </form>
   <div id="cep-result" class="cep-result" hidden></div>
 </section>
 <script>
-  type CepField = HTMLInputElement | HTMLTextAreaElement;
-  type CepForm = Omit<HTMLFormElement, 'querySelectorAll'> & { querySelectorAll(selectors: string): NodeListOf<CepField> };
-  const cepForm = document.querySelector<HTMLFormElement>('#cep-form') as CepForm | null;
-  const cepResult = document.querySelector<HTMLDivElement>('#cep-result');
-  const cepStatus = document.querySelector<HTMLParagraphElement>('#cep-status');
-  const cepClear = document.querySelector<HTMLButtonElement>('[data-cep="clear"]');
-  if (!cepForm || !cepResult || !cepStatus || !cepClear) throw new Error('Career experiment planner markup is incomplete.');
-  const cepEsc = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c] || c));
-  cepForm.addEventListener('submit', (event) => { event.preventDefault(); if (!cepForm.checkValidity()) { cepForm.reportValidity(); return; } const data = Object.fromEntries([...cepForm.querySelectorAll('input,textarea')].map((field) => [field.name, field.value])); cepResult.innerHTML = `<div class="cep-lead"><span>${cepEsc(data.direction)} · 30-day experiment</span><h3>${cepEsc(data.output)}</h3><p>Activity to observe: ${cepEsc(data.activity)}</p></div><div class="cep-grid"><article><b>Week 1 · understand</b><p>Read two reliable introductions, speak with one practitioner or learner, and write the assumptions you are testing.</p></article><article><b>Week 2 · practise</b><p>Complete a small version of the activity and record where instructions, tools or concepts slow you down.</p></article><article><b>Week 3 · produce</b><p>Finish the output, ask for specific feedback, and revise one important decision rather than adding scope.</p></article><article><b>Week 4 · review</b><p>Compare the evidence with your expectations and choose a second test, a changed direction, or a pause.</p></article></div><div class="cep-review"><h3>Review rubric</h3><p><b>Your evidence question:</b> ${cepEsc(data.evidence)}</p><ul><li>What did you actually do, and what can another person inspect?</li><li>What became more interesting, more difficult or less attractive than expected?</li><li>What feedback changed the output?</li><li>What is the smallest next test that would reduce the biggest uncertainty?</li></ul></div>`; cepResult.hidden = false; cepStatus.textContent = 'Experiment created from your entries; nothing was sent.'; });
-  cepClear.addEventListener('click', () => { cepForm.reset(); cepResult.hidden = true; cepStatus.textContent = 'Cleared.'; });
+  import { esc, fmtDate, addDays, isoDate, parseIso, actionsHtml, stepsHtml, bindActions, checkRequired, clearInvalidOnInput, fillExample, showResult, tidy, soft, type Sheet } from '../scripts/counsellingToolKit';
+  const form = document.querySelector<HTMLFormElement>('#cep-form');
+  const result = document.querySelector<HTMLDivElement>('#cep-result');
+  const status = document.querySelector<HTMLParagraphElement>('#cep-status');
+  const exampleButton = document.querySelector<HTMLButtonElement>('[data-cep="example"]');
+  const clearButton = document.querySelector<HTMLButtonElement>('[data-cep="clear"]');
+  if (!form || !result || !status || !exampleButton || !clearButton) throw new Error('Career experiment planner markup is incomplete.');
+  const URL_ = 'https://futurecareerschool.com/tools/career-experiment-planner/';
+  let sheet: Sheet | null = null;
+  const startField = form.elements.namedItem('start') as HTMLInputElement;
+  const setToday = () => { const today = isoDate(new Date()); startField.min = today; if (!startField.value) startField.value = today; };
+  setToday();
+  clearInvalidOnInput(form);
+  const val = (name: string) => tidy(String((form.elements.namedItem(name) as HTMLInputElement | null)?.value ?? ''));
+
+  const build = () => {
+    const direction = val('direction'), activity = val('activity'), output = val('output'), evidence = val('evidence'), reviewer = val('reviewer');
+    const hours = Math.max(1, Number(val('hours')) || 3);
+    const who = reviewer ? `your reviewer (${reviewer})` : 'one person you trust';
+    const dir = soft(direction);
+    const start = parseIso(val('start')) || new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate());
+    const d = (n: number) => fmtDate(addDays(n, start));
+    const weeks = [
+      { name: 'Week 1: understand', dates: `${d(0)} to ${d(6)}`, text: `Read two free, reliable introductions to ${dir}. Write down what you believe about this work, then speak to one person who does it.` },
+      { name: 'Week 2: practise', dates: `${d(7)} to ${d(13)}`, text: 'Do the smallest version of the daily work for about an hour. Note where you got stuck and where you lost track of time.' },
+      { name: 'Week 3: make it', dates: `${d(14)} to ${d(20)}`, text: `Finish the work: ${soft(output)}. Show it to ${who} and ask what is unclear. Fix one thing instead of adding more.` },
+      { name: 'Week 4: review', dates: `${d(21)} to ${d(29)}`, text: 'Write what you did, what you enjoyed, what felt hard and what feedback you got. Then choose one of the three decisions below.' },
+    ];
+    const steps = [
+      { when: `Today or by ${d(1)}`, text: `Write one sentence: "I want to find out if I enjoy ${dir}." Tell ${who} that you will show them your work on ${d(20)}.` },
+      { when: `By ${d(3)}`, text: 'Find two free introductions to this work (a short video and an article from a college, company or professional body). Do not pay for a course yet.' },
+      { when: `By ${d(7)}`, text: `Do one hour of the real work: ${soft(activity)}. Write 3 lines about how it felt.` },
+    ];
+    const decisions = [
+      'Continue: the work held your interest, your output was clear to someone else, and you want a harder second test.',
+      'Change: you liked part of it but not the daily work. Test a close direction with the same plan.',
+      'Pause: it felt like a chore even when you tried hard. That is a useful result and you spent very little to learn it.',
+    ];
+    const hoursNote = `At ${hours} hours a week, this is about ${hours * 4} hours in total.`;
+    const money = 'Keep this test free or very cheap. Wait until after your review day before you pay for a course, coaching or a laptop.';
+    const human = 'Before you change a stream, course or college because of this test, talk to a teacher, a counsellor or someone who works in this field. One test is a signal, not a verdict.';
+    sheet = {
+      title: `30-day career experiment: ${direction}`,
+      sub: `Start ${d(0)}. Review day ${d(29)}. ${hoursNote}`,
+      sections: [
+        { h: 'What I will finish', p: [output] },
+        { h: 'Your next three steps', ol: steps.map((s) => `${s.when}: ${s.text}`) },
+        { h: 'Week by week', ul: weeks.map((w) => `${w.name} (${w.dates}): ${w.text}`) },
+        { h: 'My question for the review', p: [evidence] },
+        { h: 'Three ways to decide on the review day', ul: decisions },
+        { h: 'Money and honesty', p: [money, human] },
+      ],
+    };
+    result.innerHTML = `<div class="cep-lead"><span>${esc(direction)} · ${esc(d(0))} to ${esc(d(29))}</span><h3>${esc(output)}</h3><p>${esc(hoursNote)} Review day: <b>${esc(d(29))}</b>.</p></div>
+      <h4>Your next three steps</h4>${stepsHtml(steps)}
+      <h4>Week by week</h4><div class="cep-grid">${weeks.map((w) => `<article><b>${esc(w.name)}</b><small>${esc(w.dates)}</small><p class="fcs-wrap">${esc(w.text)}</p></article>`).join('')}</div>
+      <div class="cep-review"><h4>Your question for the review day</h4><p class="fcs-wrap">${esc(evidence)}</p><h4>Then choose one</h4><ul>${decisions.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>
+      <p class="cep-human"><b>Honest limits.</b> ${esc(money)} ${esc(human)}</p>
+      <p class="cep-human">Need someone to talk to? Plan a conversation with the <a href="https://futurecareerschool.com/tools/informational-interview-planner/">informational interview planner</a>, and note what you learn in the <a href="https://futurecareerschool.com/tools/career-decision-journal/">career decision journal</a>.</p>
+      ${actionsHtml()}`;
+    showResult(result);
+  };
+
+  form.addEventListener('submit', (event) => { event.preventDefault(); if (!checkRequired(form, status)) return; build(); status.textContent = 'Your plan is ready below. Nothing was sent anywhere.'; });
+  form.addEventListener('input', () => { if (!result.hidden) status.textContent = 'You changed an answer. Tap "Create my 30-day plan" again to update the result.'; });
+  exampleButton.addEventListener('click', () => {
+    fillExample(form, { direction: 'Data analysis', activity: 'Clean a messy Excel sheet, find three patterns and explain them in plain words', output: 'A one-page summary of three findings from a free public data sheet, for example cricket scores or school results', evidence: 'Did I enjoy it for an hour without checking my phone? Could a senior understand my summary without help?', hours: '3', reviewer: 'a senior from my college' });
+    status.textContent = 'Example filled in. Change anything, then tap "Create my 30-day plan".';
+  });
+  clearButton.addEventListener('click', () => { form.reset(); setToday(); result.hidden = true; result.innerHTML = ''; sheet = null; form.querySelectorAll('.fcs-invalid').forEach((el) => el.classList.remove('fcs-invalid')); status.textContent = 'Cleared.'; });
+  bindActions(result, () => sheet, URL_, status);
 </script>
-<style>
-  .cep{margin:2rem 0;padding:1.5rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05)}.cep h2{margin:.2rem 0 .6rem}.cep>p{max-width:800px;line-height:1.65}.cep-note,.cep-status{color:rgba(255,255,255,.68);font-size:.88rem}.cep-form{display:grid;gap:1rem;margin-top:1.4rem}.cep-form label{display:grid;gap:.4rem;font-weight:650;font-size:.9rem}.cep-form input,.cep-form textarea{width:100%;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400}.cep-actions{display:flex;gap:.6rem;flex-wrap:wrap}.cep-actions button{min-height:44px;padding:.55rem .85rem;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;cursor:pointer}.cep-primary{background:#129a8d!important;border-color:#129a8d!important;font-weight:700}.cep-result{margin-top:1.3rem}.cep-lead{padding:1.1rem;border-left:3px solid #2dd4bf;background:rgba(45,212,191,.08)}.cep-lead span{color:#8de4d8;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em}.cep-lead h3{margin:.4rem 0;font-size:1.5rem}.cep-lead p,.cep-grid p,.cep-review li{line-height:1.6;color:rgba(255,255,255,.75)}.cep-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.8rem}.cep-grid article,.cep-review{padding:.9rem;border:1px solid rgba(255,255,255,.15);border-radius:10px}.cep-review{margin-top:.8rem;border-color:rgba(229,184,74,.35);background:rgba(229,184,74,.06)}.cep-review h3{margin-top:0}@media(max-width:650px){.cep-grid{grid-template-columns:1fr}}
+<style is:global>
+  .cep{margin:2rem 0;padding:1.5rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05)}.cep h2{margin:.2rem 0 .6rem}.cep>p{max-width:800px;line-height:1.65}.cep-note,.cep-status{color:rgba(255,255,255,.72);font-size:.9rem}.cep-form{display:grid;gap:1rem;margin-top:1.2rem}.cep-form label{display:grid;gap:.4rem;font-weight:650;font-size:.95rem}.cep-form input,.cep-form textarea,.cep-form select{width:100%;min-height:44px;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.25);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;font-weight:400}.cep-form select option{color:#111}.cep-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.cep-actions{display:flex;gap:.6rem;flex-wrap:wrap}.cep-actions button,.cep-example{min-height:44px;padding:.55rem .95rem;border:1px solid rgba(255,255,255,.28);border-radius:10px;background:rgba(255,255,255,.08);color:#fff;font:inherit;cursor:pointer}.cep-example{justify-self:start;border-style:dashed;color:#f7d88c;font-weight:650}.cep-primary{background:#129a8d!important;border-color:#129a8d!important;font-weight:700}.cep-result{margin-top:1.3rem;scroll-margin-top:5rem}.cep-result h4{margin:1.1rem 0 .4rem;color:#fff}.cep-lead{padding:1.1rem;border-left:3px solid #2dd4bf;background:rgba(45,212,191,.08)}.cep-lead span{color:#8de4d8;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;overflow-wrap:anywhere}.cep-lead h3{margin:.4rem 0;font-size:1.35rem;line-height:1.35;overflow-wrap:anywhere}.cep-lead p,.cep-grid p,.cep-review li,.cep-review p,.cep-human{line-height:1.6;color:rgba(255,255,255,.82)}.cep-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}.cep-grid article,.cep-review{padding:.9rem;border:1px solid rgba(255,255,255,.16);border-radius:10px}.cep-grid small{display:block;color:#8de4d8;margin:.2rem 0}.cep-review{margin-top:.8rem;border-color:rgba(229,184,74,.38);background:rgba(229,184,74,.06)}.cep-review h4{margin-top:0}.cep-human a{color:#8de4d8;text-decoration:underline}@media(max-width:650px){.cep{padding:1rem}.cep-grid,.cep-row{grid-template-columns:1fr}}
 </style>

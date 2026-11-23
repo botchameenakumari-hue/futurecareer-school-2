@@ -267,7 +267,7 @@ export const bundle: SkillTestBundle = {
   depth: {
     stageHeading: 'Which target path are you comparing yourself with?',
     stageNote:
-      'A skill gap only exists against a target. Choose the path you are studying towards, applying for or planning to move into, and your questions and advice will change to fit it.',
+      'A skill gap only exists against a target. Choose the path you are studying towards, applying for or planning to move into. If you have not decided yet, pick the path you are most curious about and treat the result as a trial.',
     stages: [
       {
         key: 'tech',
@@ -671,11 +671,11 @@ export const bundle: SkillTestBundle = {
       o('Say who you are in one line, name what you are building, ask one specific question and say thanks', 100, 'A specific, short message is easier to answer. Follow up with a thank you and tell them what you did with their reply.'),
       o('Send a message that says only "Please guide me", so that the person can decide what advice to give', 17, 'A general request is hard to act on. Say what you tried and what you need.'),
     ]),
-    sc('market', 'Friends say a certain skill is “in demand” because a video said so. What do you do?', [
-      o('Read one popular ranking article of in-demand skills and decide from it, since the writer has done the research', 50, 'One source can be old or one-sided. Check at least a few current listings as well.'),
-      o('Read ten current listings and ask one or two people in the role whether the skill is asked for, then decide', 100, 'You test the claim with real listings and real people. Note the date you checked, since demand shifts.'),
-      o('Join your friends so that you can study together, and check the listings later when you are further in', 33, 'Company helps you stay with a plan, but it does not show that the skill is asked for. Check the listings together before you start.'),
-      o('Start learning it immediately because the video was convincing and the presenter seemed to know the job market', 17, 'A video may be right, but it may also be selling a course. Spend an hour on listings before you spend months on the skill.'),
+    sc('market', 'An advertisement for a paid course says “job assured” and shows salary figures. You are thinking of paying. What do you do first?', [
+      o('Ask for the names of two recent students you can speak to, and read ten current listings to see whether employers ask for this skill', 100, 'Real students and real listings show where a course leads. A salary figure in an advertisement is not proof of what you will earn, so note the date you checked.'),
+      o('Compare the fee with two similar courses and choose the cheaper one', 50, 'The fee matters, but a cheaper course is no use if employers do not ask for the skill. Check the listings as well, then compare the fees.'),
+      o('Join the free demo class and decide from how good the teacher sounds', 33, 'A good teacher helps, but a demo does not show where past students work now. Ask to speak to some of them before you pay.'),
+      o('Pay today because the offer ends tonight and the promise removes the risk', 17, 'A promise in an advertisement is only as good as its written terms. Read what is promised in writing, and never pay under time pressure.'),
     ]),
     sc('market', 'Your target route pays through a fixed pay scale, and you want your income and options to grow beyond it over time. What do you do?', [
       o('Take the job first and think about growth after five years, once you know the workplace and the pay scale well', 67, 'A job can be a sound start. Even a small step in the first year, such as a side skill, makes the later choice easier.'),
@@ -746,34 +746,34 @@ export const bundle: SkillTestBundle = {
 
   stagePlan: {
     tech: [
-      'Copy the repeating skills and tools from three current listings for your target tech role into a table and mark each can do alone, with help, or not yet.',
-      'Finish one small project for the biggest gap with no tutorial open, and save it where a stranger can open it.',
-      'Write a three-line note for the project: the problem, what you built and the result, and send it to one person in tech.',
-      'Retake this assessment once the project is finished, compare the area scores and choose the next project from the new gap.',
+      'Copy the repeating skills and tools from three current listings for your target tech role into a table and mark each can do alone, with help, or not yet. Done when every skill in the table has a mark and you can name your two biggest gaps.',
+      'Finish one small project for the biggest gap with no tutorial open, and save it where a stranger can open it. Done when a friend who has not seen it can open it on a phone and tell you what it does.',
+      'Write a three-line note for the project: the problem, what you built and the result, and send it to one person in tech. Done when one person has replied, even with one line.',
+      'Retake this assessment once the project is finished, compare the area scores and choose the next project from the new gap. Done when you can say which area score moved and by how many points.',
     ],
     business: [
-      'Copy the repeating skills and tools from three current listings for your target business role into a table and mark each one.',
-      'Complete one practice task from a listing, such as a sales summary, a budget or a lead list, and keep the file.',
-      'Write who pays, how they find you and what makes them trust you, and test one small step with a real person.',
-      'Retake this assessment once the sample is done and choose the next sample or skill from the new gap.',
+      'Copy the repeating skills and tools from three current listings for your target business role into a table and mark each one. Done when every row has a mark and you can name your two biggest gaps.',
+      'Complete one practice task from a listing, such as a sales summary, a budget or a lead list, and keep the file. Done when the file is saved and a friend can read the result without your help.',
+      'Write who pays, how they find you and what makes them trust you, and test one small step with a real person. Done when one real person has answered one question about it.',
+      'Retake this assessment once the sample is done and choose the next sample or skill from the new gap. Done when you can say which area score moved and by how many points.',
     ],
     creative: [
-      'Choose a niche and copy the skills and tools from three current listings or client briefs into a table.',
-      'Make one finished piece for the niche within a set deadline, and note the step that took the longest.',
-      'Show the piece to one person who hires or buys such work and ask what would make them contact you.',
-      'Retake this assessment once the piece is shown, then remove your weakest portfolio piece and replace it.',
+      'Choose a niche and copy the skills and tools from three current listings or client briefs into a table. Done when the table has at least three listings or briefs and the repeating skills are underlined.',
+      'Make one finished piece for the niche within a set deadline, and note the step that took the longest. Done when the piece is finished on the day you set, even if it is not perfect.',
+      'Show the piece to one person who hires or buys such work and ask what would make them contact you. Done when you have written down one thing they said would make them contact you.',
+      'Retake this assessment once the piece is shown, then remove your weakest portfolio piece and replace it. Done when the new piece is in your portfolio and the weakest piece is out.',
     ],
     government: [
-      'Read the official notification of each exam you target and write vacancies, pattern, age limit and last date in one sheet.',
-      'Solve one previous-year paper under exam timing and list the topics where you lost marks.',
-      'Choose one side skill or second route and give it a fixed slot each day beside your exam study.',
-      'Retake this assessment after a few more mock tests, compare your mock test record with the result and adjust the plan.',
+      'Read the official notification of each exam you target and write vacancies, pattern, age limit and last date in one sheet. Done when every target exam has a row and you have checked the last date on the official site.',
+      'Solve one previous-year paper under exam timing and list the topics where you lost marks. Done when you have your score and a list of the topics where you lost marks.',
+      'Choose one side skill or second route and give it a fixed slot each day beside your exam study. Done when the slot is on your timetable and you have used it three days in a row.',
+      'Retake this assessment after a few more mock tests, compare your mock test record with the result and adjust the plan. Done when you can compare this result with your last two mock test scores.',
     ],
     healthcare: [
-      'Find the official requirements for training and registration for your target role in your state and note the source.',
-      'Write the steps of one core procedure from memory and ask your trainer to check them and watch you do it.',
-      'Collect your certificates, training hours and supervisor details in one folder with matching names and dates.',
-      'Retake this assessment once the documents are in order and choose the next supervised practice to complete.',
+      'Find the official requirements for training and registration for your target role in your state and note the source. Done when you have written the name of the official body and the date you read its page.',
+      'Write the steps of one core procedure from memory and ask your trainer to check them and watch you do it. Done when your trainer has watched you once and marked any steps you missed.',
+      'Collect your certificates, training hours and supervisor details in one folder with matching names and dates. Done when every certificate and training record is in the folder with its date.',
+      'Retake this assessment once the documents are in order and choose the next supervised practice to complete. Done when you have asked for your next supervised practice day.',
     ],
   },
 

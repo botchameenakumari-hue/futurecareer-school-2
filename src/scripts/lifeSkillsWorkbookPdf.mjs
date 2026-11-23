@@ -41,6 +41,35 @@ export function startWith(skills, rating, ratingLabels) {
   return 'Start with ' + names.join(' and ') + ', which you rated ' + lowest + (label ? ' (' + label + ')' : '') + '. Do the 7-day practice first, then rate it again.';
 }
 
+/** The next 7-day step to do: a practice already begun, else the skill named by startWith. Null when every chosen practice is finished. */
+export function nextPractice(skills, state) {
+  const doneCount = (skill) => ((state.days && state.days[skill.id]) || []).filter(Boolean).length;
+  const open = skills.filter((skill) => doneCount(skill) < skill.activity.days.length);
+  if (!open.length) return null;
+  const begun = open.find((skill) => doneCount(skill) > 0);
+  let pick = begun;
+  if (!pick) {
+    const rated = open.filter((skill) => Number(state.rating && state.rating[skill.id]) > 0);
+    pick = rated.length
+      ? rated.reduce((a, b) => (Number(state.rating[b.id]) < Number(state.rating[a.id]) ? b : a))
+      : open[0];
+  }
+  const days = (state.days && state.days[pick.id]) || [];
+  let index = pick.activity.days.findIndex((_, i) => !days[i]);
+  if (index < 0) index = 0;
+  return { skill: pick, dayNumber: index + 1, text: pick.activity.days[index], done: doneCount(pick), total: pick.activity.days.length };
+}
+
+export function practiceLine(next) {
+  if (!next) return 'Every chosen 7-day practice is ticked. Rate each skill again under "After the 7 days".';
+  return 'Next practice step: ' + next.skill.name + ', Day ' + next.dayNumber + ' of ' + next.total + '. ' + next.text;
+}
+
+export function practiceWhatsApp(next) {
+  if (!next) return 'I finished my 7-day life skills practice. Free workbook: https://futurecareerschool.com/tools/life-skills-workbook-pdf/';
+  return 'My life skills practice: ' + next.skill.name + ' (' + next.skill.activity.title + '), Day ' + next.dayNumber + ' of ' + next.total + '. ' + next.text + ' Free workbook, nothing is uploaded: https://futurecareerschool.com/tools/life-skills-workbook-pdf/';
+}
+
 export function createLifeSkillsPdf(PdfDocument, skills, state, meta) {
   const pdf = new PdfDocument({ unit: 'mm', format: 'a4', compress: true });
   const uni = meta.unicodeReady ? createUnicodeText(pdf) : null;
@@ -128,6 +157,7 @@ export function createLifeSkillsPdf(PdfDocument, skills, state, meta) {
   write(skills.map((skill, index) => (skill.number || index + 1) + '. ' + skill.name).join('   '), { size: 10, gap: 3 });
   write('How to use it: read the notes, answer the three questions in your own words, rate yourself honestly and tick each day of the 7-day practice as you finish it. A self-rating is your own view, not a test result.', { size: 9.5, gap: 2.5 });
   write('Where to start: ' + startWith(skills, state.rating, meta.ratingLabels), { size: 9.5, gap: 2.5 });
+  write(practiceLine(nextPractice(skills, state)), { size: 9.5, gap: 2.5 });
   write('This workbook is for personal reflection. It is not medical advice. If stress or low mood is heavy or lasts for weeks, talk to a doctor, a counsellor or a trusted adult.', { size: 9.5, gap: 2.5 });
   write('Source for the list: ' + meta.sourceLabel + '. WHO describes life skills as "' + meta.definition + '." Source link: ' + meta.sourceUrl, { size: 8.5, color: [90, 90, 90], gap: 2 });
   write('Your answers stay on your device. This file was created in your browser and nothing was uploaded.', { size: 8.5, color: [90, 90, 90], gap: 2 });

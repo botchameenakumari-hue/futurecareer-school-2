@@ -1,47 +1,152 @@
 <section class="sbf" id="student-business-feasibility" aria-labelledby="sbf-title">
-  <div class="sbf-head"><div><p class="sbf-kicker">Private browser calculator · no income promise</p><h2 id="sbf-title">Stress-test a student business idea</h2><p>Use your own small-test assumptions to see whether the unit economics are worth testing. The calculator does not estimate demand or guarantee profit.</p></div><p class="sbf-note"><b>Private by design:</b> values stay in this browser and are not saved or sent.</p></div>
+  <div class="sbf-head"><div><p class="sbf-kicker">Private browser calculator · no income promise</p><h2 id="sbf-title">Will this small business idea make money?</h2><p>Type your guesses for one week. The tool shows what you would keep, how many sales you need to break even, and a dated plan to test the idea with real buyers.</p></div><p class="sbf-note"><b>Private:</b> your numbers stay in this browser and are not saved or sent.</p></div>
   <form class="sbf-form" id="sbf-form" novalidate>
-    <label>Idea or offer<input data-sbf="idea" type="text" maxlength="80" placeholder="For example: poster design for local shops"></label>
-    <label>Expected sales per week<input data-sbf="sales" type="number" min="0" step="1" inputmode="numeric" required></label>
-    <label>Price per sale (₹)<input data-sbf="price" type="number" min="0" step="50" inputmode="numeric" required></label>
-    <label>Variable cost per sale (₹)<input data-sbf="variable" type="number" min="0" step="25" inputmode="numeric" required></label>
-    <label>Fixed weekly cost (₹)<input data-sbf="fixed" type="number" min="0" step="50" inputmode="numeric" required></label>
-    <label>Hours per week<input data-sbf="hours" type="number" min="0" step="1" inputmode="decimal" required></label>
-    <label>Starting budget (₹)<input data-sbf="budget" type="number" min="0" step="100" inputmode="numeric" required></label>
-    <div class="sbf-actions"><button type="submit">Calculate the test view</button><button type="reset" class="sbf-secondary">Reset</button></div>
+    <div class="sbf-ex-slot" id="sbf-ex-slot"></div>
+    <label for="sbf-idea">Idea or offer (optional)<input id="sbf-idea" data-sbf="idea" type="text" maxlength="80" autocomplete="off" placeholder="For example: poster design for local shops"></label>
+    <label for="sbf-sales">Sales you expect each week<input id="sbf-sales" data-sbf="sales" type="text" inputmode="decimal" autocomplete="off" placeholder="3"></label>
+    <label for="sbf-price">Price of one sale (₹)<input id="sbf-price" data-sbf="price" type="text" inputmode="numeric" autocomplete="off" placeholder="500"></label>
+    <label for="sbf-variable">Cost to make or deliver one sale (₹)<input id="sbf-variable" data-sbf="variable" type="text" inputmode="numeric" autocomplete="off" placeholder="50"><span class="sbf-h">Material, printing, data, delivery. Not your own time.</span></label>
+    <label for="sbf-fixed">Cost every week whatever you sell (₹)<input id="sbf-fixed" data-sbf="fixed" type="text" inputmode="numeric" autocomplete="off" placeholder="100"><span class="sbf-h">Internet, tool subscription, stall rent. Leave empty if none.</span></label>
+    <label for="sbf-hours">Hours you spend each week<input id="sbf-hours" data-sbf="hours" type="text" inputmode="decimal" autocomplete="off" placeholder="6"><span class="sbf-h">Making, selling, travelling and talking to buyers.</span></label>
+    <label for="sbf-budget">Starting money you can afford to lose (₹)<input id="sbf-budget" data-sbf="budget" type="text" inputmode="numeric" autocomplete="off" placeholder="2000"><span class="sbf-h">Use pocket money or savings only. Do not borrow for a first test.</span></label>
+    <label for="sbf-target">Weekly earning you would like (₹, optional)<input id="sbf-target" data-sbf="target" type="text" inputmode="numeric" autocomplete="off" placeholder="1500"></label>
+    <label for="sbf-days">Days you will run the test<input id="sbf-days" data-sbf="days" type="text" inputmode="numeric" autocomplete="off" value="14"></label>
+    <div class="sbf-actions"><button type="submit">Show my result</button><button type="button" class="sbf-secondary" id="sbf-reset">Clear</button></div>
+    <p id="sbf-error" hidden></p>
   </form>
-  <div class="sbf-result" id="sbf-result" aria-live="polite" hidden><h3 data-sbf-out="title"></h3><div class="sbf-grid"><div><span>Contribution per sale</span><strong data-sbf-out="margin"></strong></div><div><span>Estimated weekly contribution</span><strong data-sbf-out="weekly"></strong></div><div><span>Sales to cover weekly fixed cost</span><strong data-sbf-out="breakEven"></strong></div><div><span>Contribution per hour</span><strong data-sbf-out="hourly"></strong></div><div><span>Budget runway at this burn</span><strong data-sbf-out="runway"></strong></div></div><p class="sbf-warning" data-sbf-out="warning"></p><div class="sbf-plan"><h4>Run a 14-day test before scaling</h4><ol><li>Speak to five plausible buyers and record their exact problem, not just compliments.</li><li>Offer the smallest paid version to a clear customer group.</li><li>Track enquiries, paid sales, delivery time, variable cost and repeat interest.</li><li>Continue, change the offer or stop based on observed evidence-not excitement alone.</li></ol></div></div>
+  <div class="sbf-result" id="sbf-result" aria-live="polite" hidden></div>
 </section>
 
 <script>
+  import { esc, inr, num1, parseNum, MAX_MONEY, addDays, dayLabel, startOfToday, addResultTools, showError, exampleButton, fillFields } from '../scripts/moneyToolKit';
+
   const app = document.querySelector<HTMLElement>('#student-business-feasibility');
-  if (app) {
-    const form = app.querySelector<HTMLFormElement>('#sbf-form');
-    const result = app.querySelector<HTMLElement>('#sbf-result');
-    if (!form || !result) throw new Error('Student business calculator markup is incomplete.');
-    const input = (key: string) => { const field = form.querySelector<HTMLInputElement>(`[data-sbf="${key}"]`); if (!field) throw new Error(`Student business calculator input is missing: ${key}`); return field; };
-    const output = (key: string) => { const field = app.querySelector<HTMLElement>(`[data-sbf-out="${key}"]`); if (!field) throw new Error(`Student business calculator output is missing: ${key}`); return field; };
-    const number = (key: string) => Math.max(0, Number.parseFloat(input(key).value) || 0);
-    const money = (value: number) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(Math.max(0, value));
-      form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        if (!form.checkValidity()) { form.reportValidity(); return; }
-      const idea = input('idea').value.trim() || 'This idea';
-      const sales = number('sales'); const price = number('price'); const variable = number('variable'); const fixed = number('fixed'); const hours = number('hours'); const budget = number('budget');
-      const margin = price - variable; const weekly = margin * sales - fixed; const breakEven = margin > 0 ? Math.ceil(fixed / margin) : null; const hourly = hours > 0 ? weekly / hours : 0; const runway = weekly < 0 ? (Math.abs(weekly) > 0 ? budget / Math.abs(weekly) : null) : null;
-      output('title').textContent = `${idea}: small-test view`;
-      output('margin').textContent = money(margin);
-      output('weekly').textContent = money(weekly);
-      output('breakEven').textContent = breakEven === null ? 'Not calculable' : `${breakEven} sale${breakEven === 1 ? '' : 's'}`;
-      output('hourly').textContent = money(hourly);
-      output('runway').textContent = runway === null ? (weekly >= 0 ? 'No weekly loss in this model' : 'Not calculable') : `${runway.toFixed(1)} weeks`;
-      output('warning').textContent = margin <= 0 ? 'Your price does not cover the entered variable cost. Change the offer, cost or price before spending the starting budget.' : weekly <= 0 ? 'This assumption set loses money each week before your time is valued. Treat the 14-day test as a learning experiment, not a business forecast.' : 'This assumption set leaves a positive contribution after the entered fixed cost. Test whether real buyers and delivery time match the assumptions.';
+  const form = document.querySelector<HTMLFormElement>('#sbf-form');
+  const result = document.querySelector<HTMLElement>('#sbf-result');
+  const errBox = document.querySelector<HTMLElement>('#sbf-error');
+  const resetBtn = document.querySelector<HTMLButtonElement>('#sbf-reset');
+  const slot = document.querySelector<HTMLElement>('#sbf-ex-slot');
+  if (!app || !form || !result || !resetBtn || !slot) throw new Error('Student business calculator markup is incomplete.');
+  const field = (key: string) => form.querySelector<HTMLInputElement>(`[data-sbf="${key}"]`)!;
+
+  const EXAMPLE = { idea: 'Example: poster design for local shops', sales: '3', price: '500', variable: '50', fixed: '100', hours: '6', budget: '2000', target: '1500', days: '14' };
+  slot.appendChild(exampleButton('Try an example', 'The example numbers are made up to show how the tool works. Use your own guesses.', () => {
+    fillFields(form, (k) => `[data-sbf="${k}"]`, EXAMPLE);
+    showError(errBox, '');
+    form.requestSubmit();
+  }));
+
+  const read = (key: string, label: string, opts: { required?: boolean; max?: number } = {}): number => {
+    const v = parseNum(field(key).value);
+    if (v === null) { if (opts.required) throw { msg: `Please fill in: ${label}.`, key }; return 0; }
+    if (Number.isNaN(v)) throw { msg: `${label}: please type numbers only, for example 500.`, key };
+    if (v < 0) throw { msg: `${label}: the number cannot be below 0.`, key };
+    if (v > (opts.max ?? MAX_MONEY)) throw { msg: `${label}: this number is too large. Please check it.`, key };
+    return v;
+  };
+
+  const compute = () => {
+    const idea = field('idea').value.trim() || 'This idea';
+    const sales = read('sales', 'Sales you expect each week', { required: true, max: 100000 });
+    const price = read('price', 'Price of one sale', { required: true });
+    const variable = read('variable', 'Cost to make or deliver one sale');
+    const fixed = read('fixed', 'Cost every week whatever you sell');
+    const hours = read('hours', 'Hours you spend each week', { max: 168 });
+    const budget = read('budget', 'Starting money');
+    const target = read('target', 'Weekly earning you would like');
+    const daysRaw = parseNum(field('days').value);
+    const days = daysRaw === null ? 14 : daysRaw;
+    if (Number.isNaN(days) || days < 4 || days > 90 || !Number.isInteger(days)) throw { msg: 'Days you will run the test: type a whole number from 4 to 90.', key: 'days' };
+
+    const margin = price - variable;
+    const weekly = margin * sales - fixed;
+    const breakEven = margin > 0 ? Math.ceil(fixed / margin) : null;
+    const hourly = hours > 0 ? weekly / hours : null;
+    const needForTarget = margin > 0 && target > 0 ? Math.ceil((target + fixed) / margin) : null;
+    const lossWeeks = weekly < 0 && budget > 0 ? budget / Math.abs(weekly) : null;
+    const earnBackWeeks = weekly > 0 && budget > 0 ? budget / weekly : null;
+    const floorPrice = sales > 0 ? variable + fixed / sales : null;
+
+    let headline: string;
+    let meaning: string;
+    if (margin <= 0) {
+      headline = 'You lose money on every sale';
+      meaning = `Each sale brings ${inr(price)} but costs ${inr(variable)} to deliver, so you lose ${inr(Math.abs(margin))} on every sale before any fixed cost. Raise the price, cut the cost or change the offer before you spend anything.`;
+    } else if (weekly < 0) {
+      headline = `You would lose about ${inr(Math.abs(weekly))} a week`;
+      meaning = `Each sale leaves ${inr(margin)}. At ${num1(sales)} sale${sales === 1 ? '' : 's'} a week that is ${inr(margin * sales)}, which does not cover the ${inr(fixed)} weekly cost. You need ${breakEven} sale${breakEven === 1 ? '' : 's'} a week just to break even.`;
+    } else {
+      headline = `You would keep about ${inr(weekly)} a week`;
+      meaning = `Each sale leaves ${inr(margin)}, so ${num1(sales)} sale${sales === 1 ? '' : 's'} a week gives ${inr(margin * sales)}, and ${inr(weekly)} after the weekly cost.${hourly !== null ? ` For ${num1(hours)} hours of work that is about ${inr(hourly)} for each hour.` : ''} This only holds if that many real buyers pay every week.`;
+    }
+
+    const t0 = startOfToday();
+    const at = (f: number) => dayLabel(addDays(t0, Math.max(1, Math.round(days * f))));
+    const steps = [
+      `By ${at(0.2)}: speak to five people who might really buy. Write down their exact problem and what they pay today. Compliments do not count.`,
+      `By ${at(0.45)}: offer the smallest paid version to two or three of them and ask for an advance before you spend on materials.`,
+      `By ${at(0.75)}: deliver, and write down your real time, real cost and any complaint for each sale.`,
+      `By ${at(1)}: compare the real numbers with the guesses above. Decide in writing: continue, change the offer, or stop.`,
+    ];
+
+    const lines = [
+      `${idea}: small business check (a planning estimate)`,
+      `Result: ${headline}`,
+      `Price ${inr(price)}, cost per sale ${inr(variable)}, so ${inr(margin)} left per sale`,
+      `${num1(sales)} sales a week, weekly cost ${inr(fixed)}, result ${inr(weekly)} a week`,
+      breakEven !== null ? `Sales needed a week to break even: ${breakEven}` : 'Break-even: not possible at this price',
+      ...(floorPrice !== null ? [`Lowest price that breaks even at ${num1(sales)} sales a week: ${inr(Math.ceil(floorPrice))}`] : []),
+      ...(needForTarget !== null ? [`Sales needed a week to reach ${inr(target)}: ${needForTarget}`] : []),
+      ...(hourly !== null ? [`Per hour of your time: ${inr(hourly)}`] : []),
+      '',
+      meaning,
+      '',
+      `Your ${days}-day test:`,
+      ...steps.map((s, i) => `${i + 1}. ${s}`),
+      '',
+      'Before you sell: if you are under 18, tell a parent and use cash or a parent\'s account. Selling food needs FSSAI registration. Never pay a fee to anyone who promises you orders.',
+      'Not financial advice. Free tool: https://futurecareerschool.com/tools/student-business-idea-feasibility-calculator/',
+    ];
+
+    const cell = (l: string, v: string, tone = '') => `<div><span>${esc(l)}</span><strong${tone ? ` class="${tone}"` : ''}>${esc(v)}</strong></div>`;
+    const html = `<h3>${esc(idea)}: ${esc(headline.toLowerCase())}</h3>
+      <p class="sbf-meaning">${esc(meaning)}</p>
+      <div class="sbf-grid">
+        ${cell('Left from each sale', inr(margin), margin <= 0 ? 'sbf-bad' : '')}
+        ${cell('Result each week', inr(weekly), weekly < 0 ? 'sbf-bad' : '')}
+        ${cell('Sales a week to break even', breakEven === null ? 'Not possible' : String(breakEven))}
+        ${cell('Per hour of your time', hourly === null ? 'Add your hours' : inr(hourly), hourly !== null && hourly < 0 ? 'sbf-bad' : '')}
+        ${floorPrice !== null ? cell(`Lowest price to break even at ${num1(sales)} sales`, inr(Math.ceil(floorPrice))) : ''}
+        ${needForTarget !== null ? cell(`Sales a week to reach ${inr(target)}`, String(needForTarget)) : ''}
+        ${lossWeeks !== null ? cell('Weeks until your starting money is gone', `${num1(lossWeeks)} weeks`, 'sbf-bad') : ''}
+        ${earnBackWeeks !== null ? cell('Weeks to earn back your starting money', `${num1(earnBackWeeks)} weeks`) : ''}
+      </div>
+      <div class="mtk-steps"><h3>Your ${days}-day test, with dates</h3><ol>${steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol></div>
+      <p class="mtk-safe"><b>Before you sell:</b> if you are under 18, tell a parent and use cash or a parent's account. Selling food needs FSSAI registration. Never pay a fee to anyone who promises you orders.</p><p class="mtk-safe">Keep your studies first.</p>
+      <p class="sbf-small">The tool cannot know if people will buy. Sales are the guess that matters most, so test that first.</p><p class="sbf-small">The numbers leave out tax and your own wage. Not financial advice.</p>`;
+    return { text: lines.join('\n'), html };
+  };
+
+  let lastText = '';
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    try {
+      const out = compute();
+      showError(errBox, '');
+      lastText = out.text;
+      result.innerHTML = out.html;
+      addResultTools(result, () => lastText, 'My small business check');
       result.hidden = false;
-    });
-    form.addEventListener('reset', () => { result.hidden = true; });
-  }
+    } catch (e) {
+      const err = e as { msg?: string; key?: string };
+      if (!err || !err.msg) throw e;
+      result.hidden = true;
+      showError(errBox, err.msg, err.key ? field(err.key) : null);
+    }
+  });
+  resetBtn.addEventListener('click', () => { form.reset(); result.hidden = true; result.innerHTML = ''; showError(errBox, ''); });
 </script>
 
 <style is:global>
-  .sbf{margin:2rem 0;padding:clamp(1.1rem,3vw,2rem);border:1px solid rgba(229,184,74,.4);border-radius:22px;background:linear-gradient(145deg,rgba(229,184,74,.1),rgba(255,255,255,.03));color:#f8fafc}.sbf-head{display:grid;grid-template-columns:1fr minmax(210px,300px);gap:1.2rem}.sbf-kicker{margin:0;color:#f7d88c;font-size:.76rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.sbf h2{margin:.45rem 0 .55rem;color:#fff}.sbf p{color:rgba(255,255,255,.68);line-height:1.65}.sbf-note{padding:.85rem;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(255,255,255,.04);font-size:.86rem}.sbf-form{display:grid;grid-template-columns:repeat(4,1fr);gap:.75rem;margin:1.25rem 0}.sbf-form label{display:grid;gap:.35rem;color:#fff;font-size:.86rem;font-weight:700}.sbf-form input{min-height:44px;width:100%;padding:.55rem .7rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:#101927;color:#fff;font:inherit}.sbf-actions{display:flex;flex-wrap:wrap;gap:.6rem;align-items:end;grid-column:1/-1}.sbf-actions button{min-height:44px;padding:.55rem .85rem;border:0;border-radius:10px;background:#e5b84a;color:#17130a;font-weight:800;cursor:pointer}.sbf-actions .sbf-secondary{border:1px solid rgba(255,255,255,.2);background:transparent;color:#fff}.sbf-result{padding:1rem;border-radius:15px;background:rgba(0,0,0,.16);border:1px solid rgba(255,255,255,.14)}.sbf-result h3{margin-top:0;color:#fff}.sbf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:.65rem}.sbf-grid>div{padding:.75rem;border:1px solid rgba(255,255,255,.13);border-radius:10px}.sbf-grid span,.sbf-grid strong{display:block}.sbf-grid span{font-size:.78rem;color:rgba(255,255,255,.62)}.sbf-grid strong{margin-top:.35rem;color:#f7d88c}.sbf-warning{padding:.8rem;border-left:3px solid #e5b84a;background:rgba(229,184,74,.1);color:#f7d88c!important}.sbf-plan{margin-top:1rem;padding:1rem;border-radius:12px;background:rgba(18,154,141,.1)}.sbf-plan h4{margin-top:0;color:#fff}.sbf-plan li{color:rgba(255,255,255,.7);line-height:1.55}.sbf-plan li+li{margin-top:.4rem}.sbf-form input:focus-visible,.sbf-actions button:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}@media(max-width:900px){.sbf-form{grid-template-columns:repeat(2,1fr)}.sbf-grid{grid-template-columns:repeat(3,1fr)}}@media(max-width:620px){.sbf-head,.sbf-form,.sbf-grid{grid-template-columns:1fr}.sbf-actions{grid-column:auto}}
+  .sbf{margin:2rem 0;padding:clamp(1.1rem,3vw,2rem);border:1px solid rgba(229,184,74,.4);border-radius:22px;background:linear-gradient(145deg,rgba(229,184,74,.1),rgba(255,255,255,.03));color:#f8fafc}.sbf-head{display:grid;grid-template-columns:1fr minmax(210px,300px);gap:1.2rem}.sbf-kicker{margin:0;color:#f7d88c;font-size:.76rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.sbf h2{margin:.45rem 0 .55rem;color:#fff}.sbf p{color:rgba(255,255,255,.72);line-height:1.65}.sbf-note{padding:.85rem;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(255,255,255,.04);font-size:.86rem}.sbf-form{display:grid;grid-template-columns:repeat(3,1fr);gap:.85rem;margin:1.25rem 0}.sbf-form label{display:grid;gap:.35rem;color:#fff;font-size:.92rem;font-weight:700;align-content:start}.sbf-h{font-weight:400;font-size:.8rem;color:rgba(255,255,255,.62);line-height:1.4}.sbf-form input{min-height:44px;width:100%;padding:.55rem .7rem;border:1px solid rgba(255,255,255,.25);border-radius:10px;background:#101927;color:#fff;font:inherit;font-size:1rem}.sbf-ex-slot,#sbf-error{grid-column:1/-1}.sbf-actions{display:flex;flex-wrap:wrap;gap:.6rem;align-items:end;grid-column:1/-1}.sbf-actions button{min-height:44px;padding:.55rem .95rem;border:0;border-radius:10px;background:#e5b84a;color:#17130a;font:inherit;font-weight:800;cursor:pointer}.sbf-actions .sbf-secondary{border:1px solid rgba(255,255,255,.2);background:transparent;color:#fff}.sbf-result{padding:1rem;border-radius:15px;background:rgba(0,0,0,.16);border:1px solid rgba(255,255,255,.14)}.sbf-result h3{margin-top:0;color:#fff;overflow-wrap:anywhere}.sbf-meaning{padding:.8rem;border-left:3px solid #2dd4bf;background:rgba(45,212,191,.08)}.sbf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:.65rem}.sbf-grid>div{padding:.75rem;border:1px solid rgba(255,255,255,.13);border-radius:10px;min-width:0}.sbf-grid span,.sbf-grid strong{display:block}.sbf-grid span{font-size:.8rem;color:rgba(255,255,255,.62)}.sbf-grid strong{margin-top:.35rem;color:#f7d88c;font-size:1.1rem}.sbf-grid strong.sbf-bad{color:#ffb4a8}.sbf-small{font-size:.88rem}.sbf-form input:focus-visible,.sbf-actions button:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}@media(max-width:900px){.sbf-form{grid-template-columns:repeat(2,1fr)}}@media(max-width:620px){.sbf-head,.sbf-form{grid-template-columns:1fr}}
 </style>

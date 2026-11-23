@@ -618,28 +618,28 @@ const phrases = {
 
 const stagePlan = {
   early: [
-    'This week, talk to three people who might pay for a skill you have and write down what they say about the problem.',
-    'Offer one small paid or trial job to a person you know and ask for one change you could make.',
-    'Keep a one-page record of money in and out of that small job, and work out what was left after costs.',
-    'Join a club or fest team in a role where you must persuade people, and note what made them say yes.',
+    'This week, talk to three people who might pay for a skill you have and write down what they say about the problem. Done when you have three short notes, one for each person, in their own words.',
+    'Offer one small paid or trial job to a person you know and ask for one change you could make. Done when the job is finished and you have written the one change they asked for.',
+    'Keep a one-page record of money in and out of that small job, and work out what was left after costs. Done when your page shows money in, money out and what was left.',
+    'Join a club or fest team in a role where you must persuade people, and note what made them say yes. Done when you have written down one reason people said yes.',
   ],
   senior: [
-    'Rewrite two CV lines so that each names something you did, who it was for and what changed.',
-    'In your next case or mock interview, state profit per unit before you recommend a plan.',
-    'Start one small paid project for a local shop or a classmate, and keep a record of money and hours.',
-    'Prepare a two-minute story about something you sold or organised, with your part, one number and one lesson.',
+    'Rewrite two CV lines so that each names something you did, who it was for and what changed. Done when each line names what you did, who it was for and what changed.',
+    'In your next case or mock interview, state profit per unit before you recommend a plan. Done when you have said the profit per unit aloud before the recommendation.',
+    'Start one small paid project for a local shop or a classmate, and keep a record of money and hours. Done when the record shows money in, money out and hours.',
+    'Prepare a two-minute story about something you sold or organised, with your part, one number and one lesson. Done when you can tell the story in two minutes with one number.',
   ],
   starter: [
-    'List your last ten customers, where each came from and whether they came back.',
-    'Test a slightly higher price with the next few customers and compare the profit.',
-    'Open a separate account for project money and review it every Sunday.',
-    'Write the steps of one order on a page and fix the step that caused your last delay.',
+    'List your last ten customers, where each came from and whether they came back. Done when each of the ten customers has a source and a yes or no for coming back.',
+    'Test a slightly higher price with the next few customers and compare the profit. Done when you have put the profit at both prices on the same page.',
+    'Open a separate account for project money and review it every Sunday. Done when the account is open and you have done one Sunday review.',
+    'Write the steps of one order on a page and fix the step that caused your last delay. Done when the order steps are written and the late step has one fix.',
   ],
   working: [
-    'Ask a senior who the main customers are and what they complain about, and write three lines.',
-    'Sit in on one customer call or read a week of customer messages and note the three most common requests.',
-    'Test any side idea for a few weekends with one real customer, and track hours and money.',
-    'Work out how many months of costs your savings would cover before you think about leaving a salary.',
+    'Ask a senior who the main customers are and what they complain about, and write three lines. Done when you have three lines written from what the senior told you.',
+    'Sit in on one customer call or read a week of customer messages and note the three most common requests. Done when you have a list of the three most common requests.',
+    'Test any side idea for a few weekends with one real customer, and track hours and money. Done when you have kept a record for at least three weekends.',
+    'Work out how many months of costs your savings would cover before you think about leaving a salary. Done when you have written down the number of months.',
   ],
 };
 

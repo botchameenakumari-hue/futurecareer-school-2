@@ -166,6 +166,48 @@ function compareBlocks(ra, rb, nameA, nameB, view) {
   return b;
 }
 
+
+// ---------- next steps and plain text ----------
+
+/** Three steps for the person reading the result. results = computeOffer results, view = month or year. */
+export function nextStepsFor(results, names) {
+  const steps = [];
+  steps.push('Ask HR for the salary breakup in writing: basic pay, HRA, special allowance, employer PF, gratuity, variable pay, joining bonus and insurance. Then set these in More choices so the estimate matches your offer letter.');
+  const first = results[0];
+  const sv = first.structure;
+  if (sv.variableTarget > 0) {
+    steps.push('Your offer counts ' + inr(sv.variableTarget) + ' of variable pay inside the CTC. Ask HR what share was paid out to people in your role in the last two years, then try 50 and 0 in the payout box to see a weak year.');
+  } else {
+    const w = whatIf(first.inputs);
+    const pfRow = w.rows.find((x) => x.label.indexOf('PF on the full basic pay') === 0);
+    if (pfRow && Math.abs(pfRow.dMonthly) >= 1) steps.push('Ask HR which wage your PF is worked on: the ' + inr(first.inputs.pfCeiling) + ' ceiling or your full basic pay. On your numbers the full basic pay would ' + (pfRow.dMonthly < 0 ? 'lower' : 'raise') + ' your monthly in-hand pay by ' + inr(Math.abs(pfRow.dMonthly)) + ', and add to your PF savings.');
+    else steps.push('Ask HR which wage your PF is worked on and whether the employer PF and gratuity are inside the CTC. They decide how much reaches your bank.');
+  }
+  if (results.length > 1) steps.push('Compare ' + names[0] + ' and ' + names[1] + ' on monthly in-hand pay and on what you save in PF and gratuity, not on CTC alone. Also check the notice period, any bond, the probation terms and when variable pay is paid, before you say yes.');
+  else steps.push('Before you accept, read the notice period, any bond or training-cost clause, the probation terms and when variable pay is paid. If something is unclear, ask HR to reply in writing.');
+  return steps;
+}
+
+/** A short plain-text version of the result for WhatsApp or a note. */
+export function modelToText(model) {
+  if (!model || !model.ok) return '';
+  const lines = ['CTC to in-hand salary estimate (tax year ' + TAX_YEAR + ', rules checked ' + CHECKED_ON + ')'];
+  model.results.forEach((r, i) => {
+    const inp = r.inputs;
+    const st = STATES[inp.state] || STATES.none;
+    lines.push('');
+    lines.push(model.names[i] + ': CTC ' + inr(inp.ctc) + ' (' + lakh(inp.ctc) + '), ' + (inp.regime === 'new' ? 'new' : 'old') + ' tax regime, ' + st.label);
+    lines.push('- Monthly in-hand pay: ' + inr(r.monthlyInHand) + (r.structure.variablePaid > 0 || r.structure.joiningBonus > 0 ? ' (a regular month, without variable pay or bonus)' : ''));
+    lines.push('- Average per month over the year: ' + inr(r.averageMonthly) + ', annual take-home ' + inr(r.annualTakeHome));
+    lines.push('- Each month: your PF ' + inr(r.pf.employeePf / 12) + ', professional tax ' + inr(r.pt.perMonth) + ', income tax (TDS) ' + inr(r.monthlyTds));
+    lines.push('- Inside the CTC but not in your bank: ' + inr(r.employer.insideTotal) + ' a year (employer PF, gratuity and similar)');
+  });
+  lines.push('', 'Next three steps:');
+  nextStepsFor(model.results, model.names).forEach((t, i) => lines.push((i + 1) + '. ' + t));
+  lines.push('', 'An estimate, not tax advice or your payslip. Free calculator: https://futurecareerschool.com/tools/ctc-to-in-hand-salary-calculator/');
+  return lines.join('\n');
+}
+
 /**
  * state: { offers: [inputsA, inputsB | null], view: 'month' | 'year' }
  * Returns { ok, fileName, blocks, results } or { ok:false, reason }.
@@ -187,6 +229,8 @@ export function resultModel(state, generated) {
   results.forEach((r, i) => blocks.push(...offerBlocks(r, names[i], view, two ? names[i] + ': the details' : 'Your result')));
   blocks.push(...whatIfBlocks(results[0].inputs, view));
   if (two) blocks.push(...whatIfBlocks(results[1].inputs, view).map((blk) => (blk.t === 'h' ? { t: 'h', text: blk.text + ' (' + names[1] + ')' } : blk)));
+  blocks.push({ t: 'h', text: 'Your next three steps' });
+  blocks.push({ t: 'list', title: 'Before you accept an offer', items: nextStepsFor(results, names) });
   blocks.push({
     t: 'note',
     text: 'This is an estimate from the rules in force for tax year ' + TAX_YEAR + ' (Income-tax Act, 2025), checked on ' + CHECKED_ON + '. Payslips differ by employer, by how TDS is spread over the year, and by what each employer counts in basic pay. Professional tax, PF and labour-code rules change, so check the official notice. It is general information, not tax advice. Nothing you typed was sent anywhere.',

@@ -35,6 +35,9 @@ export const RATING_LABELS = [
   '5 Very strong',
 ];
 
+// A short set for a first visit, so a phone does not open a ten-skill page. These three come up in most study years.
+export const STARTER_SKILLS = ['self-awareness', 'decision-making', 'coping-with-stress'];
+
 export const SKILLS = [
   {
     id: 'self-awareness',

@@ -600,11 +600,11 @@ export const bundle: SkillTestBundle = {
       o('Ask whether you can go over time, and carry on as planned if the answer is yes', 45, 'Asking is honest, but the answer may be no and you still lose the ending. Have a short ending ready to use.'),
       o('Stop where you are, tell the room that you ran out of time and thank them for listening', 30, 'Stopping without the main message leaves people unsure. Say your closing sentence before you stop.'),
     ]),
-    sc('delivery', 'You hear yourself saying "um" and "so" a lot and speaking fast. What helps most in the moment?', [
-      o('Speak even faster, so that the filler words become harder for the audience to notice', 10, 'Faster speech brings more filler words and more mistakes, and listeners lose the point. Finish the sentence, breathe and slow down instead.'),
-      o('Tell the audience you are a little nervous and ask them to be patient with you today', 30, 'An apology draws attention to the problem and often makes it worse. Take a breath and carry on.'),
-      o('Finish your sentence, take one breath and start the next sentence more slowly', 100, 'A breath resets your pace and replaces filler words with a pause. Practise this at every sentence end in your next run.'),
-      o('Look down at the floor or your notes so that you can concentrate on choosing your words', 35, 'Looking down shuts out the audience and can lower your voice. Look at one friendly face for each sentence instead.'),
+    sc('delivery', 'You will present in English, but you think in your own language, and you are afraid of losing the right word in front of the class. What helps most?', [
+      o('Practise aloud in short English sentences, keep the key words on your notes, and say it in simpler words if a word does not come', 100, 'Short sentences are easier to say and to follow. A simple word said clearly is better than a hard word that stops you.'),
+      o('Learn the whole talk word for word so that no word is left to chance', 45, 'Learning the opening by heart can help. But one lost word can freeze you if you only know the exact words, so practise the ideas as well.'),
+      o('Use big words from a dictionary so that you sound more impressive', 30, 'Words you do not use every day are the first ones you lose. Plain words are easier for you to say and for the audience to follow.'),
+      o('Say very little and let the slides do the talking for you', 20, 'Slides cannot explain themselves. Speak less if you must, but say one clear sentence on each slide in your own words.'),
     ]),
     sc('questions', 'Someone asks a long and unclear question. What do you do?', [
       o('Answer the part you understood and hope that it also covers the rest of what they asked', 45, 'You may be right, but the person can leave feeling unheard. A quick check costs ten seconds.'),
@@ -653,7 +653,7 @@ export const bundle: SkillTestBundle = {
   phrases: {
     structure: [
       '"By the end of this talk, I want you to be able to ..."',
-      '"I will cover three things: first ..., second ..., third ...."',
+      '"I will cover three things: first ..., second ..., third ..."',
       '"If you remember one thing from today, let it be this."',
     ],
     slides: [
@@ -680,22 +680,22 @@ export const bundle: SkillTestBundle = {
 
   stagePlan: {
     student: [
-      'Write the main message of your next class talk in one sentence and build three points around it.',
-      'Ask your teacher what the marking will look at, then turn each crowded slide into one idea.',
-      'Practise aloud and standing, once with a timer, and prepare answers to five likely questions.',
-      'After the talk, ask one classmate for one clear thing and one hard-to-follow thing, and note both.',
+      'Write the main message of your next class talk in one sentence and build three points around it. Done when you can say the sentence aloud without looking at it.',
+      'Ask your teacher what the marking will look at, then turn each crowded slide into one idea. Done when your teacher has told you what the marking looks at and no slide holds more than one idea.',
+      'Practise aloud and standing, once with a timer, and prepare answers to five likely questions. Done when you have timed one run and written your answers to five questions.',
+      'After the talk, ask one classmate for one clear thing and one hard-to-follow thing, and note both. Done when you have written down one clear thing and one hard-to-follow thing.',
     ],
     fresher: [
-      'Practise a two-minute introduction in three parts: who you are, what you did and what you want next.',
-      'Before any work update, ask how long you have and what decision or information people need.',
-      'Record one practice and listen for pace, filler words and whether the first sentence is the real point.',
-      'Take one small speaking chance each week, such as a clear update or a question in a team meeting.',
+      'Practise a two-minute introduction in three parts: who you are, what you did and what you want next. Done when you can say it in two minutes, timed on your phone.',
+      'Before any work update, ask how long you have and what decision or information people need. Done when you know your time limit and what people need to decide or know.',
+      'Record one practice and listen for pace, filler words and whether the first sentence is the real point. Done when you have listened once and written down your filler words.',
+      'Take one small speaking chance each week, such as a clear update or a question in a team meeting. Done when you have ticked off four weeks in a row.',
     ],
     professional: [
-      'Open your next important presentation with the decision you need or your recommendation.',
-      'Write your three hardest questions and say your answers aloud, including one honest "I will find out".',
-      'Cut your deck to the slides that carry the argument and move the rest to an appendix.',
-      'Ask one colleague what they remembered afterwards and compare it with your intended message.',
+      'Open your next important presentation with the decision you need or your recommendation. Done when your first line states the decision or recommendation.',
+      'Write your three hardest questions and say your answers aloud, including one honest "I will find out". Done when you have said each answer aloud at least once.',
+      'Cut your deck to the slides that carry the argument and move the rest to an appendix. Done when the appendix holds the rest and the main deck fits your time slot.',
+      'Ask one colleague what they remembered afterwards and compare it with your intended message. Done when you have written their answer next to the message you meant.',
     ],
   },
 

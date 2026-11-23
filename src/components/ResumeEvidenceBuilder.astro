@@ -1,43 +1,156 @@
 <section class="reb" id="resume-evidence-builder" aria-labelledby="reb-title">
-  <h2 id="reb-title">Resume skills evidence builder</h2>
-  <p>Turn one real task into a truthful resume bullet. Start with what you did and the result you can support; never add a number or claim just because it sounds stronger.</p>
-  <p class="reb-note"><b>Privacy:</b> this builder runs in your browser. It does not upload your resume, name, contact details or work examples.</p>
-  <div id="reb-app"></div>
-  <noscript><p class="reb-info">This builder needs JavaScript. Use the labels as a handwritten bullet-building worksheet.</p></noscript>
+  <h2 id="reb-title">Build resume bullets you can prove</h2>
+  <p>Fill in one real task. You get a draft bullet that you can edit, a quick check of the wording and a list of bullets to copy or print. Never add a number or a claim just because it sounds stronger.</p>
+  <p class="reb-note"><b>Privacy:</b> this builder runs in your browser. It does not upload your resume, name, contact details or examples. If you use a shared computer or a browsing centre, tap "Clear everything" when you finish.</p>
+  <form class="reb-form" id="reb-form" novalidate>
+    <button type="button" class="reb-btn reb-btn--ghost" data-reb-act="example">Try an example</button>
+    <div class="reb-grid">
+      <label><span>Role or course you are applying for (optional)</span><input name="role" data-reb="role" maxlength="160" autocomplete="off" placeholder="For example: marketing intern or BBA admission"></label>
+      <label><span>Skill this example shows</span><input name="skill" data-reb="skill" maxlength="120" autocomplete="off" placeholder="For example: spreadsheet analysis, teaching, design"></label>
+    </div>
+    <label><span>Where did you do it?</span><textarea name="context" data-reb="context" rows="2" maxlength="300" placeholder="Project, internship, class, college fest, volunteer work, family shop or freelance"></textarea></label>
+    <label><span>What exactly did you do?</span><textarea name="action" data-reb="action" rows="2" maxlength="400" placeholder="Start with a verb such as built, organised, analysed, designed, taught or tested"></textarea></label>
+    <label><span>What changed because of it?</span><textarea name="outcome" data-reb="outcome" rows="2" maxlength="400" placeholder="Use a real result. If you have no number, describe the change in words and do not invent one"></textarea></label>
+    <label><span>What could you show if someone asked?</span><textarea name="proof" data-reb="proof" rows="2" maxlength="300" placeholder="A file, link, photo, message, certificate or a person who can confirm it"></textarea></label>
+    <div class="reb-draft">
+      <p class="reb-kicker">YOUR DRAFT BULLET, CHECK EVERY WORD</p><p class="reb-bullet reb-wrap" id="reb-bullet" aria-live="polite">Your bullet will appear here as you fill in the boxes above.</p><label><span>Change the wording if you want (optional)</span><textarea name="bullet" data-reb="bullet" rows="3" maxlength="500" placeholder="Edit the draft until it reads well"></textarea></label>
+      <ul class="reb-checks" id="reb-checks" aria-label="Checks on your bullet"></ul>
+      <div class="reb-actions"><button type="button" class="reb-btn reb-btn--primary" data-reb-act="add">Add to my list</button><button type="button" class="reb-btn" data-reb-act="save">Save in this browser</button><button type="button" class="reb-btn" data-reb-act="rebuild">Rebuild from my answers</button><button type="button" class="reb-btn" data-reb-act="clearform">Clear the boxes</button></div>
+    </div>
+    <p class="reb-status" id="reb-status" role="status" aria-live="polite"></p>
+  </form>
+  <div class="reb-list" id="reb-list" hidden>
+    <h3>My bullets <span id="reb-count"></span></h3>
+    <ol id="reb-items"></ol>
+    <div class="reb-actions"><button type="button" class="reb-btn reb-btn--primary" data-reb-act="copy">Copy all my bullets</button><button type="button" class="reb-btn" data-reb-act="print">Print or save as PDF</button><button type="button" class="reb-btn" data-reb-act="clear">Clear everything</button></div>
+    <p class="reb-warning">A fresher resume usually works best on one page. Keep your three strongest bullets near the top, and remove any line you could not explain in an interview.</p>
+  </div>
+  <noscript><p class="reb-info">This builder needs JavaScript. You can still use the questions as a paper worksheet.</p></noscript>
 </section>
 
 <script>
-  // @ts-nocheck
-  const app = document.getElementById('reb-app');
-  const KEY = 'fcs-resume-evidence-builder-v1';
-  const blank = () => ({ role: '', skill: '', context: '', action: '', outcome: '', proof: '' });
-  let state = blank();
-  try { const raw = localStorage.getItem(KEY); if (raw) state = Object.assign(blank(), JSON.parse(raw)); } catch (e) {}
-  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} };
-  const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const field = (key, label, placeholder) => '<label>' + esc(label) + '<textarea data-reb="' + key + '" rows="3" maxlength="600" placeholder="' + esc(placeholder) + '">' + esc(state[key]) + '</textarea></label>';
-  function bullet() {
-    const action = state.action.trim().replace(/[.!?]+$/, '');
-    const context = state.context.trim().replace(/[.!?]+$/, '');
-    const outcome = state.outcome.trim().replace(/[.!?]+$/, '');
-    if (!action && !context && !outcome) return 'Your evidence-based resume bullet will appear here.';
-    return [action || 'Completed a project', context ? `for ${context}` : '', outcome ? `resulting in ${outcome}` : ''].filter(Boolean).join(', ') + '.';
-  }
-  function render() {
-    app.innerHTML = '<form class="reb-form" novalidate>' +
-      '<div class="reb-grid"><label>Target role or course (optional)<input data-reb="role" maxlength="160" value="' + esc(state.role) + '" placeholder="For example: marketing intern or BBA application"></label><label>Skill to show<input data-reb="skill" maxlength="120" value="' + esc(state.skill) + '" placeholder="For example: spreadsheet analysis, interviewing or research"></label></div>' +
-      field('context', 'Where did you use it?', 'Project, internship, class, volunteer task, family business or freelance work') +
-      field('action', 'What did you actually do?', 'Begin with a strong verb: analysed, organised, tested, designed, explained or built') +
-      field('outcome', 'What changed or became possible?', 'Use a verified result; if you have no number, describe the concrete change without inventing one') +
-      field('proof', 'What could you show if asked?', 'A file, link, screenshot, process note, feedback, published result or person who can confirm it') +
-      '<div class="reb-actions"><button type="button" class="reb-btn reb-btn--primary" data-reb-action="save">Save in this browser</button><button type="button" class="reb-btn" data-reb-action="print">Print / save as PDF</button><button type="button" class="reb-btn" data-reb-action="clear">Clear example</button></div><p class="reb-status" id="reb-status" role="status"></p></form>' + resultHtml();
-  }
-  function resultHtml() { return '<div class="reb-result"><p class="reb-kicker">DRAFT BULLET, CHECK EVERY WORD</p><p class="reb-bullet" id="reb-bullet">' + esc(bullet()) + '</p><p><b>Skill signal:</b> ' + esc(state.skill || 'Add the skill you want the example to prove.') + '</p><p><b>Evidence to keep:</b> ' + esc(state.proof || 'Add the proof you could show if asked.') + '</p><p class="reb-warning">If the result is not measurable, do not guess a percentage, money figure or scale. A precise truthful description is stronger than an impressive unsupported claim.</p></div>'; }
-  app.addEventListener('input', (event) => { const key = event.target.getAttribute('data-reb'); if (key) { state[key] = event.target.value; save(); const result = app.querySelector('.reb-result'); if (result) result.outerHTML = resultHtml(); const status = document.getElementById('reb-status'); if (status) status.textContent = 'Saved locally.'; } });
-  app.addEventListener('click', (event) => { const button = event.target.closest('[data-reb-action]'); if (!button) return; const action = button.getAttribute('data-reb-action'); if (action === 'save') { save(); document.getElementById('reb-status').textContent = 'Saved in this browser.'; } if (action === 'print') { save(); window.print(); } if (action === 'clear') { state = blank(); save(); render(); } });
-  render();
+  import { esc, copyText, printSheet, tidy, type Sheet } from '../scripts/counsellingToolKit';
+  const root = document.getElementById('resume-evidence-builder');
+  const form = document.getElementById('reb-form') as HTMLFormElement | null;
+  const checksEl = document.getElementById('reb-checks');
+  const status = document.getElementById('reb-status');
+  const listBox = document.getElementById('reb-list');
+  const itemsEl = document.getElementById('reb-items');
+  const countEl = document.getElementById('reb-count');
+  if (!root || !form || !checksEl || !status || !listBox || !itemsEl || !countEl) throw new Error('Resume evidence builder markup is incomplete.');
+  type Fields = { role: string; skill: string; context: string; action: string; outcome: string; proof: string; bullet: string };
+  type Item = { text: string; skill: string; proof: string; fields: Fields };
+  const KEY = 'fcs-resume-evidence-builder-v2';
+  const OLD_KEY = 'fcs-resume-evidence-builder-v1';
+  const NAMES = ['role', 'skill', 'context', 'action', 'outcome', 'proof', 'bullet'] as const;
+  const MAX = 8;
+  const URL_ = 'https://futurecareerschool.com/tools/resume-skills-evidence-builder/';
+  let items: Item[] = [];
+  let edited = false;
+  const field = (name: string) => form.elements.namedItem(name) as HTMLInputElement | HTMLTextAreaElement;
+  const read = (): Fields => Object.fromEntries(NAMES.map((n) => [n, field(n).value])) as Fields;
+  const write = (f: Partial<Fields>) => NAMES.forEach((n) => { if (f[n] !== undefined) field(n).value = f[n] as string; });
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify({ fields: read(), items, edited })); } catch { /* storage may be blocked */ } };
+  const say = (text: string) => { status.textContent = text; };
+  const focusFirstEmpty = () => { const order = [field('context'), field('action'), field('outcome'), field('proof')]; (order.find((f) => !f.value.trim()) || order[0]).focus(); };
+
+  const upper = (t: string) => (t ? t.charAt(0).toUpperCase() + t.slice(1) : t);
+  const draft = (f: Fields) => {
+    const action = tidy(f.action), context = tidy(f.context), outcome = tidy(f.outcome);
+    if (!action && !context && !outcome) return '';
+    return `${upper(action || 'Completed a project')}${context ? ` (${context})` : ''}${outcome ? `; ${outcome}` : ''}.`;
+  };
+  const words = (t: string) => t.trim().split(/\s+/).filter(Boolean).length;
+  const checks = (text: string, proof: string): Array<{ ok: boolean; msg: string }> => {
+    const t = text.trim();
+    if (!t) return [{ ok: false, msg: 'Write or build a bullet to see checks here.' }];
+    const out: Array<{ ok: boolean; msg: string }> = [];
+    const n = words(t);
+    if (/^(i|my|we|me|responsible for|worked on|helped|tried|was|did|assisted|involved)\b/i.test(t)) out.push({ ok: false, msg: 'Start with an action word such as built, organised, analysed, designed, taught or tested. Avoid starting with "I", "my", "helped" or "worked on".' });
+    else out.push({ ok: true, msg: 'The first word is an action, which is what a reader looks for.' });
+    if (n > 30) out.push({ ok: false, msg: `This is ${n} words. Try for one or two lines, about 15 to 25 words.` });
+    else if (n < 6) out.push({ ok: false, msg: `This is only ${n} words. Add what you used, who it was for or what changed.` });
+    else out.push({ ok: true, msg: `Length is fine (${n} words).` });
+    if (/\d/.test(t)) out.push({ ok: false, msg: 'You used a number. Keep it only if you can show where it came from, such as a form, a message or a record.' });
+    if (/hard.?working|team player|good communication|various|\betc\b|responsible/i.test(t)) out.push({ ok: false, msg: 'Replace vague words like "hardworking", "various" or "responsible" with what you actually did.' });
+    if (!proof.trim()) out.push({ ok: false, msg: 'Add the proof you could show. A bullet with no proof is easy to doubt.' });
+    return out;
+  };
+  const showChecks = () => {
+    const f = read();
+    const preview = document.getElementById('reb-bullet'); if (preview) preview.textContent = f.bullet.trim() || 'Your bullet will appear here as you fill in the boxes above.';
+    checksEl.innerHTML = checks(f.bullet, f.proof).map((c) => `<li class="${c.ok ? 'reb-ok' : 'reb-fix'}"><span aria-hidden="true">${c.ok ? '✓' : '!'}</span><span class="reb-wrap">${esc(c.msg)}</span></li>`).join('');
+  };
+  const syncDraft = () => { if (!edited) field('bullet').value = draft(read()); showChecks(); };
+
+  const sheet = (): Sheet => {
+    const role = tidy(field('role').value);
+    return {
+      title: role ? `Resume evidence for ${role}` : 'Resume evidence',
+      sub: 'Draft bullets and the proof behind each one. Check every word before you send it.',
+      sections: [
+        { h: 'Resume bullets', ul: items.map((i) => i.text) },
+        { h: 'Proof I can show for each bullet', ul: items.map((i) => `${i.skill || 'Skill'}: ${i.proof || 'Add proof'}`) },
+        { h: 'Be ready to say in an interview', ul: ['Where you did it and who you did it for.', 'What you personally did, and what others did.', 'What was hard, and how you solved it.', 'What you would do differently now.'] },
+      ],
+    };
+  };
+  const renderList = () => {
+    listBox.hidden = items.length === 0;
+    countEl.textContent = items.length ? `(${items.length} of ${MAX})` : '';
+    itemsEl.innerHTML = items.map((it, i) => `<li><p class="reb-wrap">${esc(it.text)}</p><p class="reb-proof reb-wrap"><b>${esc(it.skill || 'Skill')}:</b> ${esc(it.proof || 'No proof added yet')}</p><div class="reb-row"><button type="button" class="reb-btn reb-btn--small" data-reb-edit="${i}">Edit</button><button type="button" class="reb-btn reb-btn--small" data-reb-remove="${i}">Remove</button></div></li>`).join('');
+  };
+
+  // Load saved work, or the older single-bullet save.
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) { const s = JSON.parse(raw); items = Array.isArray(s.items) ? s.items.slice(0, MAX) : []; write(s.fields || {}); edited = !!s.edited; }
+    else { const old = localStorage.getItem(OLD_KEY); if (old) write(JSON.parse(old)); }
+  } catch { /* ignore */ }
+  if (!edited) field('bullet').value = draft(read());
+  showChecks(); renderList();
+
+  form.addEventListener('input', (event) => {
+    const name = (event.target as HTMLInputElement).name;
+    if (name === 'bullet') edited = true;
+    else if (name !== 'role' && name !== 'skill' && name !== 'proof') syncDraft();
+    showChecks(); save();
+  });
+  form.addEventListener('click', (event) => {
+    const b = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-reb-act]');
+    if (!b) return;
+    const act = b.dataset.rebAct;
+    if (act === 'example') {
+      edited = false;
+      write({ role: 'Digital marketing intern', skill: 'Design and teamwork', context: 'college fest committee, second year', action: 'designed three posters and shared them in class WhatsApp groups', outcome: '40 more students registered than last year (from the registration sheet)', proof: 'The three poster files and the registration sheet, and our faculty coordinator can confirm' });
+      field('bullet').value = draft(read()); showChecks(); save(); say('Example filled in. Edit the draft bullet, then tap "Add to my list".');
+    }
+    if (act === 'save') { save(); say('Saved in this browser.'); }
+    if (act === 'rebuild') { edited = false; field('bullet').value = draft(read()); showChecks(); save(); say('Draft rebuilt from your answers.'); }
+    if (act === 'clearform') { write(Object.fromEntries(NAMES.map((n) => [n, ''])) as Fields); edited = false; showChecks(); save(); say('Boxes cleared. Your list below is kept.'); }
+    if (act === 'add') {
+      const f = read(); const text = f.bullet.trim();
+      if (!text) { say('Fill in the boxes or write a bullet first. Tap "Try an example" to see how it works.'); focusFirstEmpty(); return; }
+      if (items.some((i) => i.text === text)) { say('This bullet is already in your list.'); return; }
+      if (items.length >= MAX) { say(`You have ${MAX} bullets already. Remove one before you add another. A short resume reads better.`); return; }
+      items.push({ text, skill: tidy(f.skill), proof: tidy(f.proof), fields: f });
+      write({ context: '', action: '', outcome: '', proof: '', bullet: '' }); edited = false;
+      showChecks(); renderList(); save(); say(`Added. You have ${items.length} bullet${items.length === 1 ? '' : 's'}. Write the next one, or copy your list below.`);
+      focusFirstEmpty();
+    }
+  });
+  listBox.addEventListener('click', async (event) => {
+    const t = event.target as HTMLElement;
+    const edit = t.closest<HTMLElement>('[data-reb-edit]'); const remove = t.closest<HTMLElement>('[data-reb-remove]');
+    if (edit) { const i = Number(edit.dataset.rebEdit); const it = items[i]; if (!it) return; write({ ...it.fields, bullet: it.text }); edited = true; items.splice(i, 1); renderList(); showChecks(); save(); say('Bullet moved back to the editor. Change it, then tap "Add to my list".'); form.scrollIntoView({ block: 'start' }); return; }
+    if (remove) { items.splice(Number(remove.dataset.rebRemove), 1); renderList(); save(); say('Removed.'); return; }
+    const act = t.closest<HTMLElement>('[data-reb-act]')?.dataset.rebAct;
+    if (act === 'copy') { const text = ['*Resume bullets*', ...items.map((i) => `• ${i.text}`), '', '*Proof I can show*', ...items.map((i) => `• ${i.skill || 'Skill'}: ${i.proof || 'Add proof'}`), '', `Made with the free tool at ${URL_}`].join('\n'); say((await copyText(text)) ? 'Copied. Paste it into your resume or a message.' : 'Copy did not work. Use Print or save as PDF instead.'); }
+    if (act === 'print') { printSheet(sheet(), URL_); say('Opening print. Choose "Save as PDF" to keep a copy.'); }
+    if (act === 'clear') { items = []; write(Object.fromEntries(NAMES.map((n) => [n, ''])) as Fields); edited = false; try { localStorage.removeItem(KEY); localStorage.removeItem(OLD_KEY); } catch { /* ignore */ } showChecks(); renderList(); say('Everything was cleared from this browser.'); }
+  });
 </script>
 
 <style is:global>
-  .reb{margin:2.2rem 0;padding:1.4rem;border:1px solid rgba(229,184,74,.34);border-radius:18px;background:rgba(229,184,74,.045)}.reb h2{margin-top:0}.reb p,.reb li{line-height:1.65}.reb-note,.reb-info,.reb-warning{font-size:.86rem;color:rgba(255,255,255,.7)}.reb-form{display:grid;gap:.9rem;margin:1.1rem 0}.reb-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}.reb-form label{display:grid;gap:.35rem;font-size:.9rem;font-weight:600}.reb-form input,.reb-form textarea{width:100%;padding:.55rem .7rem;min-height:44px;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400;resize:vertical}.reb-form textarea{min-height:78px}.reb-actions{display:flex;flex-wrap:wrap;gap:.6rem}.reb-btn{min-height:44px;padding:.5rem .85rem;border:1px solid rgba(255,255,255,.22);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:600 .9rem inherit;cursor:pointer}.reb-btn--primary{background:linear-gradient(135deg,#e5b84a,#c49a2a);border:0;color:#151109}.reb-status{min-height:1.3em;color:#9ff3e6;font-size:.85rem}.reb-result{padding:1rem 1.1rem;border:1px solid rgba(18,154,141,.4);border-radius:14px;background:rgba(18,154,141,.08)}.reb-kicker{color:#f3cf70!important;font-size:.78rem;font-weight:800;letter-spacing:.1em}.reb-bullet{font-size:1.15rem;line-height:1.7}.reb-form input:focus-visible,.reb-form textarea:focus-visible,.reb-btn:focus-visible{outline:3px solid #129a8d;outline-offset:2px}@media(max-width:650px){.reb{padding:1rem}.reb-grid{grid-template-columns:1fr}}@media print{.reb{color:#111;background:#fff;border:1px solid #999}.reb-form input,.reb-form textarea{color:#111;background:#fff;border-color:#999}.reb-btn{display:none}.reb-note,.reb-warning{color:#444}}
+  .reb{margin:2.2rem 0;padding:1.4rem;border:1px solid rgba(229,184,74,.34);border-radius:18px;background:rgba(229,184,74,.045)}.reb h2{margin-top:0}.reb p,.reb li{line-height:1.65}.reb-note,.reb-info,.reb-warning{font-size:.9rem;color:rgba(255,255,255,.74)}.reb-form{display:grid;gap:.95rem;margin:1.1rem 0}.reb-grid{display:grid;grid-template-columns:1fr 1fr;gap:.95rem}.reb-form label{display:grid;gap:.35rem;font-size:.95rem;font-weight:650}.reb-form input,.reb-form textarea{width:100%;padding:.6rem .75rem;min-height:44px;border:1px solid rgba(255,255,255,.25);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;font-weight:400;resize:vertical}.reb-form textarea{min-height:76px}.reb-actions{display:flex;flex-wrap:wrap;gap:.6rem}.reb-btn{min-height:44px;padding:.5rem .95rem;border:1px solid rgba(255,255,255,.28);border-radius:10px;background:rgba(255,255,255,.08);color:#fff;font:650 .95rem inherit;cursor:pointer}.reb-btn--primary{background:linear-gradient(135deg,#e5b84a,#c49a2a);border:0;color:#151109}.reb-btn--ghost{justify-self:start;border-style:dashed;color:#f7d88c}.reb-btn--small{min-height:44px;min-width:44px;padding:.4rem .8rem}.reb-status{min-height:1.3em;color:#9ff3e6;font-size:.9rem}.reb-draft{padding:1rem 1.1rem;border:1px solid rgba(18,154,141,.45);border-radius:14px;background:rgba(18,154,141,.08);display:grid;gap:.8rem}.reb-checks{list-style:none;margin:0;padding:0;display:grid;gap:.4rem}.reb-checks li{display:grid;grid-template-columns:1.4rem 1fr;gap:.5rem;font-size:.92rem;line-height:1.5;color:rgba(255,255,255,.85)}.reb-kicker{margin:0;color:#f3cf70;font-size:.78rem;font-weight:800;letter-spacing:.1em}.reb-bullet{margin:0;font-size:1.1rem;line-height:1.7;padding:.6rem .8rem;border-radius:10px;background:rgba(0,0,0,.2)}.reb-ok span:first-child{color:#8de4d8;font-weight:800}.reb-fix span:first-child{color:#f7d88c;font-weight:800}.reb-wrap{overflow-wrap:anywhere;word-break:break-word}.reb-list{margin-top:1.2rem;padding:1rem 1.1rem;border:1px solid rgba(229,184,74,.4);border-radius:14px;background:rgba(229,184,74,.06)}.reb-list h3{margin:.1rem 0 .6rem}.reb-list ol{margin:0 0 1rem;padding-left:1.2rem;display:grid;gap:.8rem}.reb-list li>p{margin:.1rem 0}.reb-proof{font-size:.88rem;color:rgba(255,255,255,.7)}.reb-row{display:flex;gap:.5rem;margin-top:.4rem}.reb-form input:focus-visible,.reb-form textarea:focus-visible,.reb-btn:focus-visible{outline:3px solid #129a8d;outline-offset:2px}@media(max-width:650px){.reb{padding:1rem}.reb-grid{grid-template-columns:1fr}}
 </style>

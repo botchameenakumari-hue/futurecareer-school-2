@@ -205,6 +205,26 @@ function sorter12(priority) {
 
 export const SHORTLIST_SIZE = 5;
 
+// Well-known routes for each stream. They are kept on the shortlist, with their risk beside them, so a
+// student never has to hunt for the route the whole family is already talking about. No figure is claimed.
+const FLAGSHIP12 = {
+  pcm: ['btech', 'computing'],
+  pcb: ['mbbs', 'health'],
+  pcmb: ['btech', 'mbbs'],
+  cm: ['ca', 'bba'],
+  cn: ['ca', 'bba'],
+  arts: ['law', 'govt'],
+};
+
+/** Well-known routes for the stream that suit the priority: none with a national rank when the priority is fewer exam hurdles, none longer than 3 years when it is earning sooner. */
+export function flagshipFor(stream, priority, open) {
+  const ids = FLAGSHIP12[stream] || [];
+  return ids
+    .map((id) => open.find((r) => r.id === id))
+    .filter(Boolean)
+    .filter((r) => (priority === 'exams' ? r.gateLevel <= 1 : priority === 'earn' ? r.yearsLow != null && r.yearsLow <= 3 : true));
+}
+
 /** How many of the shortlist should be routes that do not hang on one national rank. */
 export function safetyCount(marks) {
   return marks === 'unknown' || marks === 'under50' || marks === '50to60' ? 2 : 1;
@@ -271,7 +291,7 @@ function card12(r, extra) {
     id: r.id, title: clean(r.route), scale: r.scale, scaleLabel: SCALE[r.scale].label,
     why: clean(r.why), risk: clean(r.catch), grow: clean(r.grow), who: clean(r.who), gate: clean(r.gate), length: clean(r.length),
     pay: clean(r.money), payNote: r.hasPayFigure ? 'An entry pay figure, with its source, is on the career chart page.' : '',
-    costly: r.costly, links: r.links.map((k) => OFFICIAL[k]), streamNote: clean(r.streamNote), fit: '',
+    costly: r.costly, gateLevel: r.gateLevel, links: r.links.map((k) => OFFICIAL[k]), streamNote: clean(r.streamNote), fit: '',
   }, extra || {});
 }
 
@@ -284,11 +304,15 @@ export function plan12(rawAnswers) {
   const check = reach.filter((r) => r.streams[a.stream] === 'check').sort(sort);
   const pool = open.concat(check);
 
-  let top = open.slice(0, SHORTLIST_SIZE);
   const reasons = {};
   const pinned = a.pinned ? pool.find((r) => r.id === a.pinned) : null;
-  if (pinned && !top.includes(pinned)) { top.pop(); top.push(pinned); }
-  if (pinned) reasons[pinned.id] = 'Your pick: the route you or your family already have in mind.';
+  const flagship = flagshipFor(a.stream, a.priority, open);
+  let top = [];
+  if (pinned) { top.push(pinned); reasons[pinned.id] = 'Your pick: the route you or your family already have in mind.'; }
+  flagship.forEach((r) => {
+    if (top.length < SHORTLIST_SIZE && !top.includes(r)) { top.push(r); reasons[r.id] = 'A well-known route for your stream. It is here so you can read its risk first.'; }
+  });
+  open.forEach((r) => { if (top.length < SHORTLIST_SIZE && !top.includes(r)) top.push(r); });
 
   // Safety net: keep enough routes that do not hang on one national rank.
   const need = safetyCount(a.marks);
@@ -296,7 +320,7 @@ export function plan12(rawAnswers) {
   const rest = open.filter((r) => !top.includes(r) && safe(r));
   let count = top.filter(safe).length;
   while (count < need && rest.length) {
-    const drop = top.slice().reverse().find((r) => !safe(r) && r !== pinned);
+    const drop = top.slice().reverse().find((r) => !safe(r) && r !== pinned && !flagship.includes(r));
     if (!drop) break;
     const add = rest.shift();
     top[top.indexOf(drop)] = add;
@@ -489,6 +513,80 @@ export function plan30(stage, plan) {
       'Write one next step with a date, and a review date.',
     ] },
   ];
+}
+
+
+// ---------- examples, state sites, next steps and the WhatsApp summary ----------
+
+/** Answers for the "Try an example" button. They are only a starting point and are saved like any other answers. */
+export function exampleAnswers(stage) {
+  return stage === 'after10'
+    ? { earn: 'later', maths: 'yes', interests: ['mathsphysics', 'money'], marks: '60to75', budget: '3to10', city: 'mid', priority: 'balanced', pinned: '' }
+    : { stream: 'pcm', marks: '60to75', budget: '3to10', city: 'mid', priority: 'balanced', pinned: '' };
+}
+
+// State sites for Andhra Pradesh and Telangana. "opened" means the page was opened and read; "seen" means
+// the web address was only seen in search results and the page was not opened. Both dates are the day the
+// source was seen. The booklet says which is which, so nobody takes a seen address as a checked one.
+export const STATE_SITES = [
+  { label: 'AP EAPCET (Andhra Pradesh)', url: 'https://cets.apsche.ap.gov.in/EAPCET/', status: 'seen', supports: 'The state entrance test for engineering, agriculture and pharmacy seats in Andhra Pradesh.' },
+  { label: 'TG EAPCET (Telangana)', url: 'https://eapcet.tgche.ac.in/', status: 'seen', supports: 'The same state entrance test for Telangana.' },
+  { label: 'KNRUHS (Telangana health sciences university)', url: 'https://www.knruhs.telangana.gov.in/', status: 'opened', supports: 'Admission notices and counselling schedules for health courses in Telangana.' },
+  { label: 'AP MBBS and BDS admission portal', url: 'https://apuhs-ugadmissions.aptonline.in/MBBS/', status: 'seen', supports: 'Where Andhra Pradesh posts MBBS and BDS admission notices and prospectus files.' },
+];
+export const STATE_SITES_SEEN_ON = '23 November 2026';
+export const STATE_SITES_NOTE = 'Seen on ' + STATE_SITES_SEEN_ON + '. Sites marked "address only" were seen in search results and not opened, so check the address ends in gov.in or ac.in before you enter any detail. No official site asks you to pay a person to get a seat.';
+
+export function stateSiteLine(s) {
+  return s.label + ' (' + s.url.replace(/^https:\/\//, '') + '): ' + s.supports + (s.status === 'opened' ? ' Opened on ' + STATE_SITES_SEEN_ON + '.' : ' Address only, not opened.');
+}
+
+const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+export function dayAfter(days, now = new Date()) {
+  const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + days);
+  return d.getDate() + ' ' + MONTHS_SHORT[d.getMonth()];
+}
+
+function moneySentence(m, title) {
+  if (!m) return 'Sit with your parents and agree the family education budget in rupees. Then write the total fee for ' + title + ' next to it.';
+  return 'Sit with your parents and write the total fee for ' + title + '. For your budget band (' + m.band + '), a tenth is ' + inr(m.tenth) + ' and a fifth is ' + inr(m.fifth) + ' (an illustration, not a real fee). Ask if hostel and exam costs are included.';
+}
+
+/** Three dated steps for the first week and a half. Each names a route and a place to look. */
+export function nextSteps(stage, plan, now = new Date()) {
+  const list = plan && plan.shortlist ? plan.shortlist : [];
+  if (!list.length) return [];
+  // The route the steps are about: the one the family picked, else a well-known route for the stream, else the first route that has an official exam site.
+  const main = list.find((c) => /^Your pick/.test(c.reason || '')) || list.find((c) => /^A well-known/.test(c.reason || '') && c.links && c.links.length) || list.find((c) => c.links && c.links.length) || list[0];
+  const planB = stage === 'after12'
+    ? list.find((c) => c !== main && c.gateLevel <= 1)
+    : list.find((c) => c !== main);
+  const sites = (main.links || []).slice(0, 2);
+  const s1 = stage === 'after12'
+    ? 'Open ' + (sites.length ? sites.map((x) => x.label + ' at ' + x.url.replace(/^https:\/\//, '').replace(/\/$/, '')).join(' and ') : 'the official site for this route') + ' and read the current notice for ' + main.title + '. Write the entry exam, who can apply and the date on the notice.'
+    : 'Ask your school office which subject groups it offers and what minimum marks it set last year for ' + main.title + '. Write the answers down.';
+  const s3 = planB
+    ? 'Talk to one teacher or one person who does this work. Ask what they would check first, and say your Plan B out loud: ' + planB.title + '.'
+    : 'Talk to one teacher or one person who does this work. Ask what they would check first, then write one Plan B route.';
+  return [
+    { by: dayAfter(2, now), text: s1 },
+    { by: dayAfter(5, now), text: moneySentence(plan.money, main.title) },
+    { by: dayAfter(10, now), text: s3 },
+  ];
+}
+
+/** Plain text for WhatsApp. It holds the routes and the steps only. The name and the worry line are never added. */
+export function whatsappSummary(stage, plan, pageUrl, now = new Date()) {
+  const lines = [];
+  lines.push('My career shortlist ' + (stage === 'after10' ? 'after 10th' : 'after 12th') + ' (FutureCareerSchool, ' + dayAfter(0, now) + ' ' + now.getFullYear() + ')');
+  lines.push('');
+  plan.shortlist.forEach((c, i) => lines.push((i + 1) + '. ' + c.title + ' - ' + c.scaleLabel));
+  lines.push('');
+  lines.push('My next three steps:');
+  nextSteps(stage, plan, now).forEach((st, i) => lines.push((i + 1) + '. By ' + st.by + ': ' + st.text));
+  lines.push('');
+  lines.push('Check every rule, date and fee on the official site. Make your own: ' + pageUrl);
+  return lines.join('\n');
 }
 
 export { CHECKPOINTS, GATES };

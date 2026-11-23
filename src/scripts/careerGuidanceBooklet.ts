@@ -5,6 +5,7 @@
 import {
   SCALE, SCALE_RULE, PAY_LINE, CHECKED_ON, CHART_LAST_CHECKED, OFFICIAL, labelFor, inr, checksFor, generalChecks, questionsFor, plan30,
   PRIORITY_NOTE12, PRIORITY_NOTE10, plan12, plan10, blankAnswers, SHORTLIST_SIZE,
+  nextSteps, whatsappSummary, STATE_SITES, STATE_SITES_NOTE, stateSiteLine,
 } from '../data/careerGuidanceBooklet.mjs';
 import { createUnicodeText, flattenTexts, isUnicodeLine, needsUnicode, prepareUnicodeText } from './pdfUnicodeText.mjs';
 
@@ -135,6 +136,13 @@ function sourceBlocks(stage, plan) {
   return out;
 }
 
+function stateSiteBlocks() {
+  return [
+    { t: 'list', title: 'If you study in Andhra Pradesh or Telangana, also open', items: STATE_SITES.map(stateSiteLine) },
+    { t: 'p', text: STATE_SITES_NOTE },
+  ];
+}
+
 function markKeyBlock() {
   return [
     { t: 'h', text: 'How to read the growth marks' },
@@ -164,6 +172,9 @@ export function bookletModel(stage, answers, today = fmtToday()) {
   blocks.push({ t: 'meta', rows: meta });
   if (a.worry && a.worry.trim()) blocks.push({ t: 'field', label: 'What worries me most', text: a.worry, lines: 2 });
 
+  blocks.push({ t: 'h', text: 'Your next three steps' });
+  blocks.push({ t: 'list', title: 'Start here, before you read the rest', items: nextSteps(stage, plan).map((st) => '[ ] By ' + st.by + ': ' + st.text) });
+
   blocks.push({ t: 'h', text: 'How to use this booklet' });
   blocks.push({ t: 'p', text: 'Read the shortlist, check each route on the official site, talk to people and finish the worksheet. Use the 30-day plan to turn it into one choice and a second plan.' });
   blocks.push({ t: 'p', text: 'Every route has a growth mark and the risk beside it. A mark describes a route, not you.' });
@@ -172,9 +183,11 @@ export function bookletModel(stage, answers, today = fmtToday()) {
   blocks.push({ t: 'h', text: 'Your shortlist' });
   blocks.push({ t: 'p', text: (stage === 'after10' ? PRIORITY_NOTE10 : PRIORITY_NOTE12)[a.priority] });
   if (stage === 'after12') {
-    blocks.push({ t: 'p', text: 'Plan B check: your shortlist keeps at least ' + plan.safetyNeeded + (plan.safetyNeeded === 1 ? ' route' : ' routes') + ' that do not depend on one national rank. It holds ' + plan.safetyCount + '.' });
+    blocks.push({ t: 'p', text: 'Plan B check: your shortlist keeps at least ' + plan.safetyNeeded + (plan.safetyNeeded === 1 ? ' route that does' : ' routes that do') + ' not depend on one national rank. It holds ' + plan.safetyCount + '.' });
+    if (plan.shortlist.some((c) => /^A well-known route/.test(c.reason || ''))) blocks.push({ t: 'p', text: 'A route marked as well known for your stream stays on the list even when its growth mark would rank it lower, so that you can read its risk.' });
   }
   blocks.push({ t: 'list', title: 'Checks for every route', items: generalChecks(stage, a) });
+  if (stage === 'after12') blocks.push.apply(blocks, stateSiteBlocks());
   plan.shortlist.forEach((c, i) => blocks.push(cardBlock(stage, c, a, i)));
   if (stage === 'after10' && plan.addOn) {
     blocks.push({ t: 'h', text: 'Add this beside any route' });
@@ -205,6 +218,17 @@ function interestLabels(ids) {
   return ids.map((id) => ({ mathsphysics: 'Maths and Physics', biology: 'Biology and living things', mathsbio: 'Both Maths and Biology', money: 'Money, markets and business', people: 'People, language, society or design', hands: 'Using tools and fixing things by hand', machines: 'Drawings, circuits, machines and systems' }[id] || id)).join('; ');
 }
 
+/** Short result for the screen and for WhatsApp: the routes, three dated steps and a plain-text version. */
+export function quickResult(stage, answers, now = new Date()) {
+  const plan = stage === 'after10' ? plan10(answers) : plan12(answers);
+  if (!plan.ready) return null;
+  return {
+    routes: plan.shortlist.map((c) => ({ title: c.title, mark: c.scaleLabel, scale: c.scale, note: c.reason || '' })),
+    steps: nextSteps(stage, plan, now),
+    text: whatsappSummary(stage, plan, 'https://' + PAGE_URL[stage], now),
+  };
+}
+
 // ---------- the blank worksheet (no personal inputs) ----------
 
 export function blankModel(stage) {
@@ -230,6 +254,7 @@ export function blankModel(stage) {
   blocks.push({ t: 'p', text: 'Use the FutureCareerSchool career chart ' + STAGE_NAME[stage] + ' (' + CHART_URL[stage] + ') for routes, entry rules and risks, and the official site of each exam or college for dates, fees and eligibility. These official sites were opened on ' + CHECKED_ON + '.' });
   const ids = stage === 'after10' ? ['nios', 'dgt', 'nats', 'aicte', 'nta', 'icai'] : ['nta', 'cuet', 'josaa', 'clat', 'icai', 'upsc', 'nchm'];
   blocks.push({ t: 'list', title: 'Official sites', items: ids.map((k) => OFFICIAL[k].label + ' (' + OFFICIAL[k].url.replace(/^https:\/\//, '') + '): ' + OFFICIAL[k].supports) });
+  if (stage === 'after12') blocks.push.apply(blocks, stateSiteBlocks());
   blocks.push({ t: 'p', text: PAY_LINE });
   blocks.push({ t: 'note', text: 'This worksheet holds no personal answers and is not a test or a score. Check every rule, date and fee on the official site before you act.' });
   return { kind: 'blank', stage, fileName: 'career-guidance-worksheet-' + STAGE_NAME[stage].replace(' ', '-') + '-blank.pdf', blocks };

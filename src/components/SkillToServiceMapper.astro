@@ -1,32 +1,100 @@
 <section class="ssm" id="skill-to-service-mapper" aria-labelledby="ssm-title">
   <p class="eyebrow">SKILL-TO-WORK EXPERIMENT</p>
   <h2 id="ssm-title">Turn one skill into a safe first offer</h2>
-  <p>Choose a narrow audience and deliverable, then create proof and test whether the work is useful before building a service around it.</p>
-  <p class="ssm-note"><b>Limit:</b> this maps an offer hypothesis. It does not promise clients, demand, income or professional eligibility.</p>
+  <p>Pick one skill, one kind of customer and one small thing you can make. You get a one-line offer, a message to send to three people and dated steps to test if the work is useful before you charge anyone.</p>
+  <p class="ssm-note"><b>Limit:</b> this plans a test. It does not promise customers, demand, income or professional eligibility. Your answers stay in this browser.</p>
   <form id="ssm-form" class="ssm-form" novalidate>
-    <label>Skill you can practise<input name="skill" maxlength="120" placeholder="For example: spreadsheet analysis" required /></label>
-    <label>Who could use a small version of it?<input name="audience" maxlength="160" placeholder="A local shop, student group, educator or small team" required /></label>
-    <label>What is the smallest useful deliverable?<textarea name="deliverable" rows="3" maxlength="500" placeholder="Name one concrete output, not a vague promise" required></textarea></label>
-    <label>What proof can you create without sensitive data?<textarea name="proof" rows="3" maxlength="500" placeholder="A public-data sample, dummy-data demo, before/after or process note" required></textarea></label>
-    <label>How will you test usefulness?<select name="test"><option value="feedback">Ask for structured feedback on the sample</option><option value="task">Complete one supervised or low-risk real task</option><option value="walkthrough">Run a short walkthrough and observe questions</option></select></label>
-    <div class="ssm-actions"><button class="ssm-primary" type="submit">Create service experiment</button><button type="button" data-ssm="clear">Clear</button></div>
+    <button type="button" class="ssm-example" data-ssm="example">Try an example</button>
+    <label><span>Skill you can practise</span><input name="skill" maxlength="120" placeholder="For example: spreadsheet work, poster design, Telugu typing, tutoring" autocomplete="off" required /></label>
+    <label><span>Who could use a small version of it?</span><input name="audience" maxlength="160" placeholder="For example: small shops near me, juniors in my college, a local clinic" autocomplete="off" required /></label>
+    <label><span>What is the smallest useful thing you can make for them?</span><textarea name="deliverable" rows="2" maxlength="500" placeholder="One real thing, not a vague promise. For example: a one-page sales summary" required></textarea></label>
+    <label><span>What sample can you make without anyone's private data?</span><textarea name="proof" rows="2" maxlength="500" placeholder="For example: a sample with made-up data, a before and after, or a short video" required></textarea></label>
+    <div class="ssm-row">
+      <label><span>Who pays or decides?</span><select name="payer"><option value="owner">The owner of a small business</option><option value="parent">A parent or the student</option><option value="school">A teacher, school or college</option><option value="team">A manager of a small team</option></select></label>
+      <label><span>How will they hear about you?</span><select name="reach"><option value="whatsapp">WhatsApp contacts</option><option value="class">My class or college group</option><option value="visit">I visit them in person</option><option value="social">LinkedIn or Instagram</option><option value="referral">Someone introduces me</option></select></label>
+    </div>
+    <label><span>How will you test if it is useful?</span><select name="test"><option value="feedback">Ask for feedback on the sample</option><option value="task">Do one small real task with permission</option><option value="walkthrough">Show it in a short walkthrough and watch their questions</option></select></label>
+    <div class="ssm-actions"><button class="ssm-primary" type="submit">Create my first offer plan</button><button type="button" data-ssm="clear">Clear</button></div>
     <p id="ssm-status" class="ssm-status" role="status" aria-live="polite"></p>
   </form>
   <div id="ssm-result" class="ssm-result" hidden></div>
 </section>
 <script>
-  type SsmField = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
-  type SsmForm = Omit<HTMLFormElement, 'querySelectorAll'> & { querySelectorAll(selectors: string): NodeListOf<SsmField> };
-  const ssmForm = document.querySelector<HTMLFormElement>('#ssm-form') as SsmForm | null;
-  const ssmResult = document.querySelector<HTMLDivElement>('#ssm-result');
-  const ssmStatus = document.querySelector<HTMLParagraphElement>('#ssm-status');
-  const ssmClear = document.querySelector<HTMLButtonElement>('[data-ssm="clear"]');
-  if (!ssmForm || !ssmResult || !ssmStatus || !ssmClear) throw new Error('Skill-to-service mapper markup is incomplete.');
-  const ssmEsc = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c] || c));
-  const ssmTests = { feedback: 'Ask two people in the audience what became clearer, what was missing and whether the output was usable.', task: 'Agree the scope, access and review point before doing one low-risk task; do not handle sensitive data without permission.', walkthrough: 'Show the deliverable in a short walkthrough and record where the person hesitates or asks for clarification.' };
-  ssmForm.addEventListener('submit', (event) => { event.preventDefault(); if (!ssmForm.checkValidity()) { ssmForm.reportValidity(); return; } const data = Object.fromEntries([...ssmForm.querySelectorAll('input,select,textarea')].map((field) => [field.name, field.value])); ssmResult.innerHTML = `<div class="ssm-lead"><span>${ssmEsc(data.skill)} · offer hypothesis</span><h3>${ssmEsc(data.deliverable)}</h3><p>Audience: ${ssmEsc(data.audience)}</p></div><div class="ssm-grid"><article><b>Proof to create</b><p>${ssmEsc(data.proof)}</p></article><article><b>Usefulness test</b><p>${ssmEsc(ssmTests[data.test])}</p></article></div><div class="ssm-next"><h3>Boundaries before sharing or charging</h3><ul><li>Use dummy, public or consented information; remove personal and confidential data.</li><li>State exactly what the deliverable includes, what it excludes and when it will be reviewed.</li><li>Do not promise sales, marks, savings, legal, medical or financial outcomes you cannot control.</li><li>Keep a short reflection: what problem was real, what changed, and what should be tested next?</li></ul></div>`; ssmResult.hidden = false; ssmStatus.textContent = 'Service experiment created from your entries; nothing was sent.'; });
-  ssmClear.addEventListener('click', () => { ssmForm.reset(); ssmResult.hidden = true; ssmStatus.textContent = 'Cleared.'; });
+  import { esc, fmtDate, addDays, actionsHtml, stepsHtml, bindActions, checkRequired, clearInvalidOnInput, fillExample, showResult, tidy, copyText, soft, type Sheet } from '../scripts/counsellingToolKit';
+  const form = document.querySelector<HTMLFormElement>('#ssm-form');
+  const result = document.querySelector<HTMLDivElement>('#ssm-result');
+  const status = document.querySelector<HTMLParagraphElement>('#ssm-status');
+  const exampleButton = document.querySelector<HTMLButtonElement>('[data-ssm="example"]');
+  const clearButton = document.querySelector<HTMLButtonElement>('[data-ssm="clear"]');
+  if (!form || !result || !status || !exampleButton || !clearButton) throw new Error('Skill-to-service mapper markup is incomplete.');
+  const URL_ = 'https://futurecareerschool.com/tools/skill-to-service-mapper/';
+  let sheet: Sheet | null = null;
+  let messageText = '';
+  clearInvalidOnInput(form);
+  const val = (name: string) => tidy(String((form.elements.namedItem(name) as HTMLInputElement | null)?.value ?? ''));
+  const tests: Record<string, string> = {
+    feedback: 'Ask two or three people from your audience three questions: what became clearer, what is missing, and could they use it as it is?',
+    task: 'Agree the exact task, what you will and will not touch, and when they will review it. Choose a low-risk task and do not handle private information without their permission.',
+    walkthrough: 'Show the sample for five minutes. Do not explain too much. Write down where they pause or ask a question.',
+  };
+  const payers: Record<string, string> = { owner: 'the business owner usually decides, so show how the work saves them time or avoids a mistake', parent: 'a parent often decides for a student, so keep the benefit simple and say what is included', school: 'a teacher or head of the institution decides, so ask for a short meeting and bring one printed sample', team: 'a manager decides, so connect the work to one task their team already does' };
+  const reaches: Record<string, string> = { whatsapp: 'your WhatsApp contacts', class: 'your class or college group', visit: 'a short visit in person', social: 'LinkedIn or Instagram', referral: 'a person who introduces you' };
+  const build = () => {
+    const skill = val('skill'), audience = val('audience'), deliverable = val('deliverable'), proof = val('proof'), payer = val('payer'), reach = val('reach'), test = val('test');
+    const start = new Date(); const d = (n: number) => fmtDate(addDays(n, start));
+    const offer = `I help ${soft(audience)} with ${soft(deliverable)}. I can show you a sample first.`;
+    const steps = [
+      { when: `By ${d(3)}`, text: `Make your sample: ${soft(proof)}. Use made-up or public information only.` },
+      { when: `By ${d(7)}`, text: `Show it to three people from this group (${soft(audience)}) through ${reaches[reach]}. Write down what each one says.` },
+      { when: `By ${d(14)}`, text: 'Look at what you wrote. Decide: keep the offer, change the audience or the deliverable, or stop. Only then think about a price.' },
+    ];
+    const message = `Hello,\n\nI am learning ${soft(skill)} and I made a small sample for ${soft(audience)}: ${soft(deliverable)}. Could I show it to you for five minutes and hear what is missing or not useful? There is no charge and no obligation. Thank you.`;
+    messageText = message;
+    const basics = [
+      `Who pays: ${payers[payer]}.`,
+      `How they find you: ${reaches[reach]}. People trust a stranger faster when a known person introduces them.`,
+      `Your sample: ${soft(proof)}.`,
+      'Follow-up: message once after the walkthrough to thank them and ask one question. Do not send many reminders.',
+      'Referrals: ask each person if they know one other person who could use it.',
+    ];
+    const bounds = [
+      'Use made-up, public or permitted information. Remove names, phone numbers and any private data.',
+      'Write down what is included, what is not included and when they will review it.',
+      'Do not promise sales, marks, savings or any legal, medical or financial result you cannot control.',
+      'If you are under 18, tell a parent or teacher about every person you work with. Check your college or employer rules on side work.',
+      'Before you charge regularly, ask a chartered accountant or a trusted adult what registration or tax applies to you. This page cannot tell you.',
+    ];
+    sheet = {
+      title: `First offer plan: ${skill}`,
+      sub: `Made on ${d(0)}. One skill, one group of people, one small thing to make.`,
+      sections: [
+        { h: 'Your offer in one line', p: [offer] },
+        { h: 'Your next three steps', ol: steps.map((s) => `${s.when}: ${s.text}`) },
+        { h: 'Message to send to three people', p: message.split('\n').filter(Boolean) },
+        { h: 'How you will test it', p: [tests[test]] },
+        { h: 'The basics of getting a first customer', ul: basics },
+        { h: 'Boundaries before you share or charge', ul: bounds },
+        { h: 'After the test, write down', ul: ['Which problem was real?', 'What did they say was missing?', 'What will you change or test next?'] },
+      ],
+    };
+    result.innerHTML = `<div class="ssm-lead"><span>${esc(skill)} · first offer</span><h3 class="fcs-wrap">${esc(offer)}</h3><p>This is a test of whether people find your work useful. It is not a business plan, and it does not show that people will pay.</p></div>
+      <h4>Your next three steps</h4>${stepsHtml(steps)}
+      <h4>Message to send to three people</h4><pre class="ssm-msg fcs-wrap">${esc(message)}</pre><button type="button" class="fcs-btn" data-ssm="copy-msg">Copy only this message</button>
+      <div class="ssm-grid"><article><b>How you will test it</b><p class="fcs-wrap">${esc(tests[test])}</p></article><article><b>The basics of a first customer</b><ul>${basics.map((t) => `<li class="fcs-wrap">${esc(t)}</li>`).join('')}</ul></article></div>
+      <div class="ssm-next"><h4>Boundaries before you share or charge</h4><ul>${bounds.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>
+      ${actionsHtml()}`;
+    showResult(result);
+  };
+  form.addEventListener('submit', (event) => { event.preventDefault(); if (!checkRequired(form, status)) return; build(); status.textContent = 'Your plan is ready below. Nothing was sent anywhere.'; });
+  form.addEventListener('input', () => { if (!result.hidden) status.textContent = 'You changed an answer. Tap "Create my first offer plan" again to update the result.'; });
+  result.addEventListener('click', async (event) => { if (!(event.target as HTMLElement).closest('[data-ssm="copy-msg"]')) return; status.textContent = (await copyText(messageText)) ? 'Message copied. Paste it into WhatsApp or email.' : 'Copy did not work. Press and hold the message text to select and copy it.'; });
+  exampleButton.addEventListener('click', () => {
+    fillExample(form, { skill: 'Spreadsheet work', audience: 'Small shops near my college', deliverable: 'A one-page sheet that shows daily sales and the best-selling items', proof: 'A sample sheet made with made-up sales data, with a screenshot', payer: 'owner', reach: 'visit', test: 'walkthrough' });
+    status.textContent = 'Example filled in. Change anything, then tap "Create my first offer plan".';
+  });
+  clearButton.addEventListener('click', () => { form.reset(); result.hidden = true; result.innerHTML = ''; sheet = null; messageText = ''; form.querySelectorAll('.fcs-invalid').forEach((el) => el.classList.remove('fcs-invalid')); status.textContent = 'Cleared.'; });
+  bindActions(result, () => sheet, URL_, status);
 </script>
-<style>
-  .ssm{margin:2rem 0;padding:1.5rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05)}.ssm h2{margin:.2rem 0 .6rem}.ssm>p{max-width:800px;line-height:1.65}.ssm-note,.ssm-status{color:rgba(255,255,255,.68);font-size:.88rem}.ssm-form{display:grid;gap:1rem;margin-top:1.4rem}.ssm-form label{display:grid;gap:.4rem;font-weight:650;font-size:.9rem}.ssm-form input,.ssm-form select,.ssm-form textarea{width:100%;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400}.ssm-actions{display:flex;gap:.6rem;flex-wrap:wrap}.ssm-actions button{min-height:44px;padding:.55rem .85rem;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;cursor:pointer}.ssm-primary{background:#129a8d!important;border-color:#129a8d!important;font-weight:700}.ssm-result{margin-top:1.3rem}.ssm-lead{padding:1.1rem;border-left:3px solid #2dd4bf;background:rgba(45,212,191,.08)}.ssm-lead span{color:#8de4d8;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em}.ssm-lead h3{margin:.4rem 0;font-size:1.5rem}.ssm-lead p,.ssm-grid p,.ssm-next li{line-height:1.6;color:rgba(255,255,255,.75)}.ssm-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.8rem}.ssm-grid article,.ssm-next{padding:.9rem;border:1px solid rgba(255,255,255,.15);border-radius:10px}.ssm-next{margin-top:.8rem;border-color:rgba(229,184,74,.35);background:rgba(229,184,74,.06)}.ssm-next h3{margin-top:0}@media(max-width:650px){.ssm-grid{grid-template-columns:1fr}}
+<style is:global>
+  .ssm{margin:2rem 0;padding:1.5rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05)}.ssm h2{margin:.2rem 0 .6rem}.ssm>p{max-width:800px;line-height:1.65}.ssm-note,.ssm-status{color:rgba(255,255,255,.72);font-size:.9rem}.ssm-form{display:grid;gap:1rem;margin-top:1.2rem}.ssm-form label{display:grid;gap:.4rem;font-weight:650;font-size:.95rem}.ssm-form input,.ssm-form select,.ssm-form textarea{width:100%;min-height:44px;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.25);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;font-weight:400}.ssm-form select option{color:#111}.ssm-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.ssm-actions{display:flex;gap:.6rem;flex-wrap:wrap}.ssm-actions button,.ssm-example{min-height:44px;padding:.55rem .95rem;border:1px solid rgba(255,255,255,.28);border-radius:10px;background:rgba(255,255,255,.08);color:#fff;font:inherit;cursor:pointer}.ssm-example{justify-self:start;border-style:dashed;color:#f7d88c;font-weight:650}.ssm-primary{background:#129a8d!important;border-color:#129a8d!important;font-weight:700}.ssm-result{margin-top:1.3rem;scroll-margin-top:5rem}.ssm-result h4{margin:1.1rem 0 .4rem;color:#fff}.ssm-lead{padding:1.1rem;border-left:3px solid #2dd4bf;background:rgba(45,212,191,.08)}.ssm-lead span{color:#8de4d8;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;overflow-wrap:anywhere}.ssm-lead h3{margin:.4rem 0;font-size:1.25rem;line-height:1.4}.ssm-lead p,.ssm-grid p,.ssm-grid li,.ssm-next li{line-height:1.6;color:rgba(255,255,255,.82)}.ssm-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:1rem}.ssm-grid article,.ssm-next{padding:.9rem;border:1px solid rgba(255,255,255,.16);border-radius:10px}.ssm-grid ul{margin:.4rem 0 0 1.1rem;padding:0}.ssm-msg{margin:0 0 .6rem;padding:.9rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(0,0,0,.25);color:#fff;font:inherit;font-size:.95rem;line-height:1.6;white-space:pre-wrap}.ssm-next{margin-top:.8rem;border-color:rgba(229,184,74,.38);background:rgba(229,184,74,.06)}.ssm-next h4{margin-top:0}@media(max-width:650px){.ssm{padding:1rem}.ssm-grid,.ssm-row{grid-template-columns:1fr}}
 </style>

@@ -1,7 +1,7 @@
 ---
 import CareerGuidanceBookletPage from '../../components/CareerGuidanceBookletPage.astro';
 import BusinessPerspectiveNote from '../../components/BusinessPerspectiveNote.astro';
-import { OFFICIAL } from '../../data/careerGuidanceBooklet.mjs';
+import { OFFICIAL, STATE_SITES, STATE_SITES_SEEN_ON } from '../../data/careerGuidanceBooklet.mjs';
 
 const title = 'Career Guidance After 12th PDF: Free Personal Booklet';
 const description = 'Free career guidance after 12th PDF you build yourself: pick your stream, marks, budget and priority, then download a booklet or a blank worksheet.';
@@ -42,6 +42,14 @@ const faqs = [
     a: 'Pick it in the route-in-mind box and it goes to the top of your shortlist with its growth mark, its risk and its checks. You then see it next to other routes your stream can enter, which makes it easier to talk about a second plan.',
   },
   {
+    q: 'Can I send my result to my parents on WhatsApp?',
+    a: 'Yes. Press Copy my result for WhatsApp, then paste it into any chat, or press Open WhatsApp with my result. The text holds your routes and three dated steps, and it leaves out your name and your worry line.',
+  },
+  {
+    q: 'I live in Andhra Pradesh or Telangana. Does the booklet help with state exams?',
+    a: 'It lists the state sites to open for AP EAPCET, TG EAPCET and state health counselling. Dates, ranks and seat lists change every year, so the booklet gives none of them. Open the site, read the current notice and write what you find on the worksheet.',
+  },
+  {
     q: 'Is my information sent anywhere, and do I have to type my name?',
     a: 'Your answers stay in this browser, and the PDF is made on your own device. The name box is optional and only shows on the cover. If you use a shared computer, press Clear my data before you leave.',
   },
@@ -70,14 +78,16 @@ const page = {
   serviceLink: { before: 'Want to talk your shortlist through with a person? Read about', href: '/services/career-counselling-and-career-guidance/career-guidance-after-12th/', label: 'career guidance after 12th', after: '.' },
   stepsTitle: 'How to build your booklet',
   steps: [
-    { h: 'Choose your stream', p: 'Pick the stream you studied. The list changes at once, and routes the chart opens only in some colleges are shown in a separate table.' },
+    { h: 'Choose your stream', p: 'Pick the stream you studied. The list changes at once, and routes the chart opens only in some colleges are shown in a separate table. Not sure how it works? Press Try an example first.' },
     { h: 'Add marks, budget and place', p: 'Pick the nearest band for each. If your marks are not out, choose Not out yet and come back when they are.' },
     { h: 'Say what matters most', p: 'Choose one priority. If your family already has a route in mind, pick it and it moves to the top with its risk.' },
+    { h: 'Read your next three steps', p: 'The result at a glance shows your routes and three steps with dates. Copy it and send it to a parent on WhatsApp.' },
     { h: 'Read the cards and the checks', p: 'Each route shows its growth mark, the risk to read first, the entry route in the chart and the official sites to open.' },
     { h: 'Download or print', p: 'Download your booklet as a PDF or print it. Use the blank worksheet if you would rather write by hand.' },
   ],
   insideTitle: 'What is inside the booklet',
   inside: [
+    { h: 'Your next three steps', p: 'Three steps with dates in the next ten days: read one official notice, write the real fee with your parents, and talk to one person.' },
     { h: 'Your shortlist', p: 'Five routes with a growth mark, the risk to read first, a basic sales and marketing step, the length, the entry route and the official sites to open.' },
     { h: 'Other routes for your stream', p: 'A table of every other route your stream can enter, each with its mark, so nothing from the chart is hidden.' },
     { h: 'Route comparison worksheet', p: 'Ruled boxes for the total fee, years, the entry exam and the date of the notice you read, what worries you and your second plan.' },
@@ -89,6 +99,7 @@ const page = {
   changesIntro: 'Your answers reorder the booklet. They never delete a route, because routes outside your top five are listed in a table.',
   changes: [
     { h: 'Stream', p: 'It decides which routes appear. This is read from the Who can enter column of our career chart, and routes the chart opens only in some colleges go to a check-college table.' },
+    { h: 'Well-known routes', p: 'Up to two routes that most families already talk about for your stream stay on the list with their risk beside them, such as MBBS for PCB or B.Tech for PCM. If your priority is earning sooner or fewer exam hurdles, only the ones that fit are kept.' },
     { h: 'Marks band', p: 'It removes nothing. With marks below 60 percent or not out yet, at least two of your five routes are ones that do not depend on one national rank. With higher marks, at least one is.' },
     { h: 'Budget band', p: 'It sets the money check illustration and flags routes the chart calls costly. It does not change the order.' },
     { h: 'City type', p: 'It changes the questions and the 30-day plan, for example by adding hostel or rent to the cost check for a seat in another city.' },
@@ -102,6 +113,7 @@ const page = {
     { h: 'It does not know dates, fees or cut-offs', p: 'They change every year and differ by state and college. The booklet points to the official site and leaves boxes for you to fill in.' },
     { h: 'It is not a test or a counsellor', p: 'There is no score, and it cannot say what suits you. It sorts routes from our chart by the answers you give.' },
     { h: 'A missing route may still exist', p: 'The shortlist uses the routes in our career chart after 12th. If you have heard of one that is not there, check it on the official site and write it on the worksheet.' },
+    { h: 'See a person before you pay', p: 'Talk to a teacher, a school counsellor or the college office if your family cannot agree, if a fee is above a fifth of the budget, or if anyone asks for money to promise a seat. No honest college or agent can promise a seat.' },
     { h: 'Typed text shows in the PDF', p: 'Your name and your worry line appear in the file. Do not type a phone number, email address, ID number or health detail.' },
   ],
   checks: {
@@ -132,6 +144,7 @@ const page = {
   sources: [
     { label: 'FutureCareerSchool career chart after 12th', url: 'https://futurecareerschool.com/blog/career-options/career-chart-after-12th/', supports: 'The routes, who can enter, entry routes, lengths, risks and growth marks used in the booklet. Last updated by us in October 2026.' },
     ...['nta', 'cuet', 'josaa', 'clat', 'icai', 'upsc', 'nchm'].map((k) => OFFICIAL[k]),
+    ...STATE_SITES.map((x) => ({ label: x.label, url: x.url, supports: x.supports, checked: STATE_SITES_SEEN_ON + (x.status === 'opened' ? ', page opened' : ', address seen in search results, page not opened') })),
   ],
   sourcesNote: 'Rules change. Where an official notice differs from the booklet, the notice is right. The booklet states no exam dates, fees or pay figures.',
   related: [

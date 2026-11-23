@@ -414,6 +414,8 @@ export const ALL_SECTIONS = [...SECTIONS, PARENT];
 // Sections ticked by default, and the set for a 20-minute class.
 export const DEFAULT_SECTIONS = SECTION_ORDER.slice();
 export const CLASS_SET = ['interests', 'strengths', 'studies', 'questions'];
+// A short set for a first try: what I enjoy and what I am good at. These two sections drive the overlap ideas in the summary.
+export const QUICK_SET = ['interests', 'strengths'];
 
 // Start block. Not numbered. The first name is optional and stays in the browser.
 export const START = {

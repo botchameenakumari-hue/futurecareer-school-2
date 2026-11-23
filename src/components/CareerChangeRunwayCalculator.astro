@@ -1,33 +1,163 @@
 <section class="crc" id="career-change-runway-calculator" aria-labelledby="crc-title">
-  <p class="eyebrow">ASSUMPTION-BASED CALCULATOR</p>
-  <h2 id="crc-title">Estimate a transition runway</h2>
-  <p>Use conservative figures to see how long your savings might cover the gap between essential monthly costs and reliable income while you test a career change.</p>
-  <p class="crc-note"><b>Important:</b> this is arithmetic, not financial advice or permission to resign. Keep taxes, debt, dependants, healthcare and an emergency reserve outside the optimistic case.</p>
+  <h2 id="crc-title">How many months can your savings carry you?</h2>
+  <p>Use cautious figures. The tool shows how long your savings last while you change careers, and the date they would run out.</p>
+  <p class="crc-note">General information, not financial advice and not a reason to resign. Include EMIs, rent, insurance premiums and money you send home in your monthly costs.</p>
   <form id="crc-form" class="crc-form" novalidate>
+    <div id="crc-ex-slot"></div>
     <div class="crc-grid">
-      <label>Accessible savings for the transition (₹)<input name="savings" type="number" min="0" step="1000" placeholder="300000" required /></label>
-      <label>Essential monthly expenses (₹)<input name="expenses" type="number" min="0" step="500" placeholder="30000" required /></label>
-      <label>Reliable monthly income during the transition (₹)<input name="income" type="number" min="0" step="500" value="0" required /></label>
-      <label>Expected monthly transition cost (₹)<input name="transition" type="number" min="0" step="500" value="0" required /></label>
+      <label for="crc-savings">Savings you can reach quickly (₹)<input id="crc-savings" name="savings" type="text" inputmode="numeric" autocomplete="off" placeholder="300000" aria-describedby="crc-savings-h" /><span class="crc-h" id="crc-savings-h">Bank balance and easy-to-withdraw money. Leave out money locked in a fixed deposit, PF or land.</span></label>
+      <label for="crc-reserve">Emergency money you will not touch (₹, optional)<input id="crc-reserve" name="reserve" type="text" inputmode="numeric" autocomplete="off" placeholder="50000" aria-describedby="crc-reserve-h" /><span class="crc-h" id="crc-reserve-h">For illness or a family problem. It is taken out of your savings first.</span></label>
+      <label for="crc-expenses">Essential costs every month (₹)<input id="crc-expenses" name="expenses" type="text" inputmode="numeric" autocomplete="off" placeholder="30000" aria-describedby="crc-expenses-h" /><span class="crc-h" id="crc-expenses-h">Rent, food, EMIs, insurance, bills, family support.</span></label>
+      <label for="crc-income">Income that will certainly continue (₹ a month)<input id="crc-income" name="income" type="text" inputmode="numeric" autocomplete="off" placeholder="0" aria-describedby="crc-income-h" /><span class="crc-h" id="crc-income-h">Part-time pay, rent received or a partner's pay you can rely on. Leave empty if none.</span></label>
+      <label for="crc-transition">Cost of making the change (₹ a month)<input id="crc-transition" name="transition" type="text" inputmode="numeric" autocomplete="off" placeholder="5000" aria-describedby="crc-transition-h" /><span class="crc-h" id="crc-transition-h">Course fee instalments, tools, travel to interviews. Leave empty if none.</span></label>
+      <label for="crc-plan">How many months do you expect the change to take? (optional)<input id="crc-plan" name="plan" type="text" inputmode="decimal" autocomplete="off" placeholder="6" aria-describedby="crc-plan-h" /><span class="crc-h" id="crc-plan-h">Until the first steady pay in the new line. Be cautious.</span></label>
     </div>
-    <label>What evidence do you already have?<select name="evidence"><option value="none">Only an interest or idea</option><option value="early">Some learning or an early project</option><option value="tested">A project or conversation tested with feedback</option><option value="strong">Relevant work evidence and a staged next opportunity</option></select></label>
-    <label>What would make you pause before making an irreversible move?<textarea name="pause" rows="3" maxlength="600" placeholder="A minimum reserve, offer, project result, family condition or review date"></textarea></label>
-    <div class="crc-actions"><button class="crc-primary" type="submit">Calculate runway</button><button type="button" data-crc="clear">Clear</button></div>
+    <label for="crc-evidence">What proof do you already have for the new career?<select id="crc-evidence" name="evidence"><option value="none">Only an interest or an idea</option><option value="early">Some learning or an early project</option><option value="tested">A project or talk with someone in the field, with feedback</option><option value="strong">Related work done, and a next opportunity lined up</option></select></label>
+    <label for="crc-pause">What would make you stop and wait before an irreversible step? (optional)<textarea id="crc-pause" name="pause" rows="3" maxlength="600" placeholder="A minimum balance, an offer letter, a project result, a family condition"></textarea></label>
+    <div class="crc-actions"><button class="crc-primary" type="submit">Show my runway</button><button type="button" data-crc="clear">Clear</button></div>
+    <p id="crc-error" hidden></p>
     <p id="crc-status" class="crc-status" role="status" aria-live="polite"></p>
   </form>
   <div id="crc-result" class="crc-result" hidden></div>
 </section>
 <script>
-  const crcForm = document.querySelector<HTMLFormElement>('#crc-form');
-  const crcResult = document.querySelector<HTMLDivElement>('#crc-result');
-  const crcStatus = document.querySelector<HTMLParagraphElement>('#crc-status');
-  const crcClear = document.querySelector<HTMLButtonElement>('[data-crc="clear"]');
-  if (!crcForm || !crcResult || !crcStatus || !crcClear) throw new Error('Career runway calculator markup is incomplete.');
-  const crcEsc = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c] || c));
-  const crcMoney = (value: number) => `₹${Math.round(value || 0).toLocaleString('en-IN')}`;
-  crcForm.addEventListener('submit', (event) => { event.preventDefault(); if (!crcForm.checkValidity()) { crcForm.reportValidity(); return; } const data = Object.fromEntries([...crcForm.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input,select,textarea')].map((field) => [field.name, field.value])); const savings = Number(data.savings) || 0, expenses = Number(data.expenses) || 0, income = Number(data.income) || 0, transition = Number(data.transition) || 0, gap = Math.max(0, expenses + transition - income), months = gap > 0 ? savings / gap : Infinity, display = Number.isFinite(months) ? `${months.toFixed(1)} months` : 'no entered monthly gap'; const evidence = data.evidence === 'none' ? 'Create a small work sample and speak with practitioners before increasing financial risk.' : data.evidence === 'early' ? 'Test the early project with feedback and define a threshold before committing more time or money.' : 'Write the evidence threshold for the next staged commitment and keep a backup route visible.'; crcResult.innerHTML = `<div class="crc-lead"><span>Entered-assumption estimate</span><h3>${crcEsc(display)} at the current gap</h3><p>This uses ${crcMoney(savings)} accessible savings, ${crcMoney(expenses)} essential expenses, ${crcMoney(transition)} transition cost and ${crcMoney(income)} reliable monthly income. It does not account for every real-life cost.</p></div><div class="crc-grid-result"><article><b>Monthly gap</b><strong>${crcMoney(gap)}</strong><small>Expenses and transition costs minus reliable income</small></article><article><b>Evidence before escalation</b><p>${crcEsc(evidence)}</p></article></div><div class="crc-next"><h3>Safer sequence</h3><ul><li>Keep an emergency reserve and include debt, tax, health and family obligations.</li><li>Run a defined experiment or portfolio project while protecting essential income where possible.</li><li>Speak with people doing the target work and verify the entry route.</li><li>Set a review date and a stop or pause threshold before making an irreversible move.</li></ul>${data.pause ? `<p><b>Your pause condition:</b> ${crcEsc(data.pause)}</p>` : ''}</div>`; crcResult.hidden = false; crcStatus.textContent = 'Runway estimated from your entries; nothing was sent.'; });
-  crcClear.addEventListener('click', () => { crcForm.reset(); crcResult.hidden = true; crcStatus.textContent = 'Cleared.'; });
+  import { esc, inr, num1, parseNum, MAX_MONEY, addMonths, monthLabel, startOfToday, addResultTools, showError, exampleButton, fillFields } from '../scripts/moneyToolKit';
+
+  const form = document.querySelector<HTMLFormElement>('#crc-form');
+  const result = document.querySelector<HTMLDivElement>('#crc-result');
+  const status = document.querySelector<HTMLParagraphElement>('#crc-status');
+  const errBox = document.querySelector<HTMLElement>('#crc-error');
+  const clearBtn = document.querySelector<HTMLButtonElement>('[data-crc="clear"]');
+  const slot = document.querySelector<HTMLElement>('#crc-ex-slot');
+  if (!form || !result || !status || !clearBtn || !slot) throw new Error('Career runway calculator markup is incomplete.');
+  const field = (name: string) => form.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(`[name="${name}"]`)!;
+
+  const EXAMPLE = { savings: '300000', reserve: '50000', expenses: '30000', income: '10000', transition: '5000', plan: '8', evidence: 'early', pause: 'Balance below 1,00,000 or no interview call by the review date' };
+  slot.appendChild(exampleButton('Try an example', 'The example numbers are made up to show how the tool works. They are not advice for your case.', () => {
+    fillFields(form, (k) => `[name="${k}"]`, EXAMPLE);
+    showError(errBox, '');
+    form.requestSubmit();
+  }));
+
+  const read = (key: string, label: string, opts: { required?: boolean; max?: number } = {}): number => {
+    const v = parseNum(field(key).value);
+    if (v === null) { if (opts.required) throw { msg: `Please fill in: ${label}.`, key }; return 0; }
+    if (Number.isNaN(v)) throw { msg: `${label}: please type numbers only, for example 30000.`, key };
+    if (v < 0) throw { msg: `${label}: the number cannot be below 0.`, key };
+    if (v > (opts.max ?? MAX_MONEY)) throw { msg: `${label}: this number is too large. Please check it.`, key };
+    return v;
+  };
+  const whenText = (months: number) => (months > 600 ? 'more than 50 years' : `until about ${monthLabel(addMonths(startOfToday(), months))}`);
+
+  const EVIDENCE: Record<string, string> = {
+    none: 'You have only an idea so far. Before you spend savings, make one small piece of work in the new field and show it to two people who do that job.',
+    early: 'You have started. Show your early work to someone in the field and write down what they would pay for or hire for.',
+    tested: 'You have feedback. Write the one result, such as an interview call or a paid project, that would let you take the next step.',
+    strong: 'You have real proof. Make the next step staged: ask for a written offer or a trial period before you leave a steady job.',
+  };
+
+  const compute = () => {
+    const savings = read('savings', 'Savings you can reach quickly', { required: true });
+    const reserve = read('reserve', 'Emergency money');
+    const expenses = read('expenses', 'Essential costs every month', { required: true });
+    const income = read('income', 'Income that will certainly continue');
+    const transition = read('transition', 'Cost of making the change');
+    const planRaw = parseNum(field('plan').value);
+    if (planRaw !== null && (Number.isNaN(planRaw) || planRaw < 0 || planRaw > 120)) throw { msg: 'Months for the change: type a number from 1 to 120, or leave it empty.', key: 'plan' };
+    const plan = planRaw && planRaw > 0 ? planRaw : 0;
+    const evidence = field('evidence').value in EVIDENCE ? field('evidence').value : 'none';
+    const pause = (field('pause') as HTMLTextAreaElement).value.trim();
+    if (expenses + transition <= 0) throw { msg: 'Essential costs every month cannot be zero. Enter what you truly spend each month.', key: 'expenses' };
+
+    const usable = Math.max(0, savings - reserve);
+    const monthlyGap = Math.max(0, expenses + transition - income);
+    const noIncomeGap = expenses + transition;
+    const runway = monthlyGap > 0 ? usable / monthlyGap : Infinity;
+    const runwayNoIncome = usable / noIncomeGap;
+    const needForPlan = plan > 0 ? monthlyGap * plan : 0;
+    const planShort = plan > 0 ? Math.max(0, needForPlan - usable) : 0;
+    const monthsHeld = expenses > 0 ? savings / expenses : 0;
+    const halfDate = runway !== Infinity && runway > 0 ? monthLabel(addMonths(startOfToday(), runway / 2)) : '';
+
+    let headline: string;
+    let meaning: string;
+    if (monthlyGap === 0) {
+      headline = 'Your steady income covers your costs';
+      meaning = `Your certain income of ${inr(income)} is at least as much as your monthly costs of ${inr(expenses + transition)}, so your savings are not being used up each month. Test the plan again with the income lower, because that is the case that hurts.`;
+    } else if (usable === 0) {
+      headline = 'No savings left to use after your emergency money';
+      meaning = `After keeping ${inr(reserve)} aside, nothing is left for a gap of ${inr(monthlyGap)} a month. A change that needs savings should wait until the gap is smaller or the savings are bigger.`;
+    } else {
+      headline = `About ${num1(runway)} months, ${whenText(runway)}`;
+      meaning = `You can use ${inr(usable)} of savings. Each month you are short by ${inr(monthlyGap)}, so the money lasts about ${num1(runway)} months. If even your steady income stopped, it would last about ${num1(runwayNoIncome)} months.`;
+    }
+    let planLine = '';
+    if (plan > 0 && monthlyGap > 0) {
+      planLine = planShort === 0
+        ? `You expect the change to take ${num1(plan)} months. That needs about ${inr(needForPlan)}, and you have ${inr(usable)}, so the plan fits with ${inr(usable - needForPlan)} to spare.`
+        : `You expect the change to take ${num1(plan)} months. That needs about ${inr(needForPlan)}, and you have ${inr(usable)}, so you are short by ${inr(planShort)}. Save that amount, cut ${inr(planShort / plan)} a month from costs, or keep a part-time income for longer.`;
+    }
+
+    const steps: string[] = [];
+    if (usable === 0 || (plan > 0 && planShort > 0)) steps.push('Close the money gap before you resign: save more, lower the monthly costs, or move to a part-time or staged change while you keep your salary.');
+    else if (halfDate) steps.push(`Write a review date for ${halfDate}, which is the half-way point of your runway. On that date decide in writing: continue, change the plan, or go back to steady work.`);
+    else steps.push('Write a review date three months from now and decide in writing: continue, change the plan, or stop.');
+    steps.push(EVIDENCE[evidence]);
+    steps.push('Before you resign, check your notice period, any bond, what happens to your employer health insurance and PF, and the EMIs you must still pay.');
+
+    const lines = [
+      'Career change runway (a planning estimate)',
+      `Result: ${headline}`,
+      `Savings ${inr(savings)}, emergency money kept aside ${inr(reserve)}, usable ${inr(usable)}`,
+      `Monthly costs ${inr(expenses)} plus change cost ${inr(transition)}, steady income ${inr(income)}, monthly gap ${inr(monthlyGap)}`,
+      ...(Number.isFinite(runwayNoIncome) ? [`If steady income stopped: about ${num1(runwayNoIncome)} months`] : []),
+      '',
+      meaning,
+      ...(planLine ? ['', planLine] : []),
+      '',
+      'Next three steps:',
+      ...steps.map((s, i) => `${i + 1}. ${s}`),
+      ...(pause ? ['', `My stop condition: ${pause}`] : []),
+      '',
+      'General information, not financial advice. Free calculator: https://futurecareerschool.com/tools/career-change-runway-calculator/',
+    ];
+
+    const html = `<div class="crc-lead"><span>Your runway</span><h3>${esc(headline)}</h3><p>${esc(meaning)}</p></div>
+      ${planLine ? `<p class="crc-plan">${esc(planLine)}</p>` : ''}
+      <div class="crc-grid-result">
+        <article><b>Savings you can use</b><strong>${esc(inr(usable))}</strong><small>Savings minus the emergency money you keep aside</small></article>
+        <article><b>Gap each month</b><strong>${esc(inr(monthlyGap))}</strong><small>Costs and change cost minus steady income</small></article>
+        <article><b>If steady income stopped</b><strong>${esc(num1(runwayNoIncome))} months</strong><small>The safer way to read your runway</small></article>
+        <article><b>Savings in months of costs</b><strong>${esc(num1(monthsHeld))} months</strong><small>Savings divided by essential monthly costs</small></article>
+      </div>
+      <div class="mtk-steps"><h3>Your next three steps</h3><ol>${steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol></div>
+      ${pause ? `<p class="crc-small"><b>Your stop condition:</b> ${esc(pause)}</p>` : ''}
+      <p class="crc-small">If you only know an offer's CTC, work out the monthly pay you will really get with the <a href="https://futurecareerschool.com/tools/ctc-to-in-hand-salary-calculator/">CTC to in-hand salary calculator</a>. A counsellor or a fee-only financial adviser can check the plan before you resign.</p>
+      <p class="crc-small">Not counted: tax on new income, price rises, medical bills, and money that arrives late. Treat the runway as the best case.</p>`;
+    return { text: lines.join('\n'), html };
+  };
+
+  let lastText = '';
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    try {
+      const out = compute();
+      showError(errBox, '');
+      lastText = out.text;
+      result.innerHTML = out.html;
+      addResultTools(result, () => lastText, 'My career change runway');
+      result.hidden = false;
+      status.textContent = 'Your runway is ready below. Nothing was sent anywhere.';
+    } catch (e) {
+      const err = e as { msg?: string; key?: string };
+      if (!err || !err.msg) throw e;
+      result.hidden = true;
+      showError(errBox, err.msg, err.key ? field(err.key) : null);
+      status.textContent = '';
+    }
+  });
+  clearBtn.addEventListener('click', () => { form.reset(); result.hidden = true; result.innerHTML = ''; showError(errBox, ''); status.textContent = 'Cleared.'; });
 </script>
-<style>
-  .crc{margin:2rem 0;padding:1.5rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05)}.crc h2{margin:.2rem 0 .6rem}.crc>p{max-width:800px;line-height:1.65}.crc-note,.crc-status{color:rgba(255,255,255,.68);font-size:.88rem}.crc-form{display:grid;gap:1rem;margin-top:1.4rem}.crc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.crc-form label{display:grid;gap:.4rem;font-weight:650;font-size:.9rem}.crc-form input,.crc-form select,.crc-form textarea{width:100%;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400}.crc-actions{display:flex;gap:.6rem;flex-wrap:wrap}.crc-actions button{min-height:44px;padding:.55rem .85rem;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;cursor:pointer}.crc-primary{background:#129a8d!important;border-color:#129a8d!important;font-weight:700}.crc-result{margin-top:1.3rem}.crc-lead{padding:1.1rem;border-left:3px solid #2dd4bf;background:rgba(45,212,191,.08)}.crc-lead span{color:#8de4d8;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em}.crc-lead h3{margin:.4rem 0;font-size:1.5rem}.crc-lead p,.crc-grid-result p,.crc-next li,.crc-next p{line-height:1.6;color:rgba(255,255,255,.75)}.crc-grid-result{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.8rem}.crc-grid-result article,.crc-next{padding:.9rem;border:1px solid rgba(255,255,255,.15);border-radius:10px}.crc-grid-result strong{display:block;margin-top:.3rem;color:#f5d98c;font-size:1.3rem}.crc-grid-result small{display:block;color:rgba(255,255,255,.65);margin-top:.2rem}.crc-next{margin-top:.8rem;border-color:rgba(229,184,74,.35);background:rgba(229,184,74,.06)}.crc-next h3{margin-top:0}@media(max-width:650px){.crc-grid,.crc-grid-result{grid-template-columns:1fr}}
+<style is:global>
+  .crc{margin:2rem 0;padding:1.5rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05)}.crc h2{margin:.2rem 0 .6rem}.crc>p{max-width:800px;line-height:1.65}.crc-note,.crc-status{color:rgba(255,255,255,.68);font-size:.88rem}.crc-form{display:grid;gap:1rem;margin-top:1.2rem}.crc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.crc-form label{display:grid;gap:.4rem;font-weight:650;font-size:.95rem;align-content:start}.crc-h{font-weight:400;font-size:.82rem;color:rgba(255,255,255,.62);line-height:1.45}.crc-form input,.crc-form select,.crc-form textarea{width:100%;min-height:44px;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.25);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-size:1rem;font-weight:400}.crc-form select option{color:#111}.crc-actions{display:flex;gap:.6rem;flex-wrap:wrap}.crc-actions button{min-height:44px;padding:.55rem .95rem;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;cursor:pointer}.crc-primary{background:#129a8d!important;border-color:#129a8d!important;font-weight:700}.crc-result{margin-top:1.3rem}.crc-lead{padding:1.1rem;border-left:3px solid #2dd4bf;background:rgba(45,212,191,.08)}.crc-lead span{color:#8de4d8;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em}.crc-lead h3{margin:.4rem 0;font-size:1.5rem}.crc-lead p,.crc-plan{line-height:1.6;color:rgba(255,255,255,.8)}.crc-plan{margin:.8rem 0 0;padding:.8rem;border:1px solid rgba(229,184,74,.35);border-radius:10px;background:rgba(229,184,74,.06)}.crc-grid-result{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.8rem}.crc-grid-result article{display:grid;gap:.25rem;padding:.85rem;border:1px solid rgba(255,255,255,.15);border-radius:10px;min-width:0}.crc-grid-result strong{color:#f5d98c;font-size:1.25rem}.crc-grid-result small{color:rgba(255,255,255,.65);line-height:1.4}.crc-small{margin-top:.8rem;font-size:.9rem;line-height:1.6;color:rgba(255,255,255,.75);overflow-wrap:anywhere}.crc-small a{color:#8de4d8}@media(max-width:650px){.crc{padding:1.1rem}.crc-grid,.crc-grid-result{grid-template-columns:1fr}}
 </style>

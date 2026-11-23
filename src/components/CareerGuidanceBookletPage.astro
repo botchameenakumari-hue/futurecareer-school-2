@@ -5,6 +5,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Nav from './Nav.astro';
 import Footer from './Footer.astro';
+import ToolNextStep from './ToolNextStep.astro';
 import CareerGuidanceBooklet from './CareerGuidanceBooklet.astro';
 import { SCALE, SCALE_RULE } from '../config/scalability.mjs';
 import { CHECKED_ON, PAY_LINE } from '../data/careerGuidanceBooklet.mjs';
@@ -166,7 +167,7 @@ const jsonLd = [
               <tr>
                 <th scope="row" data-label="Source"><a href={s.url} target="_blank" rel="noopener noreferrer">{s.label}</a><br /><span class="cp-url">{s.url}</span></th>
                 <td data-label="What it supports">{s.supports}</td>
-                <td data-label="Checked">{CHECKED_ON}</td>
+                <td data-label="Checked">{s.checked || CHECKED_ON}</td>
               </tr>
             ))}
           </tbody>
@@ -181,6 +182,7 @@ const jsonLd = [
         {page.related.map((r) => <li><a href={r.href}>{r.label}</a>: {r.why}</li>)}
       </ul>
     </section>
+  <ToolNextStep toolName={stage === '10' || stage === 'after10' || stage === 10 ? 'Career Guidance Booklet After 10th' : 'Career Guidance Booklet After 12th'} audience={stage === '10' || stage === 'after10' || stage === 10 ? 'after10' : 'after12'} />
   </main>
   <Footer />
 </BaseLayout>

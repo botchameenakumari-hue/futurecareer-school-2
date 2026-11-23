@@ -1,29 +1,175 @@
 <section class="sar" id="study-abroad-readiness-planner" aria-labelledby="sar-title">
-  <p class="eyebrow">INTERNATIONAL STUDY DUE DILIGENCE</p>
   <h2 id="sar-title">Check the whole study-abroad decision</h2>
-  <p>Turn an attractive offer or destination into a reviewable plan: verify the institution, total cost, immigration conditions, daily-life support and a backup or return route.</p>
-  <p class="sar-note"><b>Limit:</b> this tool does not recommend a country, verify a visa, predict a job, or replace an official university or government notice. Rules and costs change.</p>
+  <p>Enter the course, the total cost and how well you have checked it. You get a dated plan, the money gap, and questions to send to the university in writing.</p>
+  <p class="sar-note">Apply only on the university's own website. No agent can promise admission or a visa. This tool does not recommend a country, check a visa or predict a job.</p>
   <form id="sar-form" class="sar-form" novalidate>
-    <label>Course, institution or destination<input name="route" maxlength="180" placeholder="Use the exact name you are researching" required /></label>
-    <label>How strong is your official-source check?<select name="source"><option value="0">I have only promotional information</option><option value="1">I found official pages but need to date-check them</option><option value="2">I saved current institution and government sources</option></select></label>
-    <label>How clear is the full cost?<select name="cost"><option value="0">Only tuition is known</option><option value="1">Tuition plus some living costs</option><option value="2">Tuition, living, travel, deposits and contingency are mapped</option></select></label>
-    <label>How clear are the conditions after study?<select name="conditions"><option value="0">I am relying on hearsay</option><option value="1">I found general information</option><option value="2">I checked current official visa, work and return conditions</option></select></label>
-    <label>What is your backup or return question?<textarea name="backup" rows="3" maxlength="600" placeholder="For example: what happens if funding, visa, health or employment plans change?"></textarea></label>
-    <div class="sar-actions"><button class="sar-primary" type="submit">Create readiness plan</button><button type="button" data-sar="clear">Clear</button></div>
+    <div id="sar-ex-slot"></div>
+    <div class="sar-grid2">
+      <label for="sar-route">Course and university or country<input id="sar-route" name="route" maxlength="180" autocomplete="off" placeholder="For example: MS in data science, a university abroad" /></label>
+      <label for="sar-deadline">Date by which you must reply or pay the deposit<input id="sar-deadline" name="deadline" type="date" aria-describedby="sar-deadline-h" /><span class="sar-h" id="sar-deadline-h">From the offer letter. Leave empty if you do not have one yet.</span></label>
+    </div>
+    <fieldset class="sar-box">
+      <legend>The money, in rupees</legend>
+      <p class="sar-h">Convert foreign money using today's rate from your bank, and leave a cushion because the rate moves. Leave a box empty if it does not apply.</p>
+      <div class="sar-grid2">
+        <label for="sar-tuition">Tuition for one year (₹)<input id="sar-tuition" name="tuition" type="text" inputmode="numeric" autocomplete="off" placeholder="2500000" /></label>
+        <label for="sar-living">Living cost for one year: rent, food, travel, phone (₹)<input id="sar-living" name="living" type="text" inputmode="numeric" autocomplete="off" placeholder="1000000" /></label>
+        <label for="sar-onetime">One-time costs: flights, visa, insurance, deposits (₹)<input id="sar-onetime" name="onetime" type="text" inputmode="numeric" autocomplete="off" placeholder="400000" /></label>
+        <label for="sar-years">Course length (years)<input id="sar-years" name="years" type="text" inputmode="decimal" autocomplete="off" value="2" /></label>
+        <label for="sar-funds">Money the family can really give (₹)<input id="sar-funds" name="funds" type="text" inputmode="numeric" autocomplete="off" placeholder="1500000" aria-describedby="sar-funds-h" /><span class="sar-h" id="sar-funds-h">Savings and money already confirmed. Do not count a scholarship you have not received.</span></label>
+      </div>
+    </fieldset>
+    <div class="sar-grid2">
+      <label for="sar-source">How well have you checked official sources?<select id="sar-source" name="source"><option value="0">I only have promotional information</option><option value="1">I found official pages but have not checked their dates</option><option value="2">I saved current university and government pages</option></select></label>
+      <label for="sar-cost">How clear is the full cost?<select id="sar-cost" name="cost"><option value="0">Only tuition is known</option><option value="1">Tuition and some living costs</option><option value="2">Tuition, living, travel, deposits and a cushion are all listed</option></select></label>
+      <label for="sar-conditions">How clear are the rules after study?<select id="sar-conditions" name="conditions"><option value="0">I rely on what people say</option><option value="1">I found general information</option><option value="2">I checked current official visa, work and return rules</option></select></label>
+    </div>
+    <label for="sar-backup">If funding, visa, health or work plans change, what will you do? (optional)<textarea id="sar-backup" name="backup" rows="3" maxlength="600" placeholder="For example: defer a year, move to a cheaper university, return and work"></textarea></label>
+    <div class="sar-actions"><button class="sar-primary" type="submit">Show my plan</button><button type="button" data-sar="clear">Clear</button></div>
+    <p id="sar-error" hidden></p>
     <p id="sar-status" class="sar-status" role="status" aria-live="polite"></p>
   </form>
   <div id="sar-result" class="sar-result" hidden></div>
 </section>
 <script>
-  const sarForm = document.querySelector<HTMLFormElement>('#sar-form');
-  const sarResult = document.querySelector<HTMLDivElement>('#sar-result');
-  const sarStatus = document.querySelector<HTMLParagraphElement>('#sar-status');
-  const sarClear = document.querySelector<HTMLButtonElement>('[data-sar="clear"]');
-  if (!sarForm || !sarResult || !sarStatus || !sarClear) throw new Error('Study-abroad readiness planner markup is incomplete.');
-  const sarEsc = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c] || c));
-  sarForm.addEventListener('submit', (event) => { event.preventDefault(); if (!sarForm.checkValidity()) { sarForm.reportValidity(); return; } const data = Object.fromEntries([...sarForm.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input,select,textarea')].map((field) => [field.name, field.value])); const score = Number(data.source) + Number(data.cost) + Number(data.conditions); const band = score >= 5 ? 'ready for a final evidence review' : score >= 3 ? 'partly researched-close the gaps' : 'early stage-do not commit yet'; const first = Number(data.source) < 2 ? 'Save the current institution, immigration and regulator pages, including dates and who issued each rule.' : Number(data.cost) < 2 ? 'Build a total-cost sheet covering tuition, living, travel, deposits, insurance, currency movement and a contingency.' : Number(data.conditions) < 2 ? 'Verify current visa, work, renewal and return conditions from the relevant government sources.' : 'Ask an independent person to challenge the assumptions and confirm your backup route.'; sarResult.innerHTML = `<div class="sar-lead"><span>${sarEsc(data.route)} · readiness signal</span><h3>${sarEsc(band)} · ${score}/6</h3><p>This signal measures checklist completion, not admission, visa or employment probability.</p></div><div class="sar-grid"><article><b>First action</b><p>${sarEsc(first)}</p></article><article><b>Backup or return question</b><p>${data.backup ? sarEsc(data.backup) : 'Write what you would do if the primary study, funding or work plan changes.'}</p></article></div><div class="sar-next"><h3>Before paying a deposit</h3><ul><li>Check the current offer, recognition, refund terms and total cost with the issuing institution.</li><li>Verify visa, work, health-insurance and post-study conditions on the relevant official government source.</li><li>Separate a course’s marketing claims from evidence about teaching, support and outcomes.</li><li>Keep a lower-cost, staged or return route visible; do not treat migration or employment as guaranteed.</li></ul></div>`; sarResult.hidden = false; sarStatus.textContent = 'Readiness plan created from your entries; nothing was sent.'; });
-  sarClear.addEventListener('click', () => { sarForm.reset(); sarResult.hidden = true; sarStatus.textContent = 'Cleared.'; });
+  import { esc, inr, num1, parseNum, MAX_MONEY, dayLabel, stageDates, parseDateInput, startOfToday, daysBetween, addResultTools, showError, exampleButton } from '../scripts/moneyToolKit';
+
+  const form = document.querySelector<HTMLFormElement>('#sar-form');
+  const result = document.querySelector<HTMLDivElement>('#sar-result');
+  const status = document.querySelector<HTMLParagraphElement>('#sar-status');
+  const errBox = document.querySelector<HTMLElement>('#sar-error');
+  const clearBtn = document.querySelector<HTMLButtonElement>('[data-sar="clear"]');
+  const slot = document.querySelector<HTMLElement>('#sar-ex-slot');
+  if (!form || !result || !status || !clearBtn || !slot) throw new Error('Study-abroad readiness planner markup is incomplete.');
+  const field = (name: string) => form.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(`[name="${name}"]`)!;
+
+  slot.appendChild(exampleButton('Try an example', 'The example is made up to show how the tool works. The course and money are not real.', () => {
+    const d = new Date(); d.setDate(d.getDate() + 45);
+    const iso = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    const v: Record<string, string> = { route: 'Example: 2-year master\'s course at a university abroad', deadline: iso, tuition: '2500000', living: '1000000', onetime: '400000', years: '2', funds: '1500000', source: '1', cost: '1', conditions: '0', backup: 'Defer a year or move to a cheaper university' };
+    Object.entries(v).forEach(([k, val]) => { field(k).value = val; });
+    showError(errBox, '');
+    form.requestSubmit();
+  }));
+
+  const readMoney = (key: string, label: string): number => {
+    const v = parseNum(field(key).value);
+    if (v === null) return 0;
+    if (Number.isNaN(v)) throw { msg: `${label}: please type numbers only, for example 2500000.`, key };
+    if (v < 0) throw { msg: `${label}: the number cannot be below 0.`, key };
+    if (v > MAX_MONEY) throw { msg: `${label}: this number is too large. Please check it.`, key };
+    return v;
+  };
+
+  const QUESTIONS = [
+    'What is the total fee for the whole programme, with every compulsory extra? Please send it in writing.',
+    'What is the refund rule if my visa is refused, or if I leave the course?',
+    'Which official body in your country recognises this university and this programme? Please name it.',
+    'When will you send the documents I need for my visa application, and what do they cost?',
+    'What do you say about part-time work while studying on this course? I will check it against the government website.',
+    'What help is there with housing, health insurance and arrival?',
+    'What did graduates of this exact programme do in the year after finishing? Is there a survey or a report?',
+  ];
+
+  const compute = () => {
+    const route = field('route').value.trim();
+    if (!route) throw { msg: 'Please type the course and the university or country you are checking.', key: 'route' };
+    const tuition = readMoney('tuition', 'Tuition for one year');
+    const living = readMoney('living', 'Living cost for one year');
+    const onetime = readMoney('onetime', 'One-time costs');
+    const funds = readMoney('funds', 'Money the family can really give');
+    const yearsRaw = parseNum(field('years').value);
+    const years = yearsRaw === null ? 0 : yearsRaw;
+    if (Number.isNaN(years) || years < 0 || years > 10) throw { msg: 'Course length: type a number of years from 1 to 10, for example 2.', key: 'years' };
+    const hasMoney = tuition + living + onetime > 0;
+    if (hasMoney && years < 0.25) throw { msg: 'Course length: type a number of years from 1 to 10, for example 2.', key: 'years' };
+    const source = Number(field('source').value) || 0;
+    const cost = Number(field('cost').value) || 0;
+    const conditions = Number(field('conditions').value) || 0;
+    const backup = field('backup').value.trim();
+    const dl = parseDateInput(field('deadline').value);
+    if (field('deadline').value && !dl) throw { msg: 'Date for reply or deposit: please pick a valid date.', key: 'deadline' };
+
+    const score = source + cost + conditions;
+    const band = score >= 5 ? 'Ready for a final review' : score >= 3 ? 'Partly checked, close the gaps' : 'Early stage, do not pay a deposit yet';
+    const total = (tuition + living) * years + onetime;
+    const gap = Math.max(0, total - funds);
+    const perYear = years > 0 ? total / years : 0;
+
+    const today = startOfToday();
+    const daysLeft = dl ? daysBetween(today, dl) : null;
+    const st = dl ? stageDates(dl, today) : null;
+    const lead = (d: Date | null) => (d ? `By ${dayLabel(d)}: ` : '');
+    const stepSource = source < 2
+      ? 'save the university programme page, the fee page, the refund rule and the government visa page, each with its date. Check that the university is recognised by the education authority of its own country, and ask what recognition your degree will have in India if you return.'
+      : 're-open your saved pages and check their dates. Fees and visa rules change, so confirm nothing is out of date before you pay.';
+    const stepCost = cost < 2
+      ? `write a cost sheet with tuition, living, flights, visa, insurance, deposits and a cushion for the rupee falling. ${hasMoney ? '' : 'Fill the money boxes above to see the total.'}`.trim()
+      : 'run your cost sheet again with higher living costs and a weaker rupee, and check that the family can still pay.';
+    const stepRules = conditions < 2
+      ? 'read the current official rules for the student visa, working while studying and staying after study. Do not rely on an agent or a friend for this.'
+      : 'ask one person who studied the same course there in the last two years what the first six months really cost and how they found work.';
+    const stepsRaw = [stepSource, stepCost, stepRules];
+    const dates = st ? [st.s1, st.s2, st.s3] : [null, null, null];
+    let steps = stepsRaw.map((s, i) => `${lead(dates[i])}${dates[i] ? s : s.charAt(0).toUpperCase() + s.slice(1)}`);
+    if (dl && daysLeft !== null && daysLeft < 1) steps = ['The reply date you entered has passed or is today. Ask the university in writing whether the offer is still open before you pay anything.', ...stepsRaw.slice(0, 2).map((s) => s.charAt(0).toUpperCase() + s.slice(1))];
+    if (!dl) steps[2] += ' Add the reply date from your offer letter to get dates for these steps.';
+
+    let money = '';
+    if (hasMoney) {
+      money = gap === 0
+        ? `The estimate is ${inr(total)} for ${num1(years)} year${years === 1 ? '' : 's'}, about ${inr(perYear)} a year. The money the family can give covers it.`
+        : `The estimate is ${inr(total)} for ${num1(years)} year${years === 1 ? '' : 's'}, about ${inr(perYear)} a year. After ${inr(funds)} from the family, ${inr(gap)} is still missing.`;
+    }
+    const loanNote = gap > 0 ? 'If you plan to borrow, check the EMI at an in-hand salary you are sure of. A job abroad is not guaranteed, so check that you could repay from a salary in India too.' : '';
+
+    const lines = [
+      `${route}: study abroad check`,
+      `Result: ${band} (${score} of 6 checklist points)`,
+      ...(dl ? [`Reply or deposit date: ${dayLabel(dl)}${daysLeft !== null && daysLeft >= 0 ? ` (${daysLeft} day${daysLeft === 1 ? '' : 's'} left)` : ' (passed)'}`] : []),
+      ...(money ? ['', money] : []),
+      ...(loanNote ? [loanNote] : []),
+      '',
+      'Next three steps:',
+      ...steps.map((s, i) => `${i + 1}. ${s}`),
+      '',
+      'Questions to send the university in writing:',
+      ...QUESTIONS.map((q, i) => `${i + 1}. ${q}`),
+      ...(backup ? ['', `My backup plan: ${backup}`] : []),
+      '',
+      'Apply on the university website. No agent can promise admission or a visa. Free planner: https://futurecareerschool.com/tools/study-abroad-readiness-planner/',
+    ];
+
+    const html = `<div class="sar-lead"><span>${esc(route)}</span><h3>${esc(band)} (${score} of 6)</h3><p>${dl && daysLeft !== null && daysLeft >= 0 ? `${daysLeft} day${daysLeft === 1 ? '' : 's'} left until ${esc(dayLabel(dl))}. ` : ''}This score counts how well you have checked things. It does not show if you will get admission, a visa or a job.</p></div>
+      ${money ? `<div class="sar-money"><b>The money</b><p>${esc(money)}</p>${loanNote ? `<p>${esc(loanNote)} Use the <a href="https://futurecareerschool.com/tools/education-loan-emi-calculator/">education loan EMI calculator</a>.</p>` : ''}</div>` : ''}
+      <div class="mtk-steps"><h3>Your next three steps${st ? ', with dates' : ''}</h3><ol>${steps.map((s) => `<li>${esc(s)}</li>`).join('')}</ol></div>
+      <div class="sar-next"><h3>Send these questions to the university in writing</h3><ol>${QUESTIONS.map((q) => `<li>${esc(q)}</li>`).join('')}</ol><p class="sar-small">Use the email on the university's own website. Keep the written reply. If the answer is unclear or someone pushes you to pay today, wait.</p></div>
+      <div class="sar-grid"><article><b>Your backup plan</b><p>${backup ? esc(backup) : 'Write what you would do if funding, the visa, your health or the work plan changes.'}</p></article><article><b>Before you pay a deposit</b><p>Check the refund terms in writing, and make sure the family could still manage if the deposit were lost.</p></article></div>
+      <p class="mtk-safe">Apply on the university website. No agent can promise admission or a visa.</p><p class="sar-small">The costs here leave out tax rules on sending money abroad and currency charges, so ask your bank. For a large decision, talk to a counsellor and the bank before you pay.</p>`;
+    return { text: lines.join('\n'), html };
+  };
+
+  let lastText = '';
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    try {
+      const out = compute();
+      showError(errBox, '');
+      lastText = out.text;
+      result.innerHTML = out.html;
+      addResultTools(result, () => lastText, 'My study abroad check');
+      result.hidden = false;
+      status.textContent = 'Your plan is ready below. Nothing was sent anywhere.';
+    } catch (e) {
+      const err = e as { msg?: string; key?: string };
+      if (!err || !err.msg) throw e;
+      result.hidden = true;
+      showError(errBox, err.msg, err.key ? field(err.key) : null);
+      status.textContent = '';
+    }
+  });
+  clearBtn.addEventListener('click', () => { form.reset(); result.hidden = true; result.innerHTML = ''; showError(errBox, ''); status.textContent = 'Cleared.'; });
 </script>
-<style>
-  .sar{margin:2rem 0;padding:1.5rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05)}.sar h2{margin:.2rem 0 .6rem}.sar>p{max-width:800px;line-height:1.65}.sar-note,.sar-status{color:rgba(255,255,255,.68);font-size:.88rem}.sar-form{display:grid;gap:1rem;margin-top:1.4rem}.sar-form label{display:grid;gap:.4rem;font-weight:650;font-size:.9rem}.sar-form input,.sar-form select,.sar-form textarea{width:100%;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400}.sar-actions{display:flex;gap:.6rem;flex-wrap:wrap}.sar-actions button{min-height:44px;padding:.55rem .85rem;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;cursor:pointer}.sar-primary{background:#129a8d!important;border-color:#129a8d!important;font-weight:700}.sar-result{margin-top:1.3rem}.sar-lead{padding:1.1rem;border-left:3px solid #2dd4bf;background:rgba(45,212,191,.08)}.sar-lead span{color:#8de4d8;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em}.sar-lead h3{margin:.4rem 0;font-size:1.5rem}.sar-lead p,.sar-grid p,.sar-next li{line-height:1.6;color:rgba(255,255,255,.75)}.sar-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.8rem}.sar-grid article,.sar-next{padding:.9rem;border:1px solid rgba(255,255,255,.15);border-radius:10px}.sar-next{margin-top:.8rem;border-color:rgba(229,184,74,.35);background:rgba(229,184,74,.06)}.sar-next h3{margin-top:0}@media(max-width:650px){.sar-grid{grid-template-columns:1fr}}
+<style is:global>
+  .sar{margin:2rem 0;padding:1.5rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05)}.sar h2{margin:.2rem 0 .6rem}.sar>p{max-width:800px;line-height:1.65}.sar-note,.sar-status{color:rgba(255,255,255,.68);font-size:.88rem}.sar-form{display:grid;gap:1rem;margin-top:1.2rem}.sar-grid2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.sar-form label{display:grid;gap:.4rem;font-weight:650;font-size:.95rem;align-content:start}.sar-h{font-weight:400;font-size:.82rem;color:rgba(255,255,255,.62);line-height:1.45}.sar-box{margin:0;padding:.9rem;border:1px solid rgba(255,255,255,.2);border-radius:12px}.sar-box legend{padding:0 .4rem;font-weight:700}.sar-box>p{margin:.1rem 0 .8rem}.sar-form input,.sar-form select,.sar-form textarea{width:100%;min-height:44px;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.25);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-size:1rem;font-weight:400}.sar-form select option{color:#111}.sar-actions{display:flex;gap:.6rem;flex-wrap:wrap}.sar-actions button{min-height:44px;padding:.55rem .95rem;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;cursor:pointer}.sar-primary{background:#129a8d!important;border-color:#129a8d!important;font-weight:700}.sar-result{margin-top:1.3rem}.sar-lead{padding:1.1rem;border-left:3px solid #2dd4bf;background:rgba(45,212,191,.08)}.sar-lead span{color:#8de4d8;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;overflow-wrap:anywhere}.sar-lead h3{margin:.4rem 0;font-size:1.4rem}.sar-lead p,.sar-grid p,.sar-next li,.sar-money p{line-height:1.6;color:rgba(255,255,255,.78)}.sar-money{margin-top:.8rem;padding:.9rem;border:1px solid rgba(255,255,255,.15);border-radius:10px}.sar-money a{color:#8de4d8}.sar-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.8rem}.sar-grid article,.sar-next{padding:.9rem;border:1px solid rgba(255,255,255,.15);border-radius:10px;overflow-wrap:anywhere}.sar-next{margin-top:.8rem;border-color:rgba(229,184,74,.35);background:rgba(229,184,74,.06)}.sar-next h3{margin-top:0}.sar-small{font-size:.88rem}@media(max-width:650px){.sar{padding:1.1rem}.sar-grid,.sar-grid2{grid-template-columns:1fr}}
 </style>

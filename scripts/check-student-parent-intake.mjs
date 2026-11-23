@@ -19,7 +19,7 @@ const missing = required.filter((text) => !source.includes(text));
 if (!page.includes('StudentParentCareerIntake') || !chart.includes('/tools/student-parent-career-intake/') || missing.length) {
   throw new Error(`Student-parent intake contract failed. Missing: ${missing.join(', ') || 'page or discoverability link'}.`);
 }
-for (const text of ['Student–Parent Career Guidance Intake', 'Private by design', 'does not upload your answers']) {
+for (const text of ['Student and Parent Career Intake', 'Private by design', 'does not upload your answers']) {
   if (!html.includes(text)) throw new Error(`Student-parent intake output is missing: ${text}`);
 }
 

@@ -1,31 +1,103 @@
 <section class="irp" id="internship-readiness-planner" aria-labelledby="irp-title">
   <p class="eyebrow">PRACTICAL PREPARATION TOOL</p>
-  <h2 id="irp-title">Build an internship-readiness plan</h2>
-  <p>Identify the smallest evidence, communication and logistics steps that would make a credible learning application clearer.</p>
-  <p class="irp-note"><b>Limit:</b> this is a preparation checklist, not a placement guarantee, employer assessment or promise that an internship is safe or paid.</p>
+  <h2 id="irp-title">Build your internship-readiness plan</h2>
+  <p>Answer three quick questions about what you can show, how you explain yourself and whether the opportunity is safe. You get dated steps, a message to send and a scam check.</p>
+  <p class="irp-note"><b>Limit:</b> this is a preparation checklist, not a placement guarantee, an employer assessment or a promise that an internship is safe or paid. Your answers stay in this browser.</p>
   <form id="irp-form" class="irp-form" novalidate>
-    <label>What kind of internship are you exploring?<input name="direction" maxlength="160" placeholder="For example, marketing, data, design or laboratory work" required /></label>
-    <label>What evidence can you show today?<select name="evidence"><option value="0">Nothing organised yet</option><option value="1">Coursework or practice exercises</option><option value="2">One or two projects</option><option value="3">Relevant work with feedback</option></select></label>
-    <label>Can you explain your interest and what you want to learn?<select name="communication"><option value="0">Not yet</option><option value="1">A general answer</option><option value="2">A specific learning goal</option><option value="3">A concise goal backed by evidence</option></select></label>
-    <label>Have you checked the opportunity and organisation?<select name="safety"><option value="0">Not yet</option><option value="1">Only the listing</option><option value="2">Identity and work details partly checked</option><option value="3">Role, supervisor, terms and safety checked</option></select></label>
-    <label>What is the next preparation action?<textarea name="next" rows="3" maxlength="600" placeholder="Finish a sample, ask for feedback, tailor a message, or verify the opportunity"></textarea></label>
-    <div class="irp-actions"><button class="irp-primary" type="submit">Create preparation plan</button><button type="button" data-irp="clear">Clear</button></div>
+    <button type="button" class="irp-example" data-irp="example">Try an example</button>
+    <label><span>What kind of internship are you looking for?</span><input name="direction" maxlength="160" placeholder="For example: digital marketing, data entry and analysis, lab work, design" autocomplete="off" required /></label>
+    <label><span>1. What can you show someone today?</span><select name="evidence"><option value="0">Nothing organised yet</option><option value="1">Class work or practice exercises</option><option value="2">One or two small projects</option><option value="3">Work that someone reviewed and gave feedback on</option></select></label>
+    <label><span>2. Can you say why you want this and what you want to learn?</span><select name="communication"><option value="0">Not yet</option><option value="1">I have a general answer</option><option value="2">I have a clear learning goal</option><option value="3">I have a clear goal and something I made to back it up</option></select></label>
+    <label><span>3. Have you checked the company and the offer?</span><select name="safety"><option value="0">Not yet</option><option value="1">I have only seen the listing or message</option><option value="2">I have checked some details</option><option value="3">I know the role, the supervisor, the terms and the place of work</option></select></label>
+    <label><span>Your name and course (optional, used in the message)</span><input name="yourName" maxlength="120" placeholder="For example: Lakshmi, B.Com Year 2" autocomplete="off" /></label>
+    <label><span>Your own next step (optional)</span><textarea name="next" rows="2" maxlength="600" placeholder="For example: finish my sample, ask a senior for feedback"></textarea></label>
+    <div class="irp-actions"><button class="irp-primary" type="submit">Create my plan</button><button type="button" data-irp="clear">Clear</button></div>
     <p id="irp-status" class="irp-status" role="status" aria-live="polite"></p>
   </form>
   <div id="irp-result" class="irp-result" hidden></div>
 </section>
 <script>
-  type IrpField = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
-  type IrpForm = Omit<HTMLFormElement, 'querySelectorAll'> & { querySelectorAll(selectors: string): NodeListOf<IrpField> };
-  const irpForm = document.querySelector<HTMLFormElement>('#irp-form') as IrpForm | null;
-  const irpResult = document.querySelector<HTMLDivElement>('#irp-result');
-  const irpStatus = document.querySelector<HTMLParagraphElement>('#irp-status');
-  const irpClear = document.querySelector<HTMLButtonElement>('[data-irp="clear"]');
-  if (!irpForm || !irpResult || !irpStatus || !irpClear) throw new Error('Internship readiness planner markup is incomplete.');
-  const irpEsc = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c] || c));
-  irpForm.addEventListener('submit', (event) => { event.preventDefault(); if (!irpForm.checkValidity()) { irpForm.reportValidity(); return; } const data = Object.fromEntries([...irpForm.querySelectorAll('input,select,textarea')].map((field) => [field.name, field.value])); const values = ['evidence','communication','safety'].map((key) => Number(data[key]) || 0); const score = values.reduce((sum, value) => sum + value, 0); const band = score >= 8 ? 'good preparation base' : score >= 5 ? 'partial preparation base' : 'early preparation stage'; const first = Number(data.evidence) < 2 ? 'Finish one small, inspectable sample related to this direction.' : Number(data.communication) < 2 ? 'Write and rehearse a specific learning goal tied to your evidence.' : 'Verify the opportunity, supervisor, terms and safety before sharing sensitive information.'; irpResult.innerHTML = `<div class="irp-lead"><span>${irpEsc(data.direction)} · preparation signal</span><h3>${irpEsc(band)} · ${score}/9</h3><p>This describes preparation evidence, not employer suitability or likely selection.</p></div><div class="irp-grid"><article><b>First action</b><p>${irpEsc(first)}</p></article><article><b>Your planned next step</b><p>${data.next ? irpEsc(data.next) : 'Add one action you can complete within seven days.'}</p></article></div><div class="irp-next"><h3>Seven-day checklist</h3><ul><li>Read the exact role, work location, supervisor and expected hours.</li><li>Prepare one truthful sample and explain what you contributed.</li><li>Ask what you will learn, who reviews the work, and whether terms are written.</li><li>Do not pay for access, share unnecessary identity or financial documents, or accept unsafe conditions.</li></ul></div>`; irpResult.hidden = false; irpStatus.textContent = 'Preparation plan created from your answers; nothing was sent.'; });
-  irpClear.addEventListener('click', () => { irpForm.reset(); irpResult.hidden = true; irpStatus.textContent = 'Cleared.'; });
+  import { esc, fmtDate, addDays, actionsHtml, stepsHtml, bindActions, checkRequired, clearInvalidOnInput, fillExample, showResult, tidy, copyText, soft, type Sheet } from '../scripts/counsellingToolKit';
+  const form = document.querySelector<HTMLFormElement>('#irp-form');
+  const result = document.querySelector<HTMLDivElement>('#irp-result');
+  const status = document.querySelector<HTMLParagraphElement>('#irp-status');
+  const exampleButton = document.querySelector<HTMLButtonElement>('[data-irp="example"]');
+  const clearButton = document.querySelector<HTMLButtonElement>('[data-irp="clear"]');
+  if (!form || !result || !status || !exampleButton || !clearButton) throw new Error('Internship readiness planner markup is incomplete.');
+  const URL_ = 'https://futurecareerschool.com/tools/internship-readiness-planner/';
+  let sheet: Sheet | null = null;
+  let messageText = '';
+  clearInvalidOnInput(form);
+  const val = (name: string) => tidy(String((form.elements.namedItem(name) as HTMLInputElement | null)?.value ?? ''));
+  const areas = [
+    { key: 'evidence', name: 'What you can show', levels: ['Nothing organised yet', 'Class work or exercises', 'One or two small projects', 'Reviewed work with feedback'], up: [
+      'Make one small sample this week, such as a one-page report, three posters or a short spreadsheet. Save it in one folder.',
+      'Turn one class exercise into a small project. Write three lines: the problem, what you did and what you learned.',
+      'Show one project to a teacher or senior and ask what to improve. Add their feedback to the project page.',
+      'Put your best two pieces and the feedback in one link or one PDF that you can send with every application.'] },
+    { key: 'communication', name: 'How you explain yourself', levels: ['Not yet', 'A general answer', 'A clear learning goal', 'A clear goal with proof'], up: [
+      'Write three sentences: why this field, what you want to learn and what you can already do. Read them aloud once.',
+      'Make your answer specific. Name one skill you want to learn in the next 4 to 8 weeks and one thing you have already tried.',
+      'Add proof to your goal: "I want to learn X. I have already done Y." Keep it under 30 seconds.',
+      'Practise your 30 second answer with a friend until it sounds natural.'] },
+    { key: 'safety', name: 'Checking the offer', levels: ['Not yet', 'Only the listing', 'Some details checked', 'Role, supervisor, terms and place checked'], up: [
+      'Before you reply to any listing, find the organisation\'s own website and ask one adult you trust whether they know it.',
+      'Go beyond the listing. Find a working phone number and an address, and see whether past interns can tell you about it.',
+      'Ask for the role, the supervisor\'s name, the hours and the terms in writing before you accept.',
+      'Keep the written terms and the supervisor\'s contact in one place and tell a parent or teacher where you will work.'] },
+  ];
+  const build = () => {
+    const direction = val('direction'), me = val('yourName'), next = val('next');
+    const levels = areas.map((a) => Math.min(3, Math.max(0, Number(val(a.key)) || 0)));
+    const score = levels.reduce((sum, v) => sum + v, 0);
+    const band = score >= 8 ? 'A good base to start applying' : score >= 5 ? 'A partial base: a few steps will help' : 'An early stage: prepare first, then apply';
+    const start = new Date(); const d = (n: number) => fmtDate(addDays(n, start));
+    const order = areas.map((a, i) => ({ a, level: levels[i] })).sort((x, y) => x.level - y.level);
+    const steps = [
+      { when: `By ${d(3)}`, text: order[0].a.up[order[0].level] },
+      { when: `By ${d(7)}`, text: order[1].a.up[order[1].level] },
+      { when: `By ${d(14)}`, text: score >= 5 ? 'Send your message to three organisations or people. Keep a list with the date and the reply.' : `${order[2].a.up[order[2].level]} Then choose three organisations to message.` },
+    ];
+    const hello = 'Hello,';
+    const message = `${hello}\n\n${me ? `I am ${me}.` : 'I am a student.'} I would like to do an internship in ${soft(direction)} to learn the daily work. ${score >= 4 ? 'I can share a small sample of my work. ' : ''}Could you tell me whether you take interns, and if so how to apply? It would help me to know the duration, the hours, who would guide me and whether the terms are given in writing. Thank you for your time.`;
+    messageText = message;
+    const ask = ['What will I do each day, and who will guide me?', 'How long is it, and how many hours a day?', 'Is it paid or unpaid, and will you give the terms in writing?', 'Will I get a letter or certificate at the end, if my college needs one?', 'Where will I work, and is it safe to travel there at those hours?'];
+    const red = ['They ask you to pay a fee, a "registration" amount or a "training" charge to get the internship.', 'They offer the position without any interview or any question about you.', 'They ask for OTPs, bank details or scans of Aadhaar or PAN early on.', 'You can only reach them on a personal WhatsApp number, with no company website, address or office phone.', 'The offer is unusually generous for a beginner, or they push you to decide today.'];
+    const limits = 'If you see any of these signs, stop and show the message to a parent, teacher or your college placement cell. If you have lost money or shared bank details, tell your bank at once and report it on the national cyber crime portal (cybercrime.gov.in) or call 1930. Check these details on the official site yourself, as this page cannot confirm them for you.';
+    sheet = {
+      title: `Internship plan: ${direction}`,
+      sub: `Made on ${d(0)}. ${band}. You marked ${score} of 9 across three checks.`,
+      sections: [
+        { h: 'Your next three steps', ol: steps.map((s) => `${s.when}: ${s.text}`) },
+        { h: 'Where you stand', ul: areas.map((a, i) => `${a.name}: ${a.levels[levels[i]]} (${levels[i]} of 3)`) },
+        { h: 'Message to send', p: message.split('\n').filter(Boolean) },
+        { h: 'Questions to ask before you accept', ul: ask },
+        { h: 'Warning signs of a scam', ul: red },
+        { h: 'If something feels wrong', p: [limits] },
+        ...(next ? [{ h: 'Your own next step', p: [next] }] : []),
+      ],
+    };
+    result.innerHTML = `<div class="irp-lead"><span>${esc(direction)} · preparation check</span><h3>${esc(band)}</h3><p>You marked <b>${score} of 9</b> across three checks. This shows how ready your evidence is. It does not show whether an employer will choose you.</p></div>
+      <h4>Your next three steps</h4>${stepsHtml(steps)}
+      <h4>Where you stand</h4><div class="irp-grid">${areas.map((a, i) => `<article><b>${esc(a.name)}</b><small>${levels[i]} of 3</small><p class="fcs-wrap">${esc(a.levels[levels[i]])}</p></article>`).join('')}</div>
+      <h4>Message to send</h4><pre class="irp-msg fcs-wrap">${esc(message)}</pre><button type="button" class="fcs-btn" data-irp="copy-msg">Copy only this message</button>
+      <div class="irp-next"><h4>Questions to ask before you accept</h4><ul>${ask.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>
+      <div class="irp-next irp-red"><h4>Warning signs of a scam</h4><ul>${red.map((t) => `<li>${esc(t)}</li>`).join('')}</ul><p>${esc(limits)}</p></div>
+      ${next ? `<p class="irp-own"><b>Your own next step:</b> ${esc(next)}</p>` : ''}
+      <p class="irp-own">Want to test your skills first? Try the <a href="https://futurecareerschool.com/services/assessments/internship-readiness-self-assessment/">internship readiness self assessment</a>.</p>
+      ${actionsHtml()}`;
+    showResult(result);
+  };
+  form.addEventListener('submit', (event) => { event.preventDefault(); if (!checkRequired(form, status)) return; build(); status.textContent = 'Your plan is ready below. Nothing was sent anywhere.'; });
+  form.addEventListener('input', () => { if (!result.hidden) status.textContent = 'You changed an answer. Tap "Create my plan" again to update the result.'; });
+  result.addEventListener('click', async (event) => { if (!(event.target as HTMLElement).closest('[data-irp="copy-msg"]')) return; status.textContent = (await copyText(messageText)) ? 'Message copied. Paste it into WhatsApp or email.' : 'Copy did not work. Press and hold the message text to select and copy it.'; });
+  exampleButton.addEventListener('click', () => {
+    fillExample(form, { direction: 'Digital marketing', evidence: '1', communication: '1', safety: '0', yourName: 'Lakshmi, B.Com Year 2', next: 'Make three sample posters for a local shop' });
+    status.textContent = 'Example filled in. Change anything, then tap "Create my plan".';
+  });
+  clearButton.addEventListener('click', () => { form.reset(); result.hidden = true; result.innerHTML = ''; sheet = null; messageText = ''; form.querySelectorAll('.fcs-invalid').forEach((el) => el.classList.remove('fcs-invalid')); status.textContent = 'Cleared.'; });
+  bindActions(result, () => sheet, URL_, status);
 </script>
-<style>
-  .irp{margin:2rem 0;padding:1.5rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05)}.irp h2{margin:.2rem 0 .6rem}.irp>p{max-width:800px;line-height:1.65}.irp-note,.irp-status{color:rgba(255,255,255,.68);font-size:.88rem}.irp-form{display:grid;gap:1rem;margin-top:1.4rem}.irp-form label{display:grid;gap:.4rem;font-weight:650;font-size:.9rem}.irp-form input,.irp-form select,.irp-form textarea{width:100%;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400}.irp-actions{display:flex;gap:.6rem;flex-wrap:wrap}.irp-actions button{min-height:44px;padding:.55rem .85rem;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;cursor:pointer}.irp-primary{background:#129a8d!important;border-color:#129a8d!important;font-weight:700}.irp-result{margin-top:1.3rem}.irp-lead{padding:1.1rem;border-left:3px solid #2dd4bf;background:rgba(45,212,191,.08)}.irp-lead span{color:#8de4d8;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em}.irp-lead h3{margin:.4rem 0;font-size:1.5rem}.irp-lead p,.irp-grid p,.irp-next li{line-height:1.6;color:rgba(255,255,255,.75)}.irp-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.8rem}.irp-grid article,.irp-next{padding:.9rem;border:1px solid rgba(255,255,255,.15);border-radius:10px}.irp-next{margin-top:.8rem;border-color:rgba(229,184,74,.35);background:rgba(229,184,74,.06)}.irp-next h3{margin-top:0}@media(max-width:650px){.irp-grid{grid-template-columns:1fr}}
+<style is:global>
+  .irp{margin:2rem 0;padding:1.5rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05)}.irp h2{margin:.2rem 0 .6rem}.irp>p{max-width:800px;line-height:1.65}.irp-note,.irp-status{color:rgba(255,255,255,.72);font-size:.9rem}.irp-form{display:grid;gap:1rem;margin-top:1.2rem}.irp-form label{display:grid;gap:.4rem;font-weight:650;font-size:.95rem}.irp-form input,.irp-form select,.irp-form textarea{width:100%;min-height:44px;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.25);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;font-weight:400}.irp-form select option{color:#111}.irp-actions{display:flex;gap:.6rem;flex-wrap:wrap}.irp-actions button,.irp-example{min-height:44px;padding:.55rem .95rem;border:1px solid rgba(255,255,255,.28);border-radius:10px;background:rgba(255,255,255,.08);color:#fff;font:inherit;cursor:pointer}.irp-example{justify-self:start;border-style:dashed;color:#f7d88c;font-weight:650}.irp-primary{background:#129a8d!important;border-color:#129a8d!important;font-weight:700}.irp-result{margin-top:1.3rem;scroll-margin-top:5rem}.irp-result h4{margin:1.1rem 0 .4rem;color:#fff}.irp-lead{padding:1.1rem;border-left:3px solid #2dd4bf;background:rgba(45,212,191,.08)}.irp-lead span{color:#8de4d8;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;overflow-wrap:anywhere}.irp-lead h3{margin:.4rem 0;font-size:1.35rem;line-height:1.35}.irp-lead p,.irp-grid p,.irp-next li,.irp-next p,.irp-own{line-height:1.6;color:rgba(255,255,255,.82)}.irp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem}.irp-grid article,.irp-next{padding:.9rem;border:1px solid rgba(255,255,255,.16);border-radius:10px}.irp-grid small{display:block;color:#8de4d8;margin:.2rem 0}.irp-msg{margin:0 0 .6rem;padding:.9rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(0,0,0,.25);color:#fff;font:inherit;font-size:.95rem;line-height:1.6;white-space:pre-wrap}.irp-next{margin-top:.8rem;border-color:rgba(229,184,74,.38);background:rgba(229,184,74,.06)}.irp-red{border-color:rgba(255,176,176,.5);background:rgba(221,93,93,.08)}.irp-next h4{margin-top:0}.irp-own a{color:#8de4d8;text-decoration:underline}@media(max-width:760px){.irp{padding:1rem}.irp-grid{grid-template-columns:1fr}}
 </style>

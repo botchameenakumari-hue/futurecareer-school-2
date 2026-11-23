@@ -4,17 +4,85 @@
 // The questions are in src/data/careerQuestionnaire.mjs. Answers are plain values kept in the browser by the component.
 import {
   CHECKED_ON, TOOL_URL, STAGES, STAGE_KEYS, SCALE_LABELS, MARKS, MARK_TIPS, byStage, FAMILIES,
-  SECTIONS, PARENT, ALL_SECTIONS, SECTION_ORDER, DEFAULT_SECTIONS, CLASS_SET, START, PROMPT_RULES,
+  SECTIONS, PARENT, ALL_SECTIONS, SECTION_ORDER, DEFAULT_SECTIONS, CLASS_SET, QUICK_SET, START, PROMPT_RULES,
 } from '../data/careerQuestionnaire.mjs';
 import { createUnicodeText, flattenTexts, isUnicodeLine, needsUnicode, prepareUnicodeText } from './pdfUnicodeText.mjs';
 
-export { STAGES, STAGE_KEYS, SECTIONS, PARENT, ALL_SECTIONS, SECTION_ORDER, DEFAULT_SECTIONS, CLASS_SET, START, MARKS, SCALE_LABELS, TOOL_URL, CHECKED_ON, byStage };
+export { STAGES, STAGE_KEYS, SECTIONS, PARENT, ALL_SECTIONS, SECTION_ORDER, DEFAULT_SECTIONS, CLASS_SET, QUICK_SET, START, MARKS, SCALE_LABELS, TOOL_URL, CHECKED_ON, byStage };
 
 export const STORAGE_KEY = 'fcs-career-questionnaire-v1';
 export const OPTION_ROWS = 3;
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
 export const todayLabel = (d = new Date()) => d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + d.getFullYear();
+export const dayAfter = (days, now = new Date()) => {
+  const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() + days);
+  return d.getDate() + ' ' + MONTHS[d.getMonth()];
+};
+
+const SITE = 'https://futurecareerschool.com';
+const LINK_BOOKLET12 = SITE + '/tools/career-guidance-after-12th-pdf/';
+const LINK_BOOKLET10 = SITE + '/tools/career-guidance-after-10th-pdf/';
+const LINK_CHART10 = SITE + '/blog/stream-selection/career-chart-after-10th/';
+const LINK_ROUTES = SITE + '/tools/career-route-finder/';
+
+/** Answers for the "Try an example" button. Ids that a stage does not offer are ignored by getAnswer. */
+export function exampleState(current) {
+  const s = normaliseState(current);
+  s.a = {
+    int_tick: ['i_tech', 'i_logic', 'i_help'], int_team: '4', int_doing: '5',
+    str_tick: ['s_numbers', 's_explain', 's_learn'], str_self: '4',
+    stu_marks: 'm_same', stu_link: '2',
+    val_tick: ['v_safe', 'v_earn', 'v_learn'],
+    lim_tick: ['l_money'], lim_cost: '4', lim_dates: 'd_no',
+    sup_who: ['p_parent', 'p_teacher'], sup_hope: 'h_differ', sup_know: '2',
+    q_want: ['w_list', 'w_step'], q_decision: 'Which route should I look at first?',
+  };
+  return s;
+}
+
+/** Three dated steps that turn the answers into action. */
+export function nextStepsQ(state, now = new Date()) {
+  const stage = state.stage;
+  const talk = state.sections.interests && state.sections.strengths ? matches(state) : { both: [], enjoyOnly: [] };
+  const hasIdeas = talk.both.length || talk.enjoyOnly.length || triggeredPrompts(state).length;
+  const s1 = hasIdeas
+    ? 'Choose the one idea from "Ideas to talk about" that matters most to you. Ask it to a parent or a teacher and write down what they say.'
+    : 'Show this summary to a parent or a teacher and ask what they notice. Write down what they say.';
+  let s2;
+  if (stage === 'college') s2 = 'Open the career route finder at ' + LINK_ROUTES + ' and search for the kind of work you ticked under enjoy and do well. Write down two routes and what each asks for.';
+  else if (stage === 'senior') s2 = 'Open the career guidance after 12th booklet builder at ' + LINK_BOOKLET12 + ', choose your stream and read your next three steps there. Take the shortlist to your family.';
+  else if (state.year === 'y8' || state.year === 'y9') s2 = 'Read the career chart after 10th at ' + LINK_CHART10 + ' to see what each stream, diploma and ITI route opens and closes. You do not have to choose yet.';
+  else s2 = 'Open the career guidance after 10th booklet builder at ' + LINK_BOOKLET10 + ' and answer with your parents next to you. Read the shortlist and the risk beside each route.';
+  const s3 = stage === 'college'
+    ? 'Take this summary and your questions to a teacher, a senior or someone who works in a field you ticked. Ask for one next step with a date.'
+    : 'Take this summary and your questions to a teacher or a school counsellor. Ask for one next step with a date.';
+  return [
+    { by: dayAfter(3, now), text: s1 },
+    { by: dayAfter(7, now), text: s2 },
+    { by: dayAfter(14, now), text: s3 },
+  ];
+}
+
+/** Plain text for WhatsApp. It never holds limits, family answers, free text, the name or the parent section. */
+export function talkingPointsText(state, now = new Date()) {
+  const stage = state.stage;
+  const lines = ['My career conversation notes (FutureCareerSchool, ' + todayLabel(now) + ')', STAGES[stage].long];
+  const pick = (qid) => { const q = questionById[qid]; return getAnswer(state, q).map((id) => optText(q, stage, id)); };
+  const add = (label, sec, qid) => { if (!state.sections[sec]) return; const v = pick(qid); if (v.length) lines.push(label + ': ' + v.join('; ')); };
+  add('I enjoy', 'interests', 'int_tick');
+  add('I do well', 'strengths', 'str_tick');
+  add('Matters most to me in future work', 'values', 'val_tick');
+  if (state.sections.interests && state.sections.strengths) {
+    const m = matches(state);
+    if (m.both.length) lines.push('Both enjoy and do well: ' + m.both.join('; '));
+  }
+  lines.push('', 'My next three steps:');
+  nextStepsQ(state, now).forEach((st, i) => lines.push((i + 1) + '. By ' + st.by + ': ' + st.text));
+  lines.push('', 'This is a conversation starter, not a test. Make your own: ' + SITE + '/tools/career-guidance-questionnaire-for-students/');
+  return lines.join('\n');
+}
+
 
 // ---------- state ----------
 
@@ -290,6 +358,8 @@ export function summaryModel(state, today = todayLabel()) {
     blocks.push({ t: 'h', text: 'Ideas to talk about' });
     blocks.push({ t: 'list', items: talk });
   }
+  blocks.push({ t: 'h', text: 'Your next three steps' });
+  blocks.push({ t: 'list', items: nextStepsQ(state).map((st) => 'By ' + st.by + ': ' + st.text) });
   parentBlocks.forEach((b) => blocks.push(b));
   blocks.push({ t: 'note', text: NOTE_LIMITS });
   return { kind: 'summary', blocks, done, total };
@@ -312,7 +382,7 @@ export function summaryHtml(model) {
     } else if (b.t === 'rows') {
       out.push('<dl class="cq-rows">' + b.items.map((r) => '<div><dt>' + esc(r[0]) + '</dt><dd class="cq-pre">' + esc(r[1]) + '</dd></div>').join('') + '</dl>');
     } else if (b.t === 'list') {
-      out.push('<ul class="cq-list">' + b.items.map((i) => '<li>' + esc(i) + '</li>').join('') + '</ul>');
+      out.push('<ul class="cq-list">' + b.items.map((i) => '<li>' + esc(i).replace(/https:\/\/futurecareerschool\.com\/[^\s<]*[^\s<.,]/g, (u) => '<a href="' + u + '" target="_blank" rel="noopener noreferrer">' + u + '</a>') + '</li>').join('') + '</ul>');
     } else if (b.t === 'table') {
       out.push('<div class="cq-tablewrap"><table class="cq-table"><thead><tr>' + b.head.map((h) => '<th scope="col">' + esc(h) + '</th>').join('') + '</tr></thead><tbody>' +
         b.rows.map((row) => '<tr>' + row.map((cell, i) => '<td data-label="' + esc(b.head[i]) + '">' + esc(cell) + '</td>').join('') + '</tr>').join('') + '</tbody></table></div>');

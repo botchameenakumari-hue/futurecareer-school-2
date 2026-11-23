@@ -7,6 +7,8 @@ const ruleData = RULES.map((r) => ({ id: r.id, label: r.label, short: r.short, s
   <h2 id="cg-title">Convert your CGPA, percentage or SGPA list</h2>
   <p class="cg-note"><b>Private by design:</b> everything you type stays in this browser and is not sent to this site. Your last numbers are saved on this device so they are still there when you come back. Press Clear my data to remove them.</p>
 
+  <p class="cg-example"><button type="button" class="cg-btn" data-cg-act="example">Try an example</button> <span class="cg-hint">Fills the open tab with sample numbers so you see an answer at once. Then type your own.</span></p>
+
   <form class="cg-form" id="cg-form" novalidate onsubmit="return false">
     <fieldset class="cg-box">
       <legend>Step 1: choose the rule</legend>
@@ -100,6 +102,8 @@ const ruleData = RULES.map((r) => ({ id: r.id, label: r.label, short: r.short, s
     <div class="cg-actions cg-screen">
       <button type="button" class="cg-btn cg-btn--primary" data-cg-act="pdf">Download result sheet (PDF)</button>
       <button type="button" class="cg-btn" data-cg-act="print">Print result sheet</button>
+      <button type="button" class="cg-btn" data-cg-act="copy">Copy my result for WhatsApp</button>
+      <button type="button" class="cg-btn" data-cg-act="wa">Open WhatsApp with my result</button>
       <button type="button" class="cg-btn cg-btn--warn" data-cg-act="clear">Clear my data</button>
     </div>
     <p class="cg-status cg-screen" id="cg-status" role="status" aria-live="polite"></p>
@@ -115,7 +119,7 @@ const ruleData = RULES.map((r) => ({ id: r.id, label: r.label, short: r.short, s
     RULES, MAX_SEMESTERS, ERROR_TEXT, ruleById, makeCustomRule, formulaText,
     cgpaToPercent, percentToCgpa, sgpaToCgpa, cgpaNeededForTarget,
   } from '../scripts/cgpaConverter.mjs';
-  import { sheetModel, modelToHtml, esc, buildPdf, hasUnsupportedText, prepareUnicodePdf } from '../scripts/cgpaSheet.mjs';
+  import { sheetModel, modelToHtml, esc, buildPdf, hasUnsupportedText, prepareUnicodePdf, nextStep, resultText } from '../scripts/cgpaSheet.mjs';
 
   const KEY = 'fcs-cgpa-percentage-v1';
   const root = document.getElementById('cgpa-calculator');
@@ -207,6 +211,16 @@ const ruleData = RULES.map((r) => ({ id: r.id, label: r.label, short: r.short, s
       info.innerHTML = '<b>' + esc(formulaText(r)) + '.</b> ' + esc(status);
     }
 
+    const linkify = (t) => esc(t).replace(/https:\/\/futurecareerschool\.com\/[^\s<]*[^\s<.,]/g, (u) => '<a href="' + u + '">' + u + '</a>');
+    function addNext(tab, c, el) {
+      const ctx = { rule: c.rule, c2p: c.c2p, p2c: c.p2c, sg: c.sg, need: c.need };
+      const text = nextStep(tab, ctx);
+      if (!text || el.querySelector('.cg-err')) return;
+      const html = '<p class="cg-next"><b>What to do next:</b> ' + linkify(text) + '</p>';
+      const lead = el.innerHTML.match(/^(?:<p class="cg-(?:big|sub)">[\s\S]*?<\/p>)+/);
+      el.innerHTML = lead ? lead[0] + html + el.innerHTML.slice(lead[0].length) : el.innerHTML + html;
+    }
+
     function renderPanels(c) {
       const o1 = $('#cg-out-c2p'); const o2 = $('#cg-out-p2c'); const o3 = $('#cg-out-sg'); const o4 = $('#cg-out-need');
       setInvalid('#cg-in-cgpa', false); setInvalid('#cg-in-pct', false);
@@ -239,6 +253,10 @@ const ruleData = RULES.map((r) => ({ id: r.id, label: r.label, short: r.short, s
       else if (!c.need.res.reachable) o4.innerHTML = '<p class="cg-big">Not reachable</p><p class="cg-sub">You would need an average of ' + esc(c.need.res.needed) + ' in the remaining credits, which is above the top of the scale. Try a lower target.</p>' + steps(c.need.res.steps);
       else if (c.need.res.alreadyMet) o4.innerHTML = '<p class="cg-big">Already covered</p><p class="cg-sub">Your grade points so far already cover this target.</p>' + steps(c.need.res.steps);
       else o4.innerHTML = '<p class="cg-big">Average ' + esc(c.need.res.needed) + ' needed</p><p class="cg-sub">That is the average grade you need over the remaining credits.</p>' + steps(c.need.res.steps);
+      if (c.c2p && c.c2p.res.ok) addNext('c2p', c, o1);
+      if (c.p2c && c.p2c.res.ok) addNext('p2c', c, o2);
+      if (c.sg && c.sg.res.ok) addNext('sg', c, o3);
+      if (c.need && c.need.res.ok) addNext('need', c, o4);
     }
 
     function renderRows() {
@@ -255,7 +273,7 @@ const ruleData = RULES.map((r) => ({ id: r.id, label: r.label, short: r.short, s
 
     function renderSheet(c) {
       const rule = c.rule || ruleById('times10');
-      const model = sheetModel({ rule, today: new Date(), ruleNote: state.custom.note, c2p: c.c2p, p2c: c.p2c, sg: c.sg, need: c.need });
+      const model = sheetModel({ rule, tab: state.tab, today: new Date(), ruleNote: state.custom.note, c2p: c.c2p, p2c: c.p2c, sg: c.sg, need: c.need });
       $('#cg-sheet').innerHTML = modelToHtml(model);
       return model;
     }
@@ -287,6 +305,7 @@ const ruleData = RULES.map((r) => ({ id: r.id, label: r.label, short: r.short, s
       });
       if (focusTab) $('#cg-tab-' + name).focus();
       persist();
+      if (root.dataset.ready) renderSheet(compute());
     }
 
     root.querySelectorAll('[data-cg-tab]').forEach((btn) => {
@@ -304,6 +323,7 @@ const ruleData = RULES.map((r) => ({ id: r.id, label: r.label, short: r.short, s
 
     function onField(e) {
       const el = e.target;
+      if (typeof exampleTabs !== 'undefined') exampleTabs[state.tab] = false;
       if (el.matches('[data-cg="rule"]')) state.ruleId = el.value;
       else if (el.hasAttribute('data-cgc')) state.custom[el.getAttribute('data-cgc')] = el.value;
       else if (el.hasAttribute('data-cgn')) state.need[el.getAttribute('data-cgn')] = el.value;
@@ -354,6 +374,54 @@ const ruleData = RULES.map((r) => ({ id: r.id, label: r.label, short: r.short, s
       window.print();
     }
 
+    const EXAMPLES = {
+      c2p: () => { state.c2p.cgpa = '8.5'; },
+      p2c: () => { state.p2c.pct = '75'; },
+      sg: () => { state.rows = [{ sgpa: '8', credits: '20' }, { sgpa: '9', credits: '22' }, { sgpa: '7.5', credits: '24' }]; },
+      need: () => { state.need = { target: '75', done: '8', doneCredits: '120', leftCredits: '40' }; },
+    };
+    function tabHasNumbers(tab) {
+      if (tab === 'c2p') return !!state.c2p.cgpa.trim();
+      if (tab === 'p2c') return !!state.p2c.pct.trim();
+      if (tab === 'sg') return state.rows.some((r) => r.sgpa.trim() || r.credits.trim());
+      return Object.values(state.need).some((v) => v.trim());
+    }
+    const exampleTabs = {};
+    function useExample() {
+      const tab = state.tab;
+      if (tabHasNumbers(tab) && !exampleTabs[tab] && !window.confirm('Replace the numbers on this tab with a sample? Your own numbers on this tab will be lost.')) return;
+      EXAMPLES[tab]();
+      exampleTabs[tab] = true;
+      if (state.ruleId === 'custom') state.ruleId = 'times10';
+      persist(); fillInputs(); renderAll();
+      say('Sample numbers are filled in on this tab, with the generic CGPA x 10 rule. Change any box, or change the rule in Step 1.');
+    }
+    function currentText() {
+      const c = compute();
+      return resultText(state.tab, { rule: c.rule, c2p: c.c2p, p2c: c.p2c, sg: c.sg, need: c.need });
+    }
+    async function copyResult() {
+      const text = currentText();
+      if (!text) { say('Enter your numbers first, so there is a result to copy.'); return; }
+      let ok = false;
+      try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {}
+      if (!ok) {
+        try {
+          const ta = document.createElement('textarea');
+          ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, ta.value.length);
+          ok = document.execCommand('copy'); document.body.removeChild(ta);
+        } catch (e) {}
+      }
+      say(ok ? 'Copied. Open WhatsApp and paste it into any chat.' : 'Your browser did not allow copying. Use Open WhatsApp with my result instead.');
+    }
+    function openWhatsApp() {
+      const text = currentText();
+      if (!text) { say('Enter your numbers first, so there is a result to send.'); return; }
+      const w = window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank', 'noopener');
+      say(w ? 'WhatsApp is opening. Pick a chat to send your result to.' : 'Your browser blocked the new tab. Use Copy my result for WhatsApp instead.');
+    }
+
     function clearData() {
       state = blank();
       try { localStorage.removeItem(KEY); } catch (e) {}
@@ -370,6 +438,9 @@ const ruleData = RULES.map((r) => ({ id: r.id, label: r.label, short: r.short, s
       if (a === 'pdf') downloadPdf();
       else if (a === 'print') printSheet();
       else if (a === 'clear') clearData();
+      else if (a === 'example') useExample();
+      else if (a === 'copy') copyResult();
+      else if (a === 'wa') openWhatsApp();
       else if (a === 'add-row') {
         if (state.rows.length < MAX_SEMESTERS) { state.rows.push({ sgpa: '', credits: '' }); persist(); renderRows(); renderAll(); const el = $('#cg-sg-' + (state.rows.length - 1)); if (el) el.focus(); }
       } else if (a === 'remove-row') {
@@ -384,6 +455,7 @@ const ruleData = RULES.map((r) => ({ id: r.id, label: r.label, short: r.short, s
     fillInputs();
     showTab(state.tab);
     renderAll();
+    root.dataset.ready = '1';
   }
 </script>
 
@@ -393,6 +465,9 @@ const ruleData = RULES.map((r) => ({ id: r.id, label: r.label, short: r.short, s
   .cg p,.cg li{line-height:1.65}
   .cg-note,.cg-hint,.cg-status{font-size:.88rem;color:rgba(255,255,255,.78)}
   .cg-hint{margin:.3rem 0 .7rem}
+  .cg-example{margin:.4rem 0 1rem;display:flex;flex-wrap:wrap;align-items:center;gap:.6rem}
+  .cg-example .cg-hint{margin:0;flex:1 1 14rem}
+  .cg-next{margin:.6rem 0;padding:.7rem .9rem;border:1px solid rgba(229,184,74,.6);border-radius:10px;background:rgba(229,184,74,.08);line-height:1.6;overflow-wrap:anywhere}
   .cg-status{min-height:1.4em;color:#9ff3e6;margin:.6rem 0 0}
   .cg-form{display:grid;gap:1rem}
   .cg-box{min-width:0;margin:0;padding:1rem;border:1px solid rgba(255,255,255,.17);border-radius:12px}

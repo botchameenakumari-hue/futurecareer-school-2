@@ -1,38 +1,117 @@
 <section class="coc" id="career-optionality-calculator" aria-labelledby="coc-title">
-  <p class="eyebrow">TRANSPARENT PLANNING MODEL</p>
-  <h2 id="coc-title">Measure how reversible a path is</h2>
-  <p>Rate the evidence around one career or course direction. The result shows where the path preserves choices and where you need more information-not whether you will succeed.</p>
-  <p class="coc-note"><b>Limit:</b> this is an editorial decision model, not a career-fit score, employability prediction, ranking or labour-market benchmark.</p>
+  <h2 id="coc-title">How easy is it to change course later?</h2>
+  <p>Answer five questions about one career or course. The result shows where the path keeps your options open, where it locks you in, and what to do about it.</p>
+  <p class="coc-note">This is a thinking aid, not a score of your talent, your chance of a job or the demand for the field. Add a second path afterwards and compare the two.</p>
   <form id="coc-form" class="coc-form" novalidate>
-    <label>Path you are considering<input name="path" maxlength="160" placeholder="For example, BCA, nursing or a career change into operations" required /></label>
-    <label>How many realistic adjacent routes can you name?<select name="routes"><option value="0">None yet</option><option value="1">One</option><option value="2">Two or three</option><option value="3">Four or more</option></select></label>
-    <label>How portable are the skills?<select name="skills"><option value="0">Mostly specific to one route</option><option value="1">Some transfer to nearby roles</option><option value="2">Transfer across several settings</option><option value="3">Broadly useful and demonstrable</option></select></label>
-    <label>How reversible is the time or money commitment?<select name="reversible"><option value="0">Hard to reverse</option><option value="1">Some cost or time is recoverable</option><option value="2">Moderately reversible</option><option value="3">Low-cost or staged</option></select></label>
-    <label>Can you test the daily work before committing?<select name="testable"><option value="0">Not realistically</option><option value="1">Only through research</option><option value="2">Through a small project</option><option value="3">Through supervised or real practice</option></select></label>
-    <label>Are formal requirements clear?<select name="eligibility"><option value="0">Unclear</option><option value="1">Partly clear</option><option value="2">Mostly clear</option><option value="3">Checked against an official source</option></select></label>
-    <div class="coc-actions"><button class="coc-primary" type="submit">Create optionality brief</button><button type="button" data-coc="clear">Clear</button></div>
+    <div id="coc-ex-slot"></div>
+    <label for="coc-path">Path you are considering<input id="coc-path" name="path" maxlength="160" autocomplete="off" placeholder="For example: BCA, nursing, or a switch into operations" /></label>
+    <label for="coc-routes">How many nearby routes can you name that this path also opens?<select id="coc-routes" name="routes"><option value="0">None yet</option><option value="1">One</option><option value="2">Two or three</option><option value="3">Four or more</option></select></label>
+    <label for="coc-skills">How useful are the skills outside this one path?<select id="coc-skills" name="skills"><option value="0">Mostly useful for this one route</option><option value="1">Some use in nearby jobs</option><option value="2">Used in several kinds of work</option><option value="3">Useful almost everywhere and I can show it</option></select></label>
+    <label for="coc-reversible">If you stopped halfway, how much time and money could you get back?<select id="coc-reversible" name="reversible"><option value="0">Almost none, it is hard to undo</option><option value="1">A little of the time or money</option><option value="2">A fair part</option><option value="3">Most of it, because the cost is low or paid in stages</option></select></label>
+    <label for="coc-testable">Can you try the daily work before you commit?<select id="coc-testable" name="testable"><option value="0">Not realistically</option><option value="1">Only by reading about it</option><option value="2">By doing a small project</option><option value="3">By working or training under someone</option></select></label>
+    <label for="coc-eligibility">How clear are the entry rules (exam, marks, age, recognition)?<select id="coc-eligibility" name="eligibility"><option value="0">Not clear</option><option value="1">Partly clear</option><option value="2">Mostly clear</option><option value="3">Checked on an official website</option></select></label>
+    <div class="coc-actions"><button class="coc-primary" type="submit">Show my result</button><button type="button" data-coc="clear">Clear</button></div>
+    <p id="coc-error" hidden></p>
     <p id="coc-status" class="coc-status" role="status" aria-live="polite"></p>
   </form>
   <div id="coc-result" class="coc-result" hidden></div>
 </section>
 <script>
-  const cocForm = document.querySelector<HTMLFormElement>('#coc-form');
-  const cocResult = document.querySelector<HTMLDivElement>('#coc-result');
-  const cocStatus = document.querySelector<HTMLParagraphElement>('#coc-status');
-  const cocClear = document.querySelector<HTMLButtonElement>('[data-coc="clear"]');
-  if (!cocForm || !cocResult || !cocStatus || !cocClear) throw new Error('Career optionality calculator markup is incomplete.');
-  const cocEsc = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c] || c));
-  const cocRead = () => Object.fromEntries([...cocForm.querySelectorAll<HTMLInputElement | HTMLSelectElement>('input,select')].map((field) => [field.name, field.value]));
-  cocForm.addEventListener('submit', (event) => {
-    event.preventDefault(); if (!cocForm.checkValidity()) { cocForm.reportValidity(); return; }
-    const data = cocRead(); const values = ['routes','skills','reversible','testable','eligibility'].map((key) => Number(data[key]) || 0); const score = values.reduce((sum, value) => sum + value, 0); const pct = Math.round((score / 15) * 100);
-    const band = pct >= 70 ? 'stronger optionality signals' : pct >= 40 ? 'mixed optionality signals' : 'limited optionality evidence';
-    const gaps = [['adjacent routes', data.routes], ['portable skills', data.skills], ['reversibility', data.reversible], ['a real-work test', data.testable], ['official requirement checks', data.eligibility]].filter(([, value]) => Number(value) < 2).map(([label]) => label);
-    cocResult.innerHTML = `<div class="coc-lead"><span>Editorial planning signal · ${cocEsc(data.path)}</span><h3>${cocEsc(band)} · ${pct}/100</h3><p>This number summarises only the five answers you gave. It is not a probability, ranking or prediction.</p></div><div class="coc-grid"><article><b>What the path preserves</b><p>${gaps.length ? `The strongest next step is to protect evidence around ${cocEsc(gaps[0])}.` : 'Your current answers show several ways to keep learning and changing direction.'}</p></article><article><b>Weakest evidence</b><p>${gaps.length ? cocEsc(gaps.join(', ')) : 'No single low-scored area was identified in this worksheet.'}</p></article></div><div class="coc-next"><h3>Make the next choice more reversible</h3><ul><li>Name two adjacent roles or courses and the skill that transfers to each.</li><li>Run one small project or supervised conversation before paying or quitting.</li><li>Check the current official eligibility, recognition and licensing requirements.</li><li>Set a review date and write what evidence would justify a larger commitment.</li></ul></div>`;
-    cocResult.hidden = false; cocStatus.textContent = 'Brief created from your answers; nothing was sent.';
+  import { esc, addResultTools, showError, exampleButton, fillFields } from '../scripts/moneyToolKit';
+
+  const form = document.querySelector<HTMLFormElement>('#coc-form');
+  const result = document.querySelector<HTMLDivElement>('#coc-result');
+  const status = document.querySelector<HTMLParagraphElement>('#coc-status');
+  const errBox = document.querySelector<HTMLElement>('#coc-error');
+  const clearBtn = document.querySelector<HTMLButtonElement>('[data-coc="clear"]');
+  const slot = document.querySelector<HTMLElement>('#coc-ex-slot');
+  if (!form || !result || !status || !clearBtn || !slot) throw new Error('Career optionality calculator markup is incomplete.');
+  const field = (name: string) => form.querySelector<HTMLInputElement | HTMLSelectElement>(`[name="${name}"]`)!;
+
+  const EXAMPLE = { path: 'Example: BCA then a software job', routes: '2', skills: '2', reversible: '1', testable: '2', eligibility: '2' };
+  slot.appendChild(exampleButton('Try an example', 'The example answers are made up to show how the tool works. Answer for your own path.', () => {
+    fillFields(form, (k) => `[name="${k}"]`, EXAMPLE);
+    showError(errBox, '');
+    form.requestSubmit();
+  }));
+
+  const FACTORS: { key: string; label: string; answers: string[]; action: string }[] = [
+    { key: 'routes', label: 'Nearby routes', answers: ['none named', 'one named', 'two or three named', 'four or more named'], action: 'Name two nearby courses or jobs that this path also opens, and the skill that moves across to each. For example, after a BCA that could be software testing, data work or an MCA.' },
+    { key: 'skills', label: 'Skills that travel', answers: ['mostly one route', 'some nearby jobs', 'several kinds of work', 'almost everywhere'], action: 'List the three main skills this path teaches. For each one, write one other job where it is used, then make one small piece of work that proves the skill.' },
+    { key: 'reversible', label: 'Easy to undo', answers: ['hard to undo', 'little recoverable', 'a fair part recoverable', 'mostly recoverable'], action: 'Look for a staged route, such as a short course before a full degree. Ask the college in writing what happens to your fees and certificates if you leave after the first year.' },
+    { key: 'testable', label: 'Try before you commit', answers: ['not possible', 'reading only', 'small project', 'work or training under someone'], action: 'Get real exposure before you pay the full fee: spend time with someone who does the work, do a small paid or unpaid task, or join a short trial class.' },
+    { key: 'eligibility', label: 'Entry rules clear', answers: ['not clear', 'partly clear', 'mostly clear', 'checked officially'], action: 'Check the entry rules on the official website: entrance exam, minimum marks, age limit and the body that recognises the course, such as UGC, AICTE, NMC or the Bar Council of India, depending on the field. Save the page with its date.' },
+  ];
+
+  type Run = { path: string; points: number; weakest: string; key: string };
+  let runs: Run[] = [];
+  let lastText = '';
+
+  const compute = () => {
+    const path = field('path').value.trim();
+    if (!path) throw { msg: 'Please type the path you are considering, for example BCA or nursing.', key: 'path' };
+    const vals = FACTORS.map((f) => { const v = Number(field(f.key).value); return Number.isInteger(v) && v >= 0 && v <= 3 ? v : 0; });
+    const points = vals.reduce((a, b) => a + b, 0);
+    const band = points >= 11 ? 'Options stay fairly open' : points >= 6 ? 'Some options stay open, some do not' : 'This path locks you in';
+    const bandText = points >= 11
+      ? 'Most of your answers show ways to learn more and change direction later. Keep the checks below so it stays that way.'
+      : points >= 6
+        ? 'Your answers are mixed. Fix the weakest areas below before you pay a large fee or give up a steady option.'
+        : 'Your answers show little room to change direction. This is a reason to find out more first, not a reason to give up.';
+    const order = FACTORS.map((f, i) => ({ f, v: vals[i] })).sort((a, b) => a.v - b.v);
+    const weak = order.filter((o) => o.v < 3).slice(0, 3);
+    const steps = weak.length ? weak.map((o) => o.f.action) : ['Keep a written review date every few months and ask again whether the path still keeps your options open.', 'Keep the proof of your skills in one folder so you can show it to a new employer or college.', 'Check the official rules once more before each payment.'];
+    while (steps.length < 3) steps.push(steps.length === 1 ? 'Write the one result that would make you commit more money or time, and the one that would make you stop.' : 'Set a date to review this path again, and write down what you will decide on that date.');
+
+    const key = JSON.stringify([path, ...vals]);
+    if (!runs.length || runs[runs.length - 1].key !== key) {
+      runs.push({ path, points, weakest: weak.length ? weak[0].f.label : 'none', key });
+      if (runs.length > 5) runs = runs.slice(-5);
+    }
+    const best = Math.max(...runs.map((r) => r.points));
+
+    const lines = [
+      `${path}: how easy is it to change course later?`,
+      `Result: ${band} (${points} of 15 points)`,
+      ...FACTORS.map((f, i) => `- ${f.label}: ${vals[i]} of 3 (${f.answers[vals[i]]})`),
+      '',
+      bandText,
+      '',
+      'Next three steps:',
+      ...steps.slice(0, 3).map((s, i) => `${i + 1}. ${s}`),
+      ...(runs.length > 1 ? ['', 'Paths compared this visit:', ...runs.map((r) => `- ${r.path}: ${r.points} of 15, weakest area: ${r.weakest}`)] : []),
+      '',
+      'A thinking aid, not a prediction of jobs or income. Free tool: https://futurecareerschool.com/tools/career-optionality-calculator/',
+    ];
+
+    const html = `<div class="coc-lead"><span>${esc(path)}</span><h3>${esc(band)}: ${points} of 15 points</h3><p>${esc(bandText)}</p></div>
+      <div class="mtk-wrap"><table class="mtk-table"><thead><tr><th scope="col">Question</th><th scope="col">Your answer</th><th scope="col">Points</th></tr></thead><tbody>${FACTORS.map((f, i) => `<tr><td>${esc(f.label)}</td><td>${esc(f.answers[vals[i]])}</td><td>${vals[i]} of 3</td></tr>`).join('')}</tbody></table></div>
+      <div class="mtk-steps"><h3>Your next three steps</h3><ol>${steps.slice(0, 3).map((s) => `<li>${esc(s)}</li>`).join('')}</ol></div>
+      ${runs.length > 1 ? `<h3 class="coc-h3">Paths you compared this visit</h3><div class="mtk-wrap"><table class="mtk-table"><thead><tr><th scope="col">Path</th><th scope="col">Points</th><th scope="col">Weakest area</th></tr></thead><tbody>${runs.map((r) => `<tr><td>${esc(r.path)}${r.points === best ? ' (highest)' : ''}</td><td>${r.points} of 15</td><td>${esc(r.weakest)}</td></tr>`).join('')}</tbody></table></div><p class="coc-small">A higher number means more room to change course. It does not mean a better career. Compare it with cost, interest and demand.</p>` : '<p class="coc-small">To compare, change the path name and the answers for a second path, then press Show my result again. Both appear in a table.</p>'}
+      <p class="coc-small">The points add your five answers (0 to 3 each, 15 at most). Up to 5 is limited, 6 to 10 is mixed and 11 or more is stronger. </p><p class="coc-small">It is a thinking aid and not a prediction. Talk to a counsellor, a teacher or someone who works in the field before a costly choice.</p>`;
+    return { text: lines.join('\n'), html };
+  };
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    try {
+      const out = compute();
+      showError(errBox, '');
+      lastText = out.text;
+      result.innerHTML = out.html;
+      addResultTools(result, () => lastText, 'How easy is it to change course later?');
+      result.hidden = false;
+      status.textContent = 'Your result is ready below. Nothing was sent anywhere.';
+    } catch (e) {
+      const err = e as { msg?: string; key?: string };
+      if (!err || !err.msg) throw e;
+      result.hidden = true;
+      showError(errBox, err.msg, err.key ? field(err.key) : null);
+      status.textContent = '';
+    }
   });
-  cocClear.addEventListener('click', () => { cocForm.reset(); cocResult.hidden = true; cocStatus.textContent = 'Cleared.'; });
+  clearBtn.addEventListener('click', () => { form.reset(); runs = []; result.hidden = true; result.innerHTML = ''; showError(errBox, ''); status.textContent = 'Cleared.'; });
 </script>
-<style>
-  .coc{margin:2rem 0;padding:1.5rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05)}.coc h2{margin:.2rem 0 .6rem}.coc>p{max-width:800px;line-height:1.65}.coc-note,.coc-status{color:rgba(255,255,255,.68);font-size:.88rem}.coc-form{display:grid;gap:1rem;margin-top:1.4rem}.coc-form label{display:grid;gap:.4rem;font-weight:650;font-size:.9rem}.coc-form input,.coc-form select{width:100%;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400}.coc-actions{display:flex;gap:.6rem;flex-wrap:wrap}.coc-actions button{min-height:44px;padding:.55rem .85rem;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;cursor:pointer}.coc-primary{background:#129a8d!important;border-color:#129a8d!important;font-weight:700}.coc-result{margin-top:1.3rem}.coc-lead{padding:1.1rem;border-left:3px solid #2dd4bf;background:rgba(45,212,191,.08)}.coc-lead span{color:#8de4d8;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em}.coc-lead h3{margin:.4rem 0;font-size:1.5rem}.coc-lead p,.coc-grid p,.coc-next li{line-height:1.6;color:rgba(255,255,255,.75)}.coc-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.8rem}.coc-grid article,.coc-next{padding:.9rem;border:1px solid rgba(255,255,255,.15);border-radius:10px}.coc-next{margin-top:.8rem;border-color:rgba(229,184,74,.35);background:rgba(229,184,74,.06)}.coc-next h3{margin-top:0}@media(max-width:650px){.coc-grid{grid-template-columns:1fr}}
+<style is:global>
+  .coc{margin:2rem 0;padding:1.5rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05)}.coc h2{margin:.2rem 0 .6rem}.coc>p{max-width:800px;line-height:1.65}.coc-note,.coc-status{color:rgba(255,255,255,.68);font-size:.88rem}.coc-form{display:grid;gap:1rem;margin-top:1.2rem}.coc-form label{display:grid;gap:.4rem;font-weight:650;font-size:.95rem}.coc-form input,.coc-form select{width:100%;min-height:44px;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.25);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-size:1rem;font-weight:400}.coc-form select option{color:#111}.coc-actions{display:flex;gap:.6rem;flex-wrap:wrap}.coc-actions button{min-height:44px;padding:.55rem .95rem;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;cursor:pointer}.coc-primary{background:#129a8d!important;border-color:#129a8d!important;font-weight:700}.coc-result{margin-top:1.3rem}.coc-lead{padding:1.1rem;border-left:3px solid #2dd4bf;background:rgba(45,212,191,.08);margin-bottom:.8rem}.coc-lead span{color:#8de4d8;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;overflow-wrap:anywhere}.coc-lead h3{margin:.4rem 0;font-size:1.4rem}.coc-lead p{line-height:1.6;color:rgba(255,255,255,.8)}.coc-h3{font-size:1.02rem;margin:1rem 0 .2rem}.coc-small{margin-top:.8rem;font-size:.9rem;line-height:1.6;color:rgba(255,255,255,.75)}@media(max-width:650px){.coc{padding:1.1rem}}
 </style>

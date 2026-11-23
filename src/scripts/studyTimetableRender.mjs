@@ -201,3 +201,24 @@ export function printHtml(plan) {
   html += '<section class="stm-pgsec stm-pg-days"><h2>Day by day</h2><div class="stm-p-cols">' + dayListHtml(plan, null, { print: true }) + '</div></section>';
   return html;
 }
+
+// ---------- plain text for WhatsApp ----------
+
+/**
+ * The next few days of the plan as plain text, starting today (or the first day of the plan when it has not begun).
+ * Returns an empty string when the plan is already over. Sessions already ticked done are marked.
+ */
+export function planText(plan, todayIso, howMany = 4) {
+  const entries = dayEntries(plan);
+  const from = entries.findIndex((d) => d.date >= todayIso);
+  if (from < 0) return '';
+  const lines = ['My study plan (FutureCareerSchool)', ''];
+  entries.slice(from, from + howMany).forEach((d) => {
+    lines.push(d.label + (d.date === todayIso ? ' (today)' : '') + ': ' + d.kindLabel + (d.total ? ', ' + fmtDuration(d.total) + ' planned' : ''));
+    if (d.slots.length) d.slots.forEach((sl) => lines.push((sl.done ? '[x] ' : '[ ] ') + slotLine(plan, sl).replace(/\s{2,}/g, ' ')));
+    else if (d.note) lines.push(d.note);
+    lines.push('');
+  });
+  lines.push('Made with https://futurecareerschool.com/tools/study-timetable-maker/');
+  return lines.join('\n');
+}

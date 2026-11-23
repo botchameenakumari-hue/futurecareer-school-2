@@ -1,0 +1,65 @@
+---
+import { WHATSAPP_BASE_URL, SITE_URL } from '../config/site';
+
+export interface Props {
+  /** Plain name of the tool or test, used in the pre-filled WhatsApp texts. */
+  toolName: string;
+  /** Who the page is mainly for. Picks the matching guidance page. */
+  audience?: 'student' | 'after12' | 'after10' | 'parent' | 'graduate' | 'professional';
+  /** One short sentence that says what the person can share (shown above the share button). */
+  shareLine?: string;
+}
+
+const { toolName, audience = 'student', shareLine = 'Know someone who could use this? Send it on WhatsApp.' } = Astro.props;
+
+const base = '/services/career-counselling-and-career-guidance/';
+const SERVICE = {
+  student: { href: `${base}student-career-guidance/`, label: 'Career guidance for students' },
+  after12: { href: `${base}career-guidance-after-12th/`, label: 'Career guidance after 12th' },
+  after10: { href: `${base}career-counselling-for-school-students/`, label: 'Career counselling for school students' },
+  parent: { href: `${base}career-counselling-for-school-students/`, label: 'Career counselling for school students' },
+  graduate: { href: `${base}student-career-guidance/`, label: 'Career guidance for graduates' },
+  professional: { href: `${base}working-professional-career-guidance/`, label: 'Career guidance for working professionals' },
+}[audience];
+
+const pageUrl = new URL(Astro.url.pathname, SITE_URL).href;
+const shareHref = `https://wa.me/?text=${encodeURIComponent(`${toolName}: free on FutureCareerSchool. ${pageUrl}`)}`;
+const helpHref = `${WHATSAPP_BASE_URL}?text=${encodeURIComponent(`Hi, I used the ${toolName} on your website and would like help with my next step.`)}`;
+---
+
+<section class="tns" aria-labelledby="tns-heading" data-no-print>
+  <div class="tns-inner">
+    <h2 id="tns-heading">What to do with your result</h2>
+    <p class="tns-lead">A number or a plan is a starting point. A short conversation can turn it into a decision you can act on this month.</p>
+    <div class="tns-grid">
+      <div class="tns-card">
+        <h3>Talk it through</h3>
+        <p>Send us your question on WhatsApp. We reply with next steps, and you do not need to share your marks or results to start.</p>
+        <a class="tns-btn tns-btn--gold" href={helpHref} target="_blank" rel="noopener noreferrer">Ask us on WhatsApp</a>
+        <a class="tns-link" href={SERVICE.href}>{SERVICE.label}</a>
+      </div>
+      <div class="tns-card">
+        <h3>Share it</h3>
+        <p>{shareLine}</p>
+        <a class="tns-btn" href={shareHref} target="_blank" rel="noopener noreferrer">Share on WhatsApp</a>
+        <a class="tns-link" href="/career-resources/?type=tool">More free tools</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .tns{padding:2.2rem 1rem 2.6rem}
+  .tns-inner{max-width:1050px;margin:0 auto;border:1px solid rgba(255,255,255,.14);border-radius:18px;padding:1.4rem 1.2rem;background:rgba(255,255,255,.04)}
+  .tns h2{font-size:1.35rem;margin:0 0 .4rem}
+  .tns-lead{color:rgba(255,255,255,.78);line-height:1.6;margin:0 0 1rem;max-width:720px}
+  .tns-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:.9rem}
+  .tns-card{border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:1rem;display:flex;flex-direction:column;gap:.6rem;background:rgba(255,255,255,.03)}
+  .tns-card h3{font-size:1.05rem;margin:0}
+  .tns-card p{margin:0;color:rgba(255,255,255,.76);line-height:1.55;font-size:.95rem}
+  .tns-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.6rem 1rem;border-radius:12px;border:1px solid rgba(255,255,255,.35);color:#fff;text-decoration:none;font-weight:700;text-align:center}
+  .tns-btn--gold{background:#e5b84a;border-color:#e5b84a;color:#1a1405}
+  .tns-btn:focus-visible,.tns-link:focus-visible{outline:3px solid #2dd4bf;outline-offset:2px}
+  .tns-link{display:inline-flex;align-items:center;min-height:44px;color:#f5d98c;text-decoration:underline}
+  @media print{.tns{display:none}}
+</style>

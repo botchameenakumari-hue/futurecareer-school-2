@@ -622,11 +622,11 @@ export const bundle: SkillTestBundle = {
       o('Add a few more paragraphs and images, since longer answers look more complete', 30, 'Length does not make an answer better. Check that it answers the question, and cut anything that does not.'),
       o('Change the font, colours and spacing so that it looks better', 20, 'Appearance helps a little, but content and mistakes matter more. Use the time to read for meaning and errors.'),
     ]),
-    sc('revise', 'A friend reads your cover letter and says the second paragraph is confusing. What do you do?', [
-      o('Cut the paragraph completely so that the letter becomes shorter and cleaner, even though you are not sure what the problem was', 50, 'Cutting can help if the paragraph adds little, but first ask what confused your friend in case it is easy to fix.'),
-      o('Explain the paragraph to your friend aloud, and if they understand it then, leave it as it is, because you know what you meant', 35, 'Your explanation helps your friend, but the recruiter cannot ask you. Put the explanation into the text.'),
-      o('Ignore the comment, since a friend who does not work in hiring cannot judge a cover letter', 20, 'Confusion is useful feedback from anyone. If one person is confused, others may be too.'),
-      o('Ask which sentence lost them, rewrite that paragraph, and let them read it again', 100, 'You find the exact problem and test the fix. A second look from the same person shows whether it worked.'),
+    sc('revise', 'You are about to email your resume to a company. You used the same email for another company yesterday. What do you check before you press send?', [
+      o('Check the company name and role in the subject and the email, read it once, and make sure the file opens and has your name in its file name', 100, 'Old company names and file names such as “resume final 2” are common slips. A two minute check shows that you pay attention.'),
+      o('Run the spell check on the email and send it, since the resume was checked last week', 55, 'Spell check will not catch another company’s name or an old date. Check the parts that change for each company.'),
+      o('Send one email to all companies at once with every address in the To field, to save time', 35, 'Each company can see the other addresses, and the message cannot name the company or the role. Send a separate email to each one.'),
+      o('Attach three versions of your resume so that the company can pick the one it likes', 20, 'Extra files can confuse the person who reads it. Choose the best version for this role and attach only that.'),
     ]),
     sc('work', 'Which subject line is best for an email asking your manager to approve leave on 14 and 15 March?', [
       o('“Leave application for 14 and 15 March”', 70, 'It names the topic and the dates, which is good. Add what you need and by when so the manager knows the action.'),
@@ -690,22 +690,22 @@ export const bundle: SkillTestBundle = {
 
   stagePlan: {
     student: [
-      'In your next written answer, write the direct answer in the first line and the reasons after it.',
-      'Write your next email to a teacher with a subject, a greeting, one request and a thank you.',
-      'Finish your next assignment one day early and read it again on a fresh day, with your list of repeated mistakes beside you.',
-      'Write a first resume with each line starting with a verb, and ask a senior to point out the weakest line.',
+      'In your next written answer, write the direct answer in the first line and the reasons after it. Done when a friend who reads only your first line can say what your answer is.',
+      'Write your next email to a teacher with a subject, a greeting, one request and a thank you. Done when the email has all four parts and you have sent it.',
+      'Finish your next assignment one day early and read it again on a fresh day, with your list of repeated mistakes beside you. Done when you have read it on a second day and fixed at least one thing.',
+      'Write a first resume with each line starting with a verb, and ask a senior to point out the weakest line. Done when each line starts with a verb and a senior has named one weak line.',
     ],
     fresher: [
-      'Write every email subject line with the action and the date, and end each message with a next step.',
-      'Before each application or email, check names, dates, attachment and recipients with a short checklist.',
-      'Write full words and a greeting in messages to seniors and clients, and drop chat short forms.',
-      'Rewrite three resume lines so each shows what you did and what changed, and keep them ready.',
+      'Write every email subject line with the action and the date, and end each message with a next step. Done when your last five sent emails each name an action and a date in the subject line.',
+      'Before each application or email, check names, dates, attachment and recipients with a short checklist. Done when you have used the checklist on three messages in a row.',
+      'Write full words and a greeting in messages to seniors and clients, and drop chat short forms. Done when your last three messages to seniors have a greeting and full words.',
+      'Rewrite three resume lines so each shows what you did and what changed, and keep them ready. Done when the three lines are saved on your phone, ready to paste.',
     ],
     professional: [
-      'Put a two or three line summary of the point and the decision needed at the top of your next report or proposal.',
-      'Check each figure and name against the agreed record before you send, and ask a colleague to check one document.',
-      'Write the opening of your next update separately for each group that will read it, such as leaders, team and client.',
-      'Save two or three samples of your best work writing, with private details removed, and review them every few months.',
+      'Put a two or three line summary of the point and the decision needed at the top of your next report or proposal. Done when a person who reads only the top lines knows the decision you need.',
+      'Check each figure and name against the agreed record before you send, and ask a colleague to check one document. Done when you have checked every figure and a colleague has checked one document.',
+      'Write the opening of your next update separately for each group that will read it, such as leaders, team and client. Done when you have written the opening separately for at least two groups.',
+      'Save two or three samples of your best work writing, with private details removed, and review them every few months. Done when two samples are saved with private details removed.',
     ],
   },
 

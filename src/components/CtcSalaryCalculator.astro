@@ -161,6 +161,7 @@ const offers = [
 
     <div class="ctc-actions">
       <button type="button" class="ctc-btn ctc-btn--primary" data-act="pdf">Download PDF</button>
+      <button type="button" class="ctc-btn" data-act="copy">Copy my result</button>
       <button type="button" class="ctc-btn" data-act="print">Print result</button>
       <button type="button" class="ctc-btn" data-act="reset">Reset to the example</button>
       <button type="button" class="ctc-btn ctc-btn--warn" data-act="clear">Clear my data</button>
@@ -169,6 +170,7 @@ const offers = [
   </form>
 
   <div class="ctc-result" id="ctc-result" aria-labelledby="ctc-result-title">
+    <p class="ctc-examplenote" id="ctc-examplenote" hidden><b>These are example numbers, not your offer.</b> Type the CTC from your offer letter in the first box. The result changes as you type.</p>
     <h3 id="ctc-result-title" class="ctc-result-title">Your result</h3>
     <p class="ctc-hint">The result updates as you type. The PDF and the printout carry exactly what you see here.</p>
     <div class="ctc-doc" id="ctc-doc"></div>
@@ -180,7 +182,8 @@ const offers = [
 <script>
   // @ts-nocheck
   import { defaultInputs, STATES, inr, lakh } from '../scripts/ctcSalary.mjs';
-  import { resultModel, modelToHtml } from '../scripts/ctcSalaryDoc.mjs';
+  import { resultModel, modelToHtml, modelToText } from '../scripts/ctcSalaryDoc.mjs';
+  import { copyText } from '../scripts/moneyToolKit';
 
   const KEY = 'fcs-ctc-salary-v1';
   const root = document.getElementById('ctc-calculator');
@@ -261,7 +264,14 @@ const offers = [
     let model = null;
     let generated = '';
 
+    const isExample = () => {
+      const f = fresh();
+      const same = (x, y) => Object.keys(y).every((k) => String(x[k] ?? '') === String(y[k] ?? ''));
+      return state.mode === 'one' && state.regime === 'new' && same(state.a, f.a) && Object.keys(f.g).every((k) => Number(state.g[k] || 0) === 0);
+    };
+
     function render() {
+      const exNote = $('#ctc-examplenote'); if (exNote) exNote.hidden = !isExample();
       const offers = state.mode === 'two' ? [inputsFor('a'), inputsFor('b')] : [inputsFor('a'), null];
       const d = new Date();
       generated = d.getDate() + ' ' + ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.getMonth()] + ' ' + d.getFullYear();
@@ -281,7 +291,7 @@ const offers = [
     }
 
     function setButtons(on) {
-      $$('[data-act="pdf"],[data-act="print"]').forEach((b) => { b.disabled = !on; b.setAttribute('aria-disabled', on ? 'false' : 'true'); });
+      $$('[data-act="pdf"],[data-act="print"],[data-act="copy"]').forEach((b) => { b.disabled = !on; b.setAttribute('aria-disabled', on ? 'false' : 'true'); });
     }
 
     let timer = 0;
@@ -339,6 +349,12 @@ const offers = [
       } finally { pdfBusy = false; }
     }
 
+    async function copyResult() {
+      if (!model || !model.ok) return;
+      const ok = await copyText(modelToText(model));
+      say(ok ? 'Copied. Paste it into WhatsApp or a note.' : 'Copy did not work on this phone. Use Print result and choose Save as PDF instead.');
+    }
+
     function printDoc() {
       if (!model || !model.ok) return;
       render();
@@ -354,6 +370,7 @@ const offers = [
       const act = btn.getAttribute('data-act');
       if (act === 'pdf') downloadPdf();
       else if (act === 'print') printDoc();
+      else if (act === 'copy') copyResult();
       else if (act === 'reset') {
         const keepMode = state.mode;
         state = fresh(); state.mode = keepMode;
@@ -415,6 +432,7 @@ const offers = [
   .ctc-btn[disabled]{opacity:.5;cursor:not-allowed}
   .ctc-result{margin-top:1.2rem}
   .ctc-result-title{margin:0 0 .2rem}
+  .ctc-examplenote{margin:0 0 .8rem;padding:.7rem .9rem;border-left:3px solid #e5b84a;background:rgba(229,184,74,.1);color:#f7e2a8;font-size:.95rem;line-height:1.55}
   .ctc-doc{margin-top:.6rem;padding:1.1rem;border:1px solid rgba(229,184,74,.5);border-radius:14px;background:rgba(8,12,24,.55);color:#f2f5f7;min-width:0;overflow-wrap:anywhere}
   .ctc-error{margin:0;padding:.8rem;border-left:4px solid #ff9a86;background:rgba(255,140,120,.12);color:#ffd9d1}
   .ctc-doc-head{border-bottom:3px solid #2dd4bf;margin-bottom:.7rem}

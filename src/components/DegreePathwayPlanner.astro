@@ -1,35 +1,91 @@
 ---
 import { DEGREE_PATHWAY_PLANNER_PRESETS } from '../config/degreePathwayPlanner';
-const embeddedData = JSON.stringify(DEGREE_PATHWAY_PLANNER_PRESETS).replace(/</g, '\\u003c');
+import { SCALE } from '../config/scalability.mjs';
+const presets = DEGREE_PATHWAY_PLANNER_PRESETS.map((preset) => ({ ...preset, scaleLabel: SCALE[preset.scale].label }));
+const embeddedData = JSON.stringify(presets).replace(/</g, '\\u003c');
 ---
 <section class="dpp" id="degree-pathway-planner" aria-labelledby="dpp-title">
-  <div class="dpp-head"><div><p class="dpp-kicker">Subject → work pattern → evidence</p><h2 id="dpp-title">Turn a degree interest into a small project</h2><p>Select the subject family you are considering and the work signals you want to test. The planner gives a project and route checks-not a guaranteed career match.</p></div><p class="dpp-note"><b>Private by design:</b> this worksheet runs in your browser. No answers are saved or sent.</p></div>
+  <div class="dpp-head"><div><p class="dpp-kicker">Subject, then work, then evidence</p><h2 id="dpp-title">Turn a degree interest into a small project</h2><p>Choose the degree you are thinking about and the kind of work you want to test. You get a 30-day project with dates, three steps for this week and checks to do before you pay any fees.</p></div><p class="dpp-note"><b>Private by design:</b> this worksheet runs in your browser. No answers are saved or sent.</p></div>
   <form id="dpp-form" class="dpp-form">
-    <label>Subject or degree family<select data-dpp="preset">{DEGREE_PATHWAY_PLANNER_PRESETS.map((preset) => <option value={preset.id}>{preset.label}</option>)}</select></label>
-    <label>What work signal do you want to test?<select data-dpp="signal"><option value="">Choose one</option>{DEGREE_PATHWAY_PLANNER_PRESETS[0].workSignals.map((signal) => <option value={signal}>{signal}</option>)}</select></label>
-    <label>Current stage<select data-dpp="stage"><option>Still comparing subjects</option><option>Already studying this subject</option><option>Considering a change</option><option>Preparing for a first project</option></select></label>
+    <label>Degree you are considering<select data-dpp="preset">{presets.map((preset) => <option value={preset.id}>{preset.label}</option>)}</select></label>
+    <label>Work you want to test<select data-dpp="signal">{presets[0].workSignals.map((signal) => <option value={signal}>{signal}</option>)}</select></label>
+    <label>Where are you now?<select data-dpp="stage"><option>Still comparing subjects</option><option>Already studying this subject</option><option>Considering a change</option><option>Preparing for a first project</option></select></label>
     <button type="submit">Build my project brief</button>
   </form>
-  <div id="dpp-result" class="dpp-result" aria-live="polite" hidden><p class="dpp-result-kicker">Your evidence-building brief</p><h3 data-dpp-out="title"></h3><div class="dpp-columns"><div><h4>Work signals to notice</h4><ul data-dpp-out="signals"></ul></div><div><h4>Role families worth exploring</h4><ul data-dpp-out="roles"></ul></div></div><div class="dpp-project"><h4>30-day project</h4><p data-dpp-out="project"></p><p><b>Evidence to keep:</b> <span data-dpp-out="evidence"></span></p></div><div class="dpp-checks"><div><h4>Route check</h4><p data-dpp-out="route"></p></div><div><h4>Watch out</h4><p data-dpp-out="watch"></p></div></div><p class="dpp-stage" data-dpp-out="stage"></p></div>
-  <p class="dpp-source">These are editorial planning prompts, not occupational licensing advice, admissions rulings, salary data or a validated aptitude instrument.</p>
+  <p class="dpp-status" id="dpp-status" role="status" aria-live="polite"></p>
+  <div id="dpp-result" class="dpp-result" hidden></div>
+  <p class="dpp-source">These are editorial planning prompts, not occupational licensing advice, admissions rulings, salary data or a validated aptitude instrument. The 30-day project is how this page helps you test a degree.</p>
 </section>
 <script id="dpp-data" type="application/json" set:html={embeddedData}></script>
 <script>
+  import { esc, fmtDate, addDays, actionsHtml, stepsHtml, bindActions, showResult, soft, type Sheet } from '../scripts/counsellingToolKit';
+  type Preset = { id: string; label: string; subject: string; workSignals: string[]; roleFamilies: string[]; project: string; evidence: string; routeCheck: string; watchOut: string; scale: 'high' | 'mid' | 'low'; scaleLabel: string; scaleWhy: string; growMove: string };
   const planner = document.querySelector<HTMLElement>('#degree-pathway-planner');
   if (planner) {
-    const form = planner.querySelector<HTMLFormElement>('#dpp-form'); const result = planner.querySelector<HTMLElement>('#dpp-result');
+    const form = planner.querySelector<HTMLFormElement>('#dpp-form'); const result = planner.querySelector<HTMLElement>('#dpp-result'); const status = planner.querySelector<HTMLElement>('#dpp-status');
     const presetField = planner.querySelector<HTMLSelectElement>('[data-dpp="preset"]'); const signalField = planner.querySelector<HTMLSelectElement>('[data-dpp="signal"]'); const stageField = planner.querySelector<HTMLSelectElement>('[data-dpp="stage"]');
-    if (!form || !result || !presetField || !signalField || !stageField) throw new Error('Degree pathway planner markup is incomplete.');
     const dataNode = document.querySelector<HTMLScriptElement>('#dpp-data');
-    if (!dataNode) throw new Error('Degree pathway planner data is missing.');
-    const presets = JSON.parse(dataNode.textContent || '[]') as Array<{id:string;label:string;subject:string;workSignals:string[];roleFamilies:string[];project:string;evidence:string;routeCheck:string;watchOut:string}>;
-    const out = (key: string) => { const node = planner.querySelector<HTMLElement>(`[data-dpp-out="${key}"]`); if (!node) throw new Error(`Degree pathway planner output is missing: ${key}`); return node; };
-    const list = (key: string, values: string[]) => { out(key).innerHTML = values.map((value) => `<li>${value.replace(/[&<>"']/g, (character) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[character] || character)}</li>`).join(''); };
-    const syncSignals = () => { const preset = presets.find((item) => item.id === presetField.value) || presets[0]; signalField.innerHTML = `<option value="">Choose one</option>${preset.workSignals.map((signal) => `<option value="${signal}">${signal}</option>`).join('')}`; };
-    presetField.addEventListener('change', syncSignals); syncSignals();
-    form.addEventListener('submit', (event) => { event.preventDefault(); const preset = presets.find((item) => item.id === presetField.value) || presets[0]; const signal = signalField.value || preset.workSignals[0]; out('title').textContent = `${preset.label}: test ${signal}`; list('signals', preset.workSignals); list('roles', preset.roleFamilies); out('project').textContent = preset.project; out('evidence').textContent = preset.evidence; out('route').textContent = preset.routeCheck; out('watch').textContent = preset.watchOut; out('stage').textContent = `Stage selected: ${stageField.value}. Keep a dated note after each session, then decide whether to deepen, redirect or stop.`; result.hidden = false; });
+    if (!form || !result || !status || !presetField || !signalField || !stageField || !dataNode) throw new Error('Degree pathway planner markup is incomplete.');
+    const presets = JSON.parse(dataNode.textContent || '[]') as Preset[];
+    const URL_ = 'https://futurecareerschool.com/tools/degree-career-project-planner/';
+    let sheet: Sheet | null = null;
+    const current = () => presets.find((item) => item.id === presetField.value) || presets[0];
+    const syncSignals = () => { signalField.innerHTML = current().workSignals.map((signal) => `<option value="${esc(signal)}">${esc(signal)}</option>`).join(''); };
+    presetField.addEventListener('change', () => { syncSignals(); if (!result.hidden) status.textContent = 'You changed the degree. Tap "Build my project brief" again to update the result.'; });
+    signalField.addEventListener('change', () => { if (!result.hidden) status.textContent = 'You changed an answer. Tap "Build my project brief" again to update the result.'; });
+    stageField.addEventListener('change', () => { if (!result.hidden) status.textContent = 'You changed an answer. Tap "Build my project brief" again to update the result.'; });
+    syncSignals();
+    const firstStep: Record<string, string> = {
+      'Still comparing subjects': 'Talk to one student or teacher of this subject for 15 minutes. Ask what a normal week looks like and what surprised them.',
+      'Already studying this subject': 'Pick one topic from your current semester and decide how your project will use it.',
+      'Considering a change': 'Before you drop anything, ask your college or university office how and when a change of course is allowed, and what it costs. Ask in person and get the answer in writing.',
+      'Preparing for a first project': 'Write your project question in one sentence and show it to a teacher or senior.',
+    };
+    const asks = ['What exactly is taught in each semester, and is there a project or internship?', 'Is the course and the college approved or recognised as the admission notice says? Where can I see it on the official site?', 'What is the total fee for all years, including exams, hostel and travel? Please give it in writing.', 'What did students from the last two batches do after the course?', 'What can I do in the first year to build proof of work?'];
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const preset = current(); const signal = signalField.value || preset.workSignals[0]; const stage = stageField.value;
+      const start = new Date(); const d = (n: number) => fmtDate(addDays(n, start));
+      const steps = [
+        { when: `By ${d(3)}`, text: firstStep[stage] || firstStep['Still comparing subjects'] },
+        { when: `From ${d(4)}`, text: `Start your 30-day project and spend your first hour on week 1 only. Your focus is ${soft(signal)}.` },
+        { when: `By ${d(33)}`, text: 'Finish, show your work to one person who knows the subject and write what you enjoyed, what you avoided and what you would change.' },
+      ];
+      const weeks = [
+        { n: 'Week 1: plan', dates: `${d(4)} to ${d(10)}`, t: 'Write the question your project will answer and list the free sources or tools you need.' },
+        { n: 'Week 2: do', dates: `${d(11)} to ${d(17)}`, t: 'Do the main work. Keep dated notes of what you did and where you got stuck.' },
+        { n: 'Week 3: finish', dates: `${d(18)} to ${d(24)}`, t: 'Finish the output and ask one person to challenge it. Fix the most important point.' },
+        { n: 'Week 4: decide', dates: `${d(25)} to ${d(33)}`, t: 'Write what you learned and choose one: go deeper, try another degree area, or stop.' },
+      ];
+      const stageNote = `Stage selected: ${stage}. Keep a dated note after each session, then decide whether to deepen, redirect or stop.`;
+      sheet = {
+        title: `Degree project brief: ${preset.label}`,
+        sub: `Made on ${d(0)}. Work to test: ${signal}.`,
+        sections: [
+          { h: 'Your next three steps', ol: steps.map((s) => `${s.when}: ${s.text}`) },
+          { h: 'Your 30-day project', p: [preset.project], ul: weeks.map((w) => `${w.n} (${w.dates}): ${w.t}`) },
+          { h: 'Evidence to keep', p: [preset.evidence] },
+          { h: 'Work to notice', ul: preset.workSignals },
+          { h: 'Role families to explore (examples, not promises)', ul: preset.roleFamilies },
+          { h: 'Check the route before you pay', p: [preset.routeCheck], ul: asks },
+          { h: 'Watch out', p: [preset.watchOut] },
+          { h: `Scalability: ${preset.scaleLabel}`, p: [preset.scaleWhy, `Growth move: ${preset.growMove}`] },
+          { h: 'Honest limits', p: ['This is an editorial planning aid, not admission or career advice. Confirm current rules with the official source and talk to a teacher, counsellor or someone who works in this field.'] },
+        ],
+      };
+      result.innerHTML = `<p class="dpp-result-kicker">Your evidence-building brief</p><h3>${esc(preset.label)}: test ${esc(signal)}</h3>
+        <h4>Your next three steps</h4>${stepsHtml(steps)}
+        <div class="dpp-project"><h4>Your 30-day project</h4><p>${esc(preset.project)}</p><div class="dpp-weeks">${weeks.map((w) => `<article><b>${esc(w.n)}</b><small>${esc(w.dates)}</small><p>${esc(w.t)}</p></article>`).join('')}</div><p><b>Evidence to keep:</b> ${esc(preset.evidence)}</p></div>
+        <div class="dpp-columns"><div><h4>Work to notice</h4><ul>${preset.workSignals.map((v) => `<li>${esc(v)}</li>`).join('')}</ul></div><div><h4>Role families to explore (examples, not promises)</h4><ul>${preset.roleFamilies.map((v) => `<li>${esc(v)}</li>`).join('')}</ul></div></div>
+        <div class="dpp-scale dpp-scale--${esc(preset.scale)}"><b>Scalability: ${esc(preset.scaleLabel)}.</b> ${esc(preset.scaleWhy)} <b>Growth move:</b> ${esc(preset.growMove)}</div>
+        <div class="dpp-checks"><div><h4>Check the route before you pay</h4><p>${esc(preset.routeCheck)}</p><p><b>Questions for the college:</b></p><ul>${asks.map((v) => `<li>${esc(v)}</li>`).join('')}</ul></div><div><h4>Watch out</h4><p>${esc(preset.watchOut)}</p><p>This brief does not tell you if you will enjoy the degree or get a job. A teacher, counsellor or someone who works in the field can help you read your result.</p></div></div>
+        <p class="dpp-stage">${esc(stageNote)}</p>${actionsHtml()}`;
+      showResult(result);
+      status.textContent = 'Your brief is ready below. Nothing was sent anywhere.';
+    });
+    bindActions(result, () => sheet, URL_, status);
   }
 </script>
 <style is:global>
-  .dpp{margin:2rem 0;padding:clamp(1.1rem,3vw,2rem);border:1px solid rgba(109,213,237,.38);border-radius:22px;background:linear-gradient(145deg,rgba(109,213,237,.1),rgba(255,255,255,.03));color:#f8fafc}.dpp-head{display:grid;grid-template-columns:1fr minmax(210px,300px);gap:1.2rem}.dpp-kicker{margin:0;color:#8de4d8;font-size:.76rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.dpp h2{margin:.45rem 0 .55rem;color:#fff}.dpp p{color:rgba(255,255,255,.68);line-height:1.65}.dpp-note{padding:.85rem;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(255,255,255,.04);font-size:.86rem}.dpp-form{display:grid;grid-template-columns:2fr 1.5fr 1.4fr auto;gap:.75rem;margin:1.25rem 0}.dpp-form label{display:grid;gap:.35rem;color:#fff;font-size:.86rem;font-weight:700}.dpp-form select{min-height:44px;width:100%;padding:.55rem .7rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:#101927;color:#fff;font:inherit}.dpp-form button{align-self:end;min-height:44px;padding:.55rem .85rem;border:0;border-radius:10px;background:#e5b84a;color:#17130a;font-weight:800;cursor:pointer}.dpp-result{padding:1rem;border-radius:15px;background:rgba(0,0,0,.16);border:1px solid rgba(255,255,255,.14)}.dpp-result h3{margin:.2rem 0 1rem;color:#fff}.dpp-result-kicker{margin:0;color:#f7d88c!important;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;font-weight:800}.dpp-columns,.dpp-checks{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}.dpp-columns>div,.dpp-checks>div{padding:.85rem;border-radius:12px;background:rgba(255,255,255,.04)}.dpp h4{margin:.1rem 0 .55rem;color:#fff}.dpp li,.dpp-checks p,.dpp-project p{color:rgba(255,255,255,.7);line-height:1.55}.dpp li+li{margin-top:.35rem}.dpp-project{margin:.8rem 0;padding:1rem;border-left:3px solid #e5b84a;background:rgba(229,184,74,.08)}.dpp-stage,.dpp-source{font-size:.82rem}.dpp-source{color:rgba(255,255,255,.5)!important}.dpp-form select:focus-visible,.dpp-form button:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}@media(max-width:900px){.dpp-form{grid-template-columns:1fr 1fr}.dpp-form button{align-self:stretch}}@media(max-width:620px){.dpp-head,.dpp-form,.dpp-columns,.dpp-checks{grid-template-columns:1fr}}
+  .dpp{margin:2rem 0;padding:clamp(1.1rem,3vw,2rem);border:1px solid rgba(109,213,237,.38);border-radius:22px;background:linear-gradient(145deg,rgba(109,213,237,.1),rgba(255,255,255,.03));color:#f8fafc}.dpp-head{display:grid;grid-template-columns:1fr minmax(210px,300px);gap:1.2rem}.dpp-kicker{margin:0;color:#8de4d8;font-size:.76rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}.dpp h2{margin:.45rem 0 .55rem;color:#fff}.dpp p{color:rgba(255,255,255,.68);line-height:1.65}.dpp-note{padding:.85rem;border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(255,255,255,.04);font-size:.86rem}.dpp-form{display:grid;grid-template-columns:2fr 1.5fr 1.4fr auto;gap:.75rem;margin:1.25rem 0}.dpp-form label{display:grid;gap:.35rem;color:#fff;font-size:.86rem;font-weight:700}.dpp-form select{min-height:44px;width:100%;padding:.55rem .7rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:#101927;color:#fff;font:inherit}.dpp-form button{align-self:end;min-height:44px;padding:.55rem .85rem;border:0;border-radius:10px;background:#e5b84a;color:#17130a;font-weight:800;cursor:pointer}.dpp-result{padding:1rem;border-radius:15px;background:rgba(0,0,0,.16);border:1px solid rgba(255,255,255,.14)}.dpp-result h3{margin:.2rem 0 1rem;color:#fff}.dpp-result-kicker{margin:0;color:#f7d88c!important;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;font-weight:800}.dpp-columns,.dpp-checks{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}.dpp-columns>div,.dpp-checks>div{padding:.85rem;border-radius:12px;background:rgba(255,255,255,.04)}.dpp h4{margin:.1rem 0 .55rem;color:#fff}.dpp li,.dpp-checks p,.dpp-project p{color:rgba(255,255,255,.7);line-height:1.55}.dpp li+li{margin-top:.35rem}.dpp-project{margin:.8rem 0;padding:1rem;border-left:3px solid #e5b84a;background:rgba(229,184,74,.08)}.dpp-stage,.dpp-source{font-size:.82rem}.dpp-source{color:rgba(255,255,255,.5)!important}.dpp-form select:focus-visible,.dpp-form button:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}@media(max-width:900px){.dpp-form{grid-template-columns:1fr 1fr}.dpp-form button{align-self:stretch}}@media(max-width:620px){.dpp-head,.dpp-form,.dpp-columns,.dpp-checks{grid-template-columns:1fr}}.dpp-result h4{margin:1rem 0 .5rem}.dpp-result-card{margin-bottom:.8rem}.dpp-scale{margin:.8rem 0;padding:.8rem;border-left:3px solid #8de4d8;background:rgba(18,154,141,.08)}.dpp-scale--low{border-left-color:#ffb0b0;background:rgba(221,93,93,.1)}.dpp-scale--mid{border-left-color:#f7d88c;background:rgba(229,184,74,.08)}.dpp-weeks{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin:.5rem 0}.dpp-weeks article{padding:.8rem;border:1px solid rgba(255,255,255,.15);border-radius:10px}.dpp-weeks small{display:block;color:#8de4d8;margin:.15rem 0}.dpp-status{color:rgba(255,255,255,.72);font-size:.9rem;min-height:1.2em}.dpp-example{justify-self:start;min-height:44px}@media(max-width:620px){.dpp-weeks{grid-template-columns:1fr}}
 </style>

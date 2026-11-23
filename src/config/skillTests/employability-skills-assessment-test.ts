@@ -740,7 +740,7 @@ export const bundle: SkillTestBundle = {
   scenarios: [
     sc('habits', 'You are travelling to a client call that starts at 10:00, and your train has stopped, so you will be about 20 minutes late. What do you do?', [
       o('Message your manager now with your expected arrival time, ask whether the call can start without you, and join as soon as you can', 100, 'You gave an early warning and a clear time, and you left the call a way to start. People can plan around a message sent before the time, not after.'),
-      o('Join the call from your phone as soon as you can, apologise for the delay when you arrive, and catch up on what you missed from the notes afterwards', 60, 'Joining is better than missing the call, but nobody knew you were coming. Send one line before the start with your expected time.'),
+      o('Join the call from your phone as soon as you can, apologise when you arrive, and catch up from the notes afterwards', 60, 'Joining is better than missing the call, but nobody knew you were coming. Send one line before the start with your expected time.'),
       o('Keep trying to reach on time, and send a message only after the call has begun, once you know the exact delay', 30, 'Waiting for the exact delay means the others have waited without news. A message that says about 20 minutes late is enough.'),
       o('Skip the call and explain afterwards that you had a transport problem', 15, 'The client and your team lose the call and the explanation comes too late to help. Tell them early and join late rather than not at all.'),
     ]),
@@ -764,7 +764,7 @@ export const bundle: SkillTestBundle = {
     ]),
     sc('team', 'You are working on a shared task and your part depends on a teammate who has not sent their input. The deadline is in two days. What do you do?', [
       o('Post in the group chat asking everyone to send their parts by tomorrow', 60, 'A group message is gentle, but it may not reach the person who is stuck. Follow up directly with that teammate as well.'),
-      o('Complete your teammate’s part as well so that the deadline is safe, and tell the lead about it only after the work has been submitted and nobody can say it is late', 35, 'You protect the deadline, but the lead cannot help while the problem is hidden and may hand you more of this work. Tell the lead what you did and why.'),
+      o('Complete your teammate’s part as well so that the deadline is safe, and tell the lead only after the work has been submitted', 35, 'You protect the deadline, but the lead cannot help while the problem is hidden and may hand you more of this work. Tell the lead what you did and why.'),
       o('Message the teammate today to ask when they can send it, offer help, and tell the lead tomorrow if there is no reply', 100, 'You stay polite, give a date and share the risk early. Keep a note of each message you sent so the story is clear.'),
       o('Wait until the last day, then tell the lead that the teammate did not do their part', 10, 'This looks like blame, and the lead hears about the problem too late to help. Raise a dependency risk early and describe it without blaming.'),
     ]),
@@ -777,7 +777,7 @@ export const bundle: SkillTestBundle = {
     sc('learn', 'Your manager asks you to prepare a report using a tool you have never used. What do you do first?', [
       o('Spend 20 to 30 minutes with the help page or a short tutorial, try it on sample data, and ask one specific question if you get stuck', 100, 'You tried first and ask with a clear question. People are usually glad to help someone who has done this.'),
       o('Ask a colleague to sit with you and show you every step, and then repeat the steps yourself', 45, 'A walk-through can help, but you learn more when you try first and bring questions. Take notes on what they show you.'),
-      o('Tell your manager that you have not used the tool and ask for training before you start, then wait until it is arranged so that you do not make mistakes', 25, 'Honesty is good, but waiting hands the work to someone else. Say that you are learning it, and give a date for a first version.'),
+      o('Tell your manager that you have not used the tool, ask for training and wait until it is arranged, so that you do not make mistakes', 25, 'Honesty is good, but waiting hands the work to someone else. Say that you are learning it, and give a date for a first version.'),
       o('Make the report in a tool you already know, in a different format', 15, 'It is quicker for you, but the report may not be usable. Check whether the tool is required and say what you can deliver in the time.'),
     ]),
     sc('learn', 'You made a mistake in a number in a report, and a senior has pointed it out in front of the team. What do you do?', [
@@ -793,7 +793,7 @@ export const bundle: SkillTestBundle = {
       o('Say that you worked on many projects and list their names', 25, 'A list gives the recruiter nothing to hold on to. Pick one and tell the story of it.'),
     ]),
     sc('proof', 'You are updating your resume for a job you want. You have three certificates and one small project. How do you use them?', [
-      o('List the three certificates with their issuers and dates at the top, then mention the project in one line below, since certificates are easy for a recruiter to verify', 55, 'Certificates are easy to check, but they show that you studied, not that you applied it. Give the project more space and a link.'),
+      o('List the three certificates with issuers and dates at the top, then mention the project in one line, since certificates are easy to verify', 55, 'Certificates are easy to check, but they show that you studied, not that you applied it. Give the project more space and a link.'),
       o('Lead with the project, with two lines on what you made and its result and a link, and then list the certificates briefly', 100, 'The project is real evidence, and the certificates support it. Each line then has something a recruiter can check.'),
       o('Add more skills to your skills list so the resume looks fuller', 25, 'Skills you cannot demonstrate can lead to difficult interview questions. List the skills you have used in a task, and leave out the rest.'),
       o('Write that you are hardworking and a quick learner and move on', 15, 'Everyone writes these words, so they do not distinguish you. Replace them with an example that shows the quality.'),
@@ -848,22 +848,22 @@ export const bundle: SkillTestBundle = {
 
   stagePlan: {
     student: [
-      'This week, pick your best project and write five lines on it: the problem, your steps, the tools, the result and what you would improve.',
-      'Put the project behind one link that opens on a phone, and check that the file names are clear.',
-      'In your next group task, write each person’s part and date in the chat, and send a three-line handover when you finish your part.',
-      'Next to three claims on your resume, write the link, number or person that proves each one, and ask one teacher if they would speak about your work.',
+      'This week, pick your best project and write five lines on it: the problem, your steps, the tools, the result and what you would improve. Done when you have five lines and can say them in under one minute.',
+      'Put the project behind one link that opens on a phone, and check that the file names are clear. Done when a friend can open the link on their phone without your login.',
+      'In your next group task, write each person’s part and date in the chat, and send a three-line handover when you finish your part. Done when the chat shows each person’s part and date and you have sent your handover.',
+      'Next to three claims on your resume, write the link, number or person that proves each one, and ask one teacher if they would speak about your work. Done when three claims each have proof written beside them and one teacher has said yes or no.',
     ],
     fresher: [
-      'When a task is given, ask how it will be judged and when it is due, and say it back in one line.',
-      'Send a short update before anyone asks, and use one file name pattern for everything you share.',
-      'After your third task, ask for one thing to do differently, and change it within a week.',
-      'Every Friday, write one line in your work log with what you finished and the result, and use it to update your resume each month.',
+      'When a task is given, ask how it will be judged and when it is due, and say it back in one line. Done when you have said the due time back to the person who gave the task.',
+      'Send a short update before anyone asks, and use one file name pattern for everything you share. Done when your next three shared files follow one name pattern.',
+      'After your third task, ask for one thing to do differently, and change it within a week. Done when you have asked once and made one change within seven days.',
+      'Every Friday, write one line in your work log with what you finished and the result, and use it to update your resume each month. Done when you have four Friday lines in your work log by the end of the month.',
     ],
     professional: [
-      'List two results from your work that you are allowed to share, each with what you did, for whom and what changed.',
-      'Find one repeating task and build a template or formula for it, then note the time saved.',
-      'Choose the tool or process most used in the role you want next and finish one small real task with it.',
-      'Ask a manager or colleague who has seen your work if they would speak about it, and send them a short summary of what you want to be known for.',
+      'List two results from your work that you are allowed to share, each with what you did, for whom and what changed. Done when each result names the work, who it was for and what changed.',
+      'Find one repeating task and build a template or formula for it, then note the time saved. Done when the template has worked twice and you have written down the time it saved.',
+      'Choose the tool or process most used in the role you want next and finish one small real task with it. Done when the task is finished and the output is saved where you can show it.',
+      'Ask a manager or colleague who has seen your work if they would speak about it, and send them a short summary of what you want to be known for. Done when one person has answered yes or no and you have sent your summary.',
     ],
   },
 

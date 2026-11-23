@@ -161,6 +161,52 @@ function avgBlocks(res) {
   return b;
 }
 
+const TIMETABLE_URL = 'https://futurecareerschool.com/tools/study-timetable-maker/';
+
+/** One plain sentence group that says what to do with the result. It names no rule, date or fee. Empty when there is no useful step. */
+export function nextStep(tab, res) {
+  if (!res || !res.ok) return '';
+  if (tab === 'need') {
+    if (res.status === 'needed') {
+      const todo = res.parts.filter((u) => u.got === null);
+      const first = todo[0];
+      const goal = first.neededWhole !== null ? first.neededWhole : first.neededMarks;
+      return 'Write ' + goal + ' out of ' + first.maxText + ' on the front of your notebook as your target' + (todo.length > 1 ? ' for each remaining part' : ' for ' + first.name) + '. Ask your teacher which chapters carry the most marks, then spread them over the days you have. The study timetable maker can do the spreading: ' + TIMETABLE_URL;
+    }
+    if (res.status === 'already-met') return 'Keep studying. This result counts only the marks you typed, and your school may also set a minimum mark in each part. Check its notice before you relax.';
+    if (res.status === 'not-possible') return 'Choose a target you can reach, up to ' + res.highest + ' percent. Then ask your teacher or the school office whether an improvement or re-exam is allowed, and what it would count for.';
+    if (res.status === 'all-done') return res.met ? 'Check this number against your official mark sheet, because your school may round or count in its own way.' : 'You are ' + res.shortfall + ' points short. Ask your teacher or the school office what options exist, such as an improvement exam, and get the rule in writing.';
+  }
+  if (tab === 'overall') {
+    if (!res.best || !res.best.length) return '';
+    return res.best.length > 1
+      ? 'These subjects give the same rise in your overall percentage for 10 more points, so start with the one you find easiest to improve. Ask that subject teacher which topics lost you the most marks.'
+      : 'Plan extra practice for ' + res.best[0].name + ' first. It gives the biggest rise in your overall percentage for 10 more points. Ask that subject teacher which topics lost you the most marks.';
+  }
+  if (tab === 'att') {
+    if (res.kind === 'attend') return 'Write down the day you reach ' + res.more + ' more classes, and do not miss any until then. If you were away for illness, ask the school office for its written rule and which papers it accepts.';
+    if (res.kind === 'miss') return res.miss === '0' ? 'You are exactly on the target, so one missed class puts you below it. Attend every class until your margin grows.' : 'Treat ' + res.miss + ' as a safety margin for illness, not as a plan. Keep it for days you cannot avoid.';
+    return '';
+  }
+  if (tab === 'board') return 'Open the admission notice of the college or course you want and see which subjects it counts. Tick Must count for those subjects here and read the result again.';
+  if (tab === 'avg') return res.need && res.need.status !== 'already' ? 'Write ' + res.need.average + ' on the front of your notebook as your target for each remaining test, and check your average after every test.' : '';
+  return '';
+}
+
+/** Plain text of the result for WhatsApp. It holds the numbers on the sheet, not the working. */
+export function resultText(model, today = new Date()) {
+  const blocks = model.blocks;
+  const title = blocks.find((b) => b.t === 'title');
+  const at = blocks.findIndex((b) => b.t === 'h' && b.text === 'Result');
+  if (!title || at < 0) return '';
+  const lines = [title.text + ' (FutureCareerSchool, ' + longDate(today) + ')', ''];
+  for (let i = at + 1; i < blocks.length && blocks[i].t === 'meta'; i++) blocks[i].rows.forEach((r) => lines.push(r[0] + ': ' + r[1]));
+  const next = blocks.find((b) => b.t === 'p' && /^What to do next:/.test(b.text));
+  if (next) lines.push('', next.text);
+  lines.push('', 'This is a calculation from numbers I typed, not an official result. Try it: https://' + TOOL_URL);
+  return lines.join('\n');
+}
+
 /**
  * ctx: { tab, res, today }. The sheet shows the tab that is open, and a result only when it is valid.
  */
@@ -180,6 +226,13 @@ export function sheetModel(ctx) {
     blocks.push({ t: 'p', text: 'No result yet. ' + errorLine(res) });
   } else {
     blocks.push({ t: 'p', text: 'No result yet. Enter your numbers in the calculator and the working appears here.' });
+  }
+  const next = nextStep(tab, res);
+  if (next) {
+    const at = blocks.findIndex((b) => b.t === 'h' && b.text === 'Result');
+    let place = at >= 0 ? at + 1 : blocks.length;
+    while (place < blocks.length && blocks[place].t === 'meta') place += 1;
+    blocks.splice(place, 0, { t: 'p', text: 'What to do next: ' + next });
   }
   blocks.push({ t: 'h', text: 'Limits' });
   blocks.push({ t: 'note', text: LIMITS_TEXT });

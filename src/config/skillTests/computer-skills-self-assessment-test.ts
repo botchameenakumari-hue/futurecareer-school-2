@@ -580,7 +580,7 @@ export const bundle: SkillTestBundle = {
     sc('basics', 'You must submit a file in two hours, but you cannot tell which of five similar files is the latest. What do you do?', [
       o('Send the file whose name looks most final, such as final-final2, and hope it is the right one', 17, 'A name is not proof of what is inside. Open the file and check it, and rename it so the name says the subject and the date.'),
       o('Ask a friend to send you their copy so that you do not have to search', 33, 'A friend\'s copy may not have your changes. Sort by date and check your own files first, and ask only if they are really missing.'),
-      o('Open each of the five files in turn, scroll through them for several minutes, compare what each contains, and then pick the one that looks fullest and send it', 67, 'Opening the files is the right idea, and sorting by date modified would have shown you the answer faster. Use it first next time, then open the file to confirm.'),
+      o('Open all five files, compare them by eye for several minutes, and send the one that looks fullest', 67, 'Opening the files is the right idea, and sorting by date modified would have shown you the answer faster. Use it first next time, then open the file to confirm.'),
       o('Sort the folder by date modified, open the newest one, check that it has your last changes, and rename it clearly before sending', 100, 'Sorting by date and checking the content gives you a safe answer. Keep one clear name from now on so that you do not repeat this search.'),
     ]),
     sc('basics', 'Your computer becomes very slow while you have unsaved work open. What do you do first?', [
@@ -623,7 +623,7 @@ export const bundle: SkillTestBundle = {
     ]),
     // online
     sc('online', 'You get an SMS saying your bank account will be blocked today unless you click a link and update your KYC. What do you do?', [
-      o('Click the link to see what the page looks like, and enter your password only if the page looks like your bank\'s real website and shows a lock icon', 33, 'Even opening a link can be risky on a fake site. Do not click at all and check through the official app.'),
+      o('Click the link and enter your password only if the page looks like your bank\'s website and shows a lock icon', 33, 'Even opening a link can be risky on a fake site. Do not click at all and check through the official app.'),
       o('Do not click. Open your bank\'s official app or type the website yourself, or call the number on your card, and report the SMS', 100, 'Urgency is the scammer\'s tool. Checking through your own app or the number on your card gives you a safe answer.'),
       o('Click and update the details quickly so that your account is not blocked', 0, 'This is how people lose money. The Reserve Bank of India warns that a link in a message telling you to update KYC is a common fraud method. Check with your bank through its own app or the number on your card.'),
       o('Forward the SMS to a friend and ask what they think', 17, 'Forwarding spreads the risk. Check the facts with the bank directly and report the message.'),
@@ -645,13 +645,13 @@ export const bundle: SkillTestBundle = {
       o('Copy the sheet first, make the names consistent with Find and Replace or a text formula, remove repeated rows after checking them, and note what you changed', 100, 'Working on a copy keeps the original safe, and a note lets someone else repeat or undo your steps. Check the repeated rows before you delete them.'),
       o('Count the rows as they are, since the names look close enough', 17, 'The counts will be wrong because the sheet sees each spelling as a different customer. Standardise the names first.'),
       o('Fix the names by hand in the original file and save', 33, 'Editing the original loses the way back. Work on a copy and write down the changes.'),
-      o('Fix the names and delete the repeated rows in the original file after a quick look at them, and save it under the same name so that everyone gets the clean version from now on', 50, 'You are fixing the right thing. Keep a copy and note the changes before you delete anything.'),
+      o('Fix the names and delete the repeated rows in the original file after a quick look, and save it under the same name for everyone', 50, 'You are fixing the right thing. Keep a copy and note the changes before you delete anything.'),
     ]),
     sc('data', 'You are asked which of three products sold the most last quarter, and the data has 600 rows. What do you do?', [
       o('Scroll through the rows and estimate which product appears most often', 17, 'Counting rows is not the same as adding sales, and an estimate may be wrong. Use a total for each product.'),
       o('Sort by product and add each block of rows by hand with a calculator', 33, 'This works but is slow and easy to get wrong. A formula or pivot table does it in seconds and can be rechecked.'),
       o('Total each product with a formula and send the answer without checking the overall total', 67, 'The totals are the right method. A last check that the parts add up to the whole takes a minute and avoids an embarrassing mistake.'),
-      o('Total sales for each product with a pivot table or a SUMIF formula, check that the three totals add up to the overall total, and show the answer with a simple chart', 100, 'Summing by product answers the question directly, and the add-up check catches errors. A simple chart helps a person see the answer quickly.'),
+      o('Total each product with a pivot table or SUMIF, check that the three totals add up to the overall total, and show the answer in a simple chart', 100, 'Summing by product answers the question directly, and the add-up check catches errors. A simple chart helps a person see the answer quickly.'),
     ]),
     sc('data', 'A chart you made shows a big jump in March. What do you do before you share it?', [
       o('Open the rows behind March, look for an entry error or a one-off event, and add a note on what caused the jump', 100, 'A sudden jump is often a typing error or a one-off event. Checking the rows first keeps you from sharing a wrong story.'),
@@ -661,14 +661,14 @@ export const bundle: SkillTestBundle = {
     ]),
     // Stage specific
     { ...sc('docs', 'Student: your group project is being written by four people who keep sending different versions on a chat app. What do you do?', [
-      o('Ask everyone to send their part to you by the end of the day and combine them yourself into one file, so that the report looks the same throughout', 67, 'This can work, but it makes you the only person with the full version. A shared document lets everyone see the whole and avoids late surprises.'),
+      o('Ask everyone to send their part to you by tonight and combine them yourself into one file, so that the report looks the same', 67, 'This can work, but it makes you the only person with the full version. A shared document lets everyone see the whole and avoids late surprises.'),
       o('Move the report to one shared online document, give everyone edit access, agree who owns the final copy and use comments for changes', 100, 'One shared copy ends the version problem. Version history lets you see who changed what.'),
       o('Pick the version that arrived last and ask the others to follow it', 33, 'The last version may not include the others\' changes. Agree one master file and one owner.'),
       o('Keep editing your own copy and send it to the teacher in the end', 17, 'The group may end up with several different reports. Work in one shared file from today.'),
     ]), stages: ['student'] },
     { ...sc('sheets', 'Fresher or job seeker: a company asks you to clean a list and make a summary table within a day, and you have used Excel only a little. What do you do?', [
       o('Ask a friend to do the task for you and send it as your own', 0, 'Sending someone else\'s work as yours can lose you the job when you are asked to repeat it. Ask for help to learn, then do the task yourself.'),
-      o('Read the task carefully, practise the steps you need on a free sample file, do the work on a copy, check the totals and send it with two lines on what you did', 100, 'Practising on a sample first and checking before you send shows care. The short note helps the company see how you work.'),
+      o('Read the task carefully, practise the steps on a free sample file, work on a copy, check the totals and send it with two lines on what you did', 100, 'Practising on a sample first and checking before you send shows care. The short note helps the company see how you work.'),
       o('Do the task straight away without testing, and send what you have', 33, 'A quick attempt may have errors you do not see. Check totals and cleaning before you send.'),
       o('Tell the company you are not ready and decline the task', 17, 'You may still manage it with a few hours of practice. If you truly cannot, tell them early and ask what a good attempt would look like.'),
     ]), stages: ['fresher'] },
@@ -710,22 +710,22 @@ export const bundle: SkillTestBundle = {
 
   stagePlan: {
     student: [
-      'This week, make a folder for each subject and move every current assignment into it.',
-      'Write your next assignment in a free word processor, using heading styles and page numbers, and save it as a PDF.',
-      'Keep a sheet of your marks or spending going until the next exam, with formulas for totals and an average.',
-      'Turn on two-step verification for your college email and keep one tidy assignment and one sheet as proof of your work.',
+      'This week, make a folder for each subject and move every current assignment into it. Done when every current assignment is in a subject folder and you can find any file in under a minute.',
+      'Write your next assignment in a free word processor, using heading styles and page numbers, and save it as a PDF. Done when the PDF has headings and page numbers and opens on your phone.',
+      'Keep a sheet of your marks or spending going until the next exam, with formulas for totals and an average. Done when the totals and the average change when you change a mark.',
+      'Turn on two-step verification for your college email and keep one tidy assignment and one sheet as proof of your work. Done when two-step verification is on and you have signed in once to test it.',
     ],
     fresher: [
-      'Make a one-page CV that prints cleanly and saves as a PDF, and send a test copy to yourself.',
-      'Build a job application tracker in a sheet and update it every morning.',
-      'Practise a clean-and-total task on a public sample file, and write two lines on what you did.',
-      'Before any offer, check the company on its own website and never pay a fee to get a job.',
+      'Make a one-page CV that prints cleanly and saves as a PDF, and send a test copy to yourself. Done when the test copy reaches you and opens on your phone with the same layout.',
+      'Build a job application tracker in a sheet and update it every morning. Done when you have updated it three mornings in a row.',
+      'Practise a clean-and-total task on a public sample file, and write two lines on what you did. Done when the file is saved with your two lines beside it.',
+      'Before any offer, check the company on its own website and never pay a fee to get a job. Done when you have written down the company website and contact details before you reply to any offer.',
     ],
     returning: [
-      'Spend a week using one cloud drive and one video-call tool for real tasks, and write down the steps you forget.',
-      'Rebuild your CV in a current format and write one honest line about your break.',
-      'Rebuild a household budget or a records list in a sheet with formulas, working on a copy.',
-      'Set up two-step verification, learn the three safe-payment rules and save the 1930 helpline in your phone.',
+      'Spend a week using one cloud drive and one video-call tool for real tasks, and write down the steps you forget. Done when you have used both for a week and listed the steps you forget.',
+      'Rebuild your CV in a current format and write one honest line about your break. Done when the CV opens as a PDF on a phone and has one honest line about your break.',
+      'Rebuild a household budget or a records list in a sheet with formulas, working on a copy. Done when the totals change when you change a number.',
+      'Set up two-step verification, learn the three safe-payment rules and save the 1930 helpline in your phone. Done when the helpline is saved in your phone and you can say the three rules without looking.',
     ],
   },
 

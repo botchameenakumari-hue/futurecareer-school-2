@@ -23,6 +23,40 @@ export const WARNING_TEXT =
   'For job, abroad or higher study applications, use the wording on your university certificate or ask your university for its official conversion. This sheet is a calculation from numbers you typed. It is not a certificate and it does not replace your university\'s rule.';
 
 
+/** One step that says what to do with the result. It names no university rule, date or fee. */
+export function nextStep(tab, ctx) {
+  const rule = ctx.rule;
+  if (tab === 'need' && ctx.need && ctx.need.res && ctx.need.res.ok) {
+    const r = ctx.need.res;
+    if (!r.reachable) return 'Choose a lower target, or ask your exam office whether improvement exams or re-evaluation are allowed and what they count for.';
+    if (r.alreadyMet) return 'Check your official grade memo after each semester result to confirm it. The target also depends on the conversion rule your university uses.';
+    return 'Write ' + r.needed + ' on your notebook as the average grade you need in the credits still to come, and check it after every semester result. This target depends on the conversion rule, so ask your exam office which rule your university uses.';
+  }
+  const has = (tab === 'c2p' && ctx.c2p && ctx.c2p.res && ctx.c2p.res.ok) || (tab === 'p2c' && ctx.p2c && ctx.p2c.res && ctx.p2c.res.ok) || (tab === 'sg' && ctx.sg && ctx.sg.res && ctx.sg.res.ok);
+  if (!has) return '';
+  if (rule && rule.sourceStatus === 'custom') return 'Keep the notice you copied the formula from together with this sheet, in case a form or a company asks where the number came from.';
+  return 'Before you write this number on a form, ask your exam office whether your university has its own written conversion rule or certificate. If it does, choose My university\'s formula and type it in, or use the university\'s own figure instead of this sheet.';
+}
+
+/** Plain text of the open tab result for WhatsApp. Empty when there is no valid result. */
+export function resultText(tab, ctx, today = new Date()) {
+  const rule = ctx.rule;
+  if (!rule) return '';
+  const lines = [];
+  if (tab === 'c2p' && ctx.c2p && ctx.c2p.res && ctx.c2p.res.ok) lines.push('CGPA ' + ctx.c2p.res.cgpa + ' is ' + ctx.c2p.res.percent + ' percent');
+  else if (tab === 'p2c' && ctx.p2c && ctx.p2c.res && ctx.p2c.res.ok) lines.push(ctx.p2c.res.percent + ' percent is CGPA ' + ctx.p2c.res.cgpa);
+  else if (tab === 'sg' && ctx.sg && ctx.sg.res && ctx.sg.res.ok) {
+    lines.push('CGPA from my semesters: ' + ctx.sg.res.cgpa);
+    if (ctx.sg.pct && ctx.sg.pct.ok) lines.push('Percentage by the rule: ' + ctx.sg.pct.percent + ' percent');
+  } else if (tab === 'need' && ctx.need && ctx.need.res && ctx.need.res.ok) {
+    const i = ctx.need.inputs; const r = ctx.need.res;
+    lines.push('Target ' + i.target + ' percent, CGPA so far ' + i.done + ' over ' + i.doneCredits + ' credits, ' + i.leftCredits + ' credits to come');
+    lines.push(r.reachable ? (r.alreadyMet ? 'Already covered, no minimum needed' : 'Average needed in the remaining credits: ' + r.needed) : 'Not reachable: it would need an average of ' + r.needed + ', above the top of the scale');
+  } else return '';
+  const next = nextStep(tab, ctx);
+  return ['CGPA and percentage (FutureCareerSchool, ' + longDate(today) + ')', ''].concat(lines, ['Rule used: ' + formulaText(rule), '', 'This is a calculation, not an official result.' + (next ? ' ' + next : ''), 'Try it: https://' + TOOL_URL]).join('\n');
+}
+
 /**
  * ctx: { rule, today, ruleNote, c2p, p2c, sg, need }
  * c2p: { input, res }   p2c: { input, res }   sg: { rows, top, res }   need: { inputs, res }
@@ -86,6 +120,8 @@ export function sheetModel(ctx) {
     blocks.push({ t: 'list', title: 'Working', items: r.steps });
   }
   if (!any) blocks.push({ t: 'p', text: 'No result yet. Enter your numbers in the calculator and the working appears here.' });
+  const next = any && ctx.tab ? nextStep(ctx.tab, ctx) : '';
+  if (next) blocks.push({ t: 'p', text: 'What to do next: ' + next });
   blocks.push({ t: 'h', text: 'Rule source and limits' });
   const src = SOURCE_TEXT[sourceStatus] || '';
   blocks.push({ t: 'p', text: src });

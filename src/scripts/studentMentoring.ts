@@ -349,6 +349,23 @@ export function modelToHtml(model) {
 
 // Text the standard PDF font cannot draw (Telugu, Hindi and so on) is drawn by the browser and
 // added as images. See pdfUnicodeText.mjs.
+/** Plain text of a record or report model, for pasting into WhatsApp or a message. Empty fields are left out. */
+export function modelToText(model) {
+  const out = [];
+  model.blocks.forEach((b) => {
+    if (b.t === 'title') { out.push('*' + b.text + '*'); if (b.sub) out.push(b.sub); }
+    else if (b.t === 'meta') b.rows.forEach((r) => { if (r[1]) out.push(r[0] + ': ' + r[1]); });
+    else if (b.t === 'h') out.push('', '*' + b.text + '*');
+    else if (b.t === 'p') out.push(b.text);
+    else if (b.t === 'field') { if (b.text && b.text.trim()) out.push(b.label + ': ' + b.text.trim()); }
+    else if (b.t === 'list') { if (b.items.length) { out.push('', '*' + b.title + '*'); b.items.forEach((i) => out.push('• ' + i)); } }
+    else if (b.t === 'table') b.rows.forEach((row) => { const cells = row.map((cell, i) => { if (!cell) return ''; const text = String(cell).replace(/[\s.]+$/, ''); return i === 0 && b.head[0] === 'No.' ? 'Session ' + text : b.head[i] + ': ' + text; }).filter(Boolean); if (cells.length) out.push('• ' + cells.join('; ')); });
+    else if (b.t === 'choices') { if (b.value) out.push(b.label + ': ' + b.value); }
+  });
+  out.push('', 'Made with the free tool at https://' + TOOL_URL);
+  return out.join('\n');
+}
+
 export function hasUnsupportedText(model) {
   return flattenTexts(model).some((text) => needsUnicode(text));
 }

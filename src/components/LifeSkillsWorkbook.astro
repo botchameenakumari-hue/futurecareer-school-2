@@ -1,7 +1,7 @@
 ---
-import { SKILLS, RATING_LABELS, WHO_SOURCE } from '../data/lifeSkillsWorkbook.mjs';
+import { SKILLS, RATING_LABELS, WHO_SOURCE, STARTER_SKILLS } from '../data/lifeSkillsWorkbook.mjs';
 
-const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS, source: WHO_SOURCE }).replace(/</g, '\\u003c');
+const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS, source: WHO_SOURCE, starter: STARTER_SKILLS }).replace(/</g, '\\u003c');
 ---
 
 <section class="lsw" id="life-skills-workbook" aria-labelledby="lsw-title">
@@ -27,6 +27,7 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
         ))}
       </div>
       <div class="lsw-actions">
+        <button type="button" class="lsw-btn" data-lsw-action="starter">Just 3 to start</button>
         <button type="button" class="lsw-btn" data-lsw-action="all">Select all ten</button>
         <button type="button" class="lsw-btn" data-lsw-action="none">Clear selection</button>
         <button type="button" class="lsw-btn lsw-btn--primary" data-lsw-action="pdf">Download PDF of the chosen skills</button>
@@ -37,6 +38,14 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
   </div>
 
   <p class="lsw-start" id="lsw-start"></p>
+  <div class="lsw-noprint lsw-practice" id="lsw-practice-box" hidden>
+    <p class="lsw-practice-line" id="lsw-practice"></p>
+    <div class="lsw-actions">
+      <button type="button" class="lsw-btn" data-lsw-action="copy-practice">Copy this step for WhatsApp</button>
+      <button type="button" class="lsw-btn" data-lsw-action="wa-practice">Open WhatsApp with this step</button>
+    </div>
+    <p class="lsw-note">The message holds only the step and a link. Your answers are never added to it.</p>
+  </div>
 
   <div id="lsw-cards" class="lsw-cards">
     {SKILLS.map((skill, index) => (
@@ -70,7 +79,7 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
           </div>
         ))}
 
-        <h4>7-day practice: {skill.activity.title}</h4>
+        <h4>7-day practice: {skill.activity.title} <span class="lsw-prog" data-lsw-prog={skill.id}></span></h4>
         <p>{skill.activity.intro}</p>
         <ol class="lsw-days">
           {skill.activity.days.map((dayText, dIndex) => (
@@ -132,7 +141,7 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
 
 <script>
   // @ts-nocheck
-  import { createLifeSkillsPdf, startWith } from '../scripts/lifeSkillsWorkbookPdf.mjs';
+  import { createLifeSkillsPdf, startWith, nextPractice, practiceLine, practiceWhatsApp } from '../scripts/lifeSkillsWorkbookPdf.mjs';
   import { flattenTexts, needsUnicode, prepareUnicodeText } from '../scripts/pdfUnicodeText.mjs';
 
   const root = document.getElementById('life-skills-workbook');
@@ -142,7 +151,8 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
     const SK = (data.skills || []).map((skill, index) => Object.assign({ number: index + 1 }, skill));
     const ids = SK.map((s) => s.id);
     const KEY = 'fcs-life-skills-workbook-v1';
-    const blank = () => ({ selected: ids.slice(), answers: {}, rating: {}, rating2: {}, keep: {}, days: {} });
+    const starter = (Array.isArray(data.starter) ? data.starter : []).filter((id) => ids.includes(id));
+    const blank = () => ({ selected: (starter.length ? starter : ids).slice(), answers: {}, rating: {}, rating2: {}, keep: {}, days: {} });
     let state = blank();
     try {
       const raw = localStorage.getItem(KEY);
@@ -161,6 +171,8 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
     const countEl = document.getElementById('lsw-count');
     const emptyEl = document.getElementById('lsw-empty');
     const startEl = document.getElementById('lsw-start');
+    const practiceBox = document.getElementById('lsw-practice-box');
+    const practiceEl = document.getElementById('lsw-practice');
     const say = (text) => { if (statusEl) statusEl.textContent = text; };
     const ratingLabels = data.ratingLabels || [];
 
@@ -180,6 +192,16 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
       });
       if (countEl) countEl.textContent = chosen + ' of ' + ids.length + ' skills chosen. ' + answered + ' of ' + total + ' reflection questions answered.';
       if (emptyEl) emptyEl.hidden = chosen > 0;
+      const chosenSkills = SK.filter((skill) => state.selected.includes(skill.id));
+      if (practiceBox && practiceEl) {
+        practiceBox.hidden = chosen === 0;
+        practiceEl.textContent = chosen ? practiceLine(nextPractice(chosenSkills, state)) : '';
+      }
+      root.querySelectorAll('[data-lsw-prog]').forEach((el) => {
+        const id = el.getAttribute('data-lsw-prog');
+        const done = ((state.days[id] || []).filter(Boolean)).length;
+        el.textContent = '(' + done + ' of 7 days ticked)';
+      });
       if (startEl) startEl.textContent = chosen > 0 ? 'Where to start: ' + startWith(SK.filter((skill) => state.selected.includes(skill.id)), state.rating, ratingLabels) : '';
     }
 
@@ -256,7 +278,7 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
       if (dayId) {
         ensureAnswers(dayId);
         state.days[dayId][Number(target.getAttribute('data-lsw-i'))] = Boolean(target.checked);
-        save(); say('Saved in this browser.');
+        save(); refreshCount(); say('Saved in this browser.');
       }
     });
 
@@ -326,6 +348,26 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
       const button = event.target.closest ? event.target.closest('[data-lsw-action]') : null;
       if (!button) return;
       const action = button.getAttribute('data-lsw-action');
+      if (action === 'starter') { state.selected = (starter.length ? starter : ids).filter((id) => ids.includes(id)); save(); paint(); say('Three skills chosen: ' + SK.filter((k) => state.selected.includes(k.id)).map((k) => k.name).join(', ') + '. Add more any time.'); }
+      if (action === 'copy-practice' || action === 'wa-practice') {
+        const next = nextPractice(SK.filter((skill) => state.selected.includes(skill.id)), state);
+        const text = practiceWhatsApp(next);
+        if (action === 'wa-practice') {
+          const win = window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank', 'noopener');
+          say(win ? 'WhatsApp opened with this step. Choose who to send it to.' : 'Your browser blocked WhatsApp. Use Copy this step for WhatsApp and paste it.');
+        } else {
+          const done = () => say('Copied. Paste it into WhatsApp or a note.');
+          const fallback = () => {
+            const box = document.createElement('textarea');
+            box.value = text; box.style.position = 'fixed'; box.style.opacity = '0';
+            document.body.appendChild(box); box.select();
+            let ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
+            document.body.removeChild(box);
+            say(ok ? 'Copied. Paste it into WhatsApp or a note.' : 'Copy did not work here. Select the step above and copy it by hand.');
+          };
+          if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback); else fallback();
+        }
+      }
       if (action === 'all') { state.selected = ids.slice(); save(); paint(); say('All ten skills chosen.'); }
       if (action === 'none') { state.selected = []; save(); paint(); say('No skill chosen.'); }
       if (action === 'print') {
@@ -379,6 +421,10 @@ const clientData = JSON.stringify({ skills: SKILLS, ratingLabels: RATING_LABELS,
   .lsw-final h3{margin:.1rem 0 .7rem}
   .lsw-status{min-height:1.3em;color:#9ff3e6;font-size:.88rem}
   .lsw-start{margin:1.1rem 0 0;font-weight:600;color:#f3cf70}.lsw-start:empty{display:none}
+  .lsw-practice{margin:.8rem 0 0;padding:.9rem 1rem;border:1px solid rgba(18,154,141,.5);border-radius:12px;background:rgba(18,154,141,.08)}
+  .lsw-practice[hidden]{display:none}
+  .lsw-practice-line{margin:0 0 .7rem;font-weight:600}
+  .lsw-prog{font-size:.82rem;font-weight:600;color:#f3cf70;white-space:nowrap}
   .lsw-jump{margin:.3rem 0 0;font-size:.9rem}.lsw-jump a{color:#f3cf70;font-weight:700;text-decoration:underline}.lsw-jump a:focus-visible{outline:3px solid #e5b84a;outline-offset:2px}
   .lsw-empty{margin-top:1rem;padding:1rem;border:1px dashed rgba(255,255,255,.3);border-radius:12px}
   .lsw-print-only{display:none}

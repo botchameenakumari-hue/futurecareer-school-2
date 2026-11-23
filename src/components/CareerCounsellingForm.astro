@@ -77,6 +77,7 @@ const itRoutes = [
     requestNote, sheetHtml, buildPdf, hasUnsupportedText, prepareUnicodePdf,
     EXAMPLES, EXAMPLE_NOTE, LETTER_KINDS, blankLetter, letterText, letterHtml,
   } from '../scripts/careerCounsellingFormKit';
+  import { fmtDate, addDays, plainText, copyText } from '../scripts/counsellingToolKit';
 
   const root = document.getElementById('cc-tool');
   const app = document.getElementById('cc-app');
@@ -108,8 +109,8 @@ const itRoutes = [
   const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
   const SERVICE = {
-    general: { href: '/services/career-counselling-and-career-guidance/career-counselling/', label: 'See how career counselling with us works' },
-    it: { href: '/services/career-counselling-and-career-guidance/career-counselling-for-it-professionals/', label: 'See career counselling for IT professionals' },
+    general: { href: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling/', label: 'See how career counselling with us works' },
+    it: { href: 'https://futurecareerschool.com/services/career-counselling-and-career-guidance/career-counselling-for-it-professionals/', label: 'See career counselling for IT professionals' },
   };
 
   function formHtml() {
@@ -150,7 +151,13 @@ const itRoutes = [
       ? 'The main boxes are filled. Download or print the form and take it to your session.'
       : 'Before the session, still add: ' + missing.join('; ') + '.';
     const svc = SERVICE[state.mode];
-    return '<div class="cc-panel"><h3>Booking note you can copy</h3><p class="cc-hint">A short note to ask a counsellor for a session. It uses your answers and contains no name or phone number, so add those yourself if you choose.</p>' +
+    const t = new Date(); const d = (n) => fmtDate(addDays(n, t));
+    const steps = [
+      'By ' + d(2) + ': fill the main boxes. Leave blank what you do not know.' + (missing.length ? ' Still missing: ' + missing.join('; ') + '.' : ''),
+      'By ' + d(5) + ': gather what you can bring: ' + ((v.evidence || '').trim() ? (v.evidence || '').trim().slice(0, 160).replace(/[\s.!,;:]+$/, '') : 'marks sheets, certificates, projects or feedback') + '. Check any fee or rule you are counting on on the official website.',
+      'By ' + d(7) + ': download or print the form, book your session and choose the two or three questions you most want answered.',
+    ];
+    return '<div class="cc-panel"><h3>Your next three steps</h3><ol class="cc-steps">' + steps.map((x) => '<li>' + esc(x) + '</li>').join('') + '</ol><button type="button" class="cc-btn" data-cc-action="copy-form">Copy my form as text</button><h3>Booking note you can copy</h3><p class="cc-hint">A short note to ask a counsellor for a session. It uses your answers and contains no name or phone number, so add those yourself if you choose.</p>' +
       '<pre class="cc-note-text" id="cc-note-text">' + esc(note) + '</pre>' +
       '<button type="button" class="cc-btn" data-cc-action="copy">Copy note</button>' +
       '<p class="cc-ready" id="cc-ready">' + esc(ready) + '</p>' +
@@ -272,6 +279,11 @@ const itRoutes = [
       render();
       setStatus('A made-up example is loaded. Press Clear my answers before you write your own.');
     }
+    else if (action === 'copy-form') {
+      const sheet = { title: (state.mode === 'it' ? 'IT career counselling form' : 'Career counselling form'), sub: 'Made on ' + fmtDate(new Date()) + '.', sections: PROMPTS[state.mode].map((pr) => ({ h: pr.label, p: [String(state.values[pr.key] || '').trim() || 'Not answered yet'] })).concat([{ h: OPTIONS_HEADING, ul: state.options.filter((o) => o.name.trim()).map((o) => o.name.trim() + ' (' + MARKS[o.mark] + ')' + (o.worry.trim() ? ': ' + o.worry.trim() : '')) }]) };
+      const ok = await copyText(plainText(sheet, 'https://futurecareerschool.com/tools/career-counselling-form/'));
+      setStatus(ok ? 'Your form was copied as text. Paste it into WhatsApp or a message. Do not share it with anyone you do not trust.' : 'Copy did not work. Use Download my form or Print my form instead.');
+    }
     else if (action === 'copy') {
       const text = requestNote(state);
       try { await navigator.clipboard.writeText(text); setStatus(/\[[^\]]+\]/.test(text) ? 'Note copied. Replace the parts in square brackets before you send it.' : 'Note copied.'); }
@@ -366,7 +378,7 @@ const itRoutes = [
   .cc-routes h3,.cc-letter h3{margin:.2rem 0 .4rem}
   .cc-letter{scroll-margin-top:90px;margin-top:1.8rem;padding-top:1.2rem;border-top:1px solid rgba(255,255,255,.14)}
   .cc-letter-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem .9rem}
-  .cc-example-row{margin:.4rem 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:.6rem}.cc-example-row p{margin:0}
+  .cc-steps{margin:.4rem 0 .8rem;padding-left:1.2rem;line-height:1.6;overflow-wrap:anywhere}.cc-example-row{margin:.4rem 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:.6rem}.cc-example-row p{margin:0}
   .cc-example-flag{margin:.6rem 0 0;padding:.6rem .8rem;border:1px dashed rgba(229,184,74,.7);border-radius:10px;color:#f3cf70;font-weight:600;font-size:.9rem}
   .cc-example-flag[hidden]{display:none}
   .cc-table{width:100%;border-collapse:collapse;font-size:.9rem}

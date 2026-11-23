@@ -35,6 +35,7 @@ const SLUG_RULES: Array<[RegExp, BlogSalesTarget]> = [
   [/layoff|laid-off/, page('career-coaching-for-layoff-recovery', 'Get Career Coaching After a Layoff')],
   [/career-change|career-switch|switch-from|switching|pivot|transition/, page('career-coaching-for-career-change', 'Get Career Coaching for a Career Change')],
   [/women|returning-to-work|career-break/, page('career-coaching-for-women', 'Get Career Coaching for Women')],
+  [/business-analyst|product-manage|data-analyst/, page('working-professional-career-guidance', 'Get Career Guidance for Working Professionals')],
   [/freelanc|consult|solopreneur|entrepreneur|start-a-business|starting-a-business/, page('career-coaching-for-entrepreneurs', 'Get Career Coaching for Entrepreneurs')],
   [/fresher|first-job|internship|campus|placement/, page('career-coaching-for-freshers', 'Get Career Coaching for Freshers')],
   [/software|devops|developer|cyber|it-jobs|it-career|it-professional|it-industry|service-company|product-company|machine-learning/, page('career-coaching-for-it-professionals', 'Get Career Coaching for IT Professionals')],

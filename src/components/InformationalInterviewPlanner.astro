@@ -1,30 +1,113 @@
 <section class="iip" id="informational-interview-planner" aria-labelledby="iip-title">
   <p class="eyebrow">RESEARCH BEFORE A COSTLY DECISION</p>
-  <h2 id="iip-title">Plan an informational interview</h2>
-  <p>Prepare a respectful conversation with someone who actually does the work, then turn what you learn into a next experiment.</p>
-  <p class="iip-note"><b>Boundary:</b> this is research, not a disguised job request. Do not ask for confidential information, pressure anyone to reply, or treat one person’s experience as a universal rule.</p>
+  <h2 id="iip-title">Plan a conversation with someone who does the work</h2>
+  <p>Answer a few questions and get a message you can send today, five questions to ask, a thank-you message and dates for each step.</p>
+  <p class="iip-note"><b>Limit:</b> this is research, not a disguised request for a job. Do not ask for confidential information, do not pressure anyone to reply, and remember that one person's experience is not a rule for everyone. Your answers stay in this browser.</p>
   <form id="iip-form" class="iip-form" novalidate>
-    <label>What work or route are you researching?<input name="direction" maxlength="160" placeholder="For example, data analysis, nursing or UX design" required /></label>
-    <label>What do you want to learn most?<select name="goal"><option value="daily">What the daily work is really like</option><option value="entry">How people build an entry route</option><option value="friction">What is harder than outsiders expect</option><option value="evidence">What proof or practice helps first</option></select></label>
-    <label>How will you protect the other person’s time and privacy?<select name="respect"><option value="0">I have not planned this</option><option value="1">I will ask for a short conversation</option><option value="2">I have a specific request and will not seek confidential details</option></select></label>
-    <label>What will you do with the learning?<textarea name="next" rows="3" maxlength="600" placeholder="Compare another perspective, run a small task, or update your route questions"></textarea></label>
-    <div class="iip-actions"><button class="iip-primary" type="submit">Create interview plan</button><button type="button" data-iip="clear">Clear</button></div>
+    <button type="button" class="iip-example" data-iip="example">Try an example</button>
+    <label><span>What work or route are you researching?</span><input name="direction" maxlength="160" placeholder="For example: data analysis, nursing, civil engineering" autocomplete="off" required /></label>
+    <label><span>Who will you ask?</span><select name="who"><option value="senior">A senior or past student of my college</option><option value="family">A person my family or friends know</option><option value="teacher">A teacher or lecturer who knows someone</option><option value="online">A professional I found on LinkedIn</option><option value="local">Someone working at a place near me</option></select></label>
+    <label><span>How will you contact them?</span><select name="channel"><option value="whatsapp">WhatsApp message</option><option value="linkedin">LinkedIn message</option><option value="email">Email</option><option value="person">In person or phone call</option></select></label>
+    <label><span>What do you want to learn most?</span><select name="goal"><option value="daily">What the daily work is really like</option><option value="entry">How people got their first job or seat</option><option value="friction">What is harder than outsiders expect</option><option value="evidence">What a beginner can make or practise first</option></select></label>
+    <label><span>How much of their time will you ask for?</span><select name="time"><option value="msg">Five short questions by message</option><option value="call">A 15 minute phone or video call</option><option value="meet">20 minutes in person</option></select></label>
+    <div class="iip-row">
+      <label><span>Their name (optional)</span><input name="theirName" maxlength="80" placeholder="For example: Ravi garu" autocomplete="off" /></label>
+      <label><span>Your name and class or college (optional)</span><input name="yourName" maxlength="120" placeholder="For example: Lakshmi, B.Sc Year 2" autocomplete="off" /></label>
+    </div>
+    <label><span>What will you do with what you learn? (optional)</span><textarea name="next" rows="2" maxlength="600" placeholder="For example: compare with a second person, or try a small task"></textarea></label>
+    <div class="iip-actions"><button class="iip-primary" type="submit">Create my conversation plan</button><button type="button" data-iip="clear">Clear</button></div>
     <p id="iip-status" class="iip-status" role="status" aria-live="polite"></p>
   </form>
   <div id="iip-result" class="iip-result" hidden></div>
 </section>
 <script>
-  type IipField = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
-  type IipForm = Omit<HTMLFormElement, 'querySelectorAll'> & { querySelectorAll(selectors: string): NodeListOf<IipField> };
-  const iipForm = document.querySelector<HTMLFormElement>('#iip-form') as IipForm | null;
-  const iipResult = document.querySelector<HTMLDivElement>('#iip-result');
-  const iipStatus = document.querySelector<HTMLParagraphElement>('#iip-status');
-  const iipClear = document.querySelector<HTMLButtonElement>('[data-iip="clear"]');
-  if (!iipForm || !iipResult || !iipStatus || !iipClear) throw new Error('Informational interview planner markup is incomplete.');
-  const iipEsc = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c] || c));
-  iipForm.addEventListener('submit', (event) => { event.preventDefault(); if (!iipForm.checkValidity()) { iipForm.reportValidity(); return; } const data = Object.fromEntries([...iipForm.querySelectorAll('input,select,textarea')].map((field) => [field.name, field.value])); const goal = { daily: 'Ask what a normal week contains, including the repetitive or inconvenient parts.', entry: 'Ask which first steps, qualifications and proof helped-and which were unnecessary.', friction: 'Ask what surprised them, what is difficult to sustain, and what outsiders misunderstand.', evidence: 'Ask what a beginner could make or practise to receive useful feedback.' }[data.goal]; const first = Number(data.respect) < 2 ? 'Write a short request that names the topic, time needed and permission to decline.' : 'Send the focused request and prepare three open questions before the conversation.'; iipResult.innerHTML = `<div class="iip-lead"><span>${iipEsc(data.direction)} · research plan</span><h3>One conversation, one next test</h3><p>This plan helps you collect a perspective; it does not prove that the route fits you or predict an outcome.</p></div><div class="iip-grid"><article><b>First action</b><p>${iipEsc(first)}</p></article><article><b>Learning question</b><p>${iipEsc(goal)}</p></article><article><b>Your follow-up</b><p>${data.next ? iipEsc(data.next) : 'Write what you will test or verify after the conversation.'}</p></article></div><div class="iip-next"><h3>Question set</h3><ul><li>What does a typical week involve, and which part takes more time than people expect?</li><li>What did you have to learn or prove before someone trusted you with real work?</li><li>What would you test for two weeks before paying for a course or leaving another route?</li><li>What should I verify from an official source rather than rely on personal experience?</li><li>May I send one brief follow-up question, and is it okay if I do not quote you publicly?</li></ul></div>`; iipResult.hidden = false; iipStatus.textContent = 'Interview plan created from your answers; nothing was sent.'; });
-  iipClear.addEventListener('click', () => { iipForm.reset(); iipResult.hidden = true; iipStatus.textContent = 'Cleared.'; });
+  import { esc, fmtDate, addDays, actionsHtml, stepsHtml, bindActions, checkRequired, clearInvalidOnInput, fillExample, showResult, tidy, copyText, soft, type Sheet } from '../scripts/counsellingToolKit';
+  const form = document.querySelector<HTMLFormElement>('#iip-form');
+  const result = document.querySelector<HTMLDivElement>('#iip-result');
+  const status = document.querySelector<HTMLParagraphElement>('#iip-status');
+  const exampleButton = document.querySelector<HTMLButtonElement>('[data-iip="example"]');
+  const clearButton = document.querySelector<HTMLButtonElement>('[data-iip="clear"]');
+  if (!form || !result || !status || !exampleButton || !clearButton) throw new Error('Informational interview planner markup is incomplete.');
+  const URL_ = 'https://futurecareerschool.com/tools/informational-interview-planner/';
+  let sheet: Sheet | null = null;
+  let messageText = '';
+  clearInvalidOnInput(form);
+  const val = (name: string) => tidy(String((form.elements.namedItem(name) as HTMLInputElement | null)?.value ?? ''));
+  const goals: Record<string, { q: string; ask: string }> = {
+    daily: { q: 'What does a normal week look like, and which part takes more time than people expect?', ask: 'what the daily work is really like' },
+    entry: { q: 'How did you get your first job or seat, and what would you do differently today?', ask: 'how people get started' },
+    friction: { q: 'What surprised you, and what is hard to keep doing month after month?', ask: 'what is hard about this work' },
+    evidence: { q: 'If a beginner wanted to show you something useful, what small thing could they make or practise first?', ask: 'what a beginner can practise first' },
+  };
+  const timeAsk: Record<string, string> = { msg: 'five short questions by message, whenever it suits you', call: 'a 15 minute call at a time that suits you', meet: '20 minutes to meet at a place and time that suits you' };
+
+  const buildMessage = (channel: string, direction: string, goal: string, time: string, them: string, me: string) => {
+    const hello = them ? `Hello ${them},` : 'Hello,';
+    const who = me ? `I am ${me}.` : 'I am a student.';
+    const body = `${who} I am trying to understand what working in ${soft(direction)} is really like before I choose my course. May I ask you ${timeAsk[time]}? I would like to learn ${goals[goal].ask}.`;
+    const close = 'It is completely fine to say no or to reply later. Thank you for reading.';
+    if (channel === 'email') return `Subject: Student request for a short conversation about ${soft(direction)}\n\n${hello}\n\n${body} ${close}\n\nRegards,\n${me || '[your name]'}`;
+    if (channel === 'person') return `What to say when you meet or call:\n"${hello.replace(',', '.')} ${body} ${close}"`;
+    return `${hello}\n\n${body} ${close}`;
+  };
+
+  const build = () => {
+    const direction = val('direction'), who = val('who'), channel = val('channel'), goal = val('goal');
+    const time = channel === 'person' && val('time') === 'msg' ? 'meet' : (channel !== 'person' && val('time') === 'meet' ? 'call' : val('time'));
+    const them = val('theirName'), me = val('yourName'), next = val('next');
+    const start = new Date(); const d = (n: number) => fmtDate(addDays(n, start));
+    const message = buildMessage(channel, direction, goal, time, them, me);
+    messageText = message;
+    const thanks = `Hello${them ? ' ' + them : ''}, thank you for your time today. What helped me most was [one thing you learned]. I will [what you will do next]. Thank you again.`;
+    const questions = [goals[goal].q, 'What did you have to learn or show before someone trusted you with real work?', 'What would you test for two weeks before paying for a course or changing your plan?', 'What should I check on an official website instead of relying on one person\'s experience?', 'May I send one short follow-up question later, and is it okay if I mention what I learned without using your name?'];
+    const steps = [
+      { when: `Today`, text: 'Write down three people you could ask. Most people are busy, so asking three gives you a fair chance of one reply.' },
+      { when: `By ${d(2)}`, text: `Send the message below to the first person. If they do not reply, send it to the next person after ${d(5)}.` },
+      { when: `By ${d(7)}`, text: 'If there is still no reply, send one polite reminder, then leave it. Do not message again and again.' },
+    ];
+    const after = [
+      `On the day of the conversation: take notes in the three columns "What I heard", "What surprised me" and "What I must check myself". Send the thank-you message the same day.`,
+      `Within 3 days: write three lines about what changed in your thinking${next ? `. You planned to: ${next}` : ''}.`,
+      `Within 14 days (by ${d(14)}): speak to a second person in the same field, so you hear a different view.`,
+    ];
+    const safety = who === 'online' || who === 'local'
+      ? 'You will be speaking to someone you do not know. If you are under 18, tell a parent or teacher who you are contacting, prefer a call or video call, and meet only in a public place with an adult who knows. Never share your address, Aadhaar, bank or OTP details.'
+      : 'If you are under 18, tell a parent or teacher who you are contacting. Never share your address, Aadhaar, bank or OTP details.';
+    const etiquette = ['Do not ask for a job, internship or recommendation in this first conversation.', 'Do not ask about their salary, employer secrets or other private matters.', 'Be on time, keep to the time you asked for, and thank them.', 'Treat the answers as one person\'s view. Check fees, eligibility and rules on the official website of the college, exam body or employer.'];
+    sheet = {
+      title: `Conversation plan: ${direction}`,
+      sub: `Made on ${d(0)}. Goal: learn ${goals[goal].ask}.`,
+      sections: [
+        { h: 'Your next three steps', ol: steps.map((s) => `${s.when}: ${s.text}`) },
+        { h: 'Message to send', p: message.split('\n').filter(Boolean) },
+        { h: 'Five questions to ask', ol: questions },
+        { h: 'Thank-you message', p: [thanks] },
+        { h: 'After the conversation', ul: after },
+        { h: 'Good manners and safety', ul: [...etiquette, safety] },
+      ],
+    };
+    result.innerHTML = `<div class="iip-lead"><span>${esc(direction)} · conversation plan</span><h3>One message today, one conversation this week</h3><p>This plan helps you hear one real perspective. It does not show that the route suits you or predict an outcome.</p></div>
+      <h4>Your next three steps</h4>${stepsHtml(steps)}
+      <h4>Message to send</h4><pre class="iip-msg fcs-wrap">${esc(message)}</pre><button type="button" class="fcs-btn" data-iip="copy-msg">Copy only this message</button>
+      <h4>Five questions to ask</h4><ol class="iip-q">${questions.map((q) => `<li>${esc(q)}</li>`).join('')}</ol>
+      <h4>Thank-you message for the same day</h4><pre class="iip-msg fcs-wrap">${esc(thanks)}</pre>
+      <div class="iip-next"><h4>After the conversation</h4><ul>${after.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>
+      <div class="iip-next"><h4>Good manners and safety</h4><ul>${[...etiquette, safety].map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>
+      <p class="iip-human">Not sure whom to ask? Your school or college teacher, or a <a href="https://futurecareerschool.com/services/career-counselling-and-career-guidance/student-career-guidance/">career counsellor</a>, can often suggest one person.</p>
+      ${actionsHtml()}`;
+    showResult(result);
+  };
+
+  form.addEventListener('submit', (event) => { event.preventDefault(); if (!checkRequired(form, status)) return; build(); status.textContent = 'Your plan is ready below. Nothing was sent anywhere.'; });
+  form.addEventListener('input', () => { if (!result.hidden) status.textContent = 'You changed an answer. Tap "Create my conversation plan" again to update the result.'; });
+  result.addEventListener('click', async (event) => { if (!(event.target as HTMLElement).closest('[data-iip="copy-msg"]')) return; status.textContent = (await copyText(messageText)) ? 'Message copied. Paste it into WhatsApp, LinkedIn or email.' : 'Copy did not work. Press and hold the message text to select and copy it.'; });
+  exampleButton.addEventListener('click', () => {
+    fillExample(form, { direction: 'Data analysis', who: 'senior', channel: 'whatsapp', goal: 'entry', time: 'msg', theirName: 'Ravi garu', yourName: 'Lakshmi, B.Sc Year 2', next: 'Try one small task and talk to a second person' });
+    status.textContent = 'Example filled in. Change anything, then tap "Create my conversation plan".';
+  });
+  clearButton.addEventListener('click', () => { form.reset(); result.hidden = true; result.innerHTML = ''; sheet = null; messageText = ''; form.querySelectorAll('.fcs-invalid').forEach((el) => el.classList.remove('fcs-invalid')); status.textContent = 'Cleared.'; });
+  bindActions(result, () => sheet, URL_, status);
 </script>
-<style>
-  .iip{margin:2rem 0;padding:1.5rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05)}.iip h2{margin:.2rem 0 .6rem}.iip>p{max-width:800px;line-height:1.65}.iip-note,.iip-status{color:rgba(255,255,255,.68);font-size:.88rem}.iip-form{display:grid;gap:1rem;margin-top:1.4rem}.iip-form label{display:grid;gap:.4rem;font-weight:650;font-size:.9rem}.iip-form input,.iip-form select,.iip-form textarea{width:100%;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400}.iip-actions{display:flex;gap:.6rem;flex-wrap:wrap}.iip-actions button{min-height:44px;padding:.55rem .85rem;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;cursor:pointer}.iip-primary{background:#129a8d!important;border-color:#129a8d!important;font-weight:700}.iip-result{margin-top:1.3rem}.iip-lead{padding:1.1rem;border-left:3px solid #2dd4bf;background:rgba(45,212,191,.08)}.iip-lead span{color:#8de4d8;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em}.iip-lead h3{margin:.4rem 0;font-size:1.5rem}.iip-lead p,.iip-grid p,.iip-next li{line-height:1.6;color:rgba(255,255,255,.75)}.iip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-top:.8rem}.iip-grid article,.iip-next{padding:.9rem;border:1px solid rgba(255,255,255,.15);border-radius:10px}.iip-next{margin-top:.8rem;border-color:rgba(229,184,74,.35);background:rgba(229,184,74,.06)}.iip-next h3{margin-top:0}@media(max-width:760px){.iip-grid{grid-template-columns:1fr}}
+<style is:global>
+  .iip{margin:2rem 0;padding:1.5rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05)}.iip h2{margin:.2rem 0 .6rem}.iip>p{max-width:800px;line-height:1.65}.iip-note,.iip-status{color:rgba(255,255,255,.72);font-size:.9rem}.iip-form{display:grid;gap:1rem;margin-top:1.2rem}.iip-form label{display:grid;gap:.4rem;font-weight:650;font-size:.95rem}.iip-form input,.iip-form select,.iip-form textarea{width:100%;min-height:44px;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.25);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;font-weight:400}.iip-form select option{color:#111}.iip-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.iip-actions{display:flex;gap:.6rem;flex-wrap:wrap}.iip-actions button,.iip-example{min-height:44px;padding:.55rem .95rem;border:1px solid rgba(255,255,255,.28);border-radius:10px;background:rgba(255,255,255,.08);color:#fff;font:inherit;cursor:pointer}.iip-example{justify-self:start;border-style:dashed;color:#f7d88c;font-weight:650}.iip-primary{background:#129a8d!important;border-color:#129a8d!important;font-weight:700}.iip-result{margin-top:1.3rem;scroll-margin-top:5rem}.iip-result h4{margin:1.1rem 0 .4rem;color:#fff}.iip-lead{padding:1.1rem;border-left:3px solid #2dd4bf;background:rgba(45,212,191,.08)}.iip-lead span{color:#8de4d8;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;overflow-wrap:anywhere}.iip-lead h3{margin:.4rem 0;font-size:1.35rem;line-height:1.35}.iip-lead p,.iip-q li,.iip-next li,.iip-human{line-height:1.6;color:rgba(255,255,255,.82)}.iip-msg{margin:0 0 .6rem;padding:.9rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(0,0,0,.25);color:#fff;font:inherit;font-size:.95rem;line-height:1.6;white-space:pre-wrap}.iip-next{margin-top:.8rem;padding:.9rem;border:1px solid rgba(229,184,74,.38);border-radius:10px;background:rgba(229,184,74,.06)}.iip-next h4{margin-top:0}.iip-human a{color:#8de4d8;text-decoration:underline}@media(max-width:650px){.iip{padding:1rem}.iip-row{grid-template-columns:1fr}}
 </style>

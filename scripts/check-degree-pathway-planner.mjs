@@ -7,4 +7,4 @@ for (const [label, source, needles] of [
   ['component', component, ['dpp-form', 'dpp-data', '30-day project', 'No answers are saved or sent']],
   ['config', config, ['political-science', 'botany', 'forensic-science', 'bca', 'routeCheck']],
 ]) for (const needle of needles) if (!source.includes(needle)) throw new Error(`Degree pathway planner ${label} is missing ${needle}.`);
-console.log('Degree pathway planner contract passed: four subject families, work signals, project evidence and route limits are present.');
+console.log('Degree pathway planner contract passed: ten degree families, work signals, project evidence and route limits are present.');

@@ -1,33 +1,87 @@
 <section class="pqc" id="portfolio-quality-checker" aria-labelledby="pqc-title">
   <p class="eyebrow">EVIDENCE CHECKER</p>
-  <h2 id="pqc-title">Find the evidence your portfolio is missing</h2>
-  <p>Check whether a reviewer can understand the problem, your contribution, your decisions, the result and what you learned. This is a clarity checklist-not a talent or hiring score.</p>
-  <p class="pqc-note"><b>Limit:</b> the result reflects only your answers. It does not validate the work, predict selection, or replace feedback from a relevant reviewer.</p>
+  <h2 id="pqc-title">Find what your portfolio is missing</h2>
+  <p>A reviewer should quickly see the problem, what you did, how you decided, the result and what you learned. Answer six quick questions and get fixes in plain words, three dated steps and a write-up you can copy for each project.</p>
+  <p class="pqc-note"><b>Limit:</b> the result reflects only your answers. It does not judge the quality of the work, predict selection or replace feedback from someone who works in the field. Your answers stay in this browser.</p>
   <form id="pqc-form" class="pqc-form" novalidate>
-    <label>Portfolio direction<input name="direction" maxlength="140" placeholder="For example, UX design, data analysis or content" required /></label>
-    <label>How many finished projects can someone inspect?<select name="projects"><option value="0">None yet</option><option value="1">One</option><option value="2">Two or three</option><option value="3">Four or more</option></select></label>
-    <label>Does each project explain the original problem or audience?<select name="context"><option value="0">Not yet</option><option value="1">Somewhat</option><option value="2">Clearly</option></select></label>
-    <label>Can a reviewer see your process and decisions?<select name="process"><option value="0">Only the final result</option><option value="1">Some notes</option><option value="2">Clear iterations and reasoning</option></select></label>
-    <label>Can someone inspect the actual artifact or output?<select name="artifact"><option value="0">No or broken link</option><option value="1">Partly</option><option value="2">Yes, with a clear explanation</option></select></label>
-    <label>Do you show feedback or an observable outcome?<select name="feedback"><option value="0">No</option><option value="1">Some feedback</option><option value="2">Feedback and outcome evidence</option></select></label>
-    <label>Do you state limitations and what you would improve?<select name="reflection"><option value="0">No</option><option value="1">Briefly</option><option value="2">Clearly and specifically</option></select></label>
-    <div class="pqc-actions"><button class="pqc-primary" type="submit">Check portfolio evidence</button><button type="button" data-pqc="clear">Clear</button></div>
+    <button type="button" class="pqc-example" data-pqc="example">Try an example</button>
+    <label><span>What kind of portfolio is this?</span><input name="direction" maxlength="140" placeholder="For example: graphic design, data analysis, writing, coding" autocomplete="off" required /></label>
+    <label><span>1. How many finished projects can someone open and look at?</span><select name="projects"><option value="0">None yet</option><option value="1">One</option><option value="2">Two or three</option><option value="3">Four or more</option></select></label>
+    <label><span>2. Does each project say who it was for and what problem it solved?</span><select name="context"><option value="0">Not yet</option><option value="1">Somewhat</option><option value="2">Clearly</option></select></label>
+    <label><span>3. Can a reviewer see how you worked and why you decided things?</span><select name="process"><option value="0">Only the final result</option><option value="1">Some notes</option><option value="2">Clear steps and reasons</option></select></label>
+    <label><span>4. Can someone open the real work from a link or file?</span><select name="artifact"><option value="0">No, or the link is broken</option><option value="1">Partly</option><option value="2">Yes, with a short explanation</option></select></label>
+    <label><span>5. Do you show feedback or a real result?</span><select name="feedback"><option value="0">No</option><option value="1">Some feedback</option><option value="2">Feedback and a real result</option></select></label>
+    <label><span>6. Do you say what was weak and what you would improve?</span><select name="reflection"><option value="0">No</option><option value="1">Briefly</option><option value="2">Clearly and specifically</option></select></label>
+    <div class="pqc-actions"><button class="pqc-primary" type="submit">Check my portfolio</button><button type="button" data-pqc="clear">Clear</button></div>
     <p id="pqc-status" class="pqc-status" role="status" aria-live="polite"></p>
   </form>
   <div id="pqc-result" class="pqc-result" hidden></div>
 </section>
 <script>
-  type PqcField = HTMLInputElement | HTMLSelectElement;
-  type PqcForm = Omit<HTMLFormElement, 'querySelectorAll'> & { querySelectorAll(selectors: string): NodeListOf<PqcField> };
-  const pqcForm = document.querySelector<HTMLFormElement>('#pqc-form') as PqcForm | null;
-  const pqcResult = document.querySelector<HTMLDivElement>('#pqc-result');
-  const pqcStatus = document.querySelector<HTMLParagraphElement>('#pqc-status');
-  const pqcClear = document.querySelector<HTMLButtonElement>('[data-pqc="clear"]');
-  if (!pqcForm || !pqcResult || !pqcStatus || !pqcClear) throw new Error('Portfolio quality checker markup is incomplete.');
-  const pqcEsc = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c] || c));
-  pqcForm.addEventListener('submit', (event) => { event.preventDefault(); if (!pqcForm.checkValidity()) { pqcForm.reportValidity(); return; } const data = Object.fromEntries([...pqcForm.querySelectorAll('input,select')].map((field) => [field.name, field.value])); const items = [['finished projects', data.projects],['problem or audience',data.context],['process and decisions',data.process],['inspectable artifact',data.artifact],['feedback or outcome',data.feedback],['limitations and reflection',data.reflection]]; const score = items.reduce((sum, [,value]) => sum + Number(value || 0), 0); const gaps = items.filter(([,value]) => Number(value || 0) < 2).map(([label]) => label); const band = score >= 10 ? 'strong evidence structure' : score >= 6 ? 'partly explained evidence' : 'a portfolio that needs a clearer proof layer'; pqcResult.innerHTML = `<div class="pqc-lead"><span>${pqcEsc(data.direction)} · evidence structure</span><h3>${pqcEsc(band)} · ${score}/12</h3><p>The score checks explainability, not ability or hiring likelihood.</p></div><div class="pqc-grid"><article><b>Improve first</b><p>${gaps.length ? pqcEsc(gaps.slice(0, 3).join(', ')) : 'No major evidence gap was marked in this checklist.'}</p></article><article><b>Next 14-day output</b><p>Choose one project, write its context and decisions, publish a working artifact, ask one relevant person for feedback, and record one limitation.</p></article></div><div class="pqc-next"><h3>Keep the proof honest</h3><ul><li>State exactly what you did and what other people contributed.</li><li>Show iterations, not only a polished final screenshot.</li><li>Separate an observed outcome from an expectation or claim.</li><li>Remove private, confidential or identifying material before sharing.</li></ul></div>`; pqcResult.hidden = false; pqcStatus.textContent = 'Checklist created from your answers; nothing was sent.'; });
-  pqcClear.addEventListener('click', () => { pqcForm.reset(); pqcResult.hidden = true; pqcStatus.textContent = 'Cleared.'; });
+  import { esc, fmtDate, addDays, actionsHtml, stepsHtml, bindActions, checkRequired, clearInvalidOnInput, fillExample, showResult, tidy, copyText, soft, type Sheet } from '../scripts/counsellingToolKit';
+  const form = document.querySelector<HTMLFormElement>('#pqc-form');
+  const result = document.querySelector<HTMLDivElement>('#pqc-result');
+  const status = document.querySelector<HTMLParagraphElement>('#pqc-status');
+  const exampleButton = document.querySelector<HTMLButtonElement>('[data-pqc="example"]');
+  const clearButton = document.querySelector<HTMLButtonElement>('[data-pqc="clear"]');
+  if (!form || !result || !status || !exampleButton || !clearButton) throw new Error('Portfolio quality checker markup is incomplete.');
+  const URL_ = 'https://futurecareerschool.com/tools/portfolio-quality-checker/';
+  let sheet: Sheet | null = null;
+  let templateText = '';
+  clearInvalidOnInput(form);
+  const val = (name: string) => tidy(String((form.elements.namedItem(name) as HTMLInputElement | null)?.value ?? ''));
+  // Every check scores 0 to 2, so the total is out of 12. Four or more projects scores the same as two or three.
+  const checks = [
+    { key: 'projects', name: 'Finished projects', answers: ['None yet', 'One', 'Two or three', 'Four or more'], fix: ['Finish one small project first. One project with a clear start and end is better than five half-done ones.', 'Add a second project that shows a different skill. Two or three good projects are enough to start.'], done: 'Put your best three first. A short portfolio is easier to review.' },
+    { key: 'context', name: 'Who it was for and the problem', answers: ['Not yet', 'Somewhat', 'Clearly'], fix: ['For each project, write two sentences: who it was for and what problem it solved.', 'Move the audience and the problem to the first line of each project.'], done: 'Keep the problem in the first line of every project.' },
+    { key: 'process', name: 'How you worked and decided', answers: ['Only the final result', 'Some notes', 'Clear steps and reasons'], fix: ['Add three to five lines on how you worked: your first idea, what you changed and why. Add one early draft or screenshot.', 'Show one before and after, and say why you changed it.'], done: 'Keep one before and after for each project.' },
+    { key: 'artifact', name: 'Real work people can open', answers: ['No, or the link is broken', 'Partly', 'Yes, with a short explanation'], fix: ['Fix or replace every broken link. Open each one on your phone in a private tab to see if it works for a stranger.', 'Add a line that says what the viewer is looking at and what to open first.'], done: 'Test your links again before every application.' },
+    { key: 'feedback', name: 'Feedback or a real result', answers: ['No', 'Some feedback', 'Feedback and a real result'], fix: ['Ask one person who knows the field to look at one project and give two comments. Add them under the project, with their permission.', 'Say what you changed after the feedback and what happened next.'], done: 'Keep only results that really happened.' },
+    { key: 'reflection', name: 'What was weak and what you would improve', answers: ['No', 'Briefly', 'Clearly and specifically'], fix: ['Write two lines for each project: one thing that was weak and what you would do differently.', 'Name exactly what you could not test or finish.'], done: 'Update this when you learn something new.' },
+  ];
+  const template = ['Project name:', 'Who it was for and the problem:', 'What I did (my part only):', 'One change I made and why:', 'Result or feedback (only what really happened):', 'What I would improve:', 'Link to open the work:'].join('\n');
+  const build = () => {
+    const direction = val('direction');
+    const levels = checks.map((c) => Math.min(2, Math.max(0, Number(val(c.key)) || 0)));
+    const score = levels.reduce((sum, v) => sum + v, 0);
+    const band = score >= 10 ? 'Clear evidence for a reviewer' : score >= 6 ? 'Partly explained: a few fixes will help' : 'Needs a clearer proof layer before you share it';
+    const start = new Date(); const d = (n: number) => fmtDate(addDays(n, start));
+    const gaps = checks.map((c, i) => ({ c, level: levels[i] })).filter((g) => g.level < 2).sort((a, b) => a.level - b.level);
+    const steps = [
+      { when: `By ${d(3)}`, text: gaps[0] ? gaps[0].c.fix[gaps[0].level] : 'Pick your best project and read it as a stranger would. Fix the first thing that confuses you.' },
+      { when: `By ${d(7)}`, text: gaps[1] ? gaps[1].c.fix[gaps[1].level] : 'Ask one person in the field to review your best project and send you two comments.' },
+      { when: `By ${d(14)}`, text: gaps[2] ? gaps[2].c.fix[gaps[2].level] : 'Make one short document or link with your best two projects and send it with your next application.' },
+    ];
+    templateText = template;
+    sheet = {
+      title: `Portfolio check: ${direction}`,
+      sub: `Made on ${d(0)}. ${band}. Score ${score} of 12.`,
+      sections: [
+        { h: 'Your next three steps', ol: steps.map((s) => `${s.when}: ${s.text}`) },
+        { h: 'Check by check', ul: checks.map((c, i) => `${c.name}: ${c.answers[Math.min(Number(val(c.key)) || 0, c.answers.length - 1)]}. ${levels[i] < 2 ? c.fix[levels[i]] : c.done}`) },
+        { h: 'Write-up to copy for each project', p: template.split('\n') },
+        { h: 'Keep the proof honest', ul: ['Say exactly what you did and what other people did.', 'Show your drafts, not only a polished final picture.', 'Keep what really happened apart from what you hope will happen.', 'Remove private, school or company material that is not yours to share.'] },
+      ],
+    };
+    result.innerHTML = `<div class="pqc-lead"><span>${esc(direction)} · portfolio check</span><h3>${esc(band)}</h3><p>Score <b>${score} of 12</b>. This checks how clearly your work is explained. It does not measure your talent or tell you if you will be selected.</p></div>
+      <h4>Your next three steps</h4>${stepsHtml(steps)}
+      <h4>Check by check</h4><div class="pqc-table">${checks.map((c, i) => `<article class="${levels[i] < 2 ? 'pqc-gap' : 'pqc-ok'}"><b>${esc(c.name)}</b><small>${esc(c.answers[Math.min(Number(val(c.key)) || 0, c.answers.length - 1)])} · ${levels[i]} of 2</small><p class="fcs-wrap">${esc(levels[i] < 2 ? c.fix[levels[i]] : c.done)}</p></article>`).join('')}</div>
+      <h4>Write-up to copy for each project</h4><pre class="pqc-msg fcs-wrap">${esc(template)}</pre><button type="button" class="fcs-btn" data-pqc="copy-template">Copy this write-up</button>
+      <div class="pqc-next"><h4>Keep the proof honest</h4><ul><li>Say exactly what you did and what other people did.</li><li>Show your drafts, not only a polished final picture.</li><li>Keep what really happened apart from what you hope will happen.</li><li>Remove private, school or company material that is not yours to share.</li></ul></div>
+      <p class="pqc-own">A portfolio shows your work. A person in the field can tell you if it is good enough, so ask a teacher, senior or professional to look at it.</p>
+      ${actionsHtml()}`;
+    showResult(result);
+  };
+  form.addEventListener('submit', (event) => { event.preventDefault(); if (!checkRequired(form, status)) return; build(); status.textContent = 'Your check is ready below. Nothing was sent anywhere.'; });
+  form.addEventListener('input', () => { if (!result.hidden) status.textContent = 'You changed an answer. Tap "Check my portfolio" again to update the result.'; });
+  result.addEventListener('click', async (event) => { if (!(event.target as HTMLElement).closest('[data-pqc="copy-template"]')) return; status.textContent = (await copyText(templateText)) ? 'Write-up copied. Paste it into your notes and fill it in for each project.' : 'Copy did not work. Press and hold the text to select and copy it.'; });
+  exampleButton.addEventListener('click', () => {
+    fillExample(form, { direction: 'Graphic design', projects: '1', context: '1', process: '0', artifact: '1', feedback: '0', reflection: '0' });
+    status.textContent = 'Example filled in. Change anything, then tap "Check my portfolio".';
+  });
+  clearButton.addEventListener('click', () => { form.reset(); result.hidden = true; result.innerHTML = ''; sheet = null; templateText = ''; form.querySelectorAll('.fcs-invalid').forEach((el) => el.classList.remove('fcs-invalid')); status.textContent = 'Cleared.'; });
+  bindActions(result, () => sheet, URL_, status);
 </script>
-<style>
-  .pqc{margin:2rem 0;padding:1.5rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05)}.pqc h2{margin:.2rem 0 .6rem}.pqc>p{max-width:800px;line-height:1.65}.pqc-note,.pqc-status{color:rgba(255,255,255,.68);font-size:.88rem}.pqc-form{display:grid;gap:1rem;margin-top:1.4rem}.pqc-form label{display:grid;gap:.4rem;font-weight:650;font-size:.9rem}.pqc-form input,.pqc-form select{width:100%;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(255,255,255,.06);color:#fff;font:inherit;font-weight:400}.pqc-actions{display:flex;gap:.6rem;flex-wrap:wrap}.pqc-actions button{min-height:44px;padding:.55rem .85rem;border:1px solid rgba(255,255,255,.24);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;cursor:pointer}.pqc-primary{background:#129a8d!important;border-color:#129a8d!important;font-weight:700}.pqc-result{margin-top:1.3rem}.pqc-lead{padding:1.1rem;border-left:3px solid #2dd4bf;background:rgba(45,212,191,.08)}.pqc-lead span{color:#8de4d8;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em}.pqc-lead h3{margin:.4rem 0;font-size:1.5rem}.pqc-lead p,.pqc-grid p,.pqc-next li{line-height:1.6;color:rgba(255,255,255,.75)}.pqc-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-top:.8rem}.pqc-grid article,.pqc-next{padding:.9rem;border:1px solid rgba(255,255,255,.15);border-radius:10px}.pqc-next{margin-top:.8rem;border-color:rgba(229,184,74,.35);background:rgba(229,184,74,.06)}.pqc-next h3{margin-top:0}@media(max-width:650px){.pqc-grid{grid-template-columns:1fr}}
+<style is:global>
+  .pqc{margin:2rem 0;padding:1.5rem;border:1px solid rgba(18,154,141,.4);border-radius:18px;background:rgba(18,154,141,.05)}.pqc h2{margin:.2rem 0 .6rem}.pqc>p{max-width:800px;line-height:1.65}.pqc-note,.pqc-status{color:rgba(255,255,255,.72);font-size:.9rem}.pqc-form{display:grid;gap:1rem;margin-top:1.2rem}.pqc-form label{display:grid;gap:.4rem;font-weight:650;font-size:.95rem}.pqc-form input,.pqc-form select{width:100%;min-height:44px;padding:.65rem .75rem;border:1px solid rgba(255,255,255,.25);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;font:inherit;font-weight:400}.pqc-form select option{color:#111}.pqc-actions{display:flex;gap:.6rem;flex-wrap:wrap}.pqc-actions button,.pqc-example{min-height:44px;padding:.55rem .95rem;border:1px solid rgba(255,255,255,.28);border-radius:10px;background:rgba(255,255,255,.08);color:#fff;font:inherit;cursor:pointer}.pqc-example{justify-self:start;border-style:dashed;color:#f7d88c;font-weight:650}.pqc-primary{background:#129a8d!important;border-color:#129a8d!important;font-weight:700}.pqc-result{margin-top:1.3rem;scroll-margin-top:5rem}.pqc-result h4{margin:1.1rem 0 .4rem;color:#fff}.pqc-lead{padding:1.1rem;border-left:3px solid #2dd4bf;background:rgba(45,212,191,.08)}.pqc-lead span{color:#8de4d8;font-size:.78rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;overflow-wrap:anywhere}.pqc-lead h3{margin:.4rem 0;font-size:1.35rem;line-height:1.35}.pqc-lead p,.pqc-table p,.pqc-next li,.pqc-own{line-height:1.6;color:rgba(255,255,255,.82)}.pqc-table{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}.pqc-table article,.pqc-next{padding:.9rem;border:1px solid rgba(255,255,255,.16);border-radius:10px}.pqc-table .pqc-gap{border-color:rgba(229,184,74,.5);background:rgba(229,184,74,.06)}.pqc-table small{display:block;color:#8de4d8;margin:.2rem 0}.pqc-msg{margin:0 0 .6rem;padding:.9rem;border:1px solid rgba(255,255,255,.2);border-radius:10px;background:rgba(0,0,0,.25);color:#fff;font:inherit;font-size:.95rem;line-height:1.7;white-space:pre-wrap}.pqc-next{margin-top:.8rem;border-color:rgba(229,184,74,.38);background:rgba(229,184,74,.06)}.pqc-next h4{margin-top:0}@media(max-width:650px){.pqc{padding:1rem}.pqc-table{grid-template-columns:1fr}}
 </style>
