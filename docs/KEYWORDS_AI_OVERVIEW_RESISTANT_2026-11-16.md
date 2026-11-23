@@ -137,6 +137,18 @@ What I could not verify, and what you should do:
 - **Blog figures:** several pay figures (AmbitionBox ranges, Level 10 Rs 56,100, AIIMS posts) could not be re-verified; the reviewer reports list them. The generated figure captions on the 17 pages still read oddly and need regenerating.
 - **WHO IRIS link** for the life skills workbook should be opened once.
 
+## Third pass: practicality review (23 November 2026)
+
+Pushed in commit `13a185c558`. Every tool, test and recent blog page was reviewed as a first-time student, parent or fresher, then fixed.
+- **All 34 public tools:** a shared "What to do with your result" block with a WhatsApp help button and a WhatsApp share button.
+- **Student tools:** try-an-example buttons, "next three steps" with dates, and copy-for-WhatsApp results on both booklets, the questionnaire, marks, timetable, CGPA and life skills tools. The five course finders had a bug where ticking a subject stored "on" instead of the subject name; fixed.
+- **Money and planning tools:** worked examples, "when to talk to a person" lines, a table of options in the payback, optionality and provider tools, and fixes for a loss shown as Rs 0 and a portfolio score out of the wrong maximum. The EMI and CTC maths were re-checked by independent calculation.
+- **Counselling tools:** copy-as-text, one-page print sheets with working Telugu, a degree planner covering 10 degrees (was 4), and a route finder without the made-up percent match.
+- **Skill tests:** a "Done when" check on all 96 plan steps, three weaker situations replaced, and shared fixes: no more "keep using your strength" at 5 percent or a beginner deep dive at 100 percent, "1 point" singular, arrow keys between options, larger scale labels, and Copy and WhatsApp share buttons for the result.
+- **56 blog pages:** a dated "Do this week" block, about 64 dash clean-ups, softened brain-science claims on the introverts page, and four unsourced pay figures removed from the PCM page.
+
+Still open: figure captions and alt text were handled in your Round 11 commit, so recheck them. Unverified items remain labelled on the pages (state university CGPA formulas, the NDA subject rule, the Army TES entry rule, the DG Shipping agent list, tax slabs on the CTC page). The "Growth: financial freedom" line repeated on about 25 template pages comes from the generator and still needs a wording decision from you.
+
 ## Decisions for you
 
 1. **Local "near me" pages (Tier 3).** The business is online-first and based in Visakhapatnam. Pages for Bangalore, Chennai, Hyderabad, Delhi or Mumbai would claim a local presence that does not exist. Recommended: build only Visakhapatnam, Vizag and online-for-that-city pages, and skip "near me" pages for cities you do not serve. Tell me if you do serve other cities.
