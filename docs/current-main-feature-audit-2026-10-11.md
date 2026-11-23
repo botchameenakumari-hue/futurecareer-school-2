@@ -12,7 +12,7 @@ The separate false-positive review in `../SEPARATE_AUDIT_FALSE_POSITIVE_REVIEW.m
 
 ## Inventory evidence
 
-The current production build reports 1,586 generated pages. The checked output contains 1,585 HTML files and 1,248 sitemap locations. The source tree contains 1,245 page entry files, including 45 assessment entries and twenty-five tool-page entries. The source count includes the current page, data, and endpoint entry files; the built count includes the current redirect stubs and static routes.
+The current production output contains 1,603 HTML files and 1,266 sitemap locations. The source tree contains 1,263 page entry files, including 52 assessment entries and 36 tool-page entries. The source count includes the current page, data, and endpoint entry files; the built count includes the current redirect stubs and static routes.
 
 These counts were obtained from the current `src/pages`, `dist` and generated sitemap after the production build; they are not copied from the older audit snapshot.
 
@@ -95,11 +95,11 @@ The current verification chain passed after the latest changes:
 - Life-skills assessment contract: the distinct 25-question route, five domains, stage guidance, scenarios, report support and built output are present.
 - Student-parent intake contract and Chromium runtime: the browser-local worksheet saves locally, routes by stage and decision, and is linked from the after-12th chart context.
 - Resume evidence builder contract and Chromium runtime: the browser-local tool turns a real task into a checked draft bullet without inventing metrics, and is linked from the skill portfolio tracker.
-- Public-copy guardrail across 1,585 rendered HTML files.
-- 76,180 internal blog links with zero broken links across 899 rendered blog articles.
-- Internal URL check across 1,584 pages.
-- Page-media check across 1,278 pages.
-- Strict image audit across 1,240 pages with zero issues, including all 899 rendered blog articles.
+- Public-copy guardrail across 1,603 rendered HTML files.
+- 76,236 internal blog links with zero broken links across 899 rendered blog articles.
+- Internal URL check across 1,602 pages.
+- Page-media check across 1,296 pages.
+- Strict image audit across 1,258 pages with zero issues, including all 899 rendered blog articles.
 - Chromium interaction test for the education payback planner.
 - Audit-consistency contract: the documented remote SHA, source/HTML/tool counts, Class 12 route count, non-claims and data-strategy record match the current worktree.
 - Shared BOFU component contract: `BofuListCardSection` now accepts wrapper usage without a duplicate local title and conditionally renders its intro block; the production build and full verification gate pass after this correction.
