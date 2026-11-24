@@ -233,6 +233,19 @@ function categoryFiles(publicDir, category, pageSlug) {
 function generatedBlogFiles(publicDir, category, pageSlug) {
   const root = path.join(publicDir, 'images', 'blog', 'generated-r11', generatedBlogKey(category, pageSlug));
   if (!fs.existsSync(root)) return [];
+  const manifestPath = path.join(root, 'index.json');
+  if (fs.existsSync(manifestPath)) {
+    try {
+      const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+      return (manifest.visuals || [])
+        .slice(0, 5)
+        .map((visual) => visual.file)
+        .filter((file) => typeof file === 'string' && fs.existsSync(path.join(root, file)))
+        .map((file) => '/' + path.relative(publicDir, path.join(root, file)).split(path.sep).join('/'));
+    } catch {
+      return [];
+    }
+  }
   const order = { hero: 0, summary: 1, matrix: 2, chain: 3, checklist: 4, proof: 5, detail: 6 };
   return fs.readdirSync(root)
     .filter((name) => new RegExp(`^${pageSlug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}-(?:hero|summary|matrix|chain|checklist|proof|detail)(?:-\\d{2})?\\.webp$`).test(name))
@@ -507,17 +520,25 @@ function liveVisualFigure(visual, index, className) {
   if (!content) return visualFigure(visual, '', index, className);
   const heading = plainText(visual.heading || visual.caption || 'Career evidence').replace(/[:;]+$/, '').trim();
   let body = '';
-  if (content.kind === 'table') {
-    const columns = Array.isArray(content.columns) ? content.columns : [];
-    const rows = Array.isArray(content.rows) ? content.rows : [];
-    body = `<div class="article-live-table-wrap"><table><thead><tr>${columns.map((column) => `<th scope="col">${escapeHtml(column)}</th>`).join('')}</tr></thead><tbody>${rows.map((row) => `<tr>${columns.map((column, columnIndex) => `<td data-label="${escapeAttr(column)}">${escapeHtml(row?.[columnIndex] || '')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
-  } else if (content.kind === 'figures') {
-    const figures = Array.isArray(content.figures) ? content.figures : [];
-    body = `<div class="article-live-stats">${figures.map((figure) => `<div class="article-live-stat"><strong>${escapeHtml(figure.value || '')}</strong><span>${escapeHtml(figure.label || '')}</span><small>${escapeHtml(figure.source || '')}</small></div>`).join('')}</div>`;
-  } else {
-    const items = Array.isArray(content.items) ? content.items : [];
-    body = `<ul class="article-live-items">${items.map((item) => `<li class="article-live-item"><span class="article-live-item__label">${escapeHtml(item.heading || '')}</span><span class="article-live-item__text">${escapeHtml(item.text || '')}</span></li>`).join('')}</ul>`;
-  }
+  const renderBlock = (block) => {
+    if (block.kind === 'table') {
+      const columns = Array.isArray(block.columns) ? block.columns : [];
+      const rows = Array.isArray(block.rows) ? block.rows : [];
+      return `<div class="article-live-table-wrap"><table><thead><tr>${columns.map((column) => `<th scope="col">${escapeHtml(column)}</th>`).join('')}</tr></thead><tbody>${rows.map((row) => `<tr>${columns.map((column, columnIndex) => `<td data-label="${escapeAttr(column)}">${escapeHtml(row?.[columnIndex] || '')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+    }
+    if (block.kind === 'figures') {
+      const figures = Array.isArray(block.figures) ? block.figures : [];
+      return `<div class="article-live-stats">${figures.map((figure) => `<div class="article-live-stat"><strong>${escapeHtml(figure.value || '')}</strong><span>${escapeHtml(figure.label || '')}</span><small>${escapeHtml(figure.source || '')}</small></div>`).join('')}</div>`;
+    }
+    const items = Array.isArray(block.items) ? block.items : [];
+    const listTag = block.type === 'chain' ? 'ol' : 'ul';
+    const listClass = block.type === 'checklist' ? ' article-live-items--checklist' : block.type === 'chain' ? ' article-live-items--chain' : '';
+    return `<${listTag} class="article-live-items${listClass}">${items.map((item) => `<li class="article-live-item${item.heading ? '' : ' article-live-item--plain'}">${item.heading ? `<span class="article-live-item__label">${escapeHtml(item.heading)}</span>` : ''}<span class="article-live-item__text">${escapeHtml(item.text || '')}</span></li>`).join('')}</${listTag}>`;
+  };
+  if (content.kind === 'bundle') {
+    const blocks = Array.isArray(content.blocks) ? content.blocks : [];
+    body = `<div class="article-live-bundle">${blocks.map((block, blockIndex) => `<details class="article-live-need"${blockIndex === 0 ? ' open' : ''}><summary>${escapeHtml(block.heading || 'Section details')}</summary>${renderBlock(block)}</details>`).join('')}</div>`;
+  } else body = renderBlock(content);
   return `<figure class="${className} article-live-visual" data-visual-type="${escapeAttr(visual.type)}" role="group" aria-label="${escapeAttr(heading)}"><div class="article-live-card"><div class="article-live-card__kicker">${escapeHtml(liveVisualKicker(visual.type))}</div><h3>${escapeHtml(heading)}</h3>${body}</div><figcaption>${escapeHtml(visual.caption || heading)}</figcaption></figure>`;
 }
 
@@ -530,14 +551,20 @@ function visualFigure(visual, pageTitle, index, className) {
 function placeGeneratedVisuals(html, publicDir, generated, pageTitle, className, keywords) {
   if (!generated.length) return html;
   const visuals = generated.map((src) => visualDescriptor(src, publicDir, pageTitle));
-  let out = html.replace(/<figure\b[^>]*class="[^"]*\b(?:article-cover|article-visual|resource-visual|bofu-image)\b[^"]*"[^>]*>[\s\S]*?<\/figure>/gi, '');
+  const preserveBofuHero = className === 'resource-visual' && /<figure\b[^>]*class="[^"]*\bbofu-image\b[^"]*"/i.test(html);
+  let out = html.replace(/<figure\b[^>]*class="([^"]*)"[^>]*>[\s\S]*?<\/figure>/gi, (figure, classNames) => {
+    if (!/(?:^|\s)(?:article-cover|article-visual|resource-visual|bofu-image)(?:\s|$)/i.test(classNames)) return figure;
+    return preserveBofuHero && /(?:^|\s)bofu-image(?:\s|$)/i.test(classNames) ? figure : '';
+  });
   const hero = visuals.find((visual) => visual.type === 'hero') || visuals[0];
   const lead = /<p\b[^>]*class="[^"]*lead-para[^"]*"[^>]*>[\s\S]*?<\/p>/i.exec(out);
   const h1 = /<h1\b[^>]*>[\s\S]*?<\/h1>/i.exec(out);
   const at = lead ? lead.index + lead[0].length : h1 ? h1.index + h1[0].length : -1;
   const heroHtml = visualFigure(hero, pageTitle, 0, className);
-  if (at >= 0) out = out.slice(0, at) + '\n' + heroHtml + out.slice(at);
-  else out = insertAfterHeading(out, heroHtml, [], new Set());
+  if (!preserveBofuHero) {
+    if (at >= 0) out = out.slice(0, at) + '\n' + heroHtml + out.slice(at);
+    else out = insertAfterHeading(out, heroHtml, [], new Set());
+  }
   const used = new Set(); let index = 1;
   for (const visual of visuals) {
     if (visual === hero) continue;
