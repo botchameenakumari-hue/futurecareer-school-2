@@ -1,24 +1,13 @@
 // Audits the rendered site (dist/) against the visual-system rules.
-// Usage: pnpm build && node scripts/audit-images.mjs [--strict] [--include-excluded] [--scope=blog|services|all]
+// Usage: pnpm build && node scripts/audit-images.mjs [--strict] [--scope=blog|services|all]
 // Without --strict it only reports. With --strict it exits 1 when any rule fails.
-// The supplied brief explicitly excludes 38 blog routes. They are skipped by default;
-// use --include-excluded when auditing those routes deliberately.
 import { readdirSync, readFileSync, statSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 
 const strict = process.argv.includes('--strict');
-const includeExcluded = process.argv.includes('--include-excluded');
 const scope = (process.argv.find((a) => a.startsWith('--scope=')) || '--scope=all').split('=')[1];
 const dist = 'dist';
 const pub = 'public';
-
-const excludedBlogRoutes = new Set();
-if (!includeExcluded && existsSync('docs/image-audit/blog-summary.csv')) {
-  for (const line of readFileSync('docs/image-audit/blog-summary.csv', 'utf8').split(/\r?\n/).slice(1)) {
-    const [excluded, route] = line.split(',', 2);
-    if (excluded === '1' && route) excludedBlogRoutes.add(route.trim());
-  }
-}
 
 const walk = (dir) =>
   readdirSync(dir).flatMap((n) => {
@@ -73,7 +62,6 @@ for (const file of walk(dist)) {
   const route = '/' + file.slice(dist.length + 1).replaceAll('\\', '/').replace(/index\.html$/, '');
   const isBlog = /^\/blog\/[^/]+\/[^/]+\/$/.test(route);
   const isService = route.startsWith('/services/');
-  if (isBlog && excludedBlogRoutes.has(route)) continue;
   if (scope === 'blog' && !isBlog) continue;
   if (scope === 'services' && !isService) continue;
   const html = readFileSync(file, 'utf8');
@@ -102,13 +90,29 @@ for (const file of walk(dist)) {
     if (/\/visual-\d/.test(src)) fail('non-meaningful filename (visual-N)', route, src);
     const after = body.slice(body.indexOf(tag) + tag.length, body.indexOf(tag) + tag.length + 600);
     const isFigure = /^\s*<figcaption/.test(after) || /^[^<]*<\/picture>\s*<figcaption/.test(after);
+    if (isBlog && /\/images\/blog\/generated\//.test(src)) {
+      const imageAt = body.indexOf(tag);
+      const figureAt = body.lastIndexOf('<figure', imageAt);
+      const figureEndAt = body.lastIndexOf('</figure>', imageAt);
+      if (figureAt < 0 || figureEndAt > figureAt) fail('legacy generated image is outside a captioned figure', route, src);
+    }
     if (/article-visual|article-cover/.test(body.slice(Math.max(0, body.indexOf(tag) - 300), body.indexOf(tag)))) {
       articleVisuals += 1;
       if (!isFigure) fail('explanatory image has no caption', route, src);
     }
   }
   if (isBlog) {
-    if (imgs.length > 5) fail('blog page has more than five generated/editorial images', route, `${imgs.length} images`);
+    const visualFigures = [...body.matchAll(/<figure\b[^>]*class="[^"]*(?:article-visual|article-live-visual)[^"]*"[^>]*>[\s\S]*?<\/figure>/gi)];
+    const liveFigures = visualFigures.filter((match) => /\barticle-live-visual\b/.test(match[0]));
+    if (!route.startsWith('/blog/assessments/')) {
+      if (visualFigures.length > 5) fail('blog page has more than five generated/editorial visuals', route, `${visualFigures.length} figures`);
+      if (visualFigures.length < 4) fail('blog page has fewer than four generated/editorial visuals', route, `${visualFigures.length} figures`);
+      for (const match of liveFigures) {
+        if (!/<h3\b/.test(match[0])) fail('live infographic heading missing', route, '');
+        if (!/<figcaption\b[^>]*>\s*\S/.test(match[0])) fail('live infographic caption missing', route, '');
+        if (!/<details\b|<table\b|article-live-stat|article-live-item/.test(match[0])) fail('live infographic has no explanatory content', route, '');
+      }
+    }
     const spread = [...body.matchAll(/<img\b[^>]*src="\/images\/blog\/[^"]*"/g)].map((m) => m.index / body.length);
     if (spread.length >= 3 && Math.min(...spread) > 0.8) fail('all images clustered after the article', route, '');
   }

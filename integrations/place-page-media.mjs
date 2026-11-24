@@ -239,9 +239,11 @@ function generatedBlogFiles(publicDir, category, pageSlug) {
       const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
       return (manifest.visuals || [])
         .slice(0, 5)
-        .map((visual) => visual.file)
-        .filter((file) => typeof file === 'string' && fs.existsSync(path.join(root, file)))
-        .map((file) => '/' + path.relative(publicDir, path.join(root, file)).split(path.sep).join('/'));
+        // Support visuals with structured content render as responsive HTML;
+        // their old raster twins are not part of the page and need not exist.
+        .filter((visual) => typeof visual.file === 'string'
+          && (visual.content || fs.existsSync(path.join(root, visual.file))))
+        .map((visual) => '/' + path.relative(publicDir, path.join(root, visual.file)).split(path.sep).join('/'));
     } catch {
       return [];
     }
@@ -314,20 +316,49 @@ function headingTargets(html) {
     index,
     start: match.index,
     end: match.index + match[0].length,
+    id: (match[0].match(/\bid="([^"]+)"/i) || [])[1] || '',
     text: plainText(match[1]).toLowerCase(),
   }));
 }
 
 function insertAfterHeading(html, visual, keywords, used) {
   const headings = headingTargets(html);
-  const preferred = headings.find((heading) => !used.has(heading.index) && keywords.some((keyword) => heading.text.includes(keyword)));
+  const normalize = (value) => plainText(value).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').replace(/\s+/g, ' ').trim();
+  const stopWords = new Set(['the', 'a', 'an', 'for', 'to', 'of', 'and', 'in', 'on', 'by', 'with', 'you', 'your', 'what', 'how', 'who', 'this', 'from', 'before', 'after', 'around', 'at', 'it', 'is', 'are', 'should', 'why', 'gets', 'get', 'no', 'do', 'use', 'article', 'ideas', 'key', 'details', 'sections']);
+  const labels = [
+    ...[...visual.matchAll(/<h3\b[^>]*>([\s\S]*?)<\/h3>/gi)].map((match) => match[1]),
+    ...[...visual.matchAll(/<summary\b[^>]*>([\s\S]*?)<\/summary>/gi)].map((match) => match[1]),
+  ].map(normalize).filter((label) => label && !/^(?:key ideas from this article|section details|explore \d+ sections|open .* details)$/.test(label));
+  const sourceSections = (visual.match(/\bdata-source-sections="([^"]*)"/i)?.[1] || '').split(',').filter(Boolean);
+  const sourceTarget = sourceSections
+    // Source section IDs are authoritative even when another visual already
+    // uses the same section. Keep related cards beside their actual source
+    // instead of sending later cards to an unrelated unused heading.
+    .map((id) => headings.find((heading) => heading.id === id))
+    .find(Boolean);
+  const scored = headings.filter((heading) => !used.has(heading.index)).map((heading) => {
+    const headingText = normalize(heading.text);
+    const headingWords = new Set(headingText.split(' ').filter((word) => word.length > 2 && !stopWords.has(word)));
+    let score = 0;
+    for (const label of labels) {
+      if (label === headingText || label.includes(headingText) || headingText.includes(label)) score = Math.max(score, 100 + Math.min(headingText.length, label.length));
+      const labelWords = new Set(label.split(' ').filter((word) => word.length > 2 && !stopWords.has(word)));
+      const overlap = [...labelWords].filter((word) => headingWords.has(word)).length;
+      score = Math.max(score, overlap);
+    }
+    return { heading, score };
+  }).sort((a, b) => b.score - a.score || a.heading.index - b.heading.index);
+  const semantic = scored[0]?.score >= 2 ? scored[0].heading : null;
+  const preferred = sourceTarget || semantic || headings.find((heading) => !used.has(heading.index) && keywords.some((keyword) => heading.text.includes(keyword)));
   const target = preferred || headings.find((heading) => !used.has(heading.index));
   if (!target) {
     const closing = /<\/(?:main|article|body)>/i.exec(html);
     return closing ? html.slice(0, closing.index) + visual + '\n' + html.slice(closing.index) : html + visual;
   }
   used.add(target.index);
-  const at = target.end;
+  const following = html.slice(target.end);
+  const adjacentVisuals = /^(?:\s*<figure\b[^>]*\barticle-live-visual\b[^>]*>[\s\S]*?<\/figure>)*/i.exec(following)?.[0] || '';
+  const at = target.end + adjacentVisuals.length;
   return html.slice(0, at) + '\n' + visual + html.slice(at);
 }
 
@@ -524,7 +555,7 @@ function liveVisualFigure(visual, index, className) {
     if (block.kind === 'table') {
       const columns = Array.isArray(block.columns) ? block.columns : [];
       const rows = Array.isArray(block.rows) ? block.rows : [];
-      return `<div class="article-live-table-wrap"><table><thead><tr>${columns.map((column) => `<th scope="col">${escapeHtml(column)}</th>`).join('')}</tr></thead><tbody>${rows.map((row) => `<tr>${columns.map((column, columnIndex) => `<td data-label="${escapeAttr(column)}">${escapeHtml(row?.[columnIndex] || '')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+      return `<div class="article-live-table-wrap"><table><thead><tr>${columns.map((column) => `<th scope="col">${escapeHtml(column)}</th>`).join('')}</tr></thead><tbody>${rows.map((row) => `<tr>${columns.map((column, columnIndex) => `<td data-label="${escapeAttr(column)}">${escapeHtml(row?.[columnIndex] || '—')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
     }
     if (block.kind === 'figures') {
       const figures = Array.isArray(block.figures) ? block.figures : [];
@@ -535,11 +566,41 @@ function liveVisualFigure(visual, index, className) {
     const listClass = block.type === 'checklist' ? ' article-live-items--checklist' : block.type === 'chain' ? ' article-live-items--chain' : '';
     return `<${listTag} class="article-live-items${listClass}">${items.map((item) => `<li class="article-live-item${item.heading ? '' : ' article-live-item--plain'}">${item.heading ? `<span class="article-live-item__label">${escapeHtml(item.heading)}</span>` : ''}<span class="article-live-item__text">${escapeHtml(item.text || '')}</span></li>`).join('')}</${listTag}>`;
   };
+  const wordCount = (value) => (plainText(String(value || '')).match(/[\p{L}\p{N}]+(?:[’'-][\p{L}\p{N}]+)*/gu) || []).length;
+  const previewFor = (block) => {
+    if (block.kind === 'table') {
+      const columns = (block.columns || []).slice(0, 3);
+      return columns.length ? `Compare ${columns.join(', ')}` : '';
+    }
+    if (block.kind === 'figures') {
+      const figures = (block.figures || []).slice(0, 2);
+      return figures.map((figure) => `${figure.value || ''} ${figure.label || ''}`.trim()).join('; ');
+    }
+    const items = block.items || [];
+    const item = items.find((candidate) => wordCount(candidate.text) > 0 && wordCount(candidate.text) <= 16);
+    if (item) return item.text;
+    const step = (block.steps || []).find((candidate) => wordCount(candidate) > 0 && wordCount(candidate) <= 16);
+    return step || '';
+  };
+  const blocks = content.kind === 'bundle' ? Array.isArray(content.blocks) ? content.blocks : [] : [content];
+  const baseWords = wordCount(`${liveVisualKicker(visual.type)} ${heading} ${visual.caption || heading}`);
+  const disclosureLabel = content.kind === 'bundle' ? `Explore ${blocks.length} sections` : `Open ${visual.type} details`;
+  const previewBudget = Math.max(0, 40 - baseWords - wordCount(disclosureLabel));
+  // A bundle can contain several unrelated source sections. Choose any visible
+  // teaser only from its first block; searching later blocks can pair a card's
+  // heading with an unrelated short item (for example, a "next steps" link).
+  const firstBlockPreview = blocks.length ? previewFor(blocks[0]) : '';
+  const preview = firstBlockPreview && wordCount(firstBlockPreview) <= previewBudget ? firstBlockPreview : '';
+  const previewHtml = preview ? `<p class="article-live-preview">${escapeHtml(preview)}</p>` : '';
   if (content.kind === 'bundle') {
-    const blocks = Array.isArray(content.blocks) ? content.blocks : [];
-    body = `<div class="article-live-bundle">${blocks.map((block, blockIndex) => `<details class="article-live-need"${blockIndex === 0 ? ' open' : ''}><summary>${escapeHtml(block.heading || 'Section details')}</summary>${renderBlock(block)}</details>`).join('')}</div>`;
-  } else body = renderBlock(content);
-  return `<figure class="${className} article-live-visual" data-visual-type="${escapeAttr(visual.type)}" role="group" aria-label="${escapeAttr(heading)}"><div class="article-live-card"><div class="article-live-card__kicker">${escapeHtml(liveVisualKicker(visual.type))}</div><h3>${escapeHtml(heading)}</h3>${body}</div><figcaption>${escapeHtml(visual.caption || heading)}</figcaption></figure>`;
+    const expanded = blocks.map((block) => `<details class="article-live-need"><summary>${escapeHtml(block.heading || 'Section details')}</summary>${renderBlock(block)}</details>`).join('');
+    body = `<div class="article-live-bundle">${previewHtml}<details class="article-live-more"><summary>${escapeHtml(disclosureLabel)}</summary>${expanded}</details></div>`;
+  } else body = `<div class="article-live-bundle">${previewHtml}<details class="article-live-more"><summary>${escapeHtml(disclosureLabel)}</summary>${renderBlock(content)}</details></div>`;
+  const sourceSections = content.kind === 'bundle'
+    ? [...new Set((content.blocks || []).map((block) => block.sourceSectionId).filter(Boolean))]
+    : [content.sourceSectionId].filter(Boolean);
+  const sourceAttr = sourceSections.length ? ` data-source-sections="${escapeAttr(sourceSections.join(','))}"` : '';
+  return `<figure class="${className} article-live-visual" data-visual-type="${escapeAttr(visual.type)}"${sourceAttr} role="group" aria-label="${escapeAttr(heading)}"><div class="article-live-card"><div class="article-live-card__kicker">${escapeHtml(liveVisualKicker(visual.type))}</div><h3>${escapeHtml(heading)}</h3>${body}</div><figcaption>${escapeHtml(visual.caption || heading)}</figcaption></figure>`;
 }
 
 function visualFigure(visual, pageTitle, index, className) {
@@ -553,7 +614,7 @@ function placeGeneratedVisuals(html, publicDir, generated, pageTitle, className,
   const visuals = generated.map((src) => visualDescriptor(src, publicDir, pageTitle));
   const preserveBofuHero = className === 'resource-visual' && /<figure\b[^>]*class="[^"]*\bbofu-image\b[^"]*"/i.test(html);
   let out = html.replace(/<figure\b[^>]*class="([^"]*)"[^>]*>[\s\S]*?<\/figure>/gi, (figure, classNames) => {
-    if (!/(?:^|\s)(?:article-cover|article-visual|resource-visual|bofu-image)(?:\s|$)/i.test(classNames)) return figure;
+    if (!/(?:^|\s)(?:article-cover|article-visual|resource-visual|bofu-image|bofu-context-visual|compass-visual|locations-hub-visual)(?:\s|$)/i.test(classNames)) return figure;
     return preserveBofuHero && /(?:^|\s)bofu-image(?:\s|$)/i.test(classNames) ? figure : '';
   });
   const hero = visuals.find((visual) => visual.type === 'hero') || visuals[0];
@@ -577,7 +638,16 @@ function placeGeneratedVisuals(html, publicDir, generated, pageTitle, className,
 function replaceBlogVisuals(html, publicDir, category, pageSlug) {
   const h1 = (html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [])[1];
   const pageTitle = plainText(h1 || 'this career article');
-  return placeGeneratedVisuals(html, publicDir, generatedBlogFiles(publicDir, category, pageSlug), pageTitle, 'article-visual', {
+  // Older page files can contain generated raster diagrams as bare <img> tags
+  // between authored figures. The new responsive HTML figures replace those
+  // diagrams; leaving the old tags behind creates uncaptained duplicate visuals.
+  const withoutLegacyGeneratedImages = html
+    .replace(/<picture\b[^>]*>[\s\S]*?<\/picture>/gi, (picture) =>
+      /\/images\/blog\/generated\//i.test(picture) ? '' : picture,
+    )
+    .replace(/<img\b(?=[^>]*(?:src|srcset)="[^"]*\/images\/blog\/generated\/)[^>]*>/gi, '')
+    .replace(/<picture\b[^>]*>\s*<\/picture>/gi, '');
+  return placeGeneratedVisuals(withoutLegacyGeneratedImages, publicDir, generatedBlogFiles(publicDir, category, pageSlug), pageTitle, 'article-visual', {
     summary: ['overview', 'why', 'what', 'meaning'], matrix: ['compare', 'comparison', 'options', 'paths', 'difference'], chain: ['steps', 'process', 'roadmap', 'plan', 'become', 'build'], checklist: ['checklist', 'questions', 'mistakes', 'avoid', 'choose'], proof: ['salary', 'pay', 'cost', 'fee', 'money', 'budget', 'time', 'years'], detail: ['background', 'context', 'why', 'what', 'overview'],
   });
 }
