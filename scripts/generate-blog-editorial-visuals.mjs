@@ -1,6 +1,6 @@
 /* Round 11 source-driven visual generator. Hero artwork remains raster; explanatory
  * visuals also carry structured content so the site can render them as live cards. */
-import { readFile, readdir, mkdir, writeFile } from 'node:fs/promises';
+import { readFile, readdir, mkdir, unlink, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { parse } from 'parse5';
 import sharp from '../node_modules/.pnpm/sharp@0.33.5/node_modules/sharp/lib/index.js';
@@ -15,6 +15,7 @@ const plainLanguageEdits = new Map(Object.entries({
   '/blog/freelancing-business/business-ideas-for-students/': [['Age and Rules GATE, Before Any Idea', 'Check age rules before choosing a business idea.']],
   '/blog/career-options/career-in-finance-vs-accounting-india/': [['Finance roles (financial analyst, investment banking, corporate finance, equity research) have no licensing exam GATE; entry depends on skill, resume, and interview performance.', 'Finance roles (financial analyst, investment banking, corporate finance, equity research) do not require a licensing exam; entry depends on skill, resume, and interview performance.']],
   '/blog/career-options/career-options-after-12th-except-medical/': [['entry gate for each', 'entry requirement for each'], ['GATE for', 'Entry requirement for'], ['opposite gate.', 'different entry requirement.'], ['opposite gates', 'different entry requirements']],
+  '/blog/career-options/is-psychology-a-good-career-in-india/': [['The four questions tells you whether psychology fits on paper.', 'The four questions tell you whether psychology fits on paper.']],
   '/blog/career-options/mathematics-career-options/': [['Read the GATE before the glamour.', 'Check the entry requirements before the glamour.']],
   '/blog/career-options/biology-career-options-after-12th/': [['Ask for the second GATE, not only the first.', 'Ask what comes after the first entrance exam.'], ['GATE', 'Entrance Exam']],
   '/blog/career-options/career-options-after-12th-humanities/': [['GATE Many Humanities Students Discover Too Late', 'Maths Requirement Many Humanities Students Discover Too Late']],
@@ -58,9 +59,40 @@ const plainLanguageEdits = new Map(Object.entries({
   '/blog/parents/how-to-guide-child-in-career-selection-india/': [['Start conversations early (class 8-9 is not too soon), ask open questions instead of stating conclusions, use a free assessment as one input rather than the final word, a', 'Start early, ask open questions, and treat assessments as one input.']],
   '/blog/career-options/career-in-home-science/': [['Use the same four steps every time you compare two serious tracks from .', 'Use four questions to compare serious home science career tracks.']],
 }));
+const topicOverrides = new Map([
+  ['/blog/career-options/career-options-for-people-good-at-communication-india/', 'Communication Career Paths'],
+  ['/blog/career-options/is-engineering-still-a-good-career-in-india/', 'Engineering Career Outlook'],
+  ['/blog/career-options/good-career-options-in-india/', 'Career Options in India'],
+]);
+const needHeadingOverrides = new Map([
+  ['/blog/career-options/career-options-for-people-good-at-communication-india/', { currencies: 'Four Communication Skill Currencies', lanes: 'Five Communication Career Lanes', demand: 'Communication Industry Growth and Size' }],
+  ['/blog/career-options/is-engineering-still-a-good-career-in-india/', { 'why-asking': 'Engineering Graduates and New Demand', 'ai-impact': 'Engineering Tasks AI Is Changing', parents: 'Questions Engineering Families Should Ask' }],
+  ['/blog/career-options/good-career-options-in-india/', { paths: 'Thirteen Career Paths', 'what-makes-good': 'How to Judge Career Fit' }],
+]);
+const visualHeadingOverrides = new Map([
+  ['/blog/career-options/career-options-for-people-good-at-communication-india/', { matrix: 'Communication Skills and Career Lanes', proof: 'Communication Career Market Figures', chain: 'Mistakes to Avoid When Choosing a Lane' }],
+  ['/blog/career-options/is-engineering-still-a-good-career-in-india/', { matrix: 'Engineering Seats and Enrolment', checklist: 'Check Your Engineering Career Fit' }],
+  ['/blog/career-options/good-career-options-in-india/', { proof: 'Career Route Figures', checklist: 'Questions for Comparing Career Routes' }],
+]);
 const heroAnswerOverrides = new Map([
   ['/services/career-counselling-and-career-guidance/career-counselling-for-college-students/', 'Use internships and specialization to build real proof before graduation.'],
   ['/blog/career-options/how-to-get-into-event-management-india/', 'Start with an event role; build proof before working independently.'],
+  ['/blog/career-options/career-options-for-people-good-at-communication-india/', 'Name your strongest currency and build one visible proof inside the matching lane.'],
+]);
+const heroRouteFigureOverrides = new Map([
+  ['/blog/career-options/career-options-for-people-good-at-communication-india/', [
+    { value: '₹3,230 crore', label: 'PR Industry Revenue' },
+    { value: '11%', label: 'PR Industry Growth' },
+    { value: '12.6%', label: 'Regional Market Share' },
+  ]],
+]);
+const heroRouteLabelOverrides = new Map([
+  ['/services/career-counselling-and-career-guidance/locations/career-counselling-in-raipur/', ['Young State Context', 'Steel Power Mining', 'AIIMS and IIM Paths']],
+  ['/blog/career-change/career-switch-tips-for-it-professionals-india/', ['Company Switch', 'Tech Stack Change', 'Move to Management']],
+  ['/blog/career-change/second-career-at-40-india/', ['Consulting Path', 'Return to Work', 'Income Transition']],
+  ['/blog/career-options/hr-career-path-in-india-salary-growth/', ['Executive Route', 'People Operations', 'Pay Progression']],
+  ['/blog/career-change/career-switch-from-it-to-management-india/', ['Engineering Delivery', 'Team Leadership', 'Management Track']],
+  ['/blog/career-options/is-investment-banking-a-good-career/', ['Analyst to Director', 'Deal Hours', 'AI Workflow Shift']],
 ]);
 // A number belongs on a hero only when its source and meaning are clearly
 // tied to the page topic. This article's extracted 20% figure is an event
@@ -80,6 +112,7 @@ const routeFilters = new Set([
   ...(routeFile ? (await readFile(routeFile, 'utf8')).split(/\r?\n/) : []),
 ].map((value) => value.trim()).filter(Boolean));
 const onlyHero = process.argv.includes('--only-hero');
+const preserveHero = process.argv.includes('--preserve-hero');
 const excludeReportPages = process.argv.includes('--exclude-report-exclusions');
 const excludeAssessmentPages = process.argv.includes('--exclude-assessments');
 const excludedBlogRoutes = new Set();
@@ -109,16 +142,16 @@ function applyPlainLanguageEdits(value, edits) {
   return value;
 }
 const hash = (value) => { let n = 0; for (const c of value) n = (n * 31 + c.charCodeAt(0)) >>> 0; return n; };
-const badEnd = new Set(['a', 'an', 'the', 'to', 'of', 'and', 'for', 'in', 'on', 'with', 'without', 'can', 'cannot', "can't", 'won\'t', 'don\'t', 'doesn\'t', 'didn\'t', 'hasn\'t', 'haven\'t', 'hadn\'t', 'aren\'t', 'isn\'t', 'wasn\'t', 'weren\'t', 'you', 'how', 'what', 'who', 'which', 'whether', 'whose', 'is', 'not', 'just', 'only', 'usually', 'at', 'by', 'or', 'we', 'it', 'as', 'if', 'that', 'from', 'while', 'when', 'where', 'about', 'during', 'after', 'before', 'into']);
-const badStart = new Set(['a', 'an', 'the', 'to', 'of', 'and', 'for', 'in', 'on', 'with', 'can', 'you', 'how', 'is', 'at', 'by', 'or', 'off', 'into', 'from', 'after', 'before', 'during', 'through', 'while', 'because', 'if', 'when', 'where', 'that', 'which', 'who', 'what', 'your', 'their', 'its', 'they', 'we', 'our', 'he', 'she', 'but', 'usually', 'often', 'sometimes', 'generally', 'mostly', 'simply', 'really', 'problem']);
+const badEnd = new Set(['a', 'an', 'the', 'to', 'of', 'and', 'for', 'in', 'on', 'with', 'without', 'can', 'cannot', "can't", 'won\'t', 'don\'t', 'doesn\'t', 'didn\'t', 'hasn\'t', 'haven\'t', 'hadn\'t', 'aren\'t', 'isn\'t', 'wasn\'t', 'weren\'t', 'you', 'how', 'what', 'who', 'which', 'whether', 'whose', 'is', 'are', 'not', 'just', 'only', 'usually', 'actually', 'like', 'according', 'at', 'by', 'or', 'we', 'it', 'as', 'if', 'that', 'from', 'while', 'when', 'where', 'about', 'during', 'after', 'before', 'into', 'good', 'make', 'makes', 'should', 'between', 'are', 'still', 'shows', 'suggests', 'reveals', 'means', 'matters', 'includes', 'involves']);
+const badStart = new Set(['a', 'an', 'the', 'to', 'of', 'and', 'for', 'in', 'on', 'with', 'can', 'you', 'how', 'is', 'at', 'by', 'or', 'off', 'into', 'from', 'after', 'before', 'during', 'through', 'while', 'because', 'if', 'when', 'where', 'that', 'which', 'who', 'what', 'your', 'their', 'its', 'they', 'we', 'our', 'he', 'she', 'but', 'usually', 'often', 'sometimes', 'generally', 'mostly', 'simply', 'really', 'problem', 'as']);
 const clean = (value) => String(value ?? '')
   .replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&quot;|&#34;/g, '"').replace(/&#39;|&apos;|&rsquo;|&lsquo;|&#8216;|&#8217;/gi, "'").replace(/&ldquo;|&rdquo;|&#8220;|&#8221;/gi, '"').replace(/&nbsp;/g, ' ')
   .replace(/[“”‘’]/g, "'").replace(/…|\.\.\./g, '')
   .replace(/(?:growth:\s*the decisions that unlock|our scalability view|short answer:|what to verify:|this is our scalability view|this point needs evidence before choosing|point [123]|test the path with one project|check realistic pay before choosing|compare options before you commit|in short 01 02|article-specific career decision map|article-specific|what this article covers)/gi, '')
   .replace(/\b(undefined|tbd|lorem)\b/gi, '')
-  .replace(/\bbiology[- ]gate\b/gi, 'biology eligibility').replace(/\bgates?\b/gi, (match) => match === match.toUpperCase() ? match : match.toLowerCase() === 'gates' ? 'steps' : 'entry requirement').replace(/\bcheckpoints\b/gi, 'steps').replace(/\bcheckpoint\b/gi, 'step').replace(/\bleveraging\b/gi, 'using').replace(/\bleveraged\b/gi, 'used').replace(/\bleverage\b/gi, 'use').replace(/\bcohorts\b/gi, 'groups').replace(/\bcohort\b/gi, 'group').replace(/\bheuristics\b/gi, 'rules of thumb').replace(/\bheuristic\b/gi, 'rule of thumb').replace(/\bscalability\b/gi, 'growth')
-  .replace(/\s+/g, ' ').trim();
-function isSharedPromoCopy(value) { const normalized = clean(value).toLowerCase().replace(/[’']/g, "'"); return ['a low-friction first step before the wrong path costs more time and money', 'wrong streams, outdated degrees, and low-value skills that waste years and money', 'useful skills, future readiness, and a clearer next decision', 'real student growth comes from a series of better decisions', 'practical student career guidance before the wrong path wastes years, money, and future readiness', 'practical student career counselling before the wrong path wastes years, money, and future readiness', 'practical student before the wrong path wastes years, money, and future readiness', 'includes the 1-on-1 and up to 24 small-group sessions across the year', 'see broader student guidance and useful reading before you decide', 'see the result-week admission decision, the earlier stream conversation, broader student guidance', 'move to a grade-specific page once the exact decision is clear'].some((phrase) => normalized.includes(phrase)); }
+  .replace(/\bbiology[- ]gate\b/gi, 'biology eligibility').replace(/\bentry gate\b/gi, 'entry requirement').replace(/\bgates?\b/gi, (match) => match === match.toUpperCase() ? match : match.toLowerCase() === 'gates' ? 'steps' : 'entry requirement').replace(/\bcheckpoints\b/gi, 'steps').replace(/\bcheckpoint\b/gi, 'step').replace(/\bleveraging\b/gi, 'using').replace(/\bleveraged\b/gi, 'used').replace(/\bleverage\b/gi, 'use').replace(/\bcohorts\b/gi, 'groups').replace(/\bcohort\b/gi, 'group').replace(/\bheuristics\b/gi, 'rules of thumb').replace(/\bheuristic\b/gi, 'rule of thumb').replace(/\bscalability\b/gi, 'growth')
+  .replace(/\s+([,.;:!?])/g, '$1').replace(/\s+/g, ' ').trim();
+function isSharedPromoCopy(value) { const normalized = clean(value).toLowerCase().replace(/[’']/g, "'"); return ['a low-friction first step before the wrong path costs more time and money', 'wrong streams, outdated degrees, and low-value skills that waste years and money', 'useful skills, future readiness, and a clearer next decision', 'real student growth comes from a series of better decisions', 'practical student career guidance before the wrong path wastes years, money, and future readiness', 'practical student career counselling before the wrong path wastes years, money, and future readiness', 'practical student before the wrong path wastes years, money, and future readiness', 'includes the 1-on-1 and up to 24 small-group sessions across the year', 'see broader student guidance and useful reading before you decide', 'see the result-week admission decision, the earlier stream conversation, broader student guidance', 'move to a grade-specific page once the exact decision is clear', 'that calculation broke but it broke in a specific and slightly strange way'].some((phrase) => normalized.includes(phrase)); }
 const words = (value) => clean(value).split(/\s+/).filter(Boolean);
 const lastWord = (value) => words(value).at(-1)?.toLowerCase().replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, '');
 const titleCase = (value) => words(value).map((word, index) => {
@@ -129,6 +162,7 @@ const titleCase = (value) => words(value).map((word, index) => {
   if (lower === 'bcom') return prefix + 'BCom';
   if (/^(ai|bca|bba|mba|bipc|pcm|pcb|aiims|neet|upsc|ssc|ca|cs|ui|ux|hr|wef|bls|upi|gdp|gw|ev|lpa|nasscom|esg|soc|grc|gate|ncsm|ios)$/.test(lower)) return prefix + lower.toUpperCase();
   if (core.includes('-')) return prefix + core.split('-').map((part) => /^(ai|bca|bba|mba|bipc|pcm|pcb|aiims|neet|upsc|ssc|ca|cs|ui|ux|hr|wef|bls|upi|gdp|gw|ev|lpa|nasscom|esg|soc|grc|gate|ncsm|ios)$/i.test(part) ? part.toUpperCase() : part.toLowerCase().replace(/^([a-z])/, (_, c) => c.toUpperCase())).join('-');
+  if (core.includes('/')) return prefix + core.split('/').map((part) => /^(bsc|btech|bcom|bca|bba|mba|bipc|pcm|pcb|ai|it|ca|cs)$/i.test(part) ? part.toUpperCase().replace(/^BSC$/, 'BSc').replace(/^BTECH$/, 'BTech').replace(/^BCOM$/, 'BCom') : part.toLowerCase().replace(/^([a-z])/, (_, c) => c.toUpperCase())).join('/');
   if (index && /^(and|or|of|for|in|on|to|with|the|a|an)$/.test(lower)) return prefix + lower;
   return prefix + lower.charAt(0).toUpperCase() + lower.slice(1);
 }).join(' ');
@@ -165,55 +199,180 @@ function collapseRepeatedOpening(value) { const parts = String(value || '').spli
 function walk(node, fn, blocked = false) { if (!node || blocked) return; fn(node); const className = (node.attrs || []).find((attribute) => attribute.name === 'class')?.value || ''; const stop = ['aside', 'nav', 'header', 'footer'].includes(node.tagName) || /(?:article-live-visual|bofu-live-diagram)/.test(className); for (const child of node.childNodes || []) walk(child, fn, stop); }
 function pageData(html, isBlog = false) { const doc = parse(html); let main = null; let description = ''; let bestArticle = null; let bestArticleLength = 0; walk(doc, (node) => { if (node.tagName === 'main' && !main) main = node; if (node.tagName === 'meta') { const attrs = Object.fromEntries((node.attrs || []).map((attribute) => [attribute.name, attribute.value])); if (attrs.name?.toLowerCase() === 'description') description = clean(attrs.content || ''); } if (node.tagName === 'article') { const length = nodeText(node).length; if (length > bestArticleLength) { bestArticle = node; bestArticleLength = length; } } }); const root = main || (isBlog ? bestArticle : null) || doc; const headings = []; const facts = []; const lists = []; const sections = []; let current = null; let currentSubheading = ''; walk(root, (node) => { if (!node.tagName) return; const raw = collapseRepeatedOpening(clean(nodeText(node))); if ((node.tagName === 'h2' || node.tagName === 'h3') && raw) { const h = titleCase(raw); if (!headings.includes(h)) headings.push(h); if (node.tagName === 'h2') { current = { title: h, facts: [] }; currentSubheading = ''; sections.push(current); } else if (node.tagName === 'h3') currentSubheading = h; } const className = (node.attrs || []).find((attribute) => attribute.name === 'class')?.value || ''; const faqAnswer = /(?:^|\s)faq-a(?:\s|$)/.test(className); const faqQuestion = node.tagName === 'summary' && node.parentNode?.tagName === 'details'; const structuredEvidence = /(?:^|\s)(?:checkpoint__note|lane-row--(?:layer|fit|watch))(?:\s|$)/.test(className); const sourceTag = ['p', 'li', 'dt', 'dd', 'td'].includes(node.tagName) || faqAnswer || faqQuestion || structuredEvidence; if (sourceTag && raw.length > 24 && !isSharedPromoCopy(raw) && !/read is [^.!?]+|want a second opinion on this decision|want to talk to (?:a )?counsellor|book (?:a )?session|call now|contact us|read next|related posts?|you may also like|share this article/i.test(raw)) { const text = sentence(raw, 100) || raw; const item = { text, raw, heading: currentSubheading || current?.title || '' }; if (!facts.some((fact) => fact.raw === raw)) facts.push(item); if (node.tagName === 'li') lists.push(item); if (current && !current.facts.some((fact) => fact.raw === raw)) current.facts.push(item); } }); const numberFacts = facts.filter((fact) => /(?:₹|\b(?:rs\.?|inr)\b|\$)\s*[\d,.]+|\d+(?:,\d{3})*(?:\.\d+)?\s*(?:%|percent|lpa|lakh|crore|years?|months?|weeks?|hours?|days?|vacancies|students?|jobs?|applicants?|seats?)/i.test(fact.raw)); return { description, headings: headings.slice(0, 20), facts: facts.slice(0, 100), lists: lists.slice(0, 30), numberFacts, sections: sections.slice(0, 50) }; }
 function topicFrom(title, slug = '') { const cleanTitle = clean(title); const slugWords = words(String(slug).replace(/\bgate\b/gi, 'GATE').replaceAll('-', ' ')); const fallback = slugWords.slice(0, 6).join(' ') || cleanTitle; const lead = cleanTitle.split(/\s*:\s*/)[0]; const candidate = words(lead).length >= 3 && words(lead).length <= 7 && !isGenericVisualHeading(lead) ? lead : fallback; return titleCase(candidate).replace(/\bIndia\b$/i, 'India') || 'Career Path'; }
-function shortHeading(value, fallback) { const rawSource = clean(value || fallback).replace(/[\s,;:]+$/, '').replace(/[.!?]+$/, '') || 'Career Evidence'; const dashTail = rawSource.split(/\s*[—–]\s*/).at(-1); const source = rawSource !== dashTail && visualWordCount(dashTail) >= 3 && visualWordCount(dashTail) <= 7 && !badEnd.has(lastWord(dashTail)) ? dashTail : rawSource; if (/^Mobile Apps\s*→/i.test(source)) return 'Mobile App Development'; if (/^\d+(?:\.\d+)?\s*(?:to|[–-])\s*\d+(?:\.\d+)?\s*(?:years?|months?)/i.test(source)) return 'Course Duration by Route'; if (/\bask a specific person a specific small question\b/i.test(source)) return 'Ask One Person One Question'; const fallbackTopic = compactTopic(fallback) || 'Career Guidance'; const safeFallback = words(fallback).length >= 3 && words(fallback).length <= 7 && !badEnd.has(lastWord(fallback)) ? clean(fallback) : (visualWordCount(fallbackTopic) >= 3 ? fallbackTopic : 'Career Guidance Overview'); const valid = (text) => { const count = visualWordCount(text); const first = words(text)[0]?.toLowerCase(); return count >= 3 && count <= 7 && (!badStart.has(first) || ['what', 'who', 'how', 'why', 'is'].includes(first)) && (!badEnd.has(lastWord(text)) || /\bIT[\s"'”’)!?]*$/u.test(text)); }; if (visualWordCount(source) <= 7 && valid(source)) return titleCase(source); const punctuated = source.split(/\s*(?::|;|,(?!\d)|[–—])\s*/).map((part) => clean(part)).filter(valid); if (punctuated.length) return titleCase(punctuated.sort((a, b) => visualWordCount(b) - visualWordCount(a))[0]); const incompleteSource = badEnd.has(lastWord(source)) || /\b(?:only|just|what|who|which|whether)$/i.test(source); if (!incompleteSource) { const tokens = words(source); const connectors = new Set(['a', 'an', 'the', 'to', 'of', 'for', 'in', 'on', 'with', 'before', 'after', 'than', 'through', 'during', 'from', 'into', 'around', 'across', 'between', 'without', 'by']); const auxiliaries = new Set(['has', 'have', 'had', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'does', 'do', 'did', 'can', 'could', 'should', 'would', 'will', 'may', 'might']); const candidates = []; for (let length = Math.min(7, tokens.length); length >= 3; length -= 1) for (let start = 0; start + length <= tokens.length; start += 1) { const option = tokens.slice(start, start + length).join(' '); if (!valid(option)) continue; const first = words(option)[0].toLowerCase(); const score = length * 2 + (start + length === tokens.length ? 5 : 0) + (start > 0 && connectors.has(tokens[start - 1].toLowerCase()) ? 3 : 0) - (auxiliaries.has(first) ? 4 : 0); candidates.push({ option, score }); } if (candidates.length) return titleCase(candidates.sort((a, b) => b.score - a.score)[0].option); } return titleCase(safeFallback || 'Career Evidence'); }
+function balancedHeading(value) {
+  const chars = [...String(value || '')];
+  let depth = 0;
+  let unmatchedClose = false;
+  for (let i = 0; i < chars.length; i += 1) {
+    if (chars[i] === '(') depth += 1;
+    if (chars[i] === ')') { if (depth) depth -= 1; else { chars[i] = ''; unmatchedClose = true; } }
+  }
+  if (depth) {
+    let open = -1;
+    depth = 0;
+    for (let i = 0; i < chars.length; i += 1) {
+      if (chars[i] === '(') { if (!depth) open = i; depth += 1; }
+      if (chars[i] === ')') depth -= 1;
+    }
+    if (open >= 0) chars.splice(open);
+  }
+  let straightOpen = false;
+  for (let i = 0; i < chars.length; i += 1) if (chars[i] === '"') { if (straightOpen) straightOpen = false; else straightOpen = i + 1; }
+  if (straightOpen) chars[straightOpen - 1] = '';
+  const opens = chars.filter((char) => char === '“').length;
+  const closes = chars.filter((char) => char === '”').length;
+  if (opens > closes) {
+    for (let i = chars.length - 1; i >= 0; i -= 1) if (chars[i] === '“') { chars[i] = ''; break; }
+  } else if (closes > opens) {
+    for (let i = chars.length - 1; i >= 0; i -= 1) if (chars[i] === '”') { chars[i] = ''; break; }
+  }
+  return chars.join('').replace(/\s+\+$/, '').replace(/\s+/g, ' ').replace(/\s+([,.;:!?])/g, '$1').trim();
+}
+function shortHeading(value, fallback) { const rawSource = balancedHeading(clean(value || fallback).replace(/[\s,;:]+$/, '').replace(/[.!?]+$/, '')) || 'Career Evidence'; const dashTail = rawSource.split(/\s*[—–]\s*/).at(-1); const source = rawSource !== dashTail && visualWordCount(dashTail) >= 3 && visualWordCount(dashTail) <= 7 && !badEnd.has(lastWord(dashTail)) ? dashTail : rawSource; if (/^Mobile Apps\s*→/i.test(source)) return 'Mobile App Development'; if (/^\d+(?:\.\d+)?\s*(?:to|[–-])\s*\d+(?:\.\d+)?\s*(?:years?|months?)/i.test(source)) return 'Course Duration by Route'; if (/\bask a specific person a specific small question\b/i.test(source)) return 'Ask One Person One Question'; const fallbackTopic = compactTopic(fallback) || 'Career Guidance'; const safeFallback = words(fallback).length >= 3 && words(fallback).length <= 7 && !badEnd.has(lastWord(fallback)) ? balancedHeading(clean(fallback)) : (visualWordCount(fallbackTopic) >= 3 ? fallbackTopic : 'Career Guidance Overview'); const valid = (text) => { const count = visualWordCount(text); const first = words(text)[0]?.toLowerCase(); return count >= 3 && count <= 7 && (!badStart.has(first) || ['what', 'who', 'how', 'why', 'is'].includes(first)) && (!badEnd.has(lastWord(text)) || /\bIT[\s"'”’)!?]*$/u.test(text)) && !/[()]\s*$/.test(text); }; if (visualWordCount(source) <= 7 && valid(source)) return titleCase(source); const punctuated = source.split(/\s*(?::|;|,(?!\d)|[–—])\s*/).map((part) => clean(part)).filter(valid); if (punctuated.length) return titleCase(punctuated.sort((a, b) => visualWordCount(b) - visualWordCount(a))[0]); const incompleteSource = badEnd.has(lastWord(source)) || /\b(?:only|just|what|who|which|whether)$/i.test(source); if (!incompleteSource) { const tokens = words(source); const connectors = new Set(['a', 'an', 'the', 'to', 'of', 'for', 'in', 'on', 'with', 'before', 'after', 'than', 'through', 'during', 'from', 'into', 'around', 'across', 'between', 'without', 'by']); const auxiliaries = new Set(['has', 'have', 'had', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'does', 'do', 'did', 'can', 'could', 'should', 'would', 'will', 'may', 'might']); const candidates = []; for (let length = Math.min(7, tokens.length); length >= 3; length -= 1) for (let start = 0; start + length <= tokens.length; start += 1) { const option = tokens.slice(start, start + length).join(' '); if (!valid(option)) continue; const first = words(option)[0].toLowerCase(); const score = length * 2 + (start + length === tokens.length ? 5 : 0) + (start > 0 && connectors.has(tokens[start - 1].toLowerCase()) ? 3 : 0) - (auxiliaries.has(first) ? 4 : 0); candidates.push({ option, score }); } if (candidates.length) return titleCase(candidates.sort((a, b) => b.score - a.score)[0].option); } return titleCase(safeFallback || 'Career Evidence'); }
 function completeShortHeading(value, fallback) { const tokens = words(value); const incomplete = new Set(['any', 'each', 'every', 'your', 'their', 'these', 'those', 'whose']); while (tokens.length >= 3 && (badEnd.has(tokens.at(-1).toLowerCase()) || incomplete.has(tokens.at(-1).toLowerCase()))) tokens.pop(); return tokens.length >= 3 ? titleCase(tokens.join(' ')) : shortHeading('', fallback); }
-function isGenericVisualHeading(value) { return /^(?:evidence from|key ideas from|entry routes?\b|pay and cost\b|market signal\b|career evidence\b|(?:the )?short answer\b|the verdict\b|explore related help\b|an illustration(?:,|\s)+not a real|best if you are dealing|best if you need|these are rated|the ratings are judgement|evidence card|key figures?|limited|for the first|a low|wrong streams|useful skills|continuous career guidance|where people add value|organisational change is harder than)|\bmarket signal check\b|\s+detail$/i.test(clean(value).replace(/[.:]+$/, '')); }
+function isGenericVisualHeading(value) { return /^(?:according to\b|evidence from|key ideas from|entry routes?\b|pay and cost\b|market signal\b|career evidence\b|(?:the )?short answer\b|the verdict\b|explore related help\b|an illustration(?:,|\s)+not a real|best if you are dealing|best if you need|these are rated|the ratings are judgement|evidence card|key figures?|limited|for the first|a low|wrong streams|useful skills|continuous career guidance|where people add value|organisational change is harder than)|\bmarket signal check\b|\s+detail$/i.test(clean(value).replace(/[.:]+$/, '')); }
 function contentHeading(item, fallback) { const raw = clean(item?.raw || item?.text || ''); const section = clean(item?.heading || ''); const candidate = section || sentence(raw, 8) || clean(fallback); const result = shortHeading(candidate, fallback); return isGenericVisualHeading(result) ? shortHeading(fallback, fallback) : result; }
 function compactTopic(topic) { const parts = words(topic).slice(0, 5); while (parts.length && badEnd.has(lastWord(parts.join(' ')))) parts.pop(); return titleCase(parts.join(' ')) || 'Career Guidance'; }
 function heroTopic(topic) { const stop = new Set(['a', 'an', 'the', 'after', 'before', 'for', 'from', 'in', 'india', 'is', 'of', 'or', 'to', 'and', 'career', 'careers', 'options', 'option', 'good', 'best', 'how']); const selected = words(clean(topic)).filter((word) => !stop.has(word.toLowerCase())).slice(0, 4); return titleCase(selected.join(' ') || words(topic).slice(0, 4).join(' ')) || 'Career Direction'; }
 function pageContextHeading(value, topic, slug) { return shortHeading(clean(value) || compactTopic(topic), compactTopic(topic)); }
 function proofHeading(items, fallback, topic) { const figures = items.map(figureFromItem).filter(Boolean); const labels = [...new Set(figures.map((figure) => figure.label).filter(Boolean))]; const context = compactTopic(topic); return `${labels.slice(0, 2).join(' & ') || 'Key Figures'} for ${context}`; }
-function typeTopLabel(type) { return ({ hero: 'Career Snapshot', summary: 'Key Ideas', matrix: 'Compare Clearly', chain: 'Try The Path', checklist: 'Check First', proof: 'Numbers In Context', detail: 'Read The Evidence' })[type] || 'Career Evidence'; }
+function heroEditorialLabel(topic) { const value = String(topic || '').toLowerCase(); if (/salary|pay|fee|cost|income|budget|earn/.test(value)) return 'Work and Pay'; if (/course|college|degree|exam|admission|study|stream|school|mba/.test(value)) return 'Study Choices'; if (/skill|portfolio|resume|interview|job search|freelanc|business/.test(value)) return 'Skills in Practice'; if (/guidance|counsel|confusion|choose|choice|decision/.test(value)) return 'Career Decisions'; return 'Career Routes'; }function typeTopLabel(type) { return ({ hero: 'Career Snapshot', summary: 'Key Ideas', matrix: 'Compare Clearly', chain: 'Try The Path', checklist: 'Check First', proof: 'Numbers In Context', detail: 'Read The Evidence' })[type] || 'Career Evidence'; }
 function visualTitle(type, heading, topic, pageTitle) { return type === 'hero' ? clean(pageTitle) || `${compactTopic(topic)} career overview` : shortHeading(heading, topic); }
 function visualAlt(type, heading, topic) { const subject = shortHeading(heading || topic, compactTopic(topic)); return ({ hero: `Career overview for ${compactTopic(topic)}, with article-sourced direction.`, summary: `Key ideas about ${subject} in a short visual.`, matrix: `Comparison table for ${subject}, using article-sourced options.`, chain: `Planning steps for ${subject}, drawn from the article.`, checklist: `Decision checklist for ${subject}, based on article details.`, proof: `Key figures about ${subject}, with labels tied to article evidence.`, detail: `Evidence visual about ${subject}, based on article content.` })[type] || `Career visual explaining ${subject}.`; }
-function figureFromItem(item) {
+function figureFromItem(item, matchIndex = 0) {
   const raw = clean(item?.raw || item?.text || '');
   if (/\b(?:F|J)-\d+\s+students?\b/i.test(raw)) return null;
   const selectionOdds = raw.match(/\b1\s+in\s+(\d+(?:,\d{3})*)\s*[-–—]\s*(\d+(?:,\d{3})*)\s+applicants?\b/i);
   if (selectionOdds) return { value: `1 in ${selectionOdds[1]}–${selectionOdds[2]}`, label: 'Selection Odds Range', source: raw, text: raw };
   const number = String.raw`(?:\d{1,2}(?:,\d{2})+,\d{3}|\d+(?:,\d{3})*)(?:\.\d+)?`;
-  const pattern = new RegExp(String.raw`(?:₹|\b(?:rs\.?|inr)\b|\$)\s*${number}(?:\s*(?:[–—-]|\bto\b)\s*${number})?(?:\s*\+)?(?:\s*(?:lakh|crore|lpa|k|billion|million))?|${number}\s*(?:%|percent|lpa|lakh|crore|years?|months?|weeks?|hours?|days?|vacancies|students?|jobs?|applicants?|seats?)`, 'i');
-  const match = raw.match(pattern);
+  const pattern = new RegExp(String.raw`(?:₹|\b(?:rs\.?|inr)\b|\$)\s*${number}(?:\s*(?:[–—-]|\bto\b)\s*${number})?(?:\s*\+)?(?:\s*(?:lakh|crore|lpa|k|billion|million))?|${number}\s*(?:%|percent|lpa|lakh|crore|years?|months?|weeks?|hours?|days?|vacancies|students?|employees?|jobs?|applicants?|seats?)`, 'gi');
+  const matches = [...raw.matchAll(pattern)];
+  const match = matches[matchIndex];
   if (!match) return null;
-  const value = expandFigureValue(match[0], raw).replace(/\s+/g, ' ').trim().replace(/\s+(?:vacancies|students?|jobs?|applicants?|seats?)$/i, '').replace(/^rs\.?\s*/i, '₹').replace(/^inr\s*/i, '₹').replace(/[.,]+$/, '');
+  let value = expandFigureValue(match[0], raw).replace(/\s+/g, ' ').trim().replace(/\s+(?:vacancies|students?|employees?|jobs?|applicants?|seats?)$/i, '').replace(/^rs\.?\s*/i, '₹').replace(/^inr\s*/i, '₹').replace(/[.,]+$/, '');
   const evidenceLine = sentenceParts(raw).find((part) => part.toLowerCase().includes(match[0].toLowerCase())) || raw;
   const matchInLine = Math.max(0, evidenceLine.toLowerCase().indexOf(match[0].toLowerCase()));
   const contextStart = Math.max(0, matchInLine - 72);
   const contextEnd = Math.min(evidenceLine.length, matchInLine + match[0].length + 72);
   const local = evidenceLine.slice(contextStart, contextEnd).toLowerCase();
+  const localAfter = evidenceLine.slice(matchInLine + match[0].length, matchInLine + match[0].length + 42).toLowerCase();
+  const nearbyBefore = evidenceLine.slice(Math.max(0, matchInLine - 42), matchInLine).toLowerCase();
+  const nearbyAfter = evidenceLine.slice(matchInLine + match[0].length, matchInLine + match[0].length + 24).toLowerCase();
+  const directNounContext = `${match[0]} ${nearbyBefore.slice(-18)} ${nearbyAfter.slice(0, 18)}`.toLowerCase();
+  const lineMatches = [...evidenceLine.matchAll(pattern)];
+  const matchingIndex = lineMatches.findIndex((candidate, index) => index === matchIndex && candidate[0].toLowerCase() === match[0].toLowerCase());
+  const previousNumberEnd = matchingIndex > 0 ? lineMatches[matchingIndex - 1].index + lineMatches[matchingIndex - 1][0].length : Math.max(0, matchInLine - 48);
+  const nextNumberStart = matchingIndex >= 0 && matchingIndex < lineMatches.length - 1 ? lineMatches[matchingIndex + 1].index : Math.min(evidenceLine.length, matchInLine + match[0].length + 48);
+  const stagePrefix = evidenceLine.slice(previousNumberEnd, matchInLine).toLowerCase();
+  const stageSuffix = evidenceLine.slice(matchInLine + match[0].length, nextNumberStart).toLowerCase();
+  const figureStageContext = `${stagePrefix} ${stageSuffix}`;
+  const organization = evidenceLine.slice(0, matchInLine).match(/\b(TCS|Infosys|Wipro|HCLTech|Accenture|Cognizant|Capgemini|Tech Mahindra)\b/gi)?.at(-1);
+  if (/^\s+on year\b/.test(nearbyAfter) && /\b(?:down|reduction|declin\w*|fell|drop\w*)\b/i.test(nearbyBefore)) value = value.replace(/\s+years?$/i, '');
   const heading = clean(item?.heading || '').toLowerCase();
+  // Do not turn the age/history of a place or institution into a career
+  // timeline. It is a contextual fact, not a duration a reader must plan for.
+  if (/(?:\bstate\b|\bcity\b|\btown\b|\bcountry\b|\binstitution\b|\buniversity\b).{0,70}\b(?:existed|was founded|was formed|was established|is\s+\d+\s+years?\s+old|years? ago)\b|\b\d+(?:\.\d+)?\s+years?\s+(?:ago|old)\b/i.test(local)) return null;
   const hasMoney = /(?:₹|\b(?:rs\.?|inr)\b|\$|\blpa\b|\blakh\b|\bcrore\b)/i.test(value);
   const hasCurrencyMarker = /(?:₹|\b(?:rs\.?|inr)\b|\$|\blpa\b)/i.test(value);
   const isPercent = /%|percent/i.test(value);
+  const isDuration = /\b(?:years?|months?|weeks?|days?|hours?)\b/i.test(value);
   let label = '';
-  if (isPercent && /funnel|selection odds/i.test(local)) label = 'Selection Funnel Rate';
+  // Classify the value's form before broad surrounding prose. A percentage,
+  // duration, or currency amount cannot become an applicant/employee count
+  // just because that noun appears elsewhere in the same long sentence.
+  if (isPercent) {
+    const immediatePercentContext = `${nearbyBefore} ${nearbyAfter}`;
+    const beforeValue = evidenceLine.slice(0, matchInLine).toLowerCase();
+    if (/ca\s+final/i.test(immediatePercentContext) && /pass|clear/i.test(local)) label = 'CA Final Pass Rate';
+    else if (/upsc civil services/i.test(immediatePercentContext) && /select/i.test(local)) label = 'UPSC Selection Rate';
+    else if (/employers?\s+(?:reported|reporting)|difficulty finding skilled/i.test(immediatePercentContext) && /workers?|talent|skilled/i.test(local)) label = 'Employers Reporting Hiring Difficulty';
+    else if (/ai.{0,45}tasks|tasks.{0,45}ai/i.test(local)) label = 'Engineering Tasks Touched by AI';
+    else if (/btech enrolment/i.test(local) && /jump|growth|increase/i.test(local)) label = 'BTech Enrolment Growth';
+    else if (/engineering graduates/i.test(immediatePercentContext) && /left college without|no relevant job|no relevant internship/i.test(local)) label = 'Graduates Without Relevant Work';
+    else if (/education budget/i.test(evidenceLine) && /spending above/i.test(beforeValue) && /red flag/i.test(evidenceLine)) label = 'Budget Warning Threshold';
+    else if (/vacanc/i.test(immediatePercentContext)) label = /(?:down|declin|fell|drop|decreas)/i.test(local) && !/vacancy rate/i.test(local) ? 'Hiring Demand Decline' : /reserves?|reservation|quota|fill/i.test(local) ? 'Reserved Vacancy Share' : 'Vacancy Rate';
+    else if (/seat/i.test(immediatePercentContext)) label = 'Course Seat Share';
+    else if (/interest|concession|subsid/i.test(immediatePercentContext)) label = 'Interest Rate Concession';
+    else if (/budget/i.test(local) && /caution|warning|red flag|spending above|above roughly/i.test(nearbyAfter)) label = 'Budget Warning Threshold';
+    else if (/budget|allocation|allocated|share/i.test(immediatePercentContext) || (/budget/i.test(local) && /percent|%/i.test(value))) label = 'Education Budget Share';
+    else if (/eligib|qualif|benchmark|minimum|threshold|marks|score|aggregate/i.test(immediatePercentContext)) label = /exam|marks|score|aggregate/i.test(local) ? 'Minimum Exam Marks' : 'Benchmark Eligibility Threshold';
+    else if (/employab/i.test(figureStageContext + ' ' + nearbyBefore + ' ' + nearbyAfter)) label = 'Graduate Employability Rate';
+    else if (/attrition/i.test(figureStageContext + ' ' + nearbyBefore + ' ' + nearbyAfter)) label = 'Annual Staff Attrition';
+    else if (/market/i.test(local) && /accounts for|share of|fraction of/i.test(local)) label = 'Regional Market Share';
+    else if (/growth|grow\w*|increase|rise|projected/i.test(local)) label = /market/i.test(local) ? 'Regional Market Share' : 'Industry Growth Rate';
+    else if (/funnel|selection odds/i.test(local)) label = 'Selection Funnel Rate';
+    else if (/pass rates?|passed per group|cleared per group/i.test(local)) label = 'Exam Pass Rate';
+    else if (/survey|poll|respondents?|said|reported|rated|consider/i.test(local)) label = 'Survey Response Share';
+    else if (/entry.level|commerce jobs/i.test(local)) label = 'Entry Level Share';
+    else if (/demand[ -]supply gap|skills gap/i.test(local)) label = 'Skills Demand Gap';
+    else if (/traffic|passengers/i.test(local)) label = 'Annual Traffic Growth';
+    else label = 'Reported Percentage';
+  } else if (isDuration) {
+    if (/notice period|notice policy|notice requirement|shortfall|buyout/i.test(local)) label = 'Notice Period';
+    else if (/service commitment|service term|enlistment|retained afterward|\bbonds?\b/i.test(local)) label = 'Service Commitment Period';
+    else if (/experience|work history|years? of depth|years?\s+(?:of\s+)?(?:leading|managing|working|building|in\b)/i.test(local)) label = 'Relevant Experience Window';
+    else if (/pension/i.test(local) && /eligible service|qualify|qualifying/i.test(local)) label = 'Pension Eligibility Period';
+    else if (/watch hours|shorts views|partner program|opt window/i.test(local)) label = /watch hours|shorts views|partner program/i.test(local) ? 'Platform Eligibility Window' : 'Post Study Work';
+    else if (/start earning|need to earn|earning within|income within/i.test(local)) label = 'Earning Decision Window';
+    else if (/from bootcamp finish to hire|finish to hire|time to hire/i.test(local)) label = 'Hiring Transition Window';
+    else if (/qualification path|qualification runway|through .*? exams|articleship|full route/i.test(local)) label = 'Qualification Time Window';
+    else if (/course|degree|program|programme|duration|diploma|qualification|training|bootcamp|articleship/i.test(local)) label = 'Total Course Duration';
+    else if (/offshore cycle|cycle from|licen[cs]e to production/i.test(local)) label = 'Typical Project Cycle';
+    else if (/shift/i.test(local)) label = 'Typical Work Shift';
+    else if (/proof|portfolio|project|publish|showcase/i.test(local)) label = 'Proof Milestone Window';
+    else label = 'Estimated Time Required';
+  } else if (!hasCurrencyMarker && !isDuration && /btech enrolment|enrolment (?:hit|reached)/i.test(directNounContext)) {
+    label = 'BTech Enrolment';
+  } else if (!hasCurrencyMarker && !isDuration && /approved intake capacity|intake capacity/i.test(local)) {
+    label = /projected/i.test(local) ? 'Projected Approved Seat Capacity' : 'Approved Seat Capacity';
+  } else if (hasCurrencyMarker && /\bemployees?\b(?!['’])|\bstaff\b|\bheadcount\b/i.test(local)) {
+    label = '';
+  } else if (!hasCurrencyMarker && (!hasMoney || /\bemployees?\b|\bstaff\b|\bheadcount\b/i.test(match[0])) && /\bemployees?\b(?!['’])|\bstaff\b|\bheadcount\b/i.test(directNounContext)) {
+    const subject = organization;
+    if (/training|reskilling|upskilling/i.test(local)) label = 'Employees in Reskilling';
+    else if (/\b(?:reduction|down|declin\w*|fell|drop\w*)\b/i.test(nearbyBefore)) label = subject ? `${subject} Staff Change` : 'Staff Change Reported';
+    else label = subject ? `${subject} Employee Count` : 'Employee Count Reported';
+  }
+  else if (isPercent && /funnel|selection odds/i.test(local)) label = 'Selection Funnel Rate';
   else if (isPercent && /pass rates?|passed per group|cleared per group/i.test(local)) label = 'Exam Pass Rate';
   else if (isPercent && /employab/i.test(local)) label = 'Graduate Employability Rate';
-  else if (isPercent && /freshers?|fresher share/i.test(local) && /batch|cohort|accept/i.test(local)) label = 'Fresher Cohort Share';
+  else if (isPercent && /freshers?|fresher share/i.test(local) && /batch|cohort|accept/i.test(local)) label = 'Fresher Share';
+  else if (isPercent && /\b(?:gmac|mba applicants?)\b.{0,70}\b(?:intent|pivot|switch|change careers?)\b|\b(?:survey|poll)\b.{0,70}\b(?:intent|said|reported|rated|consider|respondents?)\b/i.test(local)) label = /\b(?:gmac|mba applicants?)\b/i.test(local) ? 'MBA Pivot Intent' : 'Survey Response Share';
   else if (isPercent && /(?:survey|poll|respondents?|hiring managers?)/i.test(local) && /said|reported|rated|consider/i.test(local)) label = 'Survey Response Share';
   else if (isPercent && /(?:qualified|cleared|passed|selection rate)/i.test(local)) label = 'Qualification Success Rate';
   else if (isPercent && /(?:passengers?|air traffic|traffic growth)/i.test(local) && /(?:up|growth|grew|increase)/i.test(local)) label = 'Annual Traffic Growth';
   else if (isPercent && /(?:postings?|hiring|employment|vacancies)/i.test(local) && /(?:down|declin|fell|drop|decreas)/i.test(local)) label = 'Hiring Demand Decline';
   else if (isPercent && /seats/i.test(local) && /(?:fills?|share|quota|allocated|allocation)/i.test(local)) label = 'Course Seat Share';
   else if (!hasCurrencyMarker && /(?:msme|enterprise|businesses registered)/i.test(local)) label = 'Registered Enterprise Count';
-  else if (!hasCurrencyMarker && /(?:candidates?|applicants?|takers?|appeared|people applied|applied for|registered for (?:the )?(?:exam|examination|test))/i.test(local)) label = 'Exam Candidate Count';
+  else if (!isPercent && !hasCurrencyMarker && !isDuration && /(?:candidates?|applicants?|takers?|appeared|people applied|applied for|registered for (?:the )?(?:exam|examination|test))/i.test(directNounContext)) label = 'Exam Candidate Count';
   else if (hasMoney && /exports?/i.test(local)) label = 'Annual Export Value';
+  else if (hasMoney && /(?:entry.level|reporters?|journalists?|newsrooms?)/i.test(nearbyBefore) && /(?:entry pay|pay|salary|month)/i.test(nearbyAfter + nearbyBefore)) label = 'Entry Level Newsroom Pay';
+  else if (hasMoney && /civil services|upsc/i.test(evidenceLine) && /starts? near|starting/i.test(nearbyBefore) && /pay level/i.test(nearbyAfter)) label = 'Civil Services Starting Basic Pay';
+  else if (hasMoney && /pay levels?\s+10\s*[-–]\s*17/i.test(local) && /rising to/i.test(nearbyBefore)) label = 'Civil Services Pay Ceiling';
+  else if (hasMoney && /(?:advertising|groupm|dentsu)/i.test(local) && /(?:market|economy|industry|spend|estimate)/i.test(local)) label = 'Advertising Market Size';
+  else if (hasMoney && /public relations|\bpr industry\b/i.test(local) && /projected/i.test(nearbyBefore)) { const year = evidenceLine.match(/\bby\s+(20\d{2})\b/i)?.[1]; label = year ? `Projected PR Industry Revenue by ${year}` : 'Projected PR Industry Revenue'; }
+  else if (hasMoney && /public relations|\bpr industry\b/i.test(local) && /(?:revenue|crossed|reach(?:ed)?|grew|industry alone)/i.test(local)) label = 'PR Industry Revenue';
+  else if (hasMoney && /(?:industry|market|sector|business|public relations|pr industry)/i.test(local) && /(?:projected to (?:touch|reach|hit|exceed)|forecast to (?:reach|hit|exceed))/i.test(nearbyBefore)) { const year = evidenceLine.match(/\bby\s+(20\d{2})\b/i)?.[1]; label = year ? `Projected Industry Revenue by ${year}` : 'Projected Industry Revenue'; }
+  else if (hasMoney && /(?:industry|market|sector|business|public relations|pr industry)/i.test(local) && /(?:revenue|crossed|reached|industry alone|values? near|puts the industry at)/i.test(local)) label = 'Annual Industry Revenue';
   else if (hasMoney && /(?:deal|contract)\w*.{0,30}(?:worth|value)|(?:worth|value).{0,30}(?:deal|contract)/i.test(local)) label = 'Typical Deal Value';
   else if (hasMoney && /extra income|additional income/i.test(local)) label = 'Additional Annual Income';
   else if (hasMoney && /education loan/i.test(local)) label = 'Education Loan Principal';
   else if (hasMoney && /(?:national target|2030 goal|government.?s own goal)/i.test(local)) label = 'National 2030 Goal';
-  else if (hasMoney && /(?:illustration,? not a real fee|education budget example|worked example)/i.test(local)) label = 'Education Budget Example';
-  else if (hasMoney && /(?:budget|allocation|allocated|outlay)/i.test(local) && !/exam|registration|certification/i.test(local)) label = /(?:allocation|allocated|outlay)/i.test(local) ? 'Programme Scheme Outlay' : 'Education Budget Example';
+  else if (hasMoney && /(?:illustration,? not a real fee|education budget example|worked example|education budget|rupee budget)/i.test(local)) {
+    if (/\b(?:a fifth|one fifth|20\s*%|20 percent)\b/i.test(stagePrefix) || /caution|warning|red flag/i.test(stageSuffix)) label = 'Budget Warning Threshold';
+    else if (/main course|degree fee|course fee|for the degree|for the credential/i.test(stageSuffix)) label = 'Main Course Fee Allocation';
+    else if (/the rest|remaining|living costs|tools,? practice|future learning|reserve/i.test(stageSuffix)) label = 'Remaining Education Budget';
+    else if (/budget/i.test(stageSuffix) || /budget/i.test(stagePrefix)) label = 'Education Budget Amount';
+    else label = 'Education Budget Amount';
+  }
+  else if (hasMoney && /(?:illustration,? not a real fee|education budget example|worked example)/i.test(local) && /main course/i.test(nearbyAfter)) label = 'Main Course Fee Allocation';
+  else if (hasMoney && /(?:illustration,? not a real fee|education budget example|worked example)/i.test(local) && /serious caution/i.test(nearbyAfter)) label = 'Caution Threshold';
+  else if (hasMoney && /(?:illustration,? not a real fee|education budget example|worked example)/i.test(local)) label = 'Illustrative Education Budget';
+  else if (hasMoney && /\blpa\b/i.test(match[0]) && /(?:entry[- ]level|fresher|starting|roles? start(?:s)? around|start(?:s)? around|begin(?:s)? at)/i.test(stageSuffix + (matchingIndex === 0 ? ` ${stagePrefix}` : ''))) label = 'Entry Level Pay';
+  else if (hasMoney && /\blpa\b/i.test(match[0]) && /post[ -]?mba/i.test(local)) label = 'Post MBA Pay';
+  else if (hasMoney && /\blpa\b/i.test(match[0])) label = 'Typical Salary Range';
+  else if (hasMoney && /outlay/i.test(local) && /government|scheme|programme|program/i.test(local)) label = 'Programme Scheme Outlay';
+  else if (hasMoney && /(?:budget|allocation|allocated)/i.test(local) && /education|course|tuition|family|student|college/i.test(local) && !/exam|registration|certification/i.test(local)) label = /(?:allocation|allocated)/i.test(local) ? 'Programme Scheme Outlay' : 'Education Budget Example';
   else if (hasMoney && /(?:billion|million|trillion)/i.test(value) && /(?:market|industry|sector|segment|bioeconomy|workforce|employ|revenue|worth|target|projected)/i.test(local)) label = /revenue/i.test(local) ? 'Annual Industry Revenue' : 'Total Market Size';
   else if (isPercent && /(?:entry-level|commerce jobs|share|allocation|allocated|budget)/i.test(local)) label = 'Allocated Budget Share';
   else if (isPercent && /(?:minimum|at least|marks|score|aggregate|eligib|qualif|how you enter|entry requirement)/i.test(local) && /(?:mark|score|aggregate|eligib|qualif|degree|class|exam|admission|how you enter|entry requirement)/i.test(local)) label = 'Minimum Exam Marks';
@@ -226,7 +385,6 @@ function figureFromItem(item) {
   else if (hasMoney && /per paper|same subject through/i.test(local)) label = 'Exam Paper Fee';
   else if (hasMoney && /(?:exam|examination|registration|certification|application)\s+(?:registration\s+)?fee|registration\s+fee|certification\s+fee|application\s+fee|per\s+paper/i.test(local)) label = 'Exam Registration Fee';
   else if (hasMoney && /(?:education|course|tuition|college|study)\s+(?:budget|cost|fee)|(?:budget|cost|fee)\s+(?:for|of)\s+(?:education|course|tuition|college|study)|tuition/i.test(local)) label = 'Total Education Cost';
-  else if (hasMoney && /(?:entry|fresher|start(?:ing)?)/i.test(local) && /\blpa\b/i.test(match[0])) label = 'Entry Level Pay';
   else if (hasMoney && /post[ -]?mba/i.test(local)) label = 'Post MBA Pay';
   else if (hasMoney && /(?:salary|pay|income|earn|remuneration|compensation)/i.test(local)) label = 'Typical Salary Range';
   else if (isPercent && /(?:demand[ -]supply gap|skills gap)/i.test(local)) label = 'Skills Demand Gap';
@@ -240,32 +398,75 @@ function figureFromItem(item) {
   else if (hasMoney && /(?:salary|pay|income|earn|remuneration|compensation|package|wage)/i.test(local)) label = 'Typical Salary Range';
   else if (hasMoney && /(?:exam|examination|registration|certification|application)\s+(?:registration\s+)?fee|registration\s+fee|certification\s+fee|application\s+fee|per\s+paper/i.test(local)) label = 'Exam Registration Fee';
   else if (hasMoney && /(?:tuition|fee|cost|education budget|course budget|course fee)/i.test(local)) label = 'Total Education Cost';
-  else if (/vacanc/i.test(match[0]) || /vacanc/i.test(local)) label = 'Available Job Vacancies';
-  else if (/applicant/i.test(match[0]) || /applicant/i.test(local)) label = 'Total Exam Applicants';
-  else if (/seat/i.test(match[0]) || /seat/i.test(local)) label = 'Available Course Seats';
-  else if (/student/i.test(match[0]) || /student enrolment|students enrolled/i.test(local)) label = 'Total Student Count';
-  else if (/job/i.test(match[0]) || /job openings|jobs created/i.test(local)) label = 'Total Job Count';
+  else if (!hasCurrencyMarker && !hasMoney && /vacanc/i.test(directNounContext)) label = 'Available Job Vacancies';
+  else if (!hasCurrencyMarker && !hasMoney && /applicant/i.test(directNounContext)) label = 'Total Exam Applicants';
+  else if (!hasCurrencyMarker && !hasMoney && /seat/i.test(directNounContext)) label = 'Available Course Seats';
+  else if (!hasCurrencyMarker && !hasMoney && /student/i.test(directNounContext)) label = 'Total Student Count';
+  else if (!hasCurrencyMarker && !hasMoney && /job/i.test(directNounContext)) label = 'Total Job Count';
   else if (/(?:year|month|week|day|hour)/i.test(match[0]) && /(?:offshore cycle|cycle from|licen[cs]e to production)/i.test(local)) label = 'Typical Project Cycle';
   else if (/(?:year|month|week|day|hour)/i.test(match[0]) && /shift/i.test(local)) label = 'Typical Work Shift';
-  else if (/(?:year|month|week|day|hour)/i.test(match[0]) && /(?:experience|work history)/i.test(local)) label = 'Relevant Experience Window';
-  else if (/(?:year|month|week|day|hour)/i.test(match[0]) && /service commitment|service term|enlistment|retained afterward/i.test(local)) label = 'Service Commitment Period';
+  else if (/(?:day|week|month|year)/i.test(match[0]) && /notice period|notice policy|notice requirement|shortfall|buyout/i.test(local)) label = 'Notice Period';
+  else if (/(?:year|month|week|day|hour)/i.test(match[0]) && /service commitment|service term|enlistment|retained afterward|\bbonds?\b/i.test(local)) label = 'Service Commitment Period';
+  else if (/(?:year|month|week|day|hour)/i.test(match[0]) && /(?:\d+\s+years? of experience|experience of \d+\s+years?|work history of \d+\s+years?|\d+[-–—]\d+\s+years? of depth|carry \d+[-–—\d]+\s+years? of depth)/i.test(local)) label = 'Relevant Experience Window';
+  else if (/(?:year|month|week|day|hour)/i.test(match[0]) && /pension/i.test(local) && /eligible service|qualify|qualifying/i.test(local)) label = 'Pension Eligibility Period';
   else if (/(?:year|month|week|day|hour)/i.test(match[0]) && /(?:watch hours|shorts views|partner program|opt window)/i.test(local)) label = /watch hours|shorts views|partner program/i.test(local) ? 'Platform Eligibility Window' : 'Post Study Work';
   else if (/(?:year|month|week|day|hour)/i.test(match[0]) && /(?:start earning|need to earn|earning within|income within)/i.test(local)) label = 'Earning Decision Window';
   else if (/(?:year|month|week|day|hour)/i.test(match[0]) && /(?:from bootcamp finish to hire|finish to hire|time to hire)/i.test(local)) label = 'Hiring Transition Window';
   else if (/(?:year|month|week|day|hour)/i.test(match[0]) && /(?:qualification path|qualification runway|through .*? exams|articleship|full route)/i.test(local)) label = 'Qualification Time Window';
   else if (/(?:year|month|week|day|hour)/i.test(match[0]) && /(?:course|degree|program|programme|duration|diploma|qualification|training|bootcamp|articleship)/i.test(local)) label = 'Total Course Duration';
-  else if (/(?:year|month|week|day|hour)/i.test(match[0]) && /(?:within|deadline|by\s+\w+|publish|show)/i.test(local)) label = 'Proof Milestone Window';
+  else if (/(?:year|month|week|day|hour)/i.test(match[0]) && /(?:pay gap|years?\s+mark|timeline|path takes|takes around)/i.test(local)) label = 'Estimated Time Required';
+  else if (/(?:year|month|week|day|hour)/i.test(match[0]) && /(?:within|deadline|by\s+\w+|publish|show)/i.test(local) && /proof|portfolio|project|publish|showcase/i.test(local)) label = 'Proof Milestone Window';
   else if (/(?:year|month|week|day|hour)/i.test(match[0]) && /(?:duration|timeline|preparation|study|period|path|commitment)/i.test(local)) label = 'Estimated Time Required';
+  if (isPercent) {
+    const clientLabel = clientMixShareLabel(evidenceLine, matchInLine);
+    const specificPercentageLabel = clientLabel || percentageContextLabel(`${nearbyBefore} ${nearbyAfter} ${local}`, value);
+    if (specificPercentageLabel === '__OMIT__') return null;
+    if (specificPercentageLabel) label = specificPercentageLabel;
+    else if (/engineering graduates/i.test(local) && /left college without|no relevant job|no relevant internship/i.test(local)) label = 'Graduates Without Relevant Work';
+    else if (/ca\s+final/i.test(local) && /pass|clear/i.test(local)) label = 'CA Final Pass Rate';
+    else if (/upsc civil services/i.test(local) && /select/i.test(local)) label = 'UPSC Selection Rate';
+    else if (/employers?\s+(?:reported|reporting)|difficulty finding skilled/i.test(local) && /workers?|talent|skilled/i.test(local)) label = 'Employers Reporting Hiring Difficulty';
+    if (label === 'Reported Percentage') return null;
+  }
+  if (!hasCurrencyMarker && /candidates?\s+(?:tested|assessed|surveyed)/i.test(local)) label = 'Candidates Assessed';
   if (!label) return null;
   const source = evidenceLine.replace(/\bRs\.?\s*/gi, '₹');
   return { value, label, source, text: source };
+}
+function figuresFromItem(item) {
+  const raw = clean(item?.raw || item?.text || '');
+  const output = [];
+  const number = String.raw`(?:\d{1,2}(?:,\d{2})+,\d{3}|\d+(?:,\d{3})*)(?:\.\d+)?`;
+  for (const part of sentenceParts(raw)) {
+    const pattern = new RegExp(String.raw`(?:₹|\b(?:rs\.?|inr)\b|\$)\s*${number}(?:\s*(?:[–—-]|\bto\b)\s*${number})?(?:\s*\+)?(?:\s*(?:lakh|crore|lpa|k|billion|million))?|${number}\s*(?:%|percent|lpa|lakh|crore|years?|months?|weeks?|hours?|days?|vacancies|students?|employees?|jobs?|applicants?|seats?)`, 'gi');
+    const matches = [...part.matchAll(pattern)];
+    for (let index = 0; index < matches.length; index += 1) {
+      const figure = figureFromItem({ ...item, raw: part, text: part }, index);
+      if (figure) output.push(figure);
+    }
+    if (/employees?|headcount/i.test(part)) {
+      const numberToken = String.raw`\d+(?:,\d{3})*(?:\.\d+)?`;
+      const reductions = new RegExp(String.raw`\b(?:reduction|down|declin\w*|fell|drop\w*)\b(?:\s+of)?(?:\s+(?:around|roughly|about|nearly))?\s+(${numberToken})\b`, 'gi');
+      for (const match of part.matchAll(reductions)) {
+        const entity = part.slice(0, match.index).match(/\b(TCS|Infosys|Wipro|HCLTech|Accenture|Cognizant|Capgemini|Tech Mahindra)\b/gi)?.at(-1) || 'Staff';
+        output.push({ value: match[1], label: `${entity} Staff Change`, source: part, text: part });
+      }
+    }
+  }
+  const seen = new Set();
+  return output.filter((figure) => {
+    const key = `${figure.value.toLowerCase()}|${figure.label.toLowerCase()}|${figure.source.toLowerCase()}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
 }
 function topicIconLegacy(topic, palette, x, y, scale) { const value = topic.toLowerCase(); const stroke = palette[2]; const frame = (svg) => `<g transform="translate(${x} ${y}) scale(${scale})">${svg}</g>`; if (/medicine|medical|health|doctor|nursing|clinical|pharmacy/.test(value)) return frame(`<path d="M300 90c-35 0-55 24-55 55v75h-75v55h75v75c0 35 20 55 55 55s55-20 55-55v-75h75v-55h-75v-75c0-31-20-55-55-55z" fill="none" stroke="${stroke}" stroke-width="18"/><circle cx="300" cy="245" r="170" fill="none" stroke="${palette[3]}" stroke-width="13"/>`); if (/law|legal|advocate|court/.test(value)) return frame(`<path d="M300 80v340M160 140h280M200 140l-80 170h160l-80-170zm200 0-80 170h160l-80-170zM150 470h300" fill="none" stroke="${stroke}" stroke-width="18" stroke-linecap="round"/>`); if (/literature|writing|journalism|language|english|humanities|publishing|education|teaching/.test(value)) return frame(`<path d="M90 120c90-30 155-14 210 28v310c-55-42-120-58-210-28V120zm420 0c-90-30-155-14-210 28v310c55-42 120-58 210-28V120z" fill="none" stroke="${stroke}" stroke-width="18" stroke-linejoin="round"/><path d="M145 195h95m-95 65h95m220-65h-95m95 65h-95" stroke="${palette[3]}" stroke-width="14" stroke-linecap="round"/>`); if (/abroad|overseas|foreign|study/.test(value)) return frame(`<path d="M120 310l360-155-155 360-65-140-140-65z" fill="none" stroke="${stroke}" stroke-width="18"/><path d="M245 365l-115 115m205-150 115-115" stroke="${palette[3]}" stroke-width="16" stroke-linecap="round"/>`); if (/bank|finance|insurance|account|commerce|economics|investment/.test(value)) return frame(`<path d="M100 170l200-110 200 110M140 195h320M170 225v190m85-190v190m90-190v190m85-190v190M100 465h400" fill="none" stroke="${stroke}" stroke-width="18" stroke-linecap="round"/>`); if (/\bit\b|software|data|ai|technology|coding|developer|computer|engineering/.test(value)) return frame(`<path d="M185 135L60 250l125 115M415 135L540 250 415 365M350 105L250 395" fill="none" stroke="${stroke}" stroke-width="22" stroke-linecap="round"/>`); return frame(`<circle cx="300" cy="250" r="170" fill="none" stroke="${stroke}" stroke-width="16"/><path d="M300 80v340M130 250h340M185 135l230 230M415 135L185 365" stroke="${palette[3]}" stroke-width="14"/>`); }
 function topicIcon(topic, palette, x, y, scale) {
   const value = topic.toLowerCase();
   const stroke = palette[2];
   const frame = (svg) => `<g transform="translate(${x} ${y}) scale(${scale})">${svg}</g>`;
-  if (/event|conference|festival|wedding|exhibition/.test(value)) return frame(`<rect x="115" y="105" width="370" height="330" rx="24" fill="none" stroke="${stroke}" stroke-width="18"/><path d="M115 190h370M180 70v75m240-75v75M180 255h85m45 0h85M180 325h85m45 0h85" fill="none" stroke="${palette[3]}" stroke-width="18" stroke-linecap="round"/><circle cx="405" cy="290" r="45" fill="${palette[4]}"/>`);
+  if (/\bmba\b|business|management|entrepreneur|marketing|startup/.test(value)) return frame(`<rect x="115" y="185" width="370" height="260" rx="24" fill="none" stroke="${stroke}" stroke-width="18"/><path d="M220 185v-55q0-35 35-35h90q35 0 35 35v55M115 270h370M230 330h140m-115-32v64m90-64v64" fill="none" stroke="${palette[3]}" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><circle cx="185" cy="380" r="18" fill="${palette[4]}"/><circle cx="300" cy="380" r="18" fill="${palette[3]}"/><circle cx="415" cy="380" r="18" fill="${palette[2]}"/>`);  if (/event|conference|festival|wedding|exhibition/.test(value)) return frame(`<rect x="115" y="105" width="370" height="330" rx="24" fill="none" stroke="${stroke}" stroke-width="18"/><path d="M115 190h370M180 70v75m240-75v75M180 255h85m45 0h85M180 325h85m45 0h85" fill="none" stroke="${palette[3]}" stroke-width="18" stroke-linecap="round"/><circle cx="405" cy="290" r="45" fill="${palette[4]}"/>`);
   if (/aviation|airline|aircraft|cabin crew|pilot|airport|flight/.test(value)) return frame(`<path d="M88 285l180-46 67-161c12-29 57-23 54 12l-15 132 103 54c35 18 23 62-16 55l-118-25-87 143c-18 29-60 13-47-22l42-143-147 33c-36 8-49-23-16-32z" fill="none" stroke="${stroke}" stroke-width="18" stroke-linejoin="round"/>`);
   if (/agriculture|farming|horticulture|forestry|environment|ecology/.test(value)) return frame(`<path d="M300 435V165m0 128c-100 0-155-56-155-150 95 0 155 55 155 150zm0-70c0-93 58-150 155-150 0 95-57 150-155 150zm-8 172H175m125 0h125" fill="none" stroke="${stroke}" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><path d="M300 250l-82-77m82 28 84-77" stroke="${palette[3]}" stroke-width="14"/>`);
   if (/science|chemistry|biology|laboratory|lab research|research science/.test(value)) return frame(`<path d="M230 90h140M265 90v150L145 425q-15 28 20 28h270q35 0 20-28L335 240V90M205 350h190" fill="none" stroke="${stroke}" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><circle cx="270" cy="390" r="16" fill="${palette[3]}"/><circle cx="345" cy="390" r="16" fill="${palette[4]}"/>`);
@@ -276,18 +477,76 @@ function topicIcon(topic, palette, x, y, scale) {
   if (/^(?:medicine|medical|health|doctor|nursing|clinical|pharmacy|law|legal|advocate|court|literature|writing|journalism|language|english|humanities|publishing|education|teaching|abroad|overseas|foreign|study|bank|finance|insurance|account|commerce|economics|investment|it|software|data|ai|technology|coding|developer|computer|engineering)\b/.test(value)) return topicIconLegacy(topic, palette, x, y, scale);
   return frame(`<rect x="120" y="130" width="260" height="320" rx="18" fill="none" stroke="${stroke}" stroke-width="18"/><path d="M180 210h140m-140 65h100m-100 65h75M400 355l48 48 80-100" fill="none" stroke="${palette[3]}" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><circle cx="450" cy="235" r="36" fill="${palette[4]}"/>`);
 }
-function heroAnswerFromFacts(facts, topic) { const topicLead = words(topic).slice(0, Math.min(4, words(topic).length)).join(' ').toLowerCase(); const candidates = facts.map((item) => ({ item, text: sentenceParts(clean(item.raw || item.text)).find((part) => /[.!]$/.test(part) && words(part).length >= 5 && words(part).length <= 12 && !badEnd.has(lastWord(part))) || '' })).filter(({ text }) => text); const distinct = candidates.find(({ text }) => words(text).slice(0, Math.min(4, words(text).length)).join(' ').toLowerCase() !== topicLead); const groundedFallback = facts.map((item) => ({ item, text: sentenceParts(clean(item.raw || item.text)).find((part) => /[.!?]$/.test(part) && words(part).length >= 5 && words(part).length <= 26 && !badEnd.has(lastWord(part))) || '' })).find(({ text }) => text && words(text).slice(0, Math.min(4, words(text).length)).join(' ').toLowerCase() !== topicLead); return distinct || candidates[0] || groundedFallback || { item: null, text: '' }; }
-function heroRouteLabels(sections, topic, answer, supporting) { const seen = new Set(); const labels = []; for (const section of sections) { const source = clean(section.title || ''); if (!source || isGenericVisualHeading(source) || headingsSharePhrase(source, topic)) continue; let compact = source.replace(/^(?:who pays for using|who pays for|what|where|when|which|who|why)\s+(?:to\s+)?/i, '').replace(/\b(?:actually|genuinely|really|right now|in india|today|looks like|look like|well)\b/gi, '').replace(/\s+/g, ' ').trim(); compact = compact.replace(/,\s*([^,]+),\s*and\s+.+$/i, ' and $1'); if (visualWordCount(compact) > 3) compact = shortHeading(compact, topic); const label = titleCase(words(compact).slice(0, 3).join(' ')); const key = phraseKeys(label).sort().join('|'); if (!key || seen.has(key) || headingsSharePhrase(label, topic) || headingsSharePhrase(label, answer) || supporting.some((item) => headingsSharePhrase(label, item.text))) continue; seen.add(key); labels.push(label); if (labels.length === 3) break; } return labels; }
+function normalizeHeroAnswer(text) { return clean(text).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').replace(/\s+/g, ' ').trim(); }
+function heroAnswerFromFacts(facts, topic, usedAnswers = new Set()) {
+  const topicLead = words(topic).slice(0, Math.min(4, words(topic).length)).join(' ').toLowerCase();
+  const candidates = facts.flatMap((item) => sentenceParts(clean(item.raw || item.text))
+    .filter((part) => /[.!]$/.test(part) && words(part).length >= 5 && words(part).length <= 14 && !badEnd.has(lastWord(part)) && !isSharedPromoCopy(part))
+    .map((text) => ({ item, text: text.replace(/["“”]/g, '').trim() })))
+    .filter(({ text }) => words(text).slice(0, Math.min(4, words(text).length)).join(' ').toLowerCase() !== topicLead);
+  return candidates.find(({ text }) => !usedAnswers.has(normalizeHeroAnswer(text))) || candidates[0] || { item: null, text: '' };
+}
+function heroRouteLabels(sections, topic, answer, supporting, route = '') {
+  const override = heroRouteLabelOverrides.get(route);
+  if (override) return override;
+  // Article section headings are not dependable pathway steps. Turning them
+  // into two-word labels produced false sequences such as “Week Route / At
+  // Not / Paying Money”. Keep only the route labels explicitly curated above.
+  return [];
+  const seen = new Set();
+  const labels = [];
+  const topicWords = new Set(words(topic).map((word) => word.toLowerCase()));
+  const stopWords = new Set(['a','an','the','and','or','of','to','for','from','in','on','by','with','if','you','your','who','what','where','when','which','why','how','actually','genuinely','really','right','now','here','there','this','that','it','is','are','was','were','be','been','being','do','does','did','can','could','will','would','should','may','might','looks','look','like','works','work','means','mean','before','after','into','about','side','offer','offers','colleges','version','real','short','answer','route','path','career','guide','guidance','choices','choice','options','option','india','best','good','more','less','much','same','different','through','actually','meaning']);
+  const singleWordLabel = new Map([['btech','BTech Route'],['eligibility','Entry Rules'],['recognition','Recognition Check'],['demand','Demand Signal'],['salary','Pay Range'],['fees','Cost Check'],['risk','Risk Check'],['admission','Entry Rules'],['duration','Time Required'],['proof','Proof to Build'],['questions','Questions to Ask']]);
+  for (const section of sections) {
+    const source = clean(section.title || '');
+    if (!source || isGenericVisualHeading(source) || headingsSharePhrase(source, topic)) continue;
+    const seed = source.split(/[,:;]/, 1)[0].replace(/^(?:if you actually meant|if you meant|what happens when|how to|how|what|where|when|which|who|why|use|pass|check)\s+/i, '').trim();
+    const candidates = words(seed).map((word) => word.toLowerCase()).filter((word) => !topicWords.has(word) && !stopWords.has(word));
+    if (!candidates.length) continue;
+    let label;
+    if (candidates.length === 1) label = singleWordLabel.get(candidates[0]) || `${titleCase(candidates[0])} Route`;
+    else label = titleCase(candidates.slice(0, 2).join(' '));
+    if (/\band\b/i.test(seed) && candidates.length >= 2 && /regular|executive|full.time|part.time/i.test(seed)) label = `${titleCase(candidates[0])} vs ${titleCase(candidates[1])}`;
+    const weakLabel = /(?:^vs\b|\bvs$|^versus\b|\bversus$|\balready\b|\bgeneric\b|\bactually\b|\breally\b)|[&/]\s*$|^\d+(?:[-–]\d+)?\s*(?:hour|hours|day|days|week|weeks|month|months|year|years)\b/i.test(label);
+    if (visualWordCount(label) > 3 || weakLabel || isGenericVisualHeading(label) || headingsSharePhrase(label, answer) || supporting.some((item) => headingsSharePhrase(label, item.text))) continue;
+    const key = label.toLowerCase().replace(/[^a-z0-9]+/gi, ' ').trim();
+    if (!key || seen.has(key)) continue;
+    seen.add(key);
+    labels.push(label);
+    if (labels.length === 3) break;
+  }
+  return labels;
+}
 function headingsSharePhrase(left, right) { const a = String(left || '').toLowerCase().match(/[\p{L}\p{N}]+/gu) || []; const b = String(right || '').toLowerCase().match(/[\p{L}\p{N}]+/gu) || []; if (a.join(' ') === b.join(' ')) return true; if (Math.min(a.length, b.length) < 4) return false; const set = new Set(); for (let i = 0; i <= a.length - 4; i += 1) set.add(a.slice(i, i + 4).join(' ')); for (let i = 0; i <= b.length - 4; i += 1) if (set.has(b.slice(i, i + 4).join(' '))) return true; return false; }
 function uniqueVisualHeading(candidate, item, topic, type, manifest, usedPhrases = new Set()) { const candidateHeading = type === "matrix" ? shortHeading(candidate, compactTopic(topic)) : ""; if (candidateHeading && !manifest.some((visual) => headingsSharePhrase(candidateHeading, visual.heading)) && !phraseKeys(candidateHeading).some((key) => usedPhrases.has(key))) return candidateHeading; const previous = manifest.map((visual) => visual.heading).filter(Boolean); const source = clean(item?.text || item?.raw || ''); const priorContent = manifest.map((visual) => [visual.heading, visual.alt, ...(visual.content?.answer ? [visual.content.answer] : []), ...(visual.content?.items || []).flatMap((entry) => [entry.heading, entry.text]), ...(visual.content?.columns || []), ...(visual.content?.rows || []).flat(), ...(visual.content?.figures || []).flatMap((figure) => [figure.value, figure.label, figure.source]), ...(visual.content?.steps || []), ...(visual.content?.steps || [])].join(' ')); const repeatsFiveWords = (value) => { const keys = phraseKeys(value); return priorContent.some((text) => keys.some((key) => phraseKeys(text).includes(key))); }; const incomplete = (value) => /[,;:]\s*$/.test(value) || (badEnd.has(lastWord(value)) && !/\bIT[\s"'”’)!?]*$/u.test(value)) || /\b(?:can|could|may|might|will|would|should)\s+\w+ly$/i.test(value); const isUsable = (value) => value && !incomplete(value) && !isGenericVisualHeading(value) && !previous.some((heading) => headingsSharePhrase(value, heading)) && !repeatsFiveWords(value); if (isUsable(candidate)) { const bounded = shortHeading(candidate, compactTopic(topic)); if (!previous.some((heading) => headingsSharePhrase(bounded, heading))) return bounded; } const alternatives = [quotedLead(source), groundedHeading(source), item?.heading, sentence(source, 8), phrase(source, 7), words(source).slice(0, 5).join(' ')]; for (const value of alternatives) { const option = shortHeading(value, compactTopic(topic)); if (isUsable(option)) return option; } const sourceWords = words(source); for (let length = 4; length >= 3; length -= 1) for (let start = 0; start <= sourceWords.length - length; start += 1) { const option = titleCase(sourceWords.slice(start, start + length).map((word) => word.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, '')).join(' ')); if (!incomplete(option) && !badStart.has(words(option)[0]?.toLowerCase()) && !badEnd.has(lastWord(option)) && !/\b(?:and|or|to|for|with)\s+(?:a|an|the)\b/i.test(option) && !isGenericVisualHeading(option) && !previous.some((heading) => headingsSharePhrase(option, heading))) return option; } const fallback = ({ summary: 'What Matters Before Choosing', matrix: 'Compare the Practical Paths', chain: 'A Sequence to Try', checklist: 'Questions to Check First', proof: 'Numbers in Context', detail: 'What the Evidence Shows' })[type] || 'A Clear Next Step'; return !repeatsFiveWords(fallback) && !previous.some((heading) => headingsSharePhrase(fallback, heading)) ? fallback : `${titleCase(type)} Evidence`; }
-function baseSvg(body, palette, topLabel, heading, size) { const { width, height } = size; const margin = 72; const isHero = topLabel === 'Career Snapshot'; const headingLines = wrap(titleCase(isHero ? heroTopic(heading) : heading), isHero ? 22 : 15); const headingSize = isHero ? (width === PHONE.width ? 50 : 56) : (width === PHONE.width ? 56 : 62); const lineHeight = headingSize * 1.08; const headingSvg = headingLines.map((line, i) => `<text x="${margin}" y="${144 + i * lineHeight}" font-family="Arial,Helvetica,sans-serif" font-size="${headingSize}" font-weight="700" fill="${palette[1]}">${esc(line)}</text>`).join(''); const bodyShift = isHero ? 0 : Math.max(0, (headingLines.length - 2) * 58); return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><rect width="${width}" height="${height}" fill="${palette[0]}"/><path d="M0 84H${width}" stroke="${palette[4]}" stroke-width="7"/><text x="${margin}" y="52" font-family="Arial,Helvetica,sans-serif" font-size="${width === PHONE.width ? 48 : 38}" font-weight="700" letter-spacing="1" fill="${palette[1]}">${esc(titleCase(topLabel).toUpperCase())}</text>${headingSvg}<g transform="translate(0 ${bodyShift})">${body}</g></svg>`; }
-function cardVisual(items, palette, type, heading, size) { const { width, height } = size; const accent = [palette[2], palette[3], palette[4]]; const bodyTop = 285; const gap = 24; const columns = 1; const cardW = width - 144; const font = width === PHONE.width ? 44 : 48; const maxChars = 34; const headingLines = wrap(titleCase(heading), 15); const bodyShift = Math.max(0, (headingLines.length - 2) * 58); const cardHeight = Math.floor((height - bodyTop - bodyShift - 80 - gap * (Math.min(items.length, 4) - 1)) / Math.min(items.length, 4)); let body = ''; items.slice(0, 4).forEach((item, index) => { const x = 72; const y = bodyTop + index * (cardHeight + gap); body += `<rect x="${x}" y="${y}" width="${cardW}" height="${cardHeight}" rx="22" fill="#fffaf0" stroke="${accent[index % accent.length]}" stroke-width="5"/>`; if (type === 'checklist') body += `<rect x="${x + 28}" y="${y + 30}" width="36" height="36" rx="8" fill="${accent[index % accent.length]}"/><path d="M${x + 37} ${y + 48}l10 10 18-22" stroke="#fffaf0" stroke-width="7" fill="none"/>`; else body += `<circle cx="${x + 48}" cy="${y + 50}" r="30" fill="${accent[index % accent.length]}"/><text x="${x + 48}" y="${y + 61}" text-anchor="middle" font-family="Arial" font-size="34" font-weight="700" fill="#fffaf0">${index + 1}</text>`; const lines = wrap(item.text, maxChars); const textY = y + cardHeight / 2 - ((lines.length - 1) * font * 1.16) / 2; body += textLines(item.text, x + 28, textY, font, maxChars, palette[1], 6, 600); }); return baseSvg(body, palette, typeTopLabel(type), heading, size); }
+function baseSvg(body, palette, topLabel, heading, size, isHero = false) {
+  const { width, height } = size;
+  const margin = 72;
+  const heroHeading = isHero ? heroTopic(heading) : heading;
+  const headingLines = wrap(titleCase(heroHeading), isHero ? 22 : 15);
+  const headingSize = isHero ? (width === PHONE.width ? 52 : 58) : (width === PHONE.width ? 56 : 62);
+  const lineHeight = headingSize * 1.08;
+  const labelY = width === PHONE.width ? 96 : 101;
+  const lineY = width === PHONE.width ? 116 : 123;
+  const headingY = width === PHONE.width ? 166 : 182;
+  const labelSize = width === PHONE.width ? 38 : 38;
+  const headingSvg = headingLines.map((line, i) => `<text x="${margin}" y="${headingY + i * lineHeight}" font-family="Georgia,Times New Roman,serif" font-size="${headingSize}" font-weight="700" fill="${palette[1]}">${esc(line)}</text>`).join('');
+  const bodyShift = isHero ? 0 : Math.max(0, (headingLines.length - 2) * 58);
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><rect width="${width}" height="${height}" fill="${palette[0]}"/><path d="M0 ${lineY}H${width}" stroke="${palette[4]}" stroke-width="7"/><text x="${margin}" y="${labelY}" font-family="Arial,Helvetica,sans-serif" font-size="${labelSize}" font-weight="700" letter-spacing="1" fill="${palette[1]}">${esc(titleCase(topLabel))}</text>${headingSvg}<g transform="translate(0 ${bodyShift})">${body}</g></svg>`;
+}
+function cardVisual(items, palette, type, heading, size) { const { width, height } = size; const accent = [palette[2], palette[3], palette[4]]; const bodyTop = 285; const gap = 24; const columns = 1; const cardW = width - 144; const font = width === PHONE.width ? 44 : 48; const maxChars = 34; const headingLines = wrap(titleCase(heading), 15); const bodyShift = Math.max(0, (headingLines.length - 2) * 58); const cardHeight = Math.floor((height - bodyTop - bodyShift - 80 - gap * (Math.min(items.length, 4) - 1)) / Math.min(items.length, 4)); let body = ''; items.slice(0, 4).forEach((item, index) => { const x = 72; const y = bodyTop + index * (cardHeight + gap); body += `<rect x="${x}" y="${y}" width="${cardW}" height="${cardHeight}" rx="22" fill="#fffaf0" stroke="${accent[index % accent.length]}" stroke-width="5"/>`; body += `<circle cx="${x + 48}" cy="${y + 50}" r="30" fill="${accent[index % accent.length]}"/><text x="${x + 48}" y="${y + 61}" text-anchor="middle" font-family="Arial" font-size="38" font-weight="700" fill="#fffaf0">${String(index + 1).padStart(2, '0')}</text>`; const lines = wrap(item.text, maxChars); const textY = y + cardHeight / 2 - ((lines.length - 1) * font * 1.16) / 2; body += textLines(item.text, x + 28, textY, font, maxChars, palette[1], 6, 600); }); return baseSvg(body, palette, typeTopLabel(type), heading, size); }
 function tableColumns(content, limit = 3) { const values = (content.match(/^Columns:\s*([^|]+(?:\|[^|]+)*)\s*\|\|/i)?.[1] || '').split('|').map((value) => clean(value)).filter(Boolean); return Number.isFinite(limit) ? values.slice(0, limit) : values; }
 function fullTableRows(content, limit = 3) { const columns = tableColumns(content, limit); const part = content.split(/\|\|\s*Rows:\s*/i)[1] || ''; return part.split(/\s*##\s*/).map((raw) => { const normalized = raw.replace(/\(([^()]*)\)/g, (_, inner) => `(${inner.replace(/\s+\/\s+/g, ' or ')})`).replace(/\b(BMLT|B\.MLS?|BSc|BTech|MSc|MTech|MBA|BBA|BCA|BCom|LLB|BA|PhD)\s+\/\s+(?=(?:BMLT|B\.MLS?|BSc|BTech|MSc|MTech|MBA|BBA|BCA|BCom|LLB|BA|PhD)\b)/gi, '$1 or '); const cells = normalized.split(/\s+\/\s+/).map((value) => clean(value).replace(/[:;,]+\s*$/, '').trim()); if (!columns.length) return cells.filter(Boolean); const expected = columns.length; while (cells.length > expected) cells[0] = `${cells[0]} / ${cells.splice(1, 1)[0]}`; const aligned = [...cells]; while (aligned.length < expected) aligned.push(''); return aligned.slice(0, expected); }).filter((row) => row.some(Boolean)); }
 function tableRows(content, rowLimit = 2) { const columns = tableColumns(content); const rows = fullTableRows(content).map((row) => row.map((cell) => shortCell(cell))).slice(0, rowLimit); return { columns, rows }; }
 function compactTableHeader(value, index) {
   const source = clean(value).replace(/\s*\([^)]*\)/g, '').replace(/[,:;]+$/, '');
   const key = source.toLowerCase().replace(/\s+/g, ' ').trim();
+  if (/^risk\s*\/\s*reality$/i.test(source)) return 'Risk';
+  if (/^entry\s+(?:entry\s+)?(?:gate|requirement)$/i.test(source)) return 'Entry Requirement';
+  if (/^entry\s*[-–—]\s*$/i.test(source)) return 'Entry';
+  if (source.includes('/')) return titleCase(source.split('/')[0].trim());
+  if (/[-–—]\s*$/.test(source)) return titleCase(source.replace(/\s*[-–—]\s*$/, '').trim());
   const fixed = new Map([
     ['type of', 'Candidate'], ['type of entrant', 'Candidate'], ['type of graduate', 'Candidate'], ['type of trainee', 'Candidate'],
     ['what you', 'Main Task'], ['what to', 'Next Step'], ['how we', 'Our View'], ['what it', 'Main Work'], ['what a', 'Requirement'],
@@ -406,7 +665,62 @@ function selectMatrix(content, heading, usedPhrases = new Set()) {
   }
   return best;
 }
-function figureTiles(figures, palette, size, tileY, tileHeight, includeSource = false, valuePosition = 0.22, labelPosition = 0.57, sourcePosition = 0.70) { const { width } = size; const isSocial = width === 1200; const gap = isSocial ? 24 : 20; const count = Math.max(1, Math.min(3, figures.length)); const tileW = (width - 144 - gap * (count - 1)) / count; const start = (width - (tileW * count + gap * (count - 1))) / 2; let body = ''; figures.slice(0, 3).forEach((item, i) => { const x = start + i * (tileW + gap); const accent = [palette[2], palette[3], palette[4]][i]; const value = String(item.value || '').replace(/\s*[-–]\s*/g, ' – '); const valueChars = Math.max(7, Math.floor((tileW - 44) / (isSocial ? 25 : 32))); body += `<rect x="${x}" y="${tileY}" width="${tileW}" height="${tileHeight}" rx="22" fill="#fffaf0" stroke="${accent}" stroke-width="5"/>`; body += textLines(value, x + tileW / 2, tileY + tileHeight * valuePosition, isSocial ? 48 : size.width === PHONE.width ? 58 : 64, valueChars, palette[1], 3, 700, 'middle', tileW - 48); body += textLines(item.label, x + tileW / 2, tileY + tileHeight * labelPosition, isSocial ? 24 : size.width === PHONE.width ? 48 : 38, Math.max(9, Math.floor(tileW / (isSocial ? 18 : 26))), palette[1], 2, 700, 'middle', tileW - 48); if (includeSource) body += textLines(item.source || item.text, x + tileW / 2, tileY + tileHeight * sourcePosition, size.width === PHONE.width ? 36 : 38, Math.max(10, Math.floor(tileW / 23)), palette[1], 6, 600, 'middle', tileW - 48); }); return body; }
+function figureTiles(figures, palette, size, tileY, tileHeight, includeSource = false, valuePosition = null, labelPosition = null, sourcePosition = null) {
+  const { width } = size;
+  const isSocial = width === 1200;
+  const count = Math.max(1, Math.min(3, figures.length));
+  const accents = [palette[2], palette[3], palette[4]];
+  let body = '';
+  if (!includeSource && !isSocial) {
+    const gap = 12;
+    const rowHeight = (tileHeight - gap * (count - 1)) / count;
+    const cardWidth = width - 144;
+    const valueColumn = cardWidth * 0.62;
+    const valueFont = width === PHONE.width ? 80 : 88;
+      const labelFont = width === PHONE.width ? 38 : 38;
+    figures.slice(0, count).forEach((item, index) => {
+      const y = tileY + index * (rowHeight + gap);
+      const x = 72;
+      let value = String(item.value || '').replace(/\s*[-–]\s*/g, ' – ');
+      let label = String(item.label || '');
+      const duration = value.match(/^(.+?)\s+(years?|months?|weeks?|days?|hours?)$/i);
+      if (duration) {
+        value = duration[1].trim();
+        const subject = label.replace(/\s+(?:window|period|duration|time required)$/i, '').trim();
+        label = `${titleCase(duration[2])} · ${subject}`.trim();
+      }
+      const valueChars = Math.max(6, Math.floor((valueColumn - 44) / (valueFont * 0.55)));
+      const labelChars = Math.max(10, Math.floor((cardWidth - valueColumn - 36) / (labelFont * 0.55)));
+      const valueLines = wrap(value, valueChars);
+      const labelLines = wrap(label, labelChars);
+      const valueY = y + rowHeight / 2 - ((valueLines.length - 1) * valueFont * 1.12) / 2;
+      const labelY = y + rowHeight / 2 - ((labelLines.length - 1) * labelFont * 1.16) / 2;
+      body += `<rect x="${x}" y="${y}" width="${cardWidth}" height="${rowHeight}" rx="8" fill="#fffaf0" stroke="#d7cdb8" stroke-width="3"/><path d="M${x + 4} ${y + 16}v${rowHeight - 32}" stroke="${accents[index]}" stroke-width="8" stroke-linecap="round"/>`;
+      body += textLines(value, x + 30, valueY, valueFont, valueChars, palette[1], 2, 700, 'start', valueColumn - 44);
+      body += textLines(label, x + valueColumn, labelY, labelFont, labelChars, palette[1], 3, 600, 'start', cardWidth - valueColumn - 28);
+    });
+    return body;
+  }
+  const gap = isSocial ? 24 : 20;
+  const tileW = (width - 144 - gap * (count - 1)) / count;
+  const start = (width - (tileW * count + gap * (count - 1))) / 2;
+  const valueRatio = valuePosition ?? (includeSource ? 0.16 : 0.22);
+  const labelRatio = labelPosition ?? (includeSource ? 0.37 : 0.50);
+  const sourceRatio = sourcePosition ?? 0.56;
+  figures.slice(0, count).forEach((item, i) => {
+    const x = start + i * (tileW + gap);
+    const value = String(item.value || '').replace(/\s*[-–]\s*/g, ' – ');
+    const valueChars = Math.max(7, Math.floor((tileW - 44) / (isSocial ? 25 : 32)));
+    const labelChars = Math.max(9, Math.floor(tileW / (isSocial ? 18 : 26)));
+    const valueFont = isSocial ? 48 : size.width === PHONE.width ? 80 : 88;
+    const labelFont = isSocial ? 32 : size.width === PHONE.width ? 38 : 38;
+    body += `<rect x="${x}" y="${tileY}" width="${tileW}" height="${tileHeight}" rx="${isSocial ? 14 : 8}" fill="#fffaf0" stroke="${accents[i]}" stroke-width="4"/>`;
+    body += textLines(value, x + tileW / 2, tileY + tileHeight * valueRatio, valueFont, valueChars, palette[1], 3, 700, 'middle', tileW - 48);
+    body += textLines(item.label, x + tileW / 2, tileY + tileHeight * labelRatio, labelFont, labelChars, palette[1], 3, 700, 'middle', tileW - 48);
+    if (includeSource) body += textLines(item.source || item.text, x + tileW / 2, tileY + tileHeight * sourceRatio, size.width === PHONE.width ? 36 : 40, Math.max(10, Math.floor(tileW / 23)), palette[1], 6, 600, 'middle', tileW - 48);
+  });
+  return body;
+}
 function heroRouteMap(labels, palette, size, y) {
   const { width } = size;
   const count = Math.min(3, labels.length);
@@ -415,24 +729,24 @@ function heroRouteMap(labels, palette, size, y) {
   const cardWidth = width - margin * 2;
   const cardHeight = 120;
   const gap = 12;
-  const font = width === PHONE.width ? 34 : 36;
+  const font = width === PHONE.width ? 38 : 42;
   let body = '';
   for (let i = 0; i < count; i += 1) {
     const x = margin;
     const cardY = y + i * (cardHeight + gap);
     const color = [palette[2], palette[3], palette[4]][i % 3];
     const maxChars = Math.max(18, Math.floor((cardWidth - 142) / (font * 0.58)));
-    body += `<rect x="${x}" y="${cardY}" width="${cardWidth}" height="${cardHeight}" rx="18" fill="#fffaf0" stroke="${color}" stroke-width="4"/><circle cx="${x + 42}" cy="${cardY + 60}" r="25" fill="${color}"/><text x="${x + 42}" y="${cardY + 69}" text-anchor="middle" font-family="Arial" font-size="${width === PHONE.width ? 34 : 36}" font-weight="700" fill="#fffaf0">${String(i + 1).padStart(2, '0')}</text>${textLines(labels[i], x + 92, cardY + 47, font, maxChars, palette[1], 2, 650)}`;
+    body += `<rect x="${x}" y="${cardY}" width="${cardWidth}" height="${cardHeight}" rx="18" fill="#fffaf0" stroke="${color}" stroke-width="4"/><circle cx="${x + 42}" cy="${cardY + 60}" r="28" fill="${color}"/><text x="${x + 42}" y="${cardY + 69}" text-anchor="middle" font-family="Arial" font-size="${width === PHONE.width ? 36 : 40}" font-weight="700" fill="#fffaf0">${String(i + 1).padStart(2, '0')}</text>${textLines(labels[i], x + 92, cardY + 47, font, maxChars, palette[1], 2, 650)}`;
   }
   return body;
 }
 function heroVisual(answer, figures, topic, palette, size, supporting = [], routeLabels = []) {
   const { width, height } = size;
-  const font = width === PHONE.width ? 60 : 64;
-  const answerLines = wrap(answer, width === PHONE.width ? 14 : 16);
+  const font = width === PHONE.width ? 60 : 66;
+  const answerLines = wrap(answer, 17);
   const answerY = 315;
   const answerEnd = answerY + (answerLines.length - 1) * font * 1.12 + font;
-  let body = `<text x="72" y="${answerY}" font-family="Arial" font-size="${font}" font-weight="700" fill="${palette[1]}">${answerLines.map((line, i) => `<tspan x="72" dy="${i ? font * 1.12 : 0}">${esc(line)}</tspan>`).join('')}</text>`;
+  let body = `<text x="72" y="${answerY}" font-family="Georgia,Times New Roman,serif" font-size="${font}" font-weight="700" fill="${palette[1]}">${answerLines.map((line, i) => `<tspan x="72" dy="${i ? font * 1.12 : 0}">${esc(line)}</tspan>`).join('')}</text>`;
   const iconScale = width === PHONE.width ? 0.38 : 0.42;
   const iconY = 310;
   const iconX = width - 280;
@@ -462,24 +776,112 @@ function heroVisual(answer, figures, topic, palette, size, supporting = [], rout
       }
     }
   }
-  return baseSvg(body, palette, typeTopLabel('hero'), heroTopic(topic), size);
+  return baseSvg(body, palette, heroEditorialLabel(topic), heroTopic(topic), size, true);
 }
-function socialHeroVisual(answer, figures, topic, palette, supporting = []) { const size = { width: 1200, height: 630 }; const t = heroTopic(topic); const titleLines = wrap(t, 24); const answerLines = wrap(answer, 40); let body = `<rect width="1200" height="630" fill="${palette[0]}"/><path d="M0 88H1200" stroke="${palette[4]}" stroke-width="7"/><text x="64" y="58" font-family="Arial,Helvetica,sans-serif" font-size="30" font-weight="700" letter-spacing="1" fill="${palette[1]}">${esc('CAREER SNAPSHOT')}</text>${titleLines.map((line,i)=>`<text x="64" y="${148+i*55}" font-family="Arial,Helvetica,sans-serif" font-size="48" font-weight="700" fill="${palette[1]}">${esc(line)}</text>`).join('')}${answerLines.map((line,i)=>`<text x="64" y="${248+i*40}" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="${palette[1]}">${esc(line)}</text>`).join('')}`; body += topicIcon(topic,palette,865,118,0.48); if(figures.length){body+=figureTiles(figures,palette,size,420,160,false,0.22,0.75)}else if(supporting.length){const lines=wrap(supporting[0].text,68).slice(0,2);body+=lines.map((line,i)=>`<text x="64" y="${Math.min(570,330+i*32)}" font-family="Arial,Helvetica,sans-serif" font-size="25" fill="${palette[1]}">${esc(line)}</text>`).join('')} return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">${body}</svg>`; }
+function socialHeroVisual(answer, figures, topic, palette, supporting = []) { const size = { width: 1200, height: 630 }; const t = heroTopic(topic); const titleLines = wrap(t, 24); const answerLines = wrap(answer, 40); let body = `<rect width="1200" height="630" fill="${palette[0]}"/><path d="M0 106H1200" stroke="${palette[4]}" stroke-width="7"/><text x="64" y="90" font-family="Arial,Helvetica,sans-serif" font-size="24" font-weight="700" letter-spacing="1" fill="${palette[1]}">${esc(heroEditorialLabel(topic).toUpperCase())}</text>${titleLines.map((line,i)=>`<text x="64" y="${148+i*55}" font-family="Georgia,Times New Roman,serif" font-size="48" font-weight="600" fill="${palette[1]}">${esc(line)}</text>`).join('')}${answerLines.map((line,i)=>`<text x="64" y="${248+i*40}" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="${palette[1]}">${esc(line)}</text>`).join('')}`; body += topicIcon(topic,palette,865,118,0.48); if(figures.length){body+=figureTiles(figures,palette,size,420,160,false,0.22,0.75)}else if(supporting.length){const lines=wrap(supporting[0].text,68).slice(0,2);body+=lines.map((line,i)=>`<text x="64" y="${Math.min(570,330+i*32)}" font-family="Arial,Helvetica,sans-serif" font-size="25" fill="${palette[1]}">${esc(line)}</text>`).join('')} return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">${body}</svg>`; }
 function proofVisual(items, palette, heading, size) { const figures = items.map(figureFromItem).filter(Boolean); let body = topicIcon(heading, palette, size.width === PHONE.width ? 540 : 570, 145, size.width === PHONE.width ? 0.58 : 0.66); body += figureTiles(figures, palette, size, 300, 950, true); return baseSvg(body, palette, typeTopLabel('proof'), heading, size); }
 function keyFor(item) { return clean(item?.text || item?.raw || item || '').toLowerCase().replace(/\W+/g, ' ').trim(); }
 function phraseKeys(value) { const tokens = String(value || '').toLowerCase().match(/[\p{L}\p{N}]+/gu) || []; const keys = []; for (let i = 0; i <= tokens.length - 5; i += 1) keys.push(tokens.slice(i, i + 5).join(' ')); return keys; }
 function numericTokens(value) { return (String(value || '').match(/(?:\d{1,2}(?:,\d{2})+,\d{3}|\d+(?:,\d{3})*)(?:\.\d+)?/g) || []).map((token) => Number(token.replaceAll(',', ''))); }
+function normalizeFigureKey(value) { return String(value || '').toLowerCase().replace(/(?:₹|\b(?:rs\.?|inr)\b|\$)/gi, '').replace(/,/g, '').replace(/[–—−]/g, '-').replace(/\b(lakhs?|crores?|years?|months?|weeks?|days?|hours?)\b/g, (unit) => unit.replace(/s$/, '').replace(/^lakh$/, 'lakh').replace(/^crore$/, 'crore')).replace(/\bpercent\b/g, '%').replace(/\s+/g, '').trim(); }
+function figureFamily(label) {
+  const normalized = clean(label).toLowerCase().replace(/\s+by\s+20\d{2}\b/g, '').replace(/^projected\s+/, '');
+  if (/^(?:annual industry revenue|pr industry revenue)$/.test(normalized)) return 'industry revenue';
+  if (/^(?:education budget example|illustrative education budget)$/.test(normalized)) return 'education budget example';
+  return normalized;
+}
 function expandFigureValue(value, raw) {
   const targets = numericTokens(value);
   if (targets.length !== 1) return value;
+  const requestedUnit = String(value || '').match(/(?:lpa|lakhs?|crores?|thousand|million|billion|k|%|percent|years?|months?|weeks?|days?|hours?)\s*$/i)?.[0]?.trim();
   const number = String.raw`(?:\d{1,2}(?:,\d{2})+,\d{3}|\d+(?:,\d{3})*)(?:\.\d+)?`;
   const range = new RegExp(String.raw`(?:₹|\b(?:rs\.?|inr)\b|\$)?\s*(${number})\s*(?:[-–—]|\bto\b)\s*(${number})(?:\s*(lpa|lakhs?|crores?|%|percent|years?|months?|weeks?|days?|hours?))?`, 'gi');
   for (const match of String(raw || '').matchAll(range)) {
-    if ([match[1], match[2]].some((endpoint) => Number(endpoint.replaceAll(',', '')) === targets[0])) return match[0].trim();
+    if (requestedUnit && normalizeFigureKey(requestedUnit) !== normalizeFigureKey(match[3] || '')) continue;
+    const yearPercentMismatch = /%|percent/i.test(match[3] || '') && Number(match[1]) >= 1900 && Number(match[1]) <= 2100;
+    if (!yearPercentMismatch && [match[1], match[2]].some((endpoint) => Number(endpoint.replaceAll(',', '')) === targets[0])) return match[0].trim();
+  }
+  const amount = new RegExp(String.raw`(?:₹|\b(?:rs\.?|inr)\b|\$)?\s*(${number})\s*(lpa|lakhs?|crores?|thousand|million|billion|k|%|percent|years?|months?|weeks?|days?|hours?)?`, 'gi');
+  for (const match of String(raw || '').matchAll(amount)) {
+    if (Number(match[1].replaceAll(',', '')) !== targets[0] || !match[2]) continue;
+    if (requestedUnit && normalizeFigureKey(requestedUnit) !== normalizeFigureKey(match[2])) continue;
+    return match[0].trim().replace(/^rs\.?\s*/i, '₹').replace(/^inr\s*/i, '₹');
   }
   return value;
 }
+function percentageContextLabel(context, value = '') {
+  const text = clean(context).toLowerCase();
+  const number = String(value || '').toLowerCase();
+  if (/100\s*%\s*(?:safe|guaranteed)|\b100 percent safe\b/.test(text)) return '__OMIT__';
+  if (/government/.test(text) && /share/.test(text)) return 'Government PR Client Share';
+  if (/start.?ups?/.test(text) && /share/.test(text)) return 'Start-up PR Client Share';
+  if (/government/.test(text) && /client categor|client mix|client share/.test(text)) return 'Government PR Client Share';
+  if (/start.?ups?/.test(text) && /client categor|client mix|client share/.test(text)) return 'Start-up PR Client Share';
+  if (/education budget|paid course|course fee|degree fee|college seat.*budget/.test(text)) {
+    const valueIndex = text.indexOf(number);
+    const numericToken = number.match(/\d+(?:\.\d+)?/)?.[0];
+    const percentMatch = numericToken ? text.match(new RegExp(`${numericToken}\\s*(?:%|percent)`)) : null;
+    const numericIndex = valueIndex >= 0 ? valueIndex : percentMatch?.index ?? text.search(/\d+(?:\.\d+)?\s*%?/);
+    const nearbyBefore = numericIndex >= 0 ? text.slice(Math.max(0, numericIndex - 28), numericIndex) : text;
+    const nearbyAfter = numericIndex >= 0 ? text.slice(numericIndex + number.length, numericIndex + number.length + 36) : text;
+    const nearby = `${nearbyBefore} ${nearbyAfter}`;
+    if (/caution|warning|red flag|spending above|above roughly|serious caution/.test(nearby)) return 'Budget Warning Threshold';
+    return 'Education Budget Share';
+  }
+  if (/upsc civil services/.test(text) && /select|selected|recommended/.test(text)) return 'UPSC Selection Rate';
+  if (/ca\s+final/.test(text) && /pass|passed|clear|cleared/.test(text)) return 'CA Final Pass Rate';
+  if (/\b44ada\b|presumptive scheme|taxable profit/.test(text)) return 'Presumptive Taxable Income Share';
+  if (/disability.{0,50}(?:bar|eligib|percent)|(?:eligib|bar).{0,50}disability/.test(text)) return 'Disability Eligibility Threshold';
+  if (/\bunemployment\b/.test(text)) return /young people|aged 15|youth/.test(text) ? 'Youth Unemployment Rate' : 'Unemployment Rate';
+  if (/graduate employability|employability rate|job-ready/.test(text)) return 'Graduate Employability Rate';
+  if (/placement/.test(text)) return /banner|claim|says so|advertis|guarantee/.test(text) ? 'Advertised Placement Claim' : 'Placement Rate';
+  if (/pay jump|salary premium|pay premium|pay gap|pay rise|salary increase|earnings increase|compensation.*(?:rise|increase|jump)/.test(text)) return 'Pay Increase';
+  if (/credit card/.test(text) && /compounding|interest|balance/.test(text)) return 'Credit Card Interest Rate';
+  if (/home loan/.test(text) && /interest|loan/.test(text)) return 'Home Loan Interest Rate';
+  if (/advance before you start|advance payment|upfront payment/.test(text)) return 'Upfront Payment Advance';
+  if (/revenue-cycle|outsourc/.test(text) && /adoption/.test(text)) return 'Outsourcing Adoption Rate';
+  if (/ai skill penetration|skill penetration/.test(text)) return 'AI Skill Penetration';
+  if (/skill sets?.{0,65}(?:transformed|outdated)|workers? will need.{0,40}reskilling/.test(text)) return 'Workforce Reskilling Forecast';
+  if (/skills? gap|difficulty finding (?:skilled|talent)|struggle to find candidates|hard to find skilled/.test(text)) return 'Employers Reporting Skills Shortage';
+  if (/startup/.test(text) && /do not survive|failure|fail to survive/.test(text)) return 'Startup Five-Year Failure Rate';
+  if (/creators?/.test(text) && /monetiz/.test(text)) return 'Creator Monetization Rate';
+  if (/conversion/.test(text) && /walk in|buy|purchase|bills/.test(text)) return 'Customer Conversion Rate';
+  if (/world output|global output|world production/.test(text)) return 'Global Production Share';
+  if (/reservation|national quota|quota/.test(text)) return 'Reservation Share';
+  if (/interest rate|compounding|dearness allowance/.test(text)) return 'Interest or Allowance Rate';
+  if (/minimum|at least/.test(text) && /marks|eligib|qualif|admission|pass to/.test(text)) return 'Eligibility Threshold';
+  if (/passed|pass rate|cleared|qualified|appeared/.test(text) && /exam|group|ca\s+intermediate|barc|aicte/.test(text)) return 'Exam Pass Rate';
+  if (/selected|selection|got a seat|secured a seat/.test(text)) return 'Selection Rate';
+  if (/adoption/.test(text)) return 'Adoption Rate';
+  if (/walk in|bills/.test(text)) return 'Customer Conversion Rate';
+  if (/fell|drop|declin|reduc|cut/.test(text)) {
+    if (/job|hiring|posting/.test(text)) return 'Hiring Demand Decline';
+    if (/register|registration|licen[cs]e|cpl/.test(text)) return 'Professional Registration Decline';
+    if (/turnaround|time|fulfilment/.test(text)) return 'Process Time Reduction';
+    if (/layoffs?|job cuts/.test(text)) return 'Job Cut Increase';
+  }
+  if (/accounts for.{0,55}(?:market|output)|(?:market|output).{0,55}accounts for|market share|share of (?:the )?(?:market|earnings|creator)/.test(text)) return 'Regional Market Share';
+  if (/(?:survey|poll|respondents?)/.test(text) && /(?:said|reported|rated|consider|response|responded)/.test(text)) return 'Survey Response Share';
+  if (/public relations|\bpr industry\b/.test(text) && /grow|growth|grew|increase/.test(text)) return 'PR Industry Growth';
+  if (/advertising|groupm|dentsu/.test(text) && /grow|growth|grew|increase/.test(text)) return 'Advertising Spend Growth';
+  if (/grow|growth|increased|increase|rising/.test(text) && /revenue|jobs|adoption|market|sector|industry/.test(text)) return 'Growth Rate';
+  return '';
+}
+function clientMixShareLabel(source, numberIndex) {
+  const line = String(source || '');
+  const anchors = [...line.matchAll(/\bgovernment(?:'s)?\b|\bstart[\s-]?ups?\b/gi)];
+  const anchor = anchors.filter((match) => match.index <= numberIndex).at(-1);
+  if (!anchor) return '';
+  const nextAnchor = anchors.find((match) => match.index > anchor.index);
+  const segment = line.slice(anchor.index, nextAnchor?.index ?? line.length).toLowerCase();
+  if (!/share|client categor|client mix/.test(segment)) return '';
+  return /^government/i.test(anchor[0]) ? 'Government PR Client Share' : 'Start-up PR Client Share';
+}
 function figureValueSupported(value, raw) {
+  const canonical = (input) => String(input || '').toLowerCase().replace(/\brs\.?\s*/g, '₹').replace(/\binr\s*/g, '₹').replace(/[–—−]/g, '-').replaceAll(',', '').replace(/\bpercent\b/g, '%').replace(/\blakhs?\b/g, 'lakh').replace(/\bcrores?\b/g, 'crore').replace(/\byears?\b/g, 'year').replace(/\bmonths?\b/g, 'month').replace(/\s+/g, '');
+  const targetText = canonical(value);
+  const sourceText = canonical(raw);
+  if (targetText && /₹|\$|%|lpa|lakh|crore|year|month|week|day|hour|vacanc|student|job|applicant|seat/i.test(targetText) && !sourceText.includes(targetText)) return false;
   const target = numericTokens(value);
   const source = numericTokens(raw);
   if (target.length === 1) {
@@ -505,8 +907,22 @@ function figureValueSupported(value, raw) {
 }
 function quotedLead(value) { return String(value || '').match(/^['"]([^'"]{3,40})['"]/u)?.[1] || ''; }
 function groundedHeading(value) { return /\bfit\b.{0,60}\b(?:checkable|problem|question)\b/i.test(value) ? 'Check the Fit' : ''; }
-function itemsFromNeed(need, data) { if (need.type === 'matrix') { const table = tableRows(need.exact_page_content_to_use); return table.rows.map((row) => ({ text: row.join(' — '), raw: row.join(' — '), heading: row[0] })); } if (need.type === 'proof') { const sectionKey = clean(need.section_title).toLowerCase(); const section = data.sections.find((item) => clean(item.title).toLowerCase() === sectionKey || clean(item.title).toLowerCase().includes(sectionKey) || sectionKey.includes(clean(item.title).toLowerCase())); const sectionFacts = [...(section?.facts || []), ...data.numberFacts.filter((fact) => !(section?.facts || []).some((local) => keyFor(local) === keyFor(fact)))]; const used = new Set(); return need.exact_page_content_to_use.split('|').map((value) => clean(value)).filter(Boolean).map((value) => { const target = numericTokens(value); const match = sectionFacts.find((fact) => { if (used.has(keyFor(fact))) return false; const raw = clean(fact.raw); if (raw.toLowerCase().includes(value.toLowerCase()) && (!target.length || figureValueSupported(value, raw))) return true; return target.length > 0 && figureValueSupported(value, raw); }); if (match) used.add(keyFor(match)); return match; }).filter(Boolean); } if (need.type === 'detail') { const section = sectionForNeed(need, data); if (section?.facts?.length) return section.facts.slice(0, 3); const raw = clean(need.exact_page_content_to_use).replace(/^(?:Three practical points about .*?:|Key facts from .*? section \d+|Evidence from .*?:|Key ideas from .*?:)\s*/i, '').trim(); return raw.split(/(?<=[.!?])\s+|\s*##\s*/).map((value) => ({ raw: value, text: sentence(value, 100) || value, heading: need.section_title })).filter((item) => item.text); } const raw = clean(need.exact_page_content_to_use).replace(/^(?:Evidence from .*?:|Key ideas from .*?:)\s*/i, '').trim(); return raw.split(/\s*##\s*/).map((value) => ({ raw: value, text: sentence(value, 100) || value, heading: need.section_title })).filter((item) => item.text); }
-function sectionForNeed(need, data) { const key = clean(need.section_title).toLowerCase(); return data.sections.find((item) => clean(item.title).toLowerCase() === key || clean(item.title).toLowerCase().includes(key) || key.includes(clean(item.title).toLowerCase())); }
+function itemsFromNeed(need, data) { if (need.type === 'matrix') { const table = tableRows(need.exact_page_content_to_use); return table.rows.map((row) => ({ text: row.join(' — '), raw: row.join(' — '), heading: row[0] })); } if (need.type === 'proof') { const section = sectionForNeed(need, data); const sectionFacts = section?.facts || []; const used = new Set(); return need.exact_page_content_to_use.split('|').map((value) => clean(value)).filter(Boolean).map((value) => { const target = numericTokens(value); const match = sectionFacts.find((fact) => { if (used.has(keyFor(fact))) return false; const raw = clean(fact.raw); if (raw.toLowerCase().includes(value.toLowerCase()) && (!target.length || figureValueSupported(value, raw))) return true; return target.length > 0 && figureValueSupported(value, raw); }); if (match) used.add(keyFor(match)); return match; }).filter(Boolean); } if (need.type === 'detail') { const section = sectionForNeed(need, data); if (section?.facts?.length) return section.facts.slice(0, 3); const raw = clean(need.exact_page_content_to_use).replace(/^(?:Three practical points about .*?:|Key facts from .*? section \d+|Evidence from .*?:|Key ideas from .*?:)\s*/i, '').trim(); return raw.split(/(?<=[.!?])\s+|\s*##\s*/).map((value) => ({ raw: value, text: sentence(value, 100) || value, heading: need.section_title })).filter((item) => item.text); } const raw = clean(need.exact_page_content_to_use).replace(/^(?:Evidence from .*?:|Key ideas from .*?:)\s*/i, '').trim(); return raw.split(/\s*##\s*/).map((value) => ({ raw: value, text: sentence(value, 100) || value, heading: need.section_title })).filter((item) => item.text); }
+function sectionForNeed(need, data) {
+  const normalize = (value) => clean(value).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+  const key = normalize(need.section_title);
+  const exact = data.sections.find((item) => normalize(item.title) === key);
+  if (exact) return exact;
+  const keyWords = new Set(key.split(/\s+/).filter((word) => word.length > 2));
+  if (keyWords.size < 2) return null;
+  const ranked = data.sections.map((section) => {
+    const words = new Set(normalize(section.title).split(/\s+/).filter((word) => word.length > 2));
+    const shared = [...keyWords].filter((word) => words.has(word)).length;
+    const score = shared / Math.max(1, Math.min(keyWords.size, words.size));
+    return { section, shared, score };
+  }).sort((a, b) => b.score - a.score || b.shared - a.shared);
+  return ranked[0]?.shared >= 2 && ranked[0].score >= 0.5 ? ranked[0].section : null;
+}
 function needBlock(need, data, topic = 'Career Guidance') {
   const sourceHeading = clean(need.section_title) || 'Article section';
   const heading = completeShortHeading(shortHeading(sourceHeading, compactTopic(topic)), compactTopic(topic));
@@ -525,8 +941,8 @@ function needBlock(need, data, topic = 'Career Guidance') {
   }
   if (need.type === 'proof') {
     let facts = itemsFromNeed(need, data);
-    if (!facts.length) { const sectionFacts = sectionForNeed(need, data)?.facts || []; const localNumberFacts = sectionFacts.filter((item) => /(?:₹|\b(?:rs\.?|inr)\b|\$)\s*[\d,.]+|\d+(?:,\d{3})*(?:\.\d+)?\s*(?:%|percent|lpa|lakh|crore|years?|months?|weeks?|hours?|days?|vacancies|students?|jobs?|applicants?|seats?)/i.test(item.raw)); const sources = localNumberFacts.length ? localNumberFacts : data.numberFacts; facts = sources.filter((item) => /(?:₹|\b(?:rs\.?|inr)\b|\$)\s*[\d,.]+|\d+(?:,\d{3})*(?:\.\d+)?\s*(?:%|percent|lpa|lakh|crore|years?|months?|weeks?|hours?|days?|vacancies|students?|jobs?|applicants?|seats?)/i.test(item.raw)); }
-    const evidence = [...(sectionForNeed(need, data)?.facts || []), ...data.numberFacts];
+    if (!facts.length) { const sectionFacts = sectionForNeed(need, data)?.facts || []; const localNumberFacts = sectionFacts.filter((item) => /(?:₹|\b(?:rs\.?|inr)\b|\$)\s*[\d,.]+|\d+(?:,\d{3})*(?:\.\d+)?\s*(?:%|percent|lpa|lakh|crore|years?|months?|weeks?|hours?|days?|vacancies|students?|jobs?|applicants?|seats?)/i.test(item.raw)); const sources = localNumberFacts; facts = sources.filter((item) => /(?:₹|\b(?:rs\.?|inr)\b|\$)\s*[\d,.]+|\d+(?:,\d{3})*(?:\.\d+)?\s*(?:%|percent|lpa|lakh|crore|years?|months?|weeks?|hours?|days?|vacancies|students?|jobs?|applicants?|seats?)/i.test(item.raw)); }
+    const evidence = sectionForNeed(need, data)?.facts || [];
     const requestedFigures = need.exact_page_content_to_use.split('|').map((value) => clean(value)).filter((value) => numericTokens(value).length);
     const figuresFromExactContent = requestedFigures.map((value) => {
       const sourceFact = evidence.find((fact) => {
@@ -539,32 +955,131 @@ function needBlock(need, data, topic = 'Career Guidance') {
       const targets = numericTokens(completeValue);
       const firstTarget = targets[0];
       const sourceNumbers = [...source.matchAll(/(?:\d{1,2}(?:,\d{2})+,\d{3}|\d+(?:,\d{3})*)(?:\.\d+)?/g)];
-      const index = sourceNumbers.find((match) => Number(match[0].replaceAll(',', '')) === firstTarget)?.index ?? 0;
+      const sourceNumberMatch = sourceNumbers.find((match) => Number(match[0].replaceAll(',', '')) === firstTarget);
+      const index = sourceNumberMatch?.index ?? 0;
       const local = source.slice(Math.max(0, index - 65), Math.min(source.length, index + completeValue.length + 65)).toLowerCase();
-      const guessed = figureFromItem({ ...sourceFact, heading: need.section_title });
+      const immediate = source.slice(Math.max(0, index - 28), Math.min(source.length, index + completeValue.length + 34)).toLowerCase();
+      const previousSourceNumber = sourceNumbers.filter((match) => match.index < index).at(-1);
+      const nextSourceNumber = sourceNumbers.find((match) => match.index > index);
+      const numberEnd = index + (sourceNumberMatch?.[0].length || 0);
+      const immediateBefore = source.slice(previousSourceNumber ? previousSourceNumber.index + previousSourceNumber[0].length : Math.max(0, index - 100), index).toLowerCase();
+      const immediateAfter = source.slice(numberEnd, nextSourceNumber?.index ?? Math.min(source.length, numberEnd + 120)).toLowerCase();
+      const beforeNumber = source.slice(Math.max(0, index - 130), index).toLowerCase();
+      const afterNumber = source.slice(index + completeValue.length, Math.min(source.length, index + completeValue.length + 100)).toLowerCase();
+      const figureContext = `${beforeNumber} ${completeValue} ${afterNumber}`;
+      const requestedFigureKey = normalizeFigureKey(completeValue);
+      const guessed = figuresFromItem({ ...sourceFact, heading: need.section_title })
+        .find((figure) => normalizeFigureKey(figure.value) === requestedFigureKey) || null;
       let label = guessed?.label || '';
-      if (/outlay|allocation/i.test(local)) label = 'Programme Scheme Outlay';
-      else if (/investment|invested/i.test(local)) label = 'Total Investment Value';
+      const percentValue = /%|percent/i.test(completeValue);
+      const durationValue = /\b(?:years?|months?|weeks?|days?|hours?)\b/i.test(completeValue);
+      const currencyValue = /[₹$]|\b(?:rs\.?|inr|lpa)\b/i.test(completeValue);
+      const clientLabel = percentValue ? clientMixShareLabel(source, index) : '';
+      if (currencyValue && /(?:entry.level reporters?|journalists?|newsrooms?)/i.test(immediateBefore) && /(?:entry pay|pay|salary|month)/i.test(immediateAfter + immediateBefore) && /month/i.test(immediateAfter)) label = 'Entry Level Newsroom Pay';
+      else if (currencyValue && /civil services|upsc/i.test(source) && /starts? near|starting/i.test(immediateBefore) && /pay level/i.test(immediateAfter)) label = 'Civil Services Starting Basic Pay';
+      else if (currencyValue && /pay levels?\s+10\s*[-–]\s*17/i.test(local) && /rising to/i.test(immediateBefore)) label = 'Civil Services Pay Ceiling';
+      else if (currencyValue && /advertising|groupm|dentsu|digital ad(?:vertising)? market/i.test(figureContext) && /market|economy|industry|spend|estimate/i.test(figureContext)) label = 'Advertising Market Size';
+      if (currencyValue && /illustration,? not a real fee|education budget example|worked example/i.test(source)) {
+        if (/main course/i.test(immediateAfter)) label = 'Main Course Fee Allocation';
+        else if (/serious caution/i.test(immediateAfter)) label = 'Caution Threshold';
+        else if (/education budget/i.test(immediateAfter)) label = 'Illustrative Education Budget';
+      }
+      else if (currencyValue && /public relations|\bpr industry\b/i.test(figureContext) && /projected to (?:touch|reach|hit|exceed)|forecast to (?:reach|hit|exceed)/i.test(beforeNumber)) {
+        const year = afterNumber.match(/\bby\s+(20\d{2})\b/i)?.[1] || source.match(/\bby\s+(20\d{2})\b/i)?.[1];
+        label = year ? `Projected PR Industry Revenue by ${year}` : 'Projected PR Industry Revenue';
+      } else if (currencyValue && /public relations|\bpr industry\b/i.test(figureContext) && /revenue|crossed|reach(?:ed)?|grew|industry alone/i.test(figureContext)) label = 'PR Industry Revenue';
+      if (currencyValue && /\bbudget\b/i.test(source)) {
+        if (/\b(?:a fifth|one fifth|20\s*%|20 percent)\b/i.test(immediateBefore) || /caution|warning|red flag/i.test(immediateAfter)) label = 'Budget Warning Threshold';
+        else if (/main course|degree fee|course fee|for the degree|for the credential/i.test(immediateAfter)) label = 'Main Course Fee Allocation';
+        else if (/the rest|remaining|living costs|tools,? practice|future learning|reserve/i.test(immediateAfter)) label = 'Remaining Education Budget';
+        else if (/education budget|rupee budget/i.test(immediateAfter) || /education budget/i.test(immediateBefore)) label = 'Education Budget Amount';
+      }
+      if (currencyValue && label) {
+        // Keep the meaning inferred from the exact matching figure sentence.
+      } else if (percentValue) {
+        const specificPercentageLabel = clientLabel || percentageContextLabel(`${immediate} ${local}`, completeValue);
+        if (specificPercentageLabel === '__OMIT__') return null;
+        if (specificPercentageLabel) label = specificPercentageLabel;
+        else if (/ca\s+final/i.test(immediate) && /pass|clear/i.test(local)) label = 'CA Final Pass Rate';
+        else if (/upsc civil services/i.test(immediate) && /select/i.test(local)) label = 'UPSC Selection Rate';
+        else if (/employers?\s+(?:reported|reporting)|difficulty finding skilled/i.test(immediate) && /workers?|talent|skilled/i.test(local)) label = 'Employers Reporting Hiring Difficulty';
+        else if (/ai.{0,45}tasks|tasks.{0,45}ai/i.test(local)) label = 'Engineering Tasks Touched by AI';
+        else if (/btech enrolment/i.test(local) && /jump|growth|increase/i.test(local)) label = 'BTech Enrolment Growth';
+        else if (/engineering graduates/i.test(immediate) && /left college without|no relevant job|no relevant internship/i.test(local)) label = 'Graduates Without Relevant Work';
+        else if (/education budget/i.test(source) && /spending above/i.test(source.slice(0, index).toLowerCase()) && /red flag/i.test(source)) label = 'Budget Warning Threshold';
+        else if (/\bbudget\b/i.test(source) && /caution|warning|red flag|spending above|above roughly/i.test(immediateAfter)) label = 'Budget Warning Threshold';
+        else if (/education budget/i.test(source) && /spending above|budget share|percentage of (?:the )?budget/i.test(source)) label = 'Education Budget Share';
+        else if (/vacanc/i.test(immediate) && /reserves?|reservation|quota/i.test(source)) label = 'Reserved Vacancy Share';
+        else if (/vacanc/i.test(immediate)) label = /(?:down|declin|fell|drop|decreas)/i.test(local) && !/vacancy rate/i.test(local) ? 'Hiring Demand Decline' : 'Vacancy Rate';
+        else if (/seats?/i.test(immediate)) label = 'Course Seat Share';
+        else if (/eligib|qualif|benchmark|minimum|threshold/i.test(immediate)) label = 'Benchmark Eligibility Threshold';
+        else if (/interest|concession|subsid/i.test(source)) label = 'Interest Rate Concession';
+        else if (/budget|allocation|allocated/i.test(immediate)) label = 'Education Budget Share';
+        else if (/pass rates?/i.test(source)) label = 'Exam Pass Rate';
+        else if (/employab/i.test(source)) label = 'Graduate Employability Rate';
+        else if (/vacanc/i.test(source)) label = /(?:down|declin|fell|drop|decreas)/i.test(source) ? 'Hiring Demand Decline' : 'Vacancy Rate';
+        else label = guessed?.label && !/count|pay|cost|fee|salary|budget example|reported percentage/i.test(guessed.label) ? guessed.label : 'Reported Percentage';
+        if (/\bbudget\b/i.test(source) && /20\s*%|20 percent/i.test(completeValue) && /caution|warning|spending above|red flag/i.test(immediateAfter)) label = 'Budget Warning Threshold';
+      } else if (durationValue) {
+        if (/qualification path|qualification runway|through .*? exams|articleship|full route/i.test(source)) label = 'Qualification Time Window';
+        else if (/notice period|notice policy|notice requirement|shortfall|buyout/i.test(source)) label = 'Notice Period';
+        else if (/promotion|advance|officer cadre|career ladder/i.test(source)) label = 'Promotion Timeline';
+        else if (/course|degree|program|programme|duration|diploma|qualification|training|bootcamp/i.test(source)) label = 'Total Course Duration';
+        else if (/experience|work history/i.test(source)) label = 'Relevant Experience Window';
+        else label = guessed?.label && /window|period|duration|time|experience|shift|commitment/i.test(guessed.label) ? guessed.label : 'Estimated Time Required';
+      } else if ((currencyValue || /\b(?:lakh|crore|million|billion)\b/i.test(completeValue)) && /illustration,? not a real fee|education budget example|worked example/i.test(source) && /main course/i.test(immediateAfter)) label = 'Main Course Fee Allocation';
+      else if ((currencyValue || /\b(?:lakh|crore|million|billion)\b/i.test(completeValue)) && /illustration,? not a real fee|education budget example|worked example/i.test(source) && /serious caution/i.test(immediateAfter)) label = 'Caution Threshold';
+      else if ((currencyValue || /\b(?:lakh|crore|million|billion)\b/i.test(completeValue)) && /illustration,? not a real fee|education budget example|worked example/i.test(source) && /budget/i.test(source)) label = 'Illustrative Education Budget';
+      else if ((currencyValue || /\b(?:lakh|crore|million|billion)\b/i.test(completeValue)) && /toward the credential itself|toward credential|main course fee|degree fee/i.test(immediate)) label = 'Suggested Credential Budget';
+      else if ((currencyValue || /\b(?:lakh|crore|million|billion)\b/i.test(completeValue)) && /education budget/i.test(local)) label = 'Education Budget Amount';
+      else if (currencyValue && /total spend|total cost|overall cost|cost commonly runs/i.test(source) && /abroad|tuition|living costs/i.test(source)) label = 'Study Abroad Cost';
+      else if (currencyValue && /(?:private college|college|tuition|course|degree).{0,40}(?:fee|cost|seat running)|(?:fee|cost|tuition).{0,40}(?:college|course|degree)|four years/i.test(immediate) && !/(?:salary|pay|income|earn|education budget)/i.test(immediate)) label = /four years/i.test(immediate) ? 'Four-Year College Fee' : 'Course Fee';
+      else if (!label && currencyValue && /projected to (?:touch|reach|hit|exceed)|forecast to (?:reach|hit|exceed)/i.test(immediate) && /industry|market|sector|public relations|advertising/i.test(immediate)) {
+        const year = source.match(/\bby\s+(20\d{2})\b/i)?.[1];
+        label = year ? 'Projected Industry Revenue by ' + year : 'Projected Industry Revenue';
+      } else if (currencyValue && /(?:fresher|entry[- ]level|starting|starts? around|salary|pay|earns?|earning)/i.test(immediate)) label = /fresher|entry[- ]level|starting|starts? around/i.test(immediate) ? 'Entry Level Pay' : 'Typical Salary Range';
+      else if (/outlay|allocation/i.test(local) && currencyValue) label = 'Programme Scheme Outlay';
+      else if (/investment|invested/i.test(local) && currencyValue) label = 'Total Investment Value';
+      else if (/btech enrolment|enrolment (?:hit|reached)/i.test(immediate)) label = 'BTech Enrolment';
+      else if (/approved intake capacity|intake capacity/i.test(local)) label = /projected/i.test(local) ? 'Projected Approved Seat Capacity' : 'Approved Seat Capacity';
       else if (/capacity/i.test(local)) label = 'Annual Production Capacity';
-      else if (/wild|traded medicinal species/i.test(local)) label = 'Wild-Sourced Supply Share';
-      if (/(?:starting gross salary|starting salary|salary range|salary curve|average total pay|average agent income|fresher pay|entry-level pay|adds roughly .*?lpa)/i.test(source)) label = /entry-level pay|fresher pay/i.test(source) ? 'Entry Level Pay' : 'Typical Salary Range';
-      else if (/%/.test(completeValue) && /pass rates?/i.test(source)) label = 'Exam Pass Rate';
-      else if (/%/.test(completeValue) && /seats/i.test(source) && /(?:fills?|share|quota|allocated|allocation)/i.test(source)) label = 'Course Seat Share';
-      else if (/%/.test(completeValue) && /(?:postings?|hiring|employment|vacancies)/i.test(source) && /(?:down|declin|fell|drop|decreas)/i.test(source)) label = 'Hiring Demand Decline';
-      else if (/[₹$]/.test(completeValue) && /per paper|same subject through/i.test(source)) label = 'Exam Paper Fee';
-      else if (/[₹$]/.test(completeValue) && /(?:national target|2030 goal|government.?s own goal)/i.test(source)) label = 'National 2030 Goal';
-      else if (/extra income|additional income/i.test(source) && /\b(?:year|annual|per year)\b/i.test(source)) label = 'Additional Annual Income';
-      else if (!/[₹$]|\b(?:rs\.?|inr|lpa)\b/i.test(completeValue) && /\bpeople applied\b|\bcandidates? appeared\b|\bapplicants?\b/i.test(source)) label = 'Exam Candidate Count';
-      else if (/\b(?:msme|enterprises?)\b/i.test(source) && /registered/i.test(source)) label = 'Registered Enterprise Count';
-      else if (/illustration,? not a real fee|education budget/i.test(source) && /budget/i.test(source)) label = 'Education Budget Example';
-      else if (/(?:start earning|need to earn|earning within|income within)/i.test(source)) label = 'Earning Decision Window';
-      else if (/(?:from bootcamp finish to hire|finish to hire|time to hire)/i.test(source)) label = 'Hiring Transition Window';
-      else if (/(?:qualification path|qualification runway|through .*? exams|articleship|full route)/i.test(source) && /years?/i.test(completeValue)) label = 'Qualification Time Window';
-      if (!label) return null;
+      else if (/wild|traded medicinal species/i.test(local) && percentValue) label = 'Wild-Sourced Supply Share';
+      else if (currencyValue && /(?:starting gross salary|starting salary|salary range|salary curve|average total pay|average agent income|fresher pay|entry-level pay|adds roughly .*?lpa)/i.test(source)) label = /entry-level pay|fresher pay/i.test(source) ? 'Entry Level Pay' : 'Typical Salary Range';
+      else if (currencyValue && /per paper|same subject through/i.test(source)) label = 'Exam Paper Fee';
+      else if (currencyValue && /(?:national target|2030 goal|government.?s own goal)/i.test(source)) label = 'National 2030 Goal';
+      else if (currencyValue && /extra income|additional income/i.test(source) && /\b(?:year|annual|per year)\b/i.test(source)) label = 'Additional Annual Income';
+      else if (!percentValue && !durationValue && !currencyValue && /\bcandidates?\s+(?:tested|assessed|surveyed)\b|\b(?:tested|assessed|surveyed)\s+(?:a\s+)?(?:sample\s+of\s+)?[\d,.]+\s*(?:lakh|million|thousand)?\s*candidates?\b/i.test(source)) label = 'Candidates Assessed';
+      else if (!percentValue && !durationValue && !currencyValue && /\bpeople applied\b|\bcandidates? appeared\b|\bapplicants?\b/i.test(source)) label = 'Exam Candidate Count';
+      else if (!percentValue && !durationValue && !currencyValue && /\b(?:msme|enterprises?)\b/i.test(source) && /registered/i.test(source)) label = 'Registered Enterprise Count';
+      else if (!percentValue && !durationValue && /budget/i.test(source) && /\b(?:lakh|crore|million|billion)\b/i.test(completeValue)) label = 'Education Budget Amount';
+      else if (durationValue && /(?:start earning|need to earn|earning within|income within)/i.test(source)) label = 'Earning Decision Window';
+      else if (durationValue && /(?:from bootcamp finish to hire|finish to hire|time to hire)/i.test(source)) label = 'Hiring Transition Window';
+      if (percentValue) {
+        if (/ca\s+final/i.test(local) && /pass|clear/i.test(local)) label = 'CA Final Pass Rate';
+        else if (/upsc civil services/i.test(local) && /select/i.test(local)) label = 'UPSC Selection Rate';
+        else if (/ai.{0,45}tasks|tasks.{0,45}ai/i.test(local)) label = 'Engineering Tasks Touched by AI';
+    else if (/btech enrolment/i.test(local) && /jump|growth|increase/i.test(local)) label = 'BTech Enrolment Growth';
+    else if (/engineering graduates/i.test(local) && /left college without|no relevant job|no relevant internship/i.test(local)) label = 'Graduates Without Relevant Work';
+        else if (/employers?\s+(?:reported|reporting)|difficulty finding skilled/i.test(local) && /workers?|talent|skilled/i.test(local)) label = 'Employers Reporting Hiring Difficulty';
+        if (label === 'Reported Percentage') return null;
+      }
+      if (!currencyValue && /candidates?\s+(?:tested|assessed|surveyed)/i.test(local)) label = 'Candidates Assessed';
+      if (currencyValue && !label) label = 'Reported Amount';
+      if (label === 'Reported Amount' && currencyValue && /digital ad spend|digital advertising spend/i.test(source)) label = 'Digital Advertising Spend Forecast';
+      else if (label === 'Reported Amount' && currencyValue && /public relations|\bpr market\b|\bpr industry\b/i.test(source)) {
+        if (/projected/i.test(immediateBefore)) {
+          const year = immediateAfter.match(/\bby\s+(20\d{2})\b/i)?.[1] || source.match(/\bby\s+(20\d{2})\b/i)?.[1];
+          label = year ? `Projected PR Industry Revenue by ${year}` : 'Projected PR Industry Revenue';
+        } else if (/revenue|crossed|reach(?:ed)?|grew/i.test(`${immediateBefore} ${immediateAfter}`)) label = 'PR Industry Revenue';
+        else label = 'PR Industry Market Size';
+      }
+      else if (label === 'Reported Amount' && currencyValue && /certificate course|certificate spend|recorded course/i.test(source)) label = 'Certificate Course Price';
+      if (!label || label === 'Reported Percentage' || label === 'Reported Amount') return null;
       return { value: completeValue.replace(/^rs\.?\s*/i, '₹').replace(/^inr\s*/i, '₹').replace(/[.,]+$/, ''), label, source, text: source };
     }).filter(Boolean);
-    const figures = [...figuresFromExactContent, ...facts.map(figureFromItem).filter(Boolean)]
+    const figures = (requestedFigures.length ? figuresFromExactContent : facts.map(figureFromItem).filter(Boolean))
       .filter((item) => item.source && figureValueSupported(item.value, item.source))
+      .filter((item) => item.label !== 'Reported Percentage' && item.label !== 'Reported Amount')
       .filter((item, index, all) => all.findIndex((other) => other.value === item.value && other.label === item.label) === index);
     if (figures.length) return { needId: need.section_id, type: need.type, heading, kind: 'figures', figures };
     const items = facts.slice(0, 3).map((item) => ({ heading: '', text: item.text || item.raw }));
@@ -593,8 +1108,11 @@ function dedupeVisualContent(visuals, fallbackText = []) {
   const seen = new Set();
   const seenPhrases = new Set();
   const seenFigures = new Map();
+  const seenFigureValues = new Set();
   const normalize = (text) => text.toLowerCase().replace(/(?:₹|\b(?:rs\.?|inr)\b|\$)/gi, ' ').replace(/[^\p{L}\p{N}%]+/gu, ' ').replace(/\s+/g, ' ').trim();
   const phraseNormalize = (text) => text.toLowerCase().replace(/[^\p{L}\p{N}₹%]+/gu, ' ').replace(/\s+/g, ' ').trim();
+  const figureValueKey = (value) => normalizeFigureKey(value);
+  const figureContentKey = (figure) => `${figureValueKey(figure?.value)}|${figureFamily(figure?.label)}`;
   const fiveWordPhrases = (normalized) => {
     const tokens = normalized.split(' ').filter(Boolean);
     const phrases = [];
@@ -613,6 +1131,7 @@ function dedupeVisualContent(visuals, fallbackText = []) {
     const label = normalize(figure?.label || '');
     const values = figureNumbers(figure?.value);
     if (!label || !values.length) return;
+    seenFigureValues.add(figureContentKey(figure));
     if (!seenFigures.has(label)) seenFigures.set(label, new Set());
     for (const value of values) seenFigures.get(label).add(value);
   };
@@ -622,16 +1141,19 @@ function dedupeVisualContent(visuals, fallbackText = []) {
     if (value && typeof value === 'object') return Object.entries(value).some(([childKey, child]) => hasBody(child, childKey));
     return false;
   };
-  let currentRemovedNeedSections = [];
   const visit = (value, key = '') => {
     if (typeof value === 'string') {
-      if (['heading', 'caption', 'alt', 'title', 'columns', 'sourceSectionId', 'needId', 'sourceNeedIndex'].includes(key)) return value;
+      if (['heading', 'caption', 'alt', 'title', 'label', 'columns', 'source', 'sourceSectionId', 'needId', 'sourceNeedIndex'].includes(key)) return value;
       const uniqueParts = [];
       for (const part of sentenceParts(value)) {
         const normalized = normalize(part);
         const wordCount = normalized ? normalized.split(' ').length : 0;
         if (wordCount < 5) { uniqueParts.push(part); continue; }
-        const duplicate = seen.has(normalized) || fiveWordPhrases(phraseNormalize(part)).some((phrase) => seenPhrases.has(phrase));
+        const phrases = fiveWordPhrases(phraseNormalize(part));
+        const repeatedPhrases = phrases.filter((phrase) => seenPhrases.has(phrase)).length;
+        const duplicate = seen.has(normalized)
+          || (phrases.length > 0 && phrases.length < 4 && repeatedPhrases === phrases.length)
+          || (phrases.length >= 4 && repeatedPhrases / phrases.length >= 0.8);
         if (!duplicate) {
           uniqueParts.push(part);
           reserve(part);
@@ -645,7 +1167,8 @@ function dedupeVisualContent(visuals, fallbackText = []) {
           const label = normalize(figure?.label || '');
           const values = figureNumbers(figure?.value);
           const known = seenFigures.get(label);
-          if (known && values.length && values.every((number) => known.has(number))) return false;
+          const valueKey = figureContentKey(figure);
+          if ((valueKey && seenFigureValues.has(valueKey)) || (known && values.length && values.every((number) => known.has(number)))) return false;
           rememberFigure(figure);
           return true;
         }).map((figure) => visit(figure, 'figure')).filter((item) => item !== null);
@@ -660,11 +1183,7 @@ function dedupeVisualContent(visuals, fallbackText = []) {
         return result.filter((item) => item?.text?.trim() || item?.heading?.trim());
       }
       if (key === 'blocks') {
-        return result.filter((block) => {
-          const hasContent = block.items?.length || block.rows?.length || block.figures?.length;
-          if (!hasContent && block.sourceSectionId) currentRemovedNeedSections.push({ sourceSectionId: block.sourceSectionId, sourceNeedIndex: block.sourceNeedIndex });
-          return hasContent;
-        });
+        return result.filter((block) => block.items?.length || block.rows?.length || block.figures?.length || block.steps?.length);
       }
       return result;
     }
@@ -688,15 +1207,13 @@ function dedupeVisualContent(visuals, fallbackText = []) {
     if (visual.type === 'hero') {
       reserve(original.answer || '');
       for (const line of original.supporting || []) reserve(line);
-      for (const figure of original.figures || []) { reserve(figure.value || ''); reserve(figure.label || ''); reserve(figure.source || ''); rememberFigure(figure); }
+      for (const figure of original.figures || []) { reserve(figure.value || ''); reserve(figure.label || ''); rememberFigure(figure); }
       for (const item of original.items || []) { reserve(item.heading || ''); reserve(item.text || ''); }
       for (const row of original.rows || []) for (const cell of row || []) reserve(cell || '');
       for (const step of original.steps || []) reserve(step);
       continue;
     }
-    currentRemovedNeedSections = [];
     const next = visit(original, 'content');
-    if (next && currentRemovedNeedSections.length) next.coveredNeedSections = [...(next.coveredNeedSections || []), ...currentRemovedNeedSections];
     visual.content = hasBody(next) ? next : null;
   }
   const kept = visuals.filter((visual) => visual.type === 'hero' || visual.content);
@@ -733,39 +1250,63 @@ async function writeVisual(dir, slug, type, index, desktop, mobile, meta, social
     await sharp(Buffer.from(mobile)).webp({ quality: 60, effort: 6 }).toFile(join(dir, `${base}-mobile.webp`));
     if (social) await sharp(Buffer.from(social)).resize(1200, 630, { fit: 'fill' }).jpeg({ quality: 72, mozjpeg: true }).toFile(join(dir, `${slug}-social.jpg`));
   }
-  return { file: `${base}.webp`, mobile: `${base}-mobile.webp`, ...meta, caption: visualCaption(type, index) };
+  return { file: `${base}.webp`, mobile: `${base}-mobile.webp`, ...meta, caption: meta.caption || visualCaption(type, index, meta.heading) };
 }
 function altSentence(value) { const source = clean(value); const parts = sentenceParts(source); const chosen = []; let count = 0; for (const part of parts) { if (!/[.!?]$/.test(part)) continue; const size = visualWordCount(part); if (!size || size > 20 || count + size > 20) break; chosen.push(part); count += size; } const result = chosen.join(' ') || parts.find((part) => /[.!?]$/.test(part) && visualWordCount(part) <= 20) || ''; return result || 'Career planning visual with page-specific evidence.'; }
 function uniqueAlt(value, used) { const base = altSentence(value).replace(/[.!?]+$/, '') || 'Editorial career visual'; let result = `${base}.`; let i = 2; while (used.has(result.toLowerCase())) result = `${base} (${i++}).`; used.add(result.toLowerCase()); return result; }
 function liveSentence(value) { const source = clean(value).replace(/[:;,]+\s*$/, '').trim(); if (!source) return ''; return /[.!?]$/.test(source) ? source : `${source}.`; }
 
 const needs = await loadNeeds(); const files = []; async function walkFiles(dir) { for (const entry of await readdir(dir, { withFileTypes: true })) { const full = join(dir, entry.name); if (entry.isDirectory()) await walkFiles(full); else if (entry.name === 'index.html') files.push(full); } } await walkFiles(DIST);
-const selected = files.sort().filter((_, i) => i % shards === shard); let generated = 0; let visualCount = 0;
+const selected = files.sort().filter((_, i) => i % shards === shard); let generated = 0; let visualCount = 0; const usedHeroAnswers = new Set();
 for (const file of selected) {
-  const route = `/${file.slice(DIST.length + 1).replaceAll('\\', '/').replace(/index\.html$/, '')}`; if (routeFilter && route !== routeFilter) continue; if (routeFilters.size && !routeFilters.has(route)) continue; const isBlog = /^\/blog\/[^/]+\/[^/]+\/$/.test(route); if (isBlog && excludedBlogRoutes.has(route)) continue; if (excludeAssessmentPages && route.startsWith('/services/assessments/')) continue; const isService = route.startsWith('/services/'); const isOther = route.startsWith('/career-resources/') || route.startsWith('/career-skills-compass/'); if (!isBlog && !(allServicePages && (isService || isOther))) continue;
-  const html = await readFile(file, 'utf8'); if (html.includes('Redirecting from <code>') && html.includes('</body>')) continue; const parts = route.split('/').filter(Boolean); const slug = parts.at(-1); const category = isBlog ? parts[1] : parts.slice(0, -1).join('-'); const title = clean((html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [, 'Career guide'])[1]); const edits = plainLanguageEdits.get(route) || []; const data = applyPlainLanguageEdits(pageData(html, isBlog), edits); const palette = palettes[hash(slug) % palettes.length]; const topic = topicFrom(title, slug); const dir = join(OUT, String(hash(`${category}/${slug}`)).padStart(10, '0'));
+  const route = `/${file.slice(DIST.length + 1).replaceAll('\\', '/').replace(/index\.html$/, '')}`; if (routeFilter && route !== routeFilter) continue; if (routeFilters.size && !routeFilters.has(route)) continue; const isBlog = /^\/blog\/[^/]+\/[^/]+\/$/.test(route); if (isBlog && excludedBlogRoutes.has(route)) continue; if (excludeAssessmentPages && route.startsWith('/services/assessments/')) continue; const isService = route.startsWith('/services/'); const isOther = route.startsWith('/career-resources/') || route.startsWith('/career-skills-compass/'); if (!isBlog && !(allServicePages && isOther)) continue;
+  const html = await readFile(file, 'utf8'); if (html.includes('Redirecting from <code>') && html.includes('</body>')) continue; const parts = route.split('/').filter(Boolean); const slug = parts.at(-1); const category = isBlog ? parts[1] : parts.slice(0, -1).join('-'); const title = clean((html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [, 'Career guide'])[1]); const edits = plainLanguageEdits.get(route) || []; const data = applyPlainLanguageEdits(pageData(html, isBlog), edits); const palette = palettes[hash(slug) % palettes.length]; const topic = topicOverrides.get(route) || topicFrom(title, slug); const dir = join(OUT, String(hash(`${category}/${slug}`)).padStart(10, '0'));
   await mkdir(dir, { recursive: true });
 const pageNeeds = applyPlainLanguageEdits(needs.get(route) || [], edits); const used = new Set(); const usedPhrases = new Set(); const manifest = []; const altUsed = new Set(); const phraseKeysFor = (item) => [...phraseKeys(item?.text || item), ...phraseKeys(item?.raw || '')]; const markUsed = (item) => { used.add(keyFor(item)); for (const key of phraseKeysFor(item)) usedPhrases.add(key); }; const take = (values, limit = 1, maxWords = 24) => values.map((value) => typeof value === 'string' ? { text: value, raw: value } : value).map((value) => ({ ...value, text: shortSentence(value.raw || value.text, maxWords) })).filter((value) => value?.text && words(value.text).length >= 5 && !isSharedPromoCopy(value.raw || value.text) && !used.has(keyFor(value)) && !phraseKeysFor(value).some((key) => usedPhrases.has(key))).filter((value, i, arr) => arr.findIndex((other) => keyFor(other) === keyFor(value)) === i).slice(0, limit).map((value) => { markUsed(value); return value; });
-  const add = async (type, body, meta) => { const index = manifest.filter((item) => item.type === type).length; const result = await writeVisual(dir, slug, type, index, body.desktop, body.mobile, { ...meta, type, alt: uniqueAlt(meta.alt || visualAlt(type, meta.heading, topic), altUsed), title: meta.title || visualTitle(type, meta.heading, topic, title), ...(meta.content ? { content: meta.content } : {}) }, body.social || null); manifest.push(result); for (const key of phraseKeys(meta.heading || '')) usedPhrases.add(key); visualCount += 1; };
-  const heroAnswer = heroAnswerFromFacts(data.facts, topic);
+  const add = async (type, body, meta) => {
+    const index = manifest.filter((item) => item.type === type).length;
+    const headingOverride = visualHeadingOverrides.get(route)?.[type];
+    const displayHeading = type === 'hero' ? meta.heading : headingOverride || completeShortHeading(shortHeading(balancedHeading(meta.heading || ''), compactTopic(topic)), compactTopic(topic));
+    const captions = {
+      summary: `Summary of ${displayHeading}.`,
+      matrix: `Comparison of options covered in ${displayHeading}.`,
+      chain: `Sequence of steps for ${displayHeading}.`,
+      checklist: `Questions to check for ${displayHeading}.`,
+      proof: `Figures cited in ${displayHeading}.`,
+      detail: `Focused evidence about ${displayHeading}.`,
+    };
+    const displayMeta = { ...meta, heading: displayHeading, ...(captions[type] ? { caption: captions[type] } : {}) };
+    const result = await writeVisual(dir, slug, type, index, body.desktop, body.mobile, { ...displayMeta, type, alt: uniqueAlt(headingOverride ? visualAlt(type, displayHeading, topic) : displayMeta.alt || visualAlt(type, displayHeading, topic), altUsed), title: displayMeta.title || visualTitle(type, displayHeading, topic, title), ...(displayMeta.content ? { content: displayMeta.content } : {}) }, body.social || null);
+    manifest.push(result);
+    for (const key of phraseKeys(displayHeading || '')) usedPhrases.add(key);
+  };
+  const heroFacts = [...data.facts, ...data.sections.flatMap((section) => section.facts)];
+  const heroAnswer = heroAnswerFromFacts(heroFacts, topic, usedHeroAnswers);
   const shortAnswer = [...data.facts, ...data.sections.flatMap((section) => section.facts)]
-    .map((item) => ({ item, text: sentenceParts(clean(item.raw || item.text)).find((part) => /[.!?]$/.test(part) && words(part).length >= 5 && words(part).length <= 14 && !badEnd.has(lastWord(part))) || '' }))
+    .map((item) => ({ item, text: sentenceParts(clean(item.raw || item.text)).find((part) => /[.!]$/.test(part) && words(part).length >= 5 && words(part).length <= 14 && !badEnd.has(lastWord(part))) || '' }))
     .find(({ item, text }) => text && item !== heroAnswer.item && !isSharedPromoCopy(text));
   const answerItem = heroAnswer.text && words(heroAnswer.text).length <= 14 ? heroAnswer.item : shortAnswer?.item || null;
   const answer = heroAnswerOverrides.get(route) || (heroAnswer.text && words(heroAnswer.text).length <= 14 ? heroAnswer.text : shortAnswer?.text || '');
+  if (answer) usedHeroAnswers.add(normalizeHeroAnswer(answer));
   if (answerItem && answer) markUsed({ ...answerItem, text: answer });
-  const matrixText = pageNeeds.filter((need) => need.type === 'matrix' || need.type === 'proof').map((need) => need.exact_page_content_to_use).join(' ').toLowerCase();
-const normalizeFigureValue = (value) => String(value || '').toLowerCase().replace(/^(?:rs\.?|inr)\s*/i, '').replace(/[₹$,\s]/g, '').replace(/–/g, '-');
-const matrixValues = new Set((matrixText.match(/(?:₹|\b(?:rs\.?|inr)\b|\$)?\s*[\d,.]+(?:\s*[–-]\s*[\d,.]+)?(?:\s*(?:lpa|lakh|crore|k))?|\d+(?:\.\d+)?\s*(?:%|percent|lpa|lakh|crore|years?|months?|weeks?|hours?|days?)/gi) || []).map(normalizeFigureValue));
-const supportedHeroFigureLabels = new Set(['Entry Level Pay', 'Post MBA Pay', 'Typical Salary Range', 'Freelance Day Rate', 'Monthly Internship Stipend', 'Total Education Cost', 'Education Budget Example', 'Exam Registration Fee', 'Exam Paper Fee', 'Total Course Duration', 'Qualification Time Window', 'Estimated Time Required', 'Relevant Experience Window', 'Proof Milestone Window', 'Platform Eligibility Window', 'Service Commitment Period', 'Post Study Work', 'Earning Decision Window', 'Hiring Transition Window', 'Available Course Seats', 'Course Seat Share', 'Total Exam Applicants', 'Exam Candidate Count', 'Registered Enterprise Count', 'Available Job Vacancies', 'Total Job Count', 'Annual Industry Revenue', 'Annual Export Value', 'Total Market Size', 'National 2030 Goal', 'Minimum Exam Marks', 'Exam Pass Rate', 'Graduate Employability Rate', 'Qualification Success Rate', 'Selection Funnel Rate', 'Fresher Cohort Share', 'Survey Response Share', 'Annual Traffic Growth', 'Hiring Demand Decline', 'Role Growth Rate', 'Annual Staff Attrition', 'Skills Demand Gap', 'Additional Annual Income', 'Typical Deal Value', 'Education Loan Principal']);
-const heroNumberFacts = data.numberFacts.filter((item) => { const figure = figureFromItem(item); return figure?.source && supportedHeroFigureLabels.has(figure.label) && !matrixValues.has(normalizeFigureValue(figure.value)); });
-  const figures = heroWithoutFigures.has(route) ? [] : take(heroNumberFacts.filter((item) => item !== answerItem), 3).map(figureFromItem).filter(Boolean).filter((figure, index, all) => all.findIndex((other) => other.value === figure.value && other.label === figure.label) === index);
-  let heroSupport = take(data.facts.filter((item) => item !== answerItem && !figures.some((figure) => figure.text && item.raw.includes(figure.text))), 1, 9);
+const supportedHeroFigureLabels = new Set(['Entry Level Pay', 'Post MBA Pay', 'Typical Salary Range', 'Freelance Day Rate', 'Monthly Internship Stipend', 'Total Education Cost', 'Education Budget Example', 'Illustrative Education Budget', 'Education Budget Amount', 'Education Budget Share', 'Budget Warning Threshold', 'Exam Registration Fee', 'Exam Paper Fee', 'Total Course Duration', 'Qualification Time Window', 'Estimated Time Required', 'Relevant Experience Window', 'Proof Milestone Window', 'Platform Eligibility Window', 'Service Commitment Period', 'Notice Period', 'Pension Eligibility Period', 'MBA Pivot Intent', 'Post Study Work', 'Earning Decision Window', 'Hiring Transition Window', 'Available Course Seats', 'Course Seat Share', 'Reserved Vacancy Share', 'Vacancy Rate', 'Benchmark Eligibility Threshold', 'Interest Rate Concession', 'Reported Percentage', 'Total Exam Applicants', 'Exam Candidate Count', 'Registered Enterprise Count', 'Available Job Vacancies', 'Total Job Count', 'Annual Industry Revenue', 'PR Industry Revenue', 'Annual Export Value', 'Total Market Size', 'National 2030 Goal', 'Minimum Exam Marks', 'Exam Pass Rate', 'Graduate Employability Rate', 'Qualification Success Rate', 'Selection Funnel Rate', 'Fresher Share', 'Survey Response Share', 'Annual Traffic Growth', 'Hiring Demand Decline', 'Role Growth Rate', 'Industry Growth Rate', 'PR Industry Growth', 'Regional Market Share', 'Annual Staff Attrition', 'Skills Demand Gap', 'Additional Annual Income', 'Typical Deal Value', 'Education Loan Principal']);
+const heroFigureIsSupported = (figure) => supportedHeroFigureLabels.has(figure.label) || /^(?:(?:TCS|Infosys|Wipro|HCLTech|Accenture|Cognizant|Capgemini|Tech Mahindra) (?:Employee Count|Staff Change)|Employees in Reskilling|Employee Count Reported|Staff Change Reported)$/.test(figure.label);
+const budgetFigureFitsTopic = (figure) => figure.label !== 'Education Budget Example' || /cost|fee|tuition|loan|budget|mba|college|degree|education|study abroad/i.test(`${title} ${topic} ${slug}`);
+const heroFigurePool = [...data.numberFacts, ...data.facts, ...data.sections.flatMap((section) => section.facts)].flatMap(figuresFromItem);
+const heroNumberFacts = heroFigurePool.filter((figure) => figure?.source && heroFigureIsSupported(figure) && budgetFigureFitsTopic(figure)).filter((figure, index, all) => all.findIndex((other) => other.value.replace(/[\s,]/g, '').toLowerCase() === figure.value.replace(/[\s,]/g, '').toLowerCase()) === index);
+const routeHeroFigures = heroRouteFigureOverrides.get(route)?.map((override) => {
+  const figure = heroFigurePool.find((candidate) => normalizeFigureKey(candidate.value) === normalizeFigureKey(override.value) && candidate.source);
+  return figure ? { ...figure, value: override.value, label: override.label } : null;
+}).filter(Boolean) || null;
+const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigures || heroNumberFacts.filter((figure) => figure.source !== clean(answerItem?.raw || answerItem?.text || '')).slice(0, 3);
+  const figures = selectedHeroFigures;
+  for (const figure of figures) markUsed({ raw: figure.source, text: figure.source });
+  let heroSupport = take(data.facts.filter((item) => item !== answerItem && !/[?]/.test(item.raw || item.text || '') && !figures.some((figure) => figure.text && item.raw.includes(figure.text))), 1, 9);
   // heroRouteLabels already removes generic headings and labels that duplicate
   // the topic, answer, or support sentence. Filtering against every source
   // heading here rejected the very labels generated from those headings and
   // left most hero canvases with an unused lower half.
-  const routeLabels = heroRouteLabels(data.headings.map((title) => ({ title })), topic, answer, heroSupport);
+  const routeLabels = heroRouteLabels(data.headings.map((title) => ({ title })), topic, answer, heroSupport, route);
   const heroWordCount = () => visualWordCount([typeTopLabel('hero'), topic, answer, ...figures.flatMap((figure) => [figure.value, figure.label]), ...heroSupport.map((item) => item.text), ...routeLabels].join(' '));
   while (heroWordCount() > 40 && heroSupport.length) heroSupport.pop();
   while (heroWordCount() > 40 && routeLabels.length) routeLabels.pop();
@@ -777,26 +1318,76 @@ const heroNumberFacts = data.numberFacts.filter((item) => { const figure = figur
       for (const key of phraseKeys(value || '')) usedPhrases.add(key);
     }
     const heroContent = figures.length ? { kind: 'figures', answer, figures, steps: routeLabels, supporting: [] } : routeLabels.length ? { kind: 'items', answer, items: [], steps: routeLabels, supporting: heroSupport.map((item) => item.text) } : { kind: 'items', answer, items: [], steps: [], supporting: heroSupport.map((item) => item.text) };
-    await add('hero', { desktop: heroVisual(answer, figures, topic, palette, DESKTOP, heroSupport, routeLabels), mobile: heroVisual(answer, figures, topic, palette, PHONE, heroSupport, routeLabels), social: socialHeroVisual(answer, figures, topic, palette, heroSupport) }, { alt: `A career pathway visual for ${compactTopic(topic)}.`, caption: `Career direction at a glance for ${compactTopic(topic)}.`, heading: topic, ...(heroContent ? { content: heroContent } : {}) });
+    if (preserveHero) {
+      const previous = JSON.parse(await readFile(join(dir, 'index.json'), 'utf8'));
+      const previousHero = (previous.visuals || []).find((visual) => visual.type === 'hero');
+      if (previousHero) manifest.push(previousHero);
+      else await add('hero', { desktop: heroVisual(answer, figures, topic, palette, DESKTOP, heroSupport, routeLabels), mobile: heroVisual(answer, figures, topic, palette, PHONE, heroSupport, routeLabels), social: socialHeroVisual(answer, figures, topic, palette, heroSupport) }, { alt: `A career pathway visual for ${compactTopic(topic)}.`, caption: `Career direction at a glance for ${compactTopic(topic)}.`, heading: topic, ...(heroContent ? { content: heroContent } : {}) });
+    } else await add('hero', { desktop: heroVisual(answer, figures, topic, palette, DESKTOP, heroSupport, routeLabels), mobile: heroVisual(answer, figures, topic, palette, PHONE, heroSupport, routeLabels), social: socialHeroVisual(answer, figures, topic, palette, heroSupport) }, { alt: `A career pathway visual for ${compactTopic(topic)}.`, caption: `Career direction at a glance for ${compactTopic(topic)}.`, heading: topic, ...(heroContent ? { content: heroContent } : {}) });
     if (onlyHero) {
       const manifestPath = join(dir, 'index.json');
       const previous = JSON.parse(await readFile(manifestPath, 'utf8'));
       manifest.push(...(previous.visuals || []).filter((visual) => visual.type !== 'hero'));
       await writeManifest(manifestPath, JSON.stringify({ ...previous, visuals: manifest }, null, 2));
+      visualCount += manifest.length;
       generated += 1;
       continue;
     }
   }
   const sectionItems = data.sections.slice(0, 3).flatMap((section) => section.facts.slice(0, 1)); let summaryItems = take(sectionItems.length ? sectionItems : data.facts, 3, 14); if (!summaryItems.length) { const fact = data.facts.map((source) => ({ source, text: sentenceParts(source.raw || source.text).find((part) => /[.!?]$/.test(part) && words(part).length >= 5 && words(part).length <= 26) || '' })).find(({ text }) => text && !phraseKeys(text).some((key) => usedPhrases.has(key))); const description = sentenceParts(data.description).find((part) => /[.!?]$/.test(part) && words(part).length >= 5 && words(part).length <= 26 && !phraseKeys(part).some((key) => usedPhrases.has(key))) || ''; const fallback = fact?.text || description; if (fallback) { const item = { text: fallback, raw: fallback }; summaryItems = [item]; markUsed(item); } } if (summaryItems.length < 3) summaryItems = [...summaryItems, ...take(data.facts, 3 - summaryItems.length, 14)]; if (summaryItems.length) { const summaryBase = shortHeading(isBlog ? contentHeading(summaryItems[0], topic) : pageContextHeading(contentHeading(summaryItems[0], topic), topic, slug), compactTopic(topic)); const summaryBasePhrases = new Set(phraseKeys(summaryBase)); const summaryRepeatsSource = phraseKeys(summaryItems[0].text).some((key) => summaryBasePhrases.has(key)); const alternateSummaryBase = data.headings.find((value) => value.toLowerCase() !== summaryBase.toLowerCase() && !isGenericVisualHeading(value) && !summaryItems.some((item) => phraseKeys(value).some((key) => phraseKeys(item.text).includes(key))) && !manifest.some((visual) => headingsSharePhrase(value, visual.heading))); const summaryNeedsAlternate = summaryRepeatsSource || manifest.some((visual) => headingsSharePhrase(summaryBase, visual.heading)); const distinctSummaryBase = summaryNeedsAlternate ? (alternateSummaryBase || ('Key ideas about ' + compactTopic(topic))) : summaryBase; let heading = uniqueVisualHeading(distinctSummaryBase, summaryItems[0], topic, 'summary', manifest); if (summaryItems.some((item) => phraseKeys(heading).some((key) => phraseKeys(item.text).includes(key)))) { const replacement = data.headings.find((value) => !isGenericVisualHeading(value) && !summaryItems.some((item) => headingsSharePhrase(value, item.text)) && !manifest.some((visual) => headingsSharePhrase(value, visual.heading))); heading = uniqueVisualHeading(shortHeading(replacement || 'What This Decision Changes', compactTopic(topic)), summaryItems[0], topic, 'summary', manifest); } const cardWords = () => visualWordCount([typeTopLabel('summary'), heading, 'Key ideas.', ...summaryItems.map((item) => item.text)].join(' ')); while (summaryItems.length > 1 && cardWords() > 40) summaryItems.pop(); await add('summary', { desktop: cardVisual(summaryItems, palette, 'summary', heading, DESKTOP), mobile: cardVisual(summaryItems, palette, 'summary', heading, PHONE) }, { alt: `Career decision summary for ${heading}, drawn from the article.`, caption: `Key ideas about ${heading}.`, heading, content: { kind: 'items', items: summaryItems.map((item) => ({ heading: '', text: item.text })) } }); }
   const firstNeed = (type) => pageNeeds.find((need) => need.type === type); const chosen = []; const matrixCandidate = firstNeed('matrix'); const matrixHeading = shortHeading(matrixCandidate?.section_title, data.headings[0] || topic); const matrix = matrixCandidate ? selectMatrix(matrixCandidate.exact_page_content_to_use, matrixHeading, usedPhrases) : null; if (matrix) chosen.push(matrixCandidate); const chain = firstNeed('chain'); const detail = firstNeed('detail'); if (chain) chosen.push(chain); else if (detail) chosen.push(detail); const checklist = firstNeed('checklist'); const proof = firstNeed('proof'); if (checklist && proof) chosen.push(pageNeeds.indexOf(checklist) <= pageNeeds.indexOf(proof) ? checklist : proof); else if (checklist || proof) chosen.push(checklist || proof); else if (detail && !chosen.includes(detail)) chosen.push(detail);
-  for (const need of chosen.slice(0, 3)) { const items = take(itemsFromNeed(need, data), need.type === 'proof' ? 1 : 2, need.type === 'proof' ? 14 : 10); const figures = need.type === 'proof' ? items.map(figureFromItem).filter(Boolean).filter((figure) => figure.source && figureValueSupported(figure.value, figure.source)).slice(0, 2) : []; if ((!items.length && need.type !== 'matrix') || (need.type === 'proof' && !figures.length)) continue; const rawSectionHeading = shortHeading(need.section_title, data.headings[0] || topic); const sectionHeading = isGenericVisualHeading(rawSectionHeading) ? shortHeading(topic, topic) : rawSectionHeading; const coreHeading = need.type === 'proof' ? proofHeading(items, rawSectionHeading, topic) : need.type === 'matrix' ? (!isGenericVisualHeading(sectionHeading) ? sectionHeading : contentHeading(items[0], topic)) : contentHeading(items[0], sectionHeading); const heading = uniqueVisualHeading(shortHeading(isBlog ? coreHeading : pageContextHeading(coreHeading, topic, slug), compactTopic(topic)), items[0] || { text: (matrix?.rows || []).flat().join(' ') }, topic, need.type, manifest, usedPhrases); if (need.type === 'matrix') { while (matrix.rows.length > 1 && visualWordCount([typeTopLabel('matrix'), heading, ...matrix.columns, ...matrix.rows.flat(), 'Source comparison'].join(' ')) > 40) matrix.rows.pop(); if (visualWordCount([typeTopLabel('matrix'), heading, ...matrix.columns, ...matrix.rows.flat(), 'Source comparison'].join(' ')) > 40) continue; } let body; let content; if (need.type === 'matrix') { const table = matrix; table.sourceRows.forEach((row) => row.forEach((cell) => markUsed({ text: cell, raw: cell }))); body = { desktop: tableVisual(table, palette, heading, DESKTOP), mobile: tableVisual(table, palette, heading, PHONE) }; content = { kind: 'table', columns: table.columns, rows: table.rows }; } else if (need.type === 'proof') { body = { desktop: proofVisual(items, palette, heading, DESKTOP), mobile: proofVisual(items, palette, heading, PHONE) }; content = { kind: 'figures', figures }; } else { body = { desktop: cardVisual(items, palette, need.type, heading, DESKTOP), mobile: cardVisual(items, palette, need.type, heading, PHONE) }; content = { kind: 'items', items: items.map((item) => ({ heading: '', text: item.text })) }; } const description = need.type === 'matrix' ? `Comparison table showing ${heading}.` : need.type === 'proof' ? `Figure tiles showing ${heading}: ${figures.map((item) => item.label).join(', ')}.` : need.type === 'checklist' ? `A checklist highlights ${heading}.` : need.type === 'chain' ? `A sequence outlines ${heading}.` : `An evidence card explains ${heading}.`; await add(need.type, body, { alt: description, caption: need.type === 'matrix' ? `Comparison table for ${heading}.` : need.type === 'proof' ? `Article figures about ${heading}.` : need.type === 'checklist' ? `Checklist for ${heading}.` : need.type === 'chain' ? `Steps for ${heading}.` : `Evidence about ${heading}.`, heading, content }); }
+  for (const need of chosen.slice(0, 3)) { const items = take(itemsFromNeed(need, data), need.type === 'proof' ? 1 : 2, need.type === 'proof' ? 14 : 10); const figures = need.type === 'proof' ? items.map(figureFromItem).filter(Boolean).filter((figure) => figure.source && figureValueSupported(figure.value, figure.source)).slice(0, 2) : []; if ((!items.length && need.type !== 'matrix') || (need.type === 'proof' && !figures.length)) continue; const rawSectionHeading = shortHeading(need.section_title, data.headings[0] || topic); const sectionHeading = isGenericVisualHeading(rawSectionHeading) ? shortHeading(topic, topic) : rawSectionHeading; const coreHeading = need.type === 'proof' ? proofHeading(items, rawSectionHeading, topic) : need.type === 'matrix' ? (!isGenericVisualHeading(sectionHeading) ? sectionHeading : contentHeading(items[0], topic)) : contentHeading(items[0], sectionHeading); const heading = visualHeadingOverrides.get(route)?.[need.type] || uniqueVisualHeading(shortHeading(isBlog ? coreHeading : pageContextHeading(coreHeading, topic, slug), compactTopic(topic)), items[0] || { text: (matrix?.rows || []).flat().join(' ') }, topic, need.type, manifest, usedPhrases); if (need.type === 'matrix') { while (matrix.rows.length > 1 && visualWordCount([typeTopLabel('matrix'), heading, ...matrix.columns, ...matrix.rows.flat(), 'Source comparison'].join(' ')) > 40) matrix.rows.pop(); if (visualWordCount([typeTopLabel('matrix'), heading, ...matrix.columns, ...matrix.rows.flat(), 'Source comparison'].join(' ')) > 40) continue; } let body; let content; if (need.type === 'matrix') { const table = matrix; table.sourceRows.forEach((row) => row.forEach((cell) => markUsed({ text: cell, raw: cell }))); body = { desktop: tableVisual(table, palette, heading, DESKTOP), mobile: tableVisual(table, palette, heading, PHONE) }; content = { kind: 'table', columns: table.columns, rows: table.rows }; } else if (need.type === 'proof') { body = { desktop: proofVisual(items, palette, heading, DESKTOP), mobile: proofVisual(items, palette, heading, PHONE) }; content = { kind: 'figures', figures }; } else { body = { desktop: cardVisual(items, palette, need.type, heading, DESKTOP), mobile: cardVisual(items, palette, need.type, heading, PHONE) }; content = { kind: 'items', items: items.map((item) => ({ heading: '', text: item.text })) }; } const description = need.type === 'matrix' ? `Comparison table showing ${heading}.` : need.type === 'proof' ? `Figure tiles showing ${heading}: ${figures.map((item) => item.label).join(', ')}.` : need.type === 'checklist' ? `A checklist highlights ${heading}.` : need.type === 'chain' ? `A sequence outlines ${heading}.` : `An evidence card explains ${heading}.`; await add(need.type, body, { alt: description, caption: need.type === 'matrix' ? `Comparison table for ${heading}.` : need.type === 'proof' ? `Article figures about ${heading}.` : need.type === 'checklist' ? `Checklist for ${heading}.` : need.type === 'chain' ? `Steps for ${heading}.` : `Evidence about ${heading}.`, heading, content }); }
   if (manifest.length < 4) { const candidates = data.sections.filter((section) => section.facts.length); for (const section of candidates) { if (manifest.length >= 4) break; const items = take(section.facts, 2, 14); if (!items.length) continue; const coreHeading = contentHeading(items[0], isGenericVisualHeading(section.title) ? topic : section.title); const heading = uniqueVisualHeading(shortHeading(isBlog ? coreHeading : pageContextHeading(coreHeading, topic, slug), compactTopic(topic)), items[0], topic, 'detail', manifest); while (items.length > 1 && visualWordCount([typeTopLabel('detail'), heading, ...items.map((item) => item.text)].join(' ')) > 40) items.pop(); await add('detail', { desktop: cardVisual(items, palette, 'detail', heading, DESKTOP), mobile: cardVisual(items, palette, 'detail', heading, PHONE) }, { alt: `An evidence card explains ${heading}.`, caption: `Focused evidence: ${heading}.`, heading, content: { kind: 'items', items: items.map((item) => ({ heading: '', text: item.text })) } }); } }
   if (manifest.length < 4) { const pool = [...data.lists, ...data.facts]; while (manifest.length < 4) { const item = take(pool, 1)[0]; if (!item) break; const heading = uniqueVisualHeading(shortHeading(contentHeading(item, topic), compactTopic(topic)), item, topic, 'detail', manifest); await add('detail', { desktop: cardVisual([item], palette, 'detail', heading, DESKTOP), mobile: cardVisual([item], palette, 'detail', heading, PHONE) }, { alt: `An evidence card explains ${heading}.`, caption: `Evidence card: ${heading}.`, heading, content: { kind: 'items', items: [{ heading: '', text: item.text }] } }); } }
   const needBlocks = pageNeeds.map((need, index) => ({ ...needBlock(need, data, topic), needId: `${need.type}:${index + 1}`, sourceSectionId: need.section_id || '', sourceNeedIndex: index + 1 }));
+  const needFigureKey = (figure) => `${normalizeFigureKey(figure?.value)}|${figureFamily(figure?.label)}`;
+  const seenNeedFigures = new Set(selectedHeroFigures.map(needFigureKey));
+  const redundantFigureNeedIndexes = new Set();
+  for (const block of needBlocks) {
+    if (block.type !== 'proof' || !Array.isArray(block.figures) || !block.figures.length) continue;
+    const originalFigures = block.figures;
+    const uniqueFigures = originalFigures.filter((figure) => {
+      const key = needFigureKey(figure);
+      if (!key || seenNeedFigures.has(key)) return false;
+      seenNeedFigures.add(key);
+      return true;
+    });
+    if (uniqueFigures.length) {
+      block.figures = uniqueFigures;
+      continue;
+    }
+    const groundedSentence = originalFigures.flatMap((figure) => sentenceParts(figure.source || figure.text || ''))
+      .map((text) => clean(text))
+      .find((text) => words(text).length >= 6 && !/\d|[₹$]|\b(?:rs\.?|inr|percent|lpa|lakhs?|crores?)\b/i.test(text));
+    if (groundedSentence) {
+      block.kind = 'items';
+      block.figures = undefined;
+      block.items = [{ heading: '', text: groundedSentence }];
+    } else {
+      block.figures = [];
+      redundantFigureNeedIndexes.add(String(block.sourceNeedIndex));
+    }
+  }
+  if (redundantFigureNeedIndexes.size) {
+    const heroVisualForCoverage = manifest.find((visual) => visual.type === 'hero');
+    if (heroVisualForCoverage?.content) heroVisualForCoverage.content.coveredNeedIndexes = [...redundantFigureNeedIndexes].map(Number).sort((a, b) => a - b);
+  }
   if (route === '/blog/career-options/mortuary-science-careers-india/') for (const block of needBlocks) {
     block.items = block.items?.map((item) => item.text === "That is not a gap in this article's research."
       ? { ...item, text: 'India has no equivalent credentialed mortuary-science profession today.', raw: 'India has no equivalent credentialed mortuary-science profession today.' }
       : item);
+  }
+  // Need-based cards render their section headings visibly. Keep each heading
+  // distinct from this page's hero, summary, selected cards, and earlier need
+  // cards so the visual set does not repeat the same five-word line.
+  const visibleNeedCards = [...manifest];
+  for (const block of needBlocks) {
+    const sourceItem = block.items?.[0] || (block.figures?.[0] ? { text: block.figures[0].source || block.figures[0].label } : { text: (block.rows || []).flat().join(' ') });
+    const currentHeading = clean(block.heading || '');
+    const needHeadingOverride = needHeadingOverrides.get(route)?.[block.sourceSectionId];
+    const distinctHeading = needHeadingOverride || uniqueVisualHeading(currentHeading, sourceItem, topic, block.type || 'detail', visibleNeedCards, usedPhrases);
+    block.heading = needHeadingOverride || completeShortHeading(shortHeading(distinctHeading, compactTopic(topic)), compactTopic(topic));
+    visibleNeedCards.push({ heading: block.heading, content: { items: block.items || [], rows: block.rows || [], figures: block.figures || [] } });
   }
   const matrixBlocks = needBlocks.filter((block) => block.type === 'matrix');
   const proofBlocks = needBlocks.filter((block) => block.type === 'proof');
@@ -852,13 +1443,43 @@ const heroNumberFacts = data.numberFacts.filter((item) => { const figure = figur
     ...data.lists,
   ].map((item) => typeof item === 'string' ? item : item?.raw || item?.text || '').filter(Boolean);
   dedupeVisualContent(manifest, uniqueFallbackText);
-  const invalidFigureSections = [];
+  const contextualBudgetLabel = (figure) => {
+    const source = String(figure?.source || '');
+    if (!/\bbudget\b/i.test(source)) return '';
+    const rawValue = String(figure?.value || '');
+    const numeric = numericTokens(rawValue)[0];
+    if (!Number.isFinite(numeric)) return '';
+    const numberText = String(numeric).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const candidates = [...source.matchAll(new RegExp(`(?<![\\d,.])${numberText}(?![\\d,.])`, 'g'))];
+    const unit = rawValue.match(/%|percent|lpa|lakhs?|crores?|years?|months?/i)?.[0] || '';
+    const match = candidates.find((candidate) => {
+      const following = source.slice(candidate.index + candidate[0].length, candidate.index + candidate[0].length + 18);
+      return !unit || (/%|percent/i.test(unit) ? /%|percent/i.test(following) : new RegExp(`\\b${unit.replace(/s$/i, 's?')}\\b`, 'i').test(following));
+    });
+    if (!match) return '';
+    const before = source.slice(Math.max(0, match.index - 60), match.index).toLowerCase();
+    const nextNumber = [...source.matchAll(/\d+(?:,\d{3})*(?:\.\d+)?/g)].find((candidate) => candidate.index > match.index);
+    const after = source.slice(match.index + match[0].length, nextNumber?.index ?? match.index + match[0].length + 78).toLowerCase();
+    if (/%|percent/i.test(rawValue)) {
+      const nearby = `${before.slice(-36)} ${after}`;
+      if (/starting benchmark|suggestion|recommended|keep.{0,28}(?:near|under|within)|target share/.test(nearby)) return 'Education Budget Share';
+      return /caution|warning|red flag|spending above|above roughly|serious caution/.test(nearby) ? 'Budget Warning Threshold' : 'Education Budget Share';
+    }
+    if (/\ba fifth\b|\bone fifth\b/.test(before) || /caution|warning|red flag/.test(after)) return 'Budget Warning Threshold';
+    if (/main course|degree fee|course fee|for the degree|for the credential/.test(after)) return 'Main Course Fee Allocation';
+    if (/the rest|remaining|living costs|tools,? practice|future learning|reserve/.test(after)) return 'Remaining Education Budget';
+    if (/education budget|rupee budget/.test(after)) return 'Education Budget Amount';
+    return '';
+  };
   const validateFigureTree = (node) => {
     if (Array.isArray(node)) { for (const item of node) validateFigureTree(item); return; }
     if (!node || typeof node !== 'object') return;
     if (Array.isArray(node.figures)) {
+      node.figures = node.figures.map((figure) => {
+        const label = contextualBudgetLabel(figure);
+        return label ? { ...figure, label } : figure;
+      });
       const valid = node.figures.filter((figure) => figure.source && figureValueSupported(figure.value, figure.source));
-      if (valid.length !== node.figures.length && node.sourceSectionId) invalidFigureSections.push({ sourceSectionId: node.sourceSectionId, sourceNeedIndex: node.sourceNeedIndex });
       node.figures = valid;
       if (!valid.length && node.kind === 'figures') { node.kind = 'items'; node.items = []; }
     }
@@ -866,16 +1487,11 @@ const heroNumberFacts = data.numberFacts.filter((item) => { const figure = figur
     if (Array.isArray(node.blocks)) {
       node.blocks = node.blocks.filter((block) => {
         const hasContent = block.items?.length || block.rows?.length || block.figures?.length || block.steps?.length;
-        if (!hasContent && block.sourceSectionId) invalidFigureSections.push({ sourceSectionId: block.sourceSectionId, sourceNeedIndex: block.sourceNeedIndex });
         return hasContent;
       });
     }
   };
   for (const visual of manifest) validateFigureTree(visual.content);
-  if (invalidFigureSections.length) {
-    const carrier = manifest.find((visual) => visual.content);
-    if (carrier) carrier.content.coveredNeedSections = [...(carrier.content.coveredNeedSections || []), ...invalidFigureSections];
-  }
   if (route === '/blog/career-options/sales-career-growth-path-india/' && manifest.length > 4) {
     const repeatedLadderDetail = manifest.findIndex((visual) => visual.type === 'detail');
     if (repeatedLadderDetail >= 0) manifest.splice(repeatedLadderDetail, 1);
@@ -901,6 +1517,50 @@ const heroNumberFacts = data.numberFacts.filter((item) => { const figure = figur
   }
   // Re-run after route-specific adjustments so special additions obey the same cross-card dedupe rules.
   dedupeVisualContent(manifest, uniqueFallbackText);
+  const hasNeedContent = (block) => Boolean(
+    block?.items?.some((item) => item?.text?.trim() || item?.heading?.trim())
+    || block?.rows?.some((row) => row?.some((cell) => String(cell || '').trim()))
+    || block?.figures?.length
+    || block?.steps?.some((step) => String(step || '').trim())
+  );
+  const representedNeedKeys = new Set(redundantFigureNeedIndexes);
+  const collectRenderableNeeds = (node) => {
+    if (Array.isArray(node)) { for (const value of node) collectRenderableNeeds(value); return; }
+    if (!node || typeof node !== 'object') return;
+    if (node.sourceNeedIndex && hasNeedContent(node)) representedNeedKeys.add(String(node.sourceNeedIndex));
+    for (const coveredIndex of node.coveredNeedIndexes || []) representedNeedKeys.add(String(coveredIndex));
+    for (const value of Object.values(node)) if (value && typeof value === 'object') collectRenderableNeeds(value);
+  };
+  for (const visual of manifest) collectRenderableNeeds(visual.content);
+  const missingRenderableNeeds = needBlocks.filter((block) => block.sourceNeedIndex && !representedNeedKeys.has(String(block.sourceNeedIndex)));
+  for (const original of missingRenderableNeeds) {
+    const block = structuredClone(original);
+    if (!hasNeedContent(block)) {
+      const sourceSection = sectionForNeed(original, data);
+      const groundedItems = (sourceSection?.facts || [])
+        .map((fact) => clean(fact.raw || fact.text))
+        .filter((text) => text && (original.type !== 'proof' || /(?:₹|\b(?:rs\.?|inr)\b|\$)\s*[\d,.]+|\d+(?:,\d{3})*(?:\.\d+)?\s*(?:%|percent|lpa|lakh|crore|years?|months?|weeks?|hours?|days?)/i.test(text)))
+        .slice(0, 3);
+      if (groundedItems.length) {
+        block.kind = 'items';
+        block.figures = undefined;
+        block.rows = undefined;
+        block.items = groundedItems.map((text) => ({ heading: '', text }));
+      }
+    }
+    if (!hasNeedContent(block)) continue;
+    const preferredType = original.type === 'proof' ? 'proof' : original.type === 'matrix' ? 'matrix' : original.type === 'chain' || original.type === 'checklist' ? original.type : 'detail';
+    const target = manifest.find((visual) => visual.type === preferredType)
+      || manifest.find((visual) => visual.type === 'checklist' || visual.type === 'chain')
+      || manifest.find((visual) => visual.type !== 'hero');
+    if (!target) continue;
+    const current = target.content;
+    const blocks = current?.kind === 'bundle' ? current.blocks || [] : current ? [{ ...current, heading: target.heading }] : [];
+    if (!blocks.some((candidate) => candidate.sourceNeedIndex === block.sourceNeedIndex)) {
+      target.content = { kind: 'bundle', sourceNeedCount: blocks.length + 1, blocks: [...blocks, block] };
+      representedNeedKeys.add(String(block.sourceNeedIndex));
+    }
+  }
   const hasRenderableContent = (content) => {
     if (!content) return false;
     const blocks = content.kind === 'bundle' ? content.blocks || [] : [content];
@@ -912,29 +1572,12 @@ const heroNumberFacts = data.numberFacts.filter((item) => { const figure = figur
     ));
   };
   manifest.splice(0, manifest.length, ...manifest.filter((visual) => visual.type === 'hero' || hasRenderableContent(visual.content)));
-  const representedNeedSections = new Set();
-  const collectNeedSections = (node) => {
-    if (Array.isArray(node)) { for (const value of node) collectNeedSections(value); return; }
-    if (!node || typeof node !== 'object') return;
-    if (node.sourceSectionId) representedNeedSections.add(node.sourceSectionId);
-    for (const reference of node.coveredNeedSections || []) if (reference.sourceSectionId) representedNeedSections.add(reference.sourceSectionId);
-    for (const value of Object.values(node)) if (value && typeof value === 'object') collectNeedSections(value);
-  };
-  for (const visual of manifest) collectNeedSections(visual.content);
-  const missingNeedReferences = needBlocks
-    .filter((block) => block.sourceSectionId && !representedNeedSections.has(block.sourceSectionId))
-    .map(({ sourceSectionId, sourceNeedIndex }) => ({ sourceSectionId, sourceNeedIndex }));
-  if (missingNeedReferences.length) {
-    const carrier = manifest.find((visual) => visual.content);
-    if (carrier) {
-      const prior = carrier.content.coveredNeedSections || [];
-      const refs = new Map([...prior, ...missingNeedReferences].map((reference) => [`${reference.sourceSectionId}|${reference.sourceNeedIndex}`, reference]));
-      carrier.content.coveredNeedSections = [...refs.values()];
-    }
-  }
+  const missingNeedCount = needBlocks.filter((block) => block.sourceNeedIndex && !representedNeedKeys.has(String(block.sourceNeedIndex))).length;
+  if (missingNeedCount) console.error(`Image content gap ${route}: ${missingNeedCount} required section(s) have no renderable content.`);
   const replaceLegacyTableLabels = (node) => {
     if (Array.isArray(node)) { for (const value of node) replaceLegacyTableLabels(value); return; }
     if (!node || typeof node !== 'object') return;
+    delete node.coveredNeedSections;
     if (Array.isArray(node.columns)) node.columns = node.columns.map((label) => /^entry route$/i.test(String(label).trim()) ? 'Starting path' : label);
     for (const value of Object.values(node)) if (value && typeof value === 'object') replaceLegacyTableLabels(value);
   };
@@ -963,14 +1606,25 @@ const heroNumberFacts = data.numberFacts.filter((item) => { const figure = figur
     }
     headingKeys.add(String(visual.heading || '').toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim());
   }
+  visualCount += manifest.length;
   await writeManifest(join(dir, 'index.json'), JSON.stringify({
     version: 11,
     route,
     title,
     canvas: { phone: PHONE, desktop: DESKTOP },
     safeMargin: 72,
-    textContract: { topLabel: 48, heading: 50, body: 40, tableHeader: 42, tableCell: 40, tileFigure: 58, tileLabel: 48, tileSource: 36 },
+    textContract: { topLabel: 34, heading: 52, body: 40, tableHeader: 42, tableCell: 40, tileFigure: 80, tileLabel: 34, tileSource: 36 },
     visuals: manifest,
   }, null, 2)); generated += 1;
+  // Structured supporting visuals are rendered from their manifest as live,
+  // responsive HTML. Their former raster twins are not used by the page, so
+  // remove any left by earlier generator versions instead of retaining dead
+  // WebP files in the repository.
+  for (const visual of manifest) {
+    if (visual.type === 'hero' || !visual.content) continue;
+    for (const asset of [visual.file, visual.mobile]) {
+      if (asset) await unlink(join(dir, asset)).catch(() => {});
+    }
+  }
 }
 console.log(`Generated ${visualCount} Round 11 visuals for ${generated} pages.`);

@@ -550,7 +550,6 @@ function liveVisualFigure(visual, index, className) {
   const content = visual.content;
   if (!content) return visualFigure(visual, '', index, className);
   const heading = plainText(visual.heading || visual.caption || 'Career evidence').replace(/[:;]+$/, '').trim();
-  let body = '';
   const renderBlock = (block) => {
     if (block.kind === 'table') {
       const columns = Array.isArray(block.columns) ? block.columns : [];
@@ -559,50 +558,28 @@ function liveVisualFigure(visual, index, className) {
     }
     if (block.kind === 'figures') {
       const figures = Array.isArray(block.figures) ? block.figures : [];
-      return `<div class="article-live-stats">${figures.map((figure) => `<div class="article-live-stat"><strong>${escapeHtml(figure.value || '')}</strong><span>${escapeHtml(figure.label || '')}</span><small>${escapeHtml(figure.source || '')}</small></div>`).join('')}</div>`;
+      const sources = [...new Set(figures.map((figure) => String(figure.source || '').trim()).filter(Boolean))];
+      const sourceNotes = sources.length ? `<div class="article-live-sources">${sources.map((source) => `<p><small>${escapeHtml(source)}</small></p>`).join('')}</div>` : '';
+      return `<div class="article-live-stats">${figures.map((figure) => `<div class="article-live-stat"><strong>${escapeHtml(figure.value || '')}</strong><span>${escapeHtml(figure.label || '')}</span></div>`).join('')}</div>${sourceNotes}`;
     }
     const items = Array.isArray(block.items) ? block.items : [];
     const listTag = block.type === 'chain' ? 'ol' : 'ul';
     const listClass = block.type === 'checklist' ? ' article-live-items--checklist' : block.type === 'chain' ? ' article-live-items--chain' : '';
     return `<${listTag} class="article-live-items${listClass}">${items.map((item) => `<li class="article-live-item${item.heading ? '' : ' article-live-item--plain'}">${item.heading ? `<span class="article-live-item__label">${escapeHtml(item.heading)}</span>` : ''}<span class="article-live-item__text">${escapeHtml(item.text || '')}</span></li>`).join('')}</${listTag}>`;
   };
-  const wordCount = (value) => (plainText(String(value || '')).match(/[\p{L}\p{N}]+(?:[’'-][\p{L}\p{N}]+)*/gu) || []).length;
-  const previewFor = (block) => {
-    if (block.kind === 'table') {
-      const columns = (block.columns || []).slice(0, 3);
-      return columns.length ? `Compare ${columns.join(', ')}` : '';
-    }
-    if (block.kind === 'figures') {
-      const figures = (block.figures || []).slice(0, 2);
-      return figures.map((figure) => `${figure.value || ''} ${figure.label || ''}`.trim()).join('; ');
-    }
-    const items = block.items || [];
-    const item = items.find((candidate) => wordCount(candidate.text) > 0 && wordCount(candidate.text) <= 16);
-    if (item) return item.text;
-    const step = (block.steps || []).find((candidate) => wordCount(candidate) > 0 && wordCount(candidate) <= 16);
-    return step || '';
-  };
   const blocks = content.kind === 'bundle' ? Array.isArray(content.blocks) ? content.blocks : [] : [content];
-  const baseWords = wordCount(`${liveVisualKicker(visual.type)} ${heading} ${visual.caption || heading}`);
-  const disclosureLabel = content.kind === 'bundle' ? `Explore ${blocks.length} sections` : `Open ${visual.type} details`;
-  const previewBudget = Math.max(0, 40 - baseWords - wordCount(disclosureLabel));
-  // A bundle can contain several unrelated source sections. Choose any visible
-  // teaser only from its first block; searching later blocks can pair a card's
-  // heading with an unrelated short item (for example, a "next steps" link).
-  const firstBlockPreview = blocks.length ? previewFor(blocks[0]) : '';
-  const preview = firstBlockPreview && wordCount(firstBlockPreview) <= previewBudget ? firstBlockPreview : '';
-  const previewHtml = preview ? `<p class="article-live-preview">${escapeHtml(preview)}</p>` : '';
-  if (content.kind === 'bundle') {
-    const expanded = blocks.map((block) => `<details class="article-live-need"><summary>${escapeHtml(block.heading || 'Section details')}</summary>${renderBlock(block)}</details>`).join('');
-    body = `<div class="article-live-bundle">${previewHtml}<details class="article-live-more"><summary>${escapeHtml(disclosureLabel)}</summary>${expanded}</details></div>`;
-  } else body = `<div class="article-live-bundle">${previewHtml}<details class="article-live-more"><summary>${escapeHtml(disclosureLabel)}</summary>${renderBlock(content)}</details></div>`;
+  const first = blocks[0] ? `<div class="article-live-primary">${renderBlock(blocks[0])}</div>` : '';
+  const remaining = blocks.slice(1);
+  const more = remaining.length
+    ? `<details class="article-live-more"><summary>Explore ${remaining.length} more ${remaining.length === 1 ? 'section' : 'sections'}</summary>${remaining.map((block) => `<details class="article-live-need"><summary>${escapeHtml(block.heading || 'Section details')}</summary>${renderBlock(block)}</details>`).join('')}</details>`
+    : '';
+  const body = `<div class="article-live-bundle">${first}${more}</div>`;
   const sourceSections = content.kind === 'bundle'
     ? [...new Set((content.blocks || []).map((block) => block.sourceSectionId).filter(Boolean))]
     : [content.sourceSectionId].filter(Boolean);
   const sourceAttr = sourceSections.length ? ` data-source-sections="${escapeAttr(sourceSections.join(','))}"` : '';
-  return `<figure class="${className} article-live-visual" data-visual-type="${escapeAttr(visual.type)}"${sourceAttr} role="group" aria-label="${escapeAttr(heading)}"><div class="article-live-card"><div class="article-live-card__kicker">${escapeHtml(liveVisualKicker(visual.type))}</div><h3>${escapeHtml(heading)}</h3>${body}</div><figcaption>${escapeHtml(visual.caption || heading)}</figcaption></figure>`;
+  return `<figure class="${className} article-live-visual" data-visual-type="${escapeAttr(visual.type)}"${sourceAttr} role="group" aria-label="${escapeAttr(heading)}"><div class="article-live-card"><h3>${escapeHtml(heading)}</h3>${body}</div><figcaption>${escapeHtml(visual.caption || heading)}</figcaption></figure>`;
 }
-
 function visualFigure(visual, pageTitle, index, className) {
   const image = `<img src="${visual.src}" alt="${escapeAttr(visual.alt || visual.label)}" title="${escapeAttr(visual.title || visual.label)}" width="${visual.width}" height="${visual.height}" loading="${index === 0 ? 'eager' : 'lazy'}" decoding="async"${index === 0 ? ' fetchpriority="high"' : ''}>`;
   const picture = visual.mobile ? `<picture><source media="(max-width: 640px)" srcset="${visual.mobile}">${image}</picture>` : image;
@@ -613,9 +590,12 @@ function placeGeneratedVisuals(html, publicDir, generated, pageTitle, className,
   if (!generated.length) return html;
   const visuals = generated.map((src) => visualDescriptor(src, publicDir, pageTitle));
   const preserveBofuHero = className === 'resource-visual' && /<figure\b[^>]*class="[^"]*\bbofu-image\b[^"]*"/i.test(html);
+  const preserveBofuContext = className === 'resource-visual' && /<figure\b[^>]*class="[^"]*\bbofu-context-visual\b[^"]*"/i.test(html);
   let out = html.replace(/<figure\b[^>]*class="([^"]*)"[^>]*>[\s\S]*?<\/figure>/gi, (figure, classNames) => {
     if (!/(?:^|\s)(?:article-cover|article-visual|resource-visual|bofu-image|bofu-context-visual|compass-visual|locations-hub-visual)(?:\s|$)/i.test(classNames)) return figure;
-    return preserveBofuHero && /(?:^|\s)bofu-image(?:\s|$)/i.test(classNames) ? figure : '';
+    if (preserveBofuHero && /(?:^|\s)bofu-image(?:\s|$)/i.test(classNames)) return figure;
+    if (preserveBofuContext && /(?:^|\s)bofu-context-visual(?:\s|$)/i.test(classNames)) return figure;
+    return '';
   });
   const hero = visuals.find((visual) => visual.type === 'hero') || visuals[0];
   const lead = /<p\b[^>]*class="[^"]*lead-para[^"]*"[^>]*>[\s\S]*?<\/p>/i.exec(out);
