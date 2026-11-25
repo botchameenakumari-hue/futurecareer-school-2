@@ -5,6 +5,9 @@ import { join, relative, dirname } from 'node:path';
 const base = process.env.VISUAL_AUDIT_BASE ?? 'http://127.0.0.1:4322';
 const outFile = process.env.VISUAL_AUDIT_REPORT ?? 'C:/Users/Jack Sparrow/.codex/.chatgpt-projects/g-p-6aa561b035748191b9430f4d23e8bef8/visual-audit-rendered.json';
 const dist = 'dist';
+const waitUntil = process.env.VISUAL_AUDIT_WAIT_UNTIL ?? 'networkidle';
+const scrollForImages = process.env.VISUAL_AUDIT_SCROLL !== '0';
+const excludedPrefixes = (process.env.VISUAL_AUDIT_EXCLUDE_PREFIXES ?? '').split(',').map((value) => value.trim()).filter(Boolean);
 const viewports = (process.env.VISUAL_AUDIT_VIEWPORTS ?? '390x844,768x1024,1280x900,1440x900,1920x1080')
   .split(',')
   .map((value) => {
@@ -26,7 +29,7 @@ async function walk(dir) {
 const routes = (await walk(dist)).map((file) => {
   const path = relative(dist, file).replaceAll('\\', '/');
   return `/${path.replace(/index\.html$/, '')}`;
-}).filter((route) => !route.startsWith('/_'));
+}).filter((route) => !route.startsWith('/_') && !excludedPrefixes.some((prefix) => route.startsWith(prefix)));
 
 const browser = await chromium.launch({ headless: true });
 const findings = [];
@@ -37,21 +40,23 @@ async function auditRoute(page, route) {
     await page.setViewportSize(viewport);
     let status = 0;
     try {
-      const response = await page.goto(`${base}${route}`, { waitUntil: 'networkidle', timeout: 45000 });
+      const response = await page.goto(`${base}${route}`, { waitUntil, timeout: 45000 });
       await page.waitForLoadState('load', { timeout: 10000 }).catch(() => {});
       await page.waitForTimeout(80);
       status = response?.status() ?? 0;
-      await page.evaluate(async () => {
+      await page.evaluate(async (shouldScroll) => {
         for (const img of document.images) img.loading = 'eager';
-        for (let y = 0; y < document.documentElement.scrollHeight; y += Math.max(innerHeight - 120, 320)) {
-          scrollTo(0, y);
-          await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+        if (shouldScroll) {
+          for (let y = 0; y < document.documentElement.scrollHeight; y += Math.max(innerHeight - 120, 320)) {
+            scrollTo(0, y);
+            await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+          }
         }
         scrollTo(0, 0);
         await Promise.all([...document.images].map((img) => img.complete && img.naturalWidth > 0
           ? Promise.resolve()
           : new Promise((resolve) => { img.addEventListener('load', resolve, { once: true }); img.addEventListener('error', resolve, { once: true }); setTimeout(resolve, 2500); })));
-      });
+      }, scrollForImages);
       await page.waitForTimeout(20);
       const result = await page.evaluate(() => {
         const localBroken = [];

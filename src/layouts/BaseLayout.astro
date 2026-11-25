@@ -125,7 +125,7 @@ const needsContentLandmark = isCareerGuidanceService || (isAssessmentService && 
       margin-inline: auto;
     }
     .article-live-visual {
-      width: min(100%, 960px);
+      width: min(calc(100% - 48px), 960px);
       margin: 1.8rem auto 2.3rem;
     }
     .article-live-card {
@@ -137,6 +137,8 @@ const needsContentLandmark = isCareerGuidanceService || (isAssessmentService && 
       color: #f8fafc;
       box-shadow: 0 18px 45px rgba(0,0,0,.16);
     }
+    .article-live-card--narrow { width: min(100%, 28rem); max-width: 100%; }
+    .article-live-card--narrow .article-live-stats { grid-template-columns: 1fr; }
     .article-live-card__kicker {
       margin-bottom: .55rem;
       color: #f0c674;
@@ -189,6 +191,9 @@ const needsContentLandmark = isCareerGuidanceService || (isAssessmentService && 
     .article-live-bundle { display: grid; gap: .65rem; min-width: 0; }
     .article-live-need { min-width: 0; border-top: 1px solid rgba(226,232,240,.16); padding-top: .65rem; }
     .article-live-need > summary { color: #f0c674; cursor: pointer; font-size: max(14px, 1rem); font-weight: 700; line-height: 1.45; overflow-wrap: anywhere; }
+    .article-live-compact-detail { min-width: 0; }
+    .article-live-compact-detail > summary { color: #79533d; cursor: pointer; font-size: max(14px, 1rem); font-weight: 700; line-height: 1.45; overflow-wrap: anywhere; }
+    .article-live-compact-detail > p { margin: .45rem 0 0; color: #303934; font-size: max(14px, 1rem); line-height: 1.58; overflow-wrap: anywhere; }
     .article-live-need[open] > summary { margin-bottom: .8rem; }
     .article-live-need > .article-live-items,
     .article-live-need > .article-live-table-wrap,
@@ -211,9 +216,17 @@ const needsContentLandmark = isCareerGuidanceService || (isAssessmentService && 
     .article-live-stat strong { color: #f8fafc; font-size: clamp(1.55rem, 4vw, 2.4rem); line-height: 1.2; }
     .article-live-stat span { margin-top: .45rem; color: #f0c674; font-size: max(14px, .95rem); font-weight: 700; line-height: 1.4; }
     .article-live-stat small { margin-top: .55rem; color: rgba(248,250,252,.76); font-size: max(14px, .88rem); line-height: 1.5; }
-    .article-live-sources { display: grid; gap: .4rem; margin-top: .75rem; }
+    .article-live-visual .article-live-stat span,
+    .article-live-visual .article-live-stat small,
+    .article-live-visual .article-live-sources small { font-size: max(14px, 1rem) !important; }
+    .article-live-sources { display: block; margin-top: .75rem; }
+    .article-live-sources:not([open]) > :not(summary) { display: none !important; }
+    .article-live-sources[open] > p + p { margin-top: .4rem; }
+    .article-live-sources > summary { color: #f0c674; cursor: pointer; font-size: max(14px, .9rem); font-weight: 700; line-height: 1.45; }
     .article-live-sources p { margin: 0; }
     .article-live-sources small { display: block; color: rgba(248,250,252,.76); font-size: max(14px, .88rem); line-height: 1.5; overflow-wrap: anywhere; }
+    .article-live-answer { margin: 0 0 1rem; padding: 1rem 1.1rem; border-left: 4px solid #d1a84d; border-radius: 0 12px 12px 0; background: rgba(255,255,255,.07); color: #fffdf7; font-size: max(16px, 1.05rem); font-weight: 600; line-height: 1.55; overflow-wrap: anywhere; }
+    .article-live-supporting { margin: .8rem 0 0; color: rgba(248,250,252,.86); font-size: max(14px, .95rem); line-height: 1.55; overflow-wrap: anywhere; }
     .article-live-table-wrap { max-width: 100%; overflow-x: auto; }
     .article-live-table-wrap table { width: 100%; min-width: 32rem; border-collapse: collapse; color: rgba(248,250,252,.92); }
     .article-live-table-wrap th, .article-live-table-wrap td {
@@ -227,6 +240,9 @@ const needsContentLandmark = isCareerGuidanceService || (isAssessmentService && 
     }
     .article-live-table-wrap th { color: #f0c674; font-weight: 700; }
     .article-live-visual figcaption { margin-top: .65rem; color: rgba(255,255,255,.68); font-size: 14px; line-height: 1.5; }
+    figure.article-visual figcaption,
+    figure.article-cover-visual figcaption,
+    figure.compass-cover-visual figcaption { font-size: max(14px, .875rem) !important; }
     @media (max-width: 720px) {
       .article-live-item { grid-template-columns: minmax(0, 1fr); gap: .3rem; }
       .article-live-table-wrap table, .article-live-table-wrap tbody, .article-live-table-wrap tr, .article-live-table-wrap td { display: block; width: 100%; min-width: 0; }
@@ -406,7 +422,7 @@ const needsContentLandmark = isCareerGuidanceService || (isAssessmentService && 
     .article-live-table-wrap th, .article-live-table-wrap td { border-color: #d1c8b6; }
     .article-live-table-wrap th { background: #e9e2d2; color: #594536; }
     .article-live-table-wrap td::before { color: #79533d; }
-    .article-live-visual figcaption { color: #62665f; }
+    .article-live-visual figcaption { color: #d0d2ce; }
     .article-live-more > summary { cursor: pointer; font-size: max(14px, 1rem); font-weight: 700; line-height: 1.45; }
 </style>
 </head>

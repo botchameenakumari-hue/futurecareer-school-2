@@ -1,63 +1,90 @@
 ---
 const path = Astro.url.pathname;
-const titleFor = (id, alt) => ({
-  'context-assessment-map.webp': 'Turn an assessment result into questions and experiments',
-  'context-healthcare-aspirant.webp': 'Compare healthcare paths by fit, skill, and runway',
-  'context-first-generation.webp': 'Build career mobility from context, capability, and proof',
-  'context-law-policy.webp': 'Explore law and policy work through impact and fit',
-  'context-creative-media.webp': 'Connect creative craft to audience and market value',
-  'context-study-abroad.webp': 'Compare study-abroad choices by cost, outcome, and fit',
-  'context-exam-pressure.webp': 'Make a clearer plan when exams and time feel heavy',
-  'context-engineering-tech.webp': 'Turn engineering foundations into visible project proof',
-  'context-women-returning.webp': 'Translate experience into a confident return-to-work path',
-  'context-entrepreneur-path.webp': 'Move from a real problem to a skill-led offer',
-  'context-career-plan.webp': 'Turn a career decision into a next-step plan',
-  'context-helpline.webp': 'Begin with one honest question and a useful next step',
-  'context-location-online.webp': 'Get city-aware career guidance through one online service',
-  'context-online-session.webp': 'Use a live online session to turn confusion into direction',
-  'context-pricing-value.webp': 'See what practical guidance delivers beyond a recommendation',
-  'context-evaluation-checklist.webp': 'Evaluate career guidance by evidence and trade-offs',
-  'context-stream-choice.webp': 'Choose a stream by fit, capability, and future options',
-  'context-student-parent-map.webp': 'Help students and parents move from strengths to skills',
-  'context-after-12th.webp': 'Compare post-school routes through work and evidence',
-  'context-graduate-pathway.webp': 'Close the gap between a degree and opportunity',
-  'context-professional-pivot.webp': 'Turn working experience into transferable career leverage',
-  'context-holistic-framework.webp': 'Make a career decision using the whole picture'
-}[id] ?? alt);
-const visual = path.includes('/assessments') ? ['context-assessment-map.webp', 'An assessment signal map showing how results become questions, experiments, and direction']
-  : /neet|bds|medical|healthcare|pcb/.test(path) ? ['context-healthcare-aspirant.webp', 'A healthcare career visual showing patients, science, skills, and paths']
-  : /government-exam|upsc|low-board-scores|low-cgpa|dropouts|backlogs/.test(path) ? ['context-exam-pressure.webp', 'A career setback visual showing attempts, time, runway, and options']
-  : /first-generation|tier-2/.test(path) ? ['context-first-generation.webp', 'A first-generation career visual showing context, capability, proof, and mobility']
-  : /government-jobs|law|policy/.test(path) ? ['context-law-policy.webp', 'A law and policy career visual showing impact, fit, runway, and options']
-  : /arts|commerce|pcm|pcb|stream|neet|ca-aspirants/.test(path) ? ['context-stream-choice.webp', 'A stream decision visual showing science, commerce, arts, and skill-building routes']
-  : /media|creative|communication/.test(path) ? ['context-creative-media.webp', 'A creative career visual showing idea, craft, audience, and value']
-  : /study-abroad|nri-students/.test(path) ? ['context-study-abroad.webp', 'A study-abroad decision visual comparing cost, outcome, risk, and fit']
-  : /engineering|b-tech|computer-science|it-professionals/.test(path) ? ['context-engineering-tech.webp', 'An engineering career visual showing foundations, projects, proof, and roles']
-  : /women-returning|career-coaching-for-women|career-counselling-for-women/.test(path) ? ['context-women-returning.webp', 'A return-to-work visual showing experience, rebuilding, flexibility, and income']
-  : /entrepreneur|hire-a-career-coach/.test(path) ? ['context-entrepreneur-path.webp', 'An entrepreneurship visual showing problem, skill, offer, and revenue']
-  : /career-planning|career-mentoring|career-guidance-session|career-counselling-session/.test(path) ? ['context-career-plan.webp', 'A career plan visual showing now, next, proof, and review']
-  : path.includes('career-counselling-helpline') ? ['context-helpline.webp', 'A helpline visual showing how one honest question can become understanding and a decision']
-  : path.includes('/locations/') ? ['context-location-online.webp', 'A local search and online guidance visual showing city access to one online service']
-  : /career-counselling-online|career-guidance-online|online-career|virtual-career|video/.test(path) ? ['context-online-session.webp', 'An online guidance visual showing live conversation, shared screen, and a clear next step']
-  : /cost|fees|pricing|affordable|package|subscription/.test(path) ? ['context-pricing-value.webp', 'A pricing visual showing clarity, a skill plan, and follow-through as the value of guidance']
-  : /best-|compare-|questions-for-students|platform-review|where-to-get/.test(path) ? ['context-evaluation-checklist.webp', 'A checklist visual for evaluating real career guidance evidence and trade-offs']
-  : /after-10th|school-students|class-10|parents|students/.test(path) ? ['context-student-parent-map.webp', 'A student and parent career decision map from noticing strengths to building skills']
-  : /after-12th|11th|12th|stream|pcm|pcb|commerce|arts/.test(path) ? ['context-after-12th.webp', 'A career decision map for comparing work, routes, capability, and evidence after 12th']
-  : /graduate|graduation|freshers|college|b-tech|bba|bcom|bsc|mba/.test(path) ? ['context-graduate-pathway.webp', 'A graduate pathway from degree and capability gaps to proof and opportunity']
-  : /professional|career-change|executive|adult|women-returning|entrepreneur/.test(path) ? ['context-professional-pivot.webp', 'A working professional career pivot map from reality to transferable skills and leverage']
-  : ['context-holistic-framework.webp', 'A holistic career decision framework covering person, options, market, skills, and money'];
+const visual = path.includes('/assessments') ? ['context-assessment-map', 'A result is a clue to test, not a career verdict.']
+  : /neet|bds|medical|healthcare|pcb/.test(path) ? ['context-healthcare-aspirant', 'Patient care, science, and daily duties differ by role.']
+  : /government-exam|upsc|low-board-scores|low-cgpa|dropouts|backlogs/.test(path) ? ['context-exam-pressure', 'Protect time, options, and energy while you prepare.']
+  : /first-generation|tier-2/.test(path) ? ['context-first-generation', 'Turn access, capability, and proof into mobility.']
+  : /government-jobs|law|policy/.test(path) ? ['context-law-policy', 'Compare the work, entry route, and public impact.']
+  : /arts|commerce|pcm|pcb|stream|neet|ca-aspirants/.test(path) ? ['context-stream-choice', 'Keep options open while testing what suits you.']
+  : /media|creative|communication/.test(path) ? ['context-creative-media', 'Connect the craft to people who need it.']
+  : /study-abroad|nri-students/.test(path) ? ['context-study-abroad', 'Check outcomes, living costs, risk, and fit together.']
+  : /engineering|b-tech|computer-science|it-professionals/.test(path) ? ['context-engineering-tech', 'Turn technical foundations into work others can inspect.']
+  : /women-returning|career-coaching-for-women|career-counselling-for-women/.test(path) ? ['context-women-returning', 'Make experience visible and plan the route back.']
+  : /entrepreneur|hire-a-career-coach/.test(path) ? ['context-entrepreneur-path', 'Build an offer around a problem worth solving.']
+  : /career-planning|career-mentoring|career-guidance-session|career-counselling-session/.test(path) ? ['context-career-plan', 'Keep the next decision visible and reviewable.']
+  : path.includes('career-counselling-helpline') ? ['context-helpline', 'A useful conversation makes the next move clearer.']
+  : path.includes('/locations/') ? ['context-location-online', 'Bring city choices into one clear online conversation.']
+  : /career-counselling-online|career-guidance-online|online-career|virtual-career|video/.test(path) ? ['context-online-session', 'Turn a conversation into a decision you can test.']
+  : /cost|fees|pricing|affordable|package|subscription/.test(path) ? ['context-pricing-value', 'The value is a stronger decision and usable proof.']
+  : /best-|compare-|questions-for-students|platform-review|where-to-get/.test(path) ? ['context-evaluation-checklist', 'Look for evidence, trade-offs, and a useful next step.']
+  : /after-10th|school-students|class-10|parents|students/.test(path) ? ['context-student-parent-map', 'Use observations as a starting point for exploration.']
+  : /after-12th|11th|12th|stream|pcm|pcb|commerce|arts/.test(path) ? ['context-after-12th', 'Choose the work first; then compare routes.']
+  : /graduate|graduation|freshers|college|b-tech|bba|bcom|bsc|mba/.test(path) ? ['context-graduate-pathway', 'Close the gap between study and work with proof.']
+  : /professional|career-change|executive|adult|women-returning|entrepreneur/.test(path) ? ['context-professional-pivot', 'Carry proven strengths while learning what the new role needs.']
+  : ['context-holistic-framework', 'Fit, opportunity, skills, and money belong together.'];
+
+const content = {
+  'context-after-12th': { title: 'After Class 12', steps: [['Destination', 'Picture the work'], ['Route', 'Degree or skill'], ['Capability', 'Build what is needed'], ['Evidence', 'Show what you can do']] },
+  'context-assessment-map': { title: 'Assessment to action', steps: [['Signal', 'Notice a pattern'], ['Question', 'Ask what it means'], ['Experiment', 'Try a real task'], ['Direction', 'Choose a next step']] },
+  'context-career-plan': { title: 'A career plan you can use', steps: [['Now', 'Name the real choice'], ['Next', 'Choose one move'], ['Proof', 'Make progress visible'], ['Review', 'Adjust with evidence']] },
+  'context-creative-media': { title: 'Creative work with value', steps: [['Idea', 'Find a real need'], ['Craft', 'Make useful work'], ['Audience', 'Reach the right people'], ['Value', 'Show the result']] },
+  'context-engineering-tech': { title: 'From engineering to proof', steps: [['Foundation', 'Use core principles'], ['Project', 'Solve a real problem'], ['Proof', 'Document the build'], ['Role', 'Match evidence to work']] },
+  'context-entrepreneur-path': { title: 'A skill-led business path', steps: [['Problem', 'Listen before building'], ['Skill', 'Do the work well'], ['Offer', 'Make the result clear'], ['Revenue', 'Earn through value']] },
+  'context-evaluation-checklist': { title: 'Check guidance before you pay', steps: [['Specific', 'Fits your decision'], ['Evidence', 'Shows real work'], ['Trade-offs', 'Names the cost'], ['Next step', 'Tests the direction']] },
+  'context-exam-pressure': { title: 'A steadier plan under exam pressure', steps: [['Attempts', 'Know the rules'], ['Time', 'Set a realistic window'], ['Plan B', 'Keep routes open'], ['Support', 'Ask early for help']] },
+  'context-first-generation': { title: 'Build a path with the context you have', steps: [['Context', 'Start from your reality'], ['Capability', 'Build high-value skills'], ['Proof', 'Make ability visible'], ['Mobility', 'Open better options']] },
+  'context-graduate-pathway': { title: 'From degree to opportunity', steps: [['Degree', 'Name what you know'], ['Gap', 'Find what is missing'], ['Skill', 'Practise the work'], ['Proof', 'Show what you can do']] },
+  'context-healthcare-aspirant': { title: 'Compare healthcare work by fit', steps: [['Work', 'See the daily tasks'], ['Training', 'Check the route'], ['Fit', 'Match strengths and care'], ['Next step', 'Test the setting']] },
+  'context-helpline': { title: 'Start with one honest question', steps: [['Listen', 'Say what feels stuck'], ['Clarify', 'Name the real choice'], ['Explore', 'Compare possible routes'], ['Act', 'Choose one next step']] },
+  'context-holistic-framework': { title: 'A career decision needs the whole picture', steps: [['Person', 'Strengths and constraints'], ['Options', 'Routes and trade-offs'], ['Market', 'Demand and opportunity'], ['Skills + money', 'Build for freedom']] },
+  'context-law-policy': { title: 'Law and policy have different working lives', steps: [['Issue', 'What needs changing?'], ['Route', 'Practice or policy'], ['Evidence', 'Read the real work'], ['Impact', 'Who benefits?']] },
+  'context-location-online': { title: 'Local context; guidance from anywhere', steps: [['City', 'Name local options'], ['Access', 'Meet online'], ['Compare', 'Check fit and cost'], ['Decide', 'Choose with context']] },
+  'context-online-session': { title: 'A live session with a clear next step', steps: [['Question', 'Bring the real concern'], ['Explore', 'Compare possible paths'], ['Plan', 'Choose a small test'], ['Follow up', 'Review what you learned']] },
+  'context-pricing-value': { title: 'Judge guidance by what it helps you build', steps: [['Clarity', 'Know the real choice'], ['Skill plan', 'Build what travels'], ['Proof', 'Show the work'], ['Review', 'Improve the next move']] },
+  'context-professional-pivot': { title: 'Move your experience into new work', steps: [['Experience', 'Name what transfers'], ['Gap', 'Find what must change'], ['Proof', 'Build one work sample'], ['Pivot', 'Move with a plan']] },
+  'context-stream-choice': { title: 'Choose a stream by fit and future work', steps: [['Interests', 'What holds attention?'], ['Subjects', 'What can you sustain?'], ['Work', 'What might fit?'], ['Evidence', 'Try a small project']] },
+  'context-student-parent-map': { title: 'Help students move from strengths to skills', steps: [['Notice', 'Name strengths'], ['Ask', 'Hear the student'], ['Explore', 'Try real activities'], ['Build', 'Grow useful skills']] },
+  'context-study-abroad': { title: 'Compare study abroad with the full cost', steps: [['Course', 'Check recognition'], ['Cost', 'Count the full spend'], ['Outcome', 'Verify work options'], ['Fit', 'Compare the life']] },
+  'context-women-returning': { title: 'Return to work with proof and choice', steps: [['Experience', 'Name what you bring'], ['Refresh', 'Update one skill'], ['Proof', 'Show recent work'], ['Return', 'Choose the right role']] },
+};
+const panel = content[visual[0]] ?? content['context-holistic-framework'];
 ---
-<figure class="bofu-context-visual">
-  <picture>
-    <source media="(max-width: 600px)" srcset={'/images/bofu/' + visual[0].replace('.webp', '-mobile.webp')} width="900" height="1500" />
-    <img src={'/images/bofu/' + visual[0]} alt={visual[1]} title={titleFor(visual[0], visual[1])} width="1600" height="900" loading="lazy" decoding="async" />
-  </picture>
-  <figcaption>{visual[1]}</figcaption>
+
+<figure class="bofu-context-visual" aria-labelledby="bofu-context-title">
+  <div class="bofu-context-card">
+    <header class="bofu-context-header">
+      <p class="bofu-context-kicker">A practical way to think it through</p>
+      <h2 id="bofu-context-title">{panel.title}</h2>
+      <p class="bofu-context-intro">{visual[1]}</p>
+    </header>
+    <ol class="bofu-context-steps">
+      {panel.steps.map(([label, detail], index) => (
+        <li>
+          <span class="bofu-context-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+          <div><h3>{label}</h3><p>{detail}</p></div>
+        </li>
+      ))}
+    </ol>
+  </div>
+  <figcaption>{panel.steps.map(([label]) => label).join(' · ')}</figcaption>
 </figure>
+
 <style>
-  .bofu-context-visual { margin: 32px auto 0; max-width: 1120px; padding: 0 16px; }
-  .bofu-context-visual picture, .bofu-context-visual img { width: 100%; height: auto; display: block; }
-  .bofu-context-visual img { border-radius: 22px; border: 1px solid rgba(229,184,74,.16); }
-  .bofu-context-visual, .bofu-context-visual picture, .bofu-context-visual img { max-width: 100%; }
-  .bofu-context-visual figcaption { margin-top: 10px; color: rgba(255,255,255,.62); font-size: 14px; line-height: 1.5; }
+  .bofu-context-visual { width: min(100% - 32px, 1088px); margin: 32px auto 0; }
+  .bofu-context-card { padding: clamp(22px, 4vw, 44px); border: 1px solid #d8d1c2; border-radius: 24px; background: #f2efe6; color: #213b49; box-shadow: 0 18px 44px rgba(12, 29, 39, .16); }
+  .bofu-context-header { max-width: 780px; }
+  .bofu-context-kicker { margin: 0 0 10px; color: #9c553f; font-size: 14px; font-weight: 750; letter-spacing: .09em; line-height: 1.4; text-transform: uppercase; }
+  .bofu-context-header h2 { margin: 0; color: #203949; font-size: clamp(25px, 4vw, 38px); line-height: 1.15; letter-spacing: -.025em; }
+  .bofu-context-intro { margin: 12px 0 0; color: #43545a; font-size: 17px; line-height: 1.55; }
+  .bofu-context-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 28px 0 0; padding: 0; list-style: none; }
+  .bofu-context-steps li { min-width: 0; min-height: 148px; padding: 17px 16px; border: 1px solid #ddd6c8; border-radius: 16px; background: #fffdf7; }
+  .bofu-context-number { display: inline-grid; width: 34px; height: 34px; place-items: center; border-radius: 50%; background: #9c553f; color: #fffdf7; font-size: 14px; font-weight: 750; }
+  .bofu-context-steps li:nth-child(2) .bofu-context-number { background: #687c68; }
+  .bofu-context-steps li:nth-child(3) .bofu-context-number { background: #b38c3e; }
+  .bofu-context-steps li:nth-child(4) .bofu-context-number { background: #264b5c; }
+  .bofu-context-steps h3 { margin: 13px 0 5px; color: #203949; font-size: 18px; line-height: 1.25; }
+  .bofu-context-steps li p { margin: 0; color: #43545a; font-size: 15px; line-height: 1.5; }
+  .bofu-context-card figcaption { margin-top: 18px; color: #65706d; font-size: 14px; line-height: 1.5; }
+  @media (max-width: 850px) { .bofu-context-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 540px) { .bofu-context-visual { width: calc(100% - 28px); margin-top: 24px; } .bofu-context-card { padding: 20px 22px; border-radius: 18px; } .bofu-context-intro { font-size: 16px; } .bofu-context-steps { grid-template-columns: 1fr; gap: 9px; margin-top: 20px; } .bofu-context-steps li { min-height: 0; padding: 14px; display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 0 11px; align-items: start; } .bofu-context-number { grid-row: span 2; } .bofu-context-steps h3 { margin: 0 0 4px; font-size: 17px; } .bofu-context-steps li p { font-size: 15px; } }
 </style>

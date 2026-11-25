@@ -106,6 +106,7 @@ const heroRouteLabelOverrides = new Map([
 // budget share, not a career outcome, so its hero must not turn it into one.
 const heroWithoutFigures = new Set([
   '/blog/career-options/how-to-get-into-event-management-india/',
+  '/services/career-counselling-and-career-guidance/career-guidance-for-confused-students/',
 ]);
 const needsFile = process.argv.find((arg) => arg.startsWith('--needs-csv='))?.slice(12) || 'C:\\Users\\Jack Sparrow\\Downloads\\infographic_needs_v11.csv';
 const metadataOnly = process.argv.includes('--metadata-only');
@@ -158,7 +159,7 @@ const clean = (value) => String(value ?? '')
   .replace(/\b(undefined|tbd|lorem)\b/gi, '')
   .replace(/\bbiology[- ]gate\b/gi, 'biology eligibility').replace(/\bentry gate\b/gi, 'entry requirement').replace(/\bgates?\b/gi, (match) => match === match.toUpperCase() ? match : match.toLowerCase() === 'gates' ? 'steps' : 'entry requirement').replace(/\bcheckpoints\b/gi, 'steps').replace(/\bcheckpoint\b/gi, 'step').replace(/\bleveraging\b/gi, 'using').replace(/\bleveraged\b/gi, 'used').replace(/\bleverage\b/gi, 'use').replace(/\bcohorts\b/gi, 'groups').replace(/\bcohort\b/gi, 'group').replace(/\bheuristics\b/gi, 'rules of thumb').replace(/\bheuristic\b/gi, 'rule of thumb').replace(/\bscalability\b/gi, 'growth')
   .replace(/\s+([,.;:!?])/g, '$1').replace(/\s+/g, ' ').trim();
-function isSharedPromoCopy(value) { const normalized = clean(value).toLowerCase().replace(/[’']/g, "'"); return ['a low-friction first step before the wrong path costs more time and money', 'wrong streams, outdated degrees, and low-value skills that waste years and money', 'useful skills, future readiness, and a clearer next decision', 'real student growth comes from a series of better decisions', 'practical student career guidance before the wrong path wastes years, money, and future readiness', 'practical student career counselling before the wrong path wastes years, money, and future readiness', 'practical student before the wrong path wastes years, money, and future readiness', 'includes the 1-on-1 and up to 24 small-group sessions across the year', 'see broader student guidance and useful reading before you decide', 'see the result-week admission decision, the earlier stream conversation, broader student guidance', 'move to a grade-specific page once the exact decision is clear', 'that calculation broke but it broke in a specific and slightly strange way'].some((phrase) => normalized.includes(phrase)); }
+function isSharedPromoCopy(value) { const normalized = clean(value).toLowerCase().replace(/[’']/g, "'"); return ['a low-friction first step before the wrong path costs more time and money', 'wrong streams, outdated degrees, and low-value skills that waste years and money', 'useful skills, future readiness, and a clearer next decision', 'real student growth comes from a series of better decisions', 'practical student career guidance before the wrong path wastes years, money, and future readiness', 'practical student career counselling before the wrong path wastes years, money, and future readiness', 'practical student before the wrong path wastes years, money, and future readiness', 'includes the 1-on-1 and up to 24 small-group sessions across the year', 'see broader student guidance and useful reading before you decide', 'see the result-week admission decision, the earlier stream conversation, broader student guidance', 'move to a grade-specific page once the exact decision is clear', 'that calculation broke but it broke in a specific and slightly strange way', 'the ratings are judgement, not statistics'].some((phrase) => normalized.includes(phrase)); }
 const words = (value) => clean(value).split(/\s+/).filter(Boolean);
 const lastWord = (value) => words(value).at(-1)?.toLowerCase().replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, '');
 const titleCase = (value) => words(value).map((word, index) => {
@@ -240,7 +241,23 @@ async function loadNeeds() { try { const rows = csvRows(await readFile(needsFile
 function nodeText(node) { return (node.childNodes || []).map((child) => child.nodeName === '#text' ? child.value : nodeText(child)).join(' '); }
 function collapseRepeatedOpening(value) { const parts = String(value || '').split(/\s+/); const key = (items) => items.join(' ').toLowerCase().replace(/[^a-z0-9₹$%]+/g, ' ').trim(); for (let length = Math.min(8, Math.floor(parts.length / 2)); length >= 3; length -= 1) { if (key(parts.slice(0, length)) && key(parts.slice(0, length)) === key(parts.slice(length, length * 2))) return [...parts.slice(length), ...parts.slice(length * 2)].join(' '); } return value; }
 function walk(node, fn, blocked = false) { if (!node || blocked) return; fn(node); const className = (node.attrs || []).find((attribute) => attribute.name === 'class')?.value || ''; const stop = ['aside', 'nav', 'header', 'footer'].includes(node.tagName) || /(?:article-live-visual|bofu-live-diagram)/.test(className); for (const child of node.childNodes || []) walk(child, fn, stop); }
-function pageData(html, isBlog = false) { const doc = parse(html); let main = null; let description = ''; let bestArticle = null; let bestArticleLength = 0; walk(doc, (node) => { if (node.tagName === 'main' && !main) main = node; if (node.tagName === 'meta') { const attrs = Object.fromEntries((node.attrs || []).map((attribute) => [attribute.name, attribute.value])); if (attrs.name?.toLowerCase() === 'description') description = clean(attrs.content || ''); } if (node.tagName === 'article') { const length = nodeText(node).length; if (length > bestArticleLength) { bestArticle = node; bestArticleLength = length; } } }); const root = main || (isBlog ? bestArticle : null) || doc; const headings = []; const facts = []; const lists = []; const sections = []; let current = null; let currentSubheading = ''; walk(root, (node) => { if (!node.tagName) return; const raw = collapseRepeatedOpening(clean(nodeText(node))); if ((node.tagName === 'h2' || node.tagName === 'h3') && raw) { const h = titleCase(raw); if (!headings.includes(h)) headings.push(h); if (node.tagName === 'h2') { current = { title: h, facts: [] }; currentSubheading = ''; sections.push(current); } else if (node.tagName === 'h3') currentSubheading = h; } const className = (node.attrs || []).find((attribute) => attribute.name === 'class')?.value || ''; const faqAnswer = /(?:^|\s)faq-a(?:\s|$)/.test(className); const faqQuestion = node.tagName === 'summary' && node.parentNode?.tagName === 'details'; const structuredEvidence = /(?:^|\s)(?:checkpoint__note|lane-row--(?:layer|fit|watch))(?:\s|$)/.test(className); const sourceTag = ['p', 'li', 'dt', 'dd', 'td'].includes(node.tagName) || faqAnswer || faqQuestion || structuredEvidence; if (sourceTag && raw.length > 24 && !isSharedPromoCopy(raw) && !/read is [^.!?]+|want a second opinion on this decision|want to talk to (?:a )?counsellor|book (?:a )?session|call now|contact us|read next|related posts?|you may also like|share this article/i.test(raw)) { const text = sentence(raw, 100) || raw; const item = { text, raw, heading: currentSubheading || current?.title || '' }; if (!facts.some((fact) => fact.raw === raw)) facts.push(item); if (node.tagName === 'li') lists.push(item); if (current && !current.facts.some((fact) => fact.raw === raw)) current.facts.push(item); } }); const numberFacts = facts.filter((fact) => /(?:₹|\b(?:rs\.?|inr)\b|\$)\s*[\d,.]+|\d+(?:,\d{3})*(?:\.\d+)?\s*(?:%|percent|lpa|lakh|crore|years?|months?|weeks?|hours?|days?|vacancies|students?|jobs?|applicants?|seats?)/i.test(fact.raw)); return { description, headings: headings.slice(0, 20), facts: facts.slice(0, 100), lists: lists.slice(0, 30), numberFacts, sections: sections.slice(0, 50) }; }
+function pageData(html, isBlog = false) { const doc = parse(html); let main = null; let description = ''; let bestArticle = null; let bestArticleLength = 0; walk(doc, (node) => { if (node.tagName === 'main' && !main) main = node; if (node.tagName === 'meta') { const attrs = Object.fromEntries((node.attrs || []).map((attribute) => [attribute.name, attribute.value])); if (attrs.name?.toLowerCase() === 'description') description = clean(attrs.content || ''); } if (node.tagName === 'article') { const length = nodeText(node).length; if (length > bestArticleLength) { bestArticle = node; bestArticleLength = length; } } }); const root = main || (isBlog ? bestArticle : null) || doc; const headings = []; const facts = []; const lists = []; const sections = []; let current = null; let currentSubheading = ''; const hasSourceDescendant = (node) => (node.childNodes || []).some((child) => child.tagName && (['p', 'li', 'dt', 'dd', 'td'].includes(child.tagName) || hasSourceDescendant(child))); walk(root, (node) => { if (!node.tagName) return; const raw = collapseRepeatedOpening(clean(nodeText(node))); if ((node.tagName === 'h2' || node.tagName === 'h3') && raw) { const h = titleCase(raw); if (!headings.includes(h)) headings.push(h); if (node.tagName === 'h2') { current = { title: h, facts: [] }; currentSubheading = ''; sections.push(current); } else if (node.tagName === 'h3') currentSubheading = h; } const className = (node.attrs || []).find((attribute) => attribute.name === 'class')?.value || ''; const faqAnswer = /(?:^|\s)faq-a(?:\s|$)/.test(className); const faqQuestion = node.tagName === 'summary' && node.parentNode?.tagName === 'details'; const structuredEvidence = /(?:^|\s)(?:checkpoint__note|lane-row--(?:layer|fit|watch))(?:\s|$)/.test(className); const isCrossoverCard = /(?:^|\s)(?:crossover-card|switcher-card)(?:\s|$)/.test(className); const structuredCard = node.tagName === 'div' && (/(?:career|salary|role|path|feature|option|pay|market|figure|proof|skill|industry|crossover).*(?:card|tile|row|item|range)|(?:card|tile|row|item|range).*(?:career|salary|role|path|feature|option|pay|market|figure|proof|skill|industry|crossover)/i.test(className) || /(?:salary|pay-range|compensation|figure-card|metric-card)/i.test(className) || isCrossoverCard) && (!hasSourceDescendant(node) || isCrossoverCard); const sourceTag = ['p', 'li', 'dt', 'dd', 'td'].includes(node.tagName) || faqAnswer || faqQuestion || structuredEvidence || structuredCard; if (sourceTag && raw.length > 24 && !isSharedPromoCopy(raw) && !/read is [^.!?]+|want a second opinion on this decision|want to talk to (?:a )?counsellor|book (?:a )?session|call now|contact us|read next|related posts?|you may also like|share this article/i.test(raw)) { const text = sentence(raw, 100) || raw; const item = { text, raw, heading: currentSubheading || current?.title || '' }; if (!facts.some((fact) => fact.raw === raw)) facts.push(item); if (node.tagName === 'li') lists.push(item); if (current && !current.facts.some((fact) => fact.raw === raw)) current.facts.push(item); } }); const numberFacts = facts.filter((fact) => /(?:₹|\b(?:rs\.?|inr)\b|\$)\s*[\d,.]+|\d+(?:,\d{3})*(?:\.\d+)?\s*(?:%|percent|lpa|lakh|crore|years?|months?|weeks?|hours?|days?|vacancies|students?|jobs?|applicants?|seats?)/i.test(fact.raw)); return { description, headings: headings.slice(0, 20), facts: facts.slice(0, 100), lists: lists.slice(0, 30), numberFacts, sections: sections.slice(0, 50) }; }
+function attachSectionIds(data, html) {
+  const doc = parse(html);
+  const normalize = (value) => clean(value).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').replace(/\s+/g, ' ').trim();
+  const idsByTitle = new Map();
+  walk(doc, (node) => {
+    if (node.tagName !== 'h2' && node.tagName !== 'h3') return;
+    const id = (node.attrs || []).find((attribute) => attribute.name === 'id')?.value || '';
+    if (!id) return;
+    const title = normalize(titleCase(collapseRepeatedOpening(clean(nodeText(node)))));
+    if (title && !idsByTitle.has(title)) idsByTitle.set(title, id);
+  });
+  for (const section of data.sections) {
+    const key = normalize(section.title);
+    section.id = idsByTitle.get(key) || '';
+  }
+}
 function topicFrom(title, slug = '') {
   const cleanTitle = clean(title);
   const slugWords = words(String(slug).replace(/\bgate\b/gi, 'GATE').replaceAll('-', ' '));
@@ -291,6 +308,74 @@ function proofHeading(items, fallback, topic) { const figures = items.map(figure
 function heroEditorialLabel(topic) { const value = String(topic || '').toLowerCase(); if (/salary|pay|fee|cost|income|budget|earn/.test(value)) return 'Work and Pay'; if (/course|college|degree|exam|admission|study|stream|school|mba/.test(value)) return 'Study Choices'; if (/skill|portfolio|resume|interview|job search|freelanc|business/.test(value)) return 'Skills in Practice'; if (/guidance|counsel|confusion|choose|choice|decision/.test(value)) return 'Career Decisions'; return 'Career Routes'; }function typeTopLabel(type) { return ({ hero: 'Career Snapshot', summary: 'Key Ideas', matrix: 'Compare Clearly', chain: 'Try The Path', checklist: 'Check First', proof: 'Numbers In Context', detail: 'Read The Evidence' })[type] || 'Career Evidence'; }
 function visualTitle(type, heading, topic, pageTitle) { return type === 'hero' ? clean(pageTitle) || `${compactTopic(topic)} career overview` : shortHeading(heading, topic); }
 function visualAlt(type, heading, topic) { const subject = compactTopic(topic); return ({ hero: `Career overview for ${subject}, with article-sourced direction.`, summary: `A short visual summary of ${subject}.`, matrix: `Comparison table showing options and criteria for ${subject}.`, chain: `Planning steps for ${subject}.`, checklist: `Decision checklist for ${subject}.`, proof: `Key figures for ${subject}, with article context.`, detail: `Evidence card about ${subject}, based on article content.` })[type] || `Career visual explaining ${subject}.`; }
+function threeWordFigureLabel(label, source = '', value = '') {
+  const original = clean(label).replace(/\s+/g, ' ');
+  const key = original.toLowerCase();
+  const context = clean(source).toLowerCase();
+  if (!original) return '';
+  if (/what if i get guidance and i am still not 100% sure afterward/.test(context)) return '';
+  const exact = new Map([
+    ['main course fee allocation', 'Course Fee Allocation'],
+    ['entry level newsroom pay', 'Newsroom Entry Pay'],
+    ['presumptive taxable income share', 'Taxable Income Share'],
+    ['projected pr industry revenue by 2030', 'PR Revenue 2030'],
+    ['civil services starting basic pay', 'Starting Basic Pay'],
+    ['civil services pay ceiling', 'Civil Service Ceiling'],
+    ['entry pay: roughly a month in india', 'Monthly Entry Pay'],
+    ['projected approved seat capacity', 'Projected Seat Capacity'],
+    ['standalone medico-legal consultant roles pay roughly', 'Medico-Legal Consultant Pay'],
+    ['its median of about reflects tech-company pay', 'Tech Median Pay'],
+    ['projected industry revenue by 2026', 'Industry Revenue 2026'],
+    ['another lists for the same title', 'Alternative Salary Range'],
+    ['roughly in larger private hospitals', 'Private Hospital Pay'],
+    ['pr industry market size', 'PR Industry Size'],
+    ['mcom alone rarely clears', 'MCom Salary Range'],
+    ['entry; grows with seniority and sector', 'Entry Level Pay'],
+    ['entry; self-employed experienced plumbers in metros earn', 'Experienced Plumber Pay'],
+    ['data analyst fresher pay averages about', 'Data Analyst Pay'],
+    ['digital advertising spend forecast', 'Digital Ad Spend'],
+    ['interest or allowance rate', 'Annual Pay Growth'],
+    ['product development roles specifically average close to', 'Product Development Pay'],
+    ['grc analyst (governance, risk, compliance)', 'GRC Analyst Pay'],
+    ['soc analyst (tier 1–2)', 'SOC Analyst Pay'],
+    ['penetration tester / ethical hacker', 'Penetration Tester Pay'],
+    ['devops / site reliability engineer', 'DevOps Engineer Pay'],
+    ['entry; mba is the real lever', 'Entry Level Pay'],
+    ['candidates assessed', 'Assessed Candidate Count'],
+    ['eligibility threshold', 'Minimum Marks Threshold'],
+    ['btech enrolment', 'BTech Student Enrolment'],
+    ['promotion timeline', 'Promotion Review Timeline'],
+    ['selection rate', 'Geography Selection Rate'],
+    ['notice period', 'Company Notice Period'],
+    ['growth rate', 'Industry Growth Rate'],
+    ['share earning a month or more', 'Monthly Income Share'],
+    ['vacancy rate', /faculty/i.test(context) ? 'Faculty Vacancy Rate' : 'Job Vacancy Rate'],
+    ['telemedicine coordinator', 'Telemedicine Coordinator Pay'],
+    ['blockchain developer', 'Blockchain Developer Pay'],
+    ['school counsellor', 'School Counsellor Pay'],
+    ['course fee', /mba/i.test(context) ? 'MBA Degree Cost' : 'Course Tuition Fee'],
+  ]);
+  if (key === 'growth rate' && /united states bureau of labor statistics|project management specialists/i.test(context)) return 'Specialist Job Growth';
+  if (key === 'reported percentage') {
+    if (/skill sets?[^.]{0,100}(?:transformed|outdated)|future of jobs[^.]{0,100}(?:transformed|outdated)/i.test(context)) return 'Skills Change Forecast';
+    if (/\bcbse\b[^.]*\b(?:appeared|passed|pass rate)\b/i.test(context)) return 'CBSE Pass Rate';
+    if (/\bdiamonds?\b[^.]*\bcut and polished\b[^.]*\bsurat\b/i.test(context)) return 'Surat Diamond Share';
+    if (/\bselection rate\b|\bselected\b/i.test(context) && /upsc|geography/i.test(context)) return 'Geography Selection Rate';
+  }
+  if (key === 'growth rate' && /ai spending|communication teams/.test(context)) return 'AI Spend Share';
+  if (key === 'regional market share' && /ai job postings surged/.test(context)) return 'AI Posting Surge';
+  if (key === 'regional market share' && /cloud projected at/.test(context)) return 'Cloud GDP Share';
+  if (key === 'reported percentage') return '';
+  if (exact.has(key)) return exact.get(key);
+  if (original.split(/\s+/).filter(Boolean).length === 3) return original;
+  if (/\b(?:lpa|salary|pay|earns?|income)\b/i.test(context) && /\b(?:entry|fresher|starting)\b/i.test(context)) return 'Entry Level Pay';
+  if (/\b(?:lpa|salary|pay|earns?|income)\b/i.test(context) && /\b(?:hospital|clinic)\b/i.test(context)) return 'Hospital Salary Range';
+  if (/\b(?:lpa|salary|pay|earns?|income)\b/i.test(context)) return 'Typical Salary Range';
+  if (/\b(?:years?|months?|weeks?|days?)\b/i.test(value)) return 'Reported Time Period';
+  if (/%|percent/i.test(value)) return 'Reported Rate Share';
+  return '';
+}
+
 function figureFromItem(item, matchIndex = 0) {
   const raw = clean(item?.raw || item?.text || '');
   if (/\b(?:F|J)-\d+\s+students?\b/i.test(raw)) return null;
@@ -483,6 +568,8 @@ function figureFromItem(item, matchIndex = 0) {
   if (!hasCurrencyMarker && /candidates?\s+(?:tested|assessed|surveyed)/i.test(local)) label = 'Candidates Assessed';
   if (!label) return null;
   const source = evidenceLine.replace(/\bRs\.?\s*/gi, '₹');
+  label = threeWordFigureLabel(label, source, value);
+  if (!label) return null;
   return { value, label, source, text: source };
 }
 function figuresFromItem(item) {
@@ -1000,6 +1087,8 @@ function groundedHeading(value) { return /\bfit\b.{0,60}\b(?:checkable|problem|q
 function itemsFromNeed(need, data) { if (need.type === 'matrix') { const table = tableRows(need.exact_page_content_to_use); return table.rows.map((row) => ({ text: row.join(' — '), raw: row.join(' — '), heading: row[0] })); } if (need.type === 'proof') { const section = sectionForNeed(need, data); const sectionFacts = section?.facts || []; const used = new Set(); return need.exact_page_content_to_use.split('|').map((value) => clean(value)).filter(Boolean).map((value) => { const target = numericTokens(value); const match = sectionFacts.find((fact) => { if (used.has(keyFor(fact))) return false; const raw = clean(fact.raw); if (raw.toLowerCase().includes(value.toLowerCase()) && (!target.length || figureValueSupported(value, raw))) return true; return target.length > 0 && figureValueSupported(value, raw); }); if (match) used.add(keyFor(match)); return match; }).filter(Boolean); } if (need.type === 'detail') { const section = sectionForNeed(need, data); if (section?.facts?.length) return section.facts.slice(0, 3); const raw = clean(need.exact_page_content_to_use).replace(/^(?:Three practical points about .*?:|Key facts from .*? section \d+|Evidence from .*?:|Key ideas from .*?:)\s*/i, '').trim(); return raw.split(/(?<=[.!?])\s+|\s*##\s*/).map((value) => ({ raw: value, text: sentence(value, 100) || value, heading: need.section_title })).filter((item) => item.text); } const raw = clean(need.exact_page_content_to_use).replace(/^(?:Evidence from .*?:|Key ideas from .*?:)\s*/i, '').trim(); return raw.split(/\s*##\s*/).map((value) => ({ raw: value, text: sentence(value, 100) || value, heading: need.section_title })).filter((item) => item.text); }
 function sectionForNeed(need, data) {
   const normalize = (value) => clean(value).toLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+  const byId = data.sections.find((item) => item.id && item.id === need.section_id);
+  if (byId) return byId;
   const key = normalize(need.section_title);
   const exact = data.sections.find((item) => normalize(item.title) === key);
   if (exact) return exact;
@@ -1068,7 +1157,9 @@ function needBlock(need, data, topic = 'Career Guidance') {
   if (need.type === 'proof') {
     let facts = itemsFromNeed(need, data);
     if (!facts.length) { const sectionFacts = sectionForNeed(need, data)?.facts || []; const localNumberFacts = sectionFacts.filter((item) => /(?:₹|\b(?:rs\.?|inr)\b|\$)\s*[\d,.]+|\d+(?:,\d{3})*(?:\.\d+)?\s*(?:%|percent|lpa|lakh|crore|years?|months?|weeks?|hours?|days?|vacancies|students?|jobs?|applicants?|seats?)/i.test(item.raw)); const sources = localNumberFacts; facts = sources.filter((item) => /(?:₹|\b(?:rs\.?|inr)\b|\$)\s*[\d,.]+|\d+(?:,\d{3})*(?:\.\d+)?\s*(?:%|percent|lpa|lakh|crore|years?|months?|weeks?|hours?|days?|vacancies|students?|jobs?|applicants?|seats?)/i.test(item.raw)); }
-    const evidence = sectionForNeed(need, data)?.facts || [];
+    const sectionEvidence = sectionForNeed(need, data)?.facts || [];
+    const pageEvidence = (data.facts || []).filter((fact) => fact && clean(fact.raw || fact.text));
+    const evidence = [...sectionEvidence, ...pageEvidence.filter((fact) => !sectionEvidence.some((sectionFact) => keyFor(sectionFact) === keyFor(fact)))];
     const requestedFigures = need.exact_page_content_to_use.split('|').map((value) => clean(value)).filter((value) => numericTokens(value).length);
     const figuresFromExactContent = requestedFigures.map((value) => {
       const sourceFact = evidence.find((fact) => {
@@ -1104,6 +1195,7 @@ function needBlock(need, data, topic = 'Career Guidance') {
       if (currencyValue && /(?:entry.level reporters?|journalists?|newsrooms?)/i.test(immediateBefore) && /(?:entry pay|pay|salary|month)/i.test(immediateAfter + immediateBefore) && /month/i.test(immediateAfter)) label = 'Entry Level Newsroom Pay';
       else if (currencyValue && /civil services|upsc/i.test(source) && /starts? near|starting/i.test(immediateBefore) && /pay level/i.test(immediateAfter)) label = 'Civil Services Starting Basic Pay';
       else if (currencyValue && /pay levels?\s+10\s*[-–]\s*17/i.test(local) && /rising to/i.test(immediateBefore)) label = 'Civil Services Pay Ceiling';
+      else if (currencyValue && /birac.{0,50}innovation fund|innovation fund.{0,50}birac/i.test(figureContext)) label = 'BIRAC Innovation Fund';
       else if (currencyValue && /advertising|groupm|dentsu|digital ad(?:vertising)? market/i.test(figureContext) && /market|economy|industry|spend|estimate/i.test(figureContext)) label = 'Advertising Market Size';
       if (currencyValue && /illustration,? not a real fee|education budget example|worked example/i.test(source)) {
         if (/main course/i.test(immediateAfter)) label = 'Main Course Fee Allocation';
@@ -1203,10 +1295,41 @@ function needBlock(need, data, topic = 'Career Guidance') {
       if (!label || label === 'Reported Percentage' || label === 'Reported Amount') return null;
       return { value: completeValue.replace(/^rs\.?\s*/i, '₹').replace(/^inr\s*/i, '₹').replace(/[.,]+$/, ''), label, source, text: source };
     }).filter(Boolean);
-    const figures = (requestedFigures.length ? figuresFromExactContent : facts.map(figureFromItem).filter(Boolean))
+    const requestedNumbers = numericTokens(need.exact_page_content_to_use || '');
+    const sourceDerivedFigures = sectionEvidence
+      .flatMap((fact) => figuresFromItem(fact))
+      .filter((figure) => figure.source && figureValueSupported(figure.value, figure.source))
+      .filter((figure) => requestedNumbers.some((number) => numericTokens(figure.value).includes(number)))
+      .map((figure) => {
+        if (!/^(?:typical salary range|reported amount|total job count)$/i.test(figure.label || '')) return figure;
+        const contextLabel = clean(figure.source
+          .replace(/(?:₹|\b(?:rs\.?|inr)\b|\$)\s*[\d,.]+(?:\s*[-–—]\s*[\d,.]+)?\s*(?:lpa|lakhs?|crores?|thousand|million|billion)?/gi, ' ')
+          .replace(/\s+/g, ' ')
+          .replace(/^[,.:;\s]+|[,.:;\s]+$/g, ''));
+        return words(contextLabel).length > 0 && words(contextLabel).length <= 7
+          ? { ...figure, label: contextLabel }
+          : figure;
+      });
+    const figures = (requestedFigures.length ? [...figuresFromExactContent, ...sourceDerivedFigures] : facts.map(figureFromItem).filter(Boolean))
       .filter((item) => item.source && figureValueSupported(item.value, item.source))
       .filter((item) => item.label !== 'Reported Percentage' && item.label !== 'Reported Amount')
-      .filter((item, index, all) => all.findIndex((other) => other.value === item.value && other.label === item.label) === index);
+      .filter((item, index, all) => {
+        const genericLabel = /^(?:typical salary range|india salary range|reported amount|total job count)$/i;
+        if (!genericLabel.test(item.label || '')) return true;
+        const valueKey = normalizeFigureKey(item.value);
+        return !all.slice(0, index).some((prior) => normalizeFigureKey(prior.value) === valueKey && genericLabel.test(prior.label || ''));
+      })
+      .filter((item, index, all) => all.findIndex((other) => other.value === item.value && other.label === item.label) === index)
+      .map((figure) => {
+        if (!/^(?:typical salary range|reported amount|total job count)$/i.test(figure.label || '')) return figure;
+        const contextLabel = clean(figure.source
+          .replace(/(?:₹|\b(?:rs\.?|inr)\b|\$)\s*[\d,.]+(?:\s*[-–—]\s*[\d,.]+)?\s*(?:lpa|lakhs?|crores?|thousand|million|billion)?/gi, ' ')
+          .replace(/\s+/g, ' ')
+          .replace(/^[,.:;\s]+|[,.:;\s]+$/g, ''));
+        return words(contextLabel).length > 0 && words(contextLabel).length <= 7
+          ? { ...figure, label: contextLabel }
+          : figure;
+      });
     if (figures.length) return { needId: need.section_id, type: need.type, heading, kind: 'figures', figures };
     const items = facts.slice(0, 3).map((item) => ({ heading: '', text: item.text || item.raw }));
     return { needId: need.section_id, type: need.type, heading, kind: 'items', items: items.length ? items : [{ heading: '', text: clean(need.exact_page_content_to_use) }] };
@@ -1304,8 +1427,6 @@ function dedupeVisualContent(visuals, fallbackText = []) {
       }
       if (key === 'figures') {
         return value.filter((figure) => {
-          const renderedText = [figure?.value, figure?.label, figure?.source].filter(Boolean).join(' ');
-          if (fiveWordPhrases(phraseNormalize(renderedText)).some((phrase) => seenPhrases.has(phrase))) return false;
           const label = normalize(figure?.label || '');
           const values = figureNumbers(figure?.value);
           const known = seenFigures.get(label);
@@ -1323,7 +1444,12 @@ function dedupeVisualContent(visuals, fallbackText = []) {
         return result.filter((item) => item?.text?.trim() || item?.heading?.trim());
       }
       if (key === 'blocks') {
-        return result.filter((block) => block.items?.length || block.rows?.length || block.figures?.length || block.steps?.length);
+        return result.filter((block) => block.items?.length
+          || block.rows?.length
+          || block.tables?.some((table) => table?.rows?.length)
+          || block.sourceTables?.some((table) => table?.rows?.length)
+          || block.figures?.length
+          || block.steps?.length);
       }
       return result;
     }
@@ -1416,8 +1542,8 @@ function liveSentence(value) { const source = clean(value).replace(/[:;,]+\s*$/,
 const needs = await loadNeeds(); const files = []; async function walkFiles(dir) { for (const entry of await readdir(dir, { withFileTypes: true })) { const full = join(dir, entry.name); if (entry.isDirectory()) await walkFiles(full); else if (entry.name === 'index.html') files.push(full); } } await walkFiles(DIST);
 const selected = files.sort().filter((_, i) => i % shards === shard); let generated = 0; let visualCount = 0; const usedHeroAnswers = new Set();
 for (const file of selected) {
-  const route = `/${file.slice(DIST.length + 1).replaceAll('\\', '/').replace(/index\.html$/, '')}`; if (routeFilter && route !== routeFilter) continue; if (routeFilters.size && !routeFilters.has(route)) continue; const isBlog = /^\/blog\/[^/]+\/[^/]+\/$/.test(route); if (isBlog && excludedBlogRoutes.has(route)) continue; if (excludeAssessmentPages && route.startsWith('/services/assessments/')) continue; const isService = route.startsWith('/services/'); const isOther = route.startsWith('/career-resources/') || route.startsWith('/career-skills-compass/'); if (!isBlog && !(allServicePages && isOther)) continue;
-  const html = await readFile(file, 'utf8'); if (html.includes('Redirecting from <code>') && html.includes('</body>')) continue; const parts = route.split('/').filter(Boolean); const slug = parts.at(-1); const category = isBlog ? parts[1] : parts.slice(0, -1).join('-'); const title = clean((html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [, 'Career guide'])[1]); const edits = plainLanguageEdits.get(route) || []; const data = applyPlainLanguageEdits(pageData(html, isBlog), edits); const palette = palettes[hash(slug) % palettes.length]; const topic = topicOverrides.get(route) || topicFrom(title, slug); const dir = join(OUT, String(hash(`${category}/${slug}`)).padStart(10, '0'));
+  const route = `/${file.slice(DIST.length + 1).replaceAll('\\', '/').replace(/index\.html$/, '')}`; if (routeFilter && route !== routeFilter) continue; if (routeFilters.size && !routeFilters.has(route)) continue; const isBlog = /^\/blog\/[^/]+\/[^/]+\/$/.test(route); if (isBlog && excludedBlogRoutes.has(route)) continue; if (excludeAssessmentPages && route.startsWith('/services/assessments/')) continue; const isService = route.startsWith('/services/'); const isOther = route.startsWith('/career-resources/') || route.startsWith('/career-skills-compass/'); if (!isBlog && !(allServicePages && (isService || isOther))) continue;
+  const html = await readFile(file, 'utf8'); if (html.includes('Redirecting from <code>') && html.includes('</body>')) continue; const parts = route.split('/').filter(Boolean); const slug = parts.at(-1); const category = isBlog ? parts[1] : parts.slice(0, -1).join('-'); const title = clean((html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [, 'Career guide'])[1]); const edits = plainLanguageEdits.get(route) || []; const data = applyPlainLanguageEdits(pageData(html, isBlog), edits); attachSectionIds(data, html); const palette = palettes[hash(slug) % palettes.length]; const topic = topicOverrides.get(route) || topicFrom(title, slug); const dir = join(OUT, String(hash(`${category}/${slug}`)).padStart(10, '0'));
   await mkdir(dir, { recursive: true });
 const pageNeeds = applyPlainLanguageEdits(needs.get(route) || [], edits); const used = new Set(); const usedPhrases = new Set(); const manifest = []; const altUsed = new Set(); const phraseKeysFor = (item) => [...phraseKeys(item?.text || item), ...phraseKeys(item?.raw || '')]; const markUsed = (item) => { used.add(keyFor(item)); for (const key of phraseKeysFor(item)) usedPhrases.add(key); }; for (const need of pageNeeds.filter((item) => item.type === 'matrix')) for (const row of fullTableRows(need.exact_page_content_to_use || '', Infinity)) for (const cell of row) for (const key of phraseKeys(cell)) usedPhrases.add(key); const take = (values, limit = 1, maxWords = 24) => values.map((value) => typeof value === 'string' ? { text: value, raw: value } : value).map((value) => ({ ...value, text: shortSentence(value.raw || value.text, maxWords) })).filter((value) => value?.text && words(value.text).length >= 5 && !isSharedPromoCopy(value.raw || value.text) && !used.has(keyFor(value)) && !phraseKeysFor(value).some((key) => usedPhrases.has(key))).filter((value, i, arr) => arr.findIndex((other) => keyFor(other) === keyFor(value)) === i).slice(0, limit).map((value) => { markUsed(value); return value; });
   const add = async (type, body, meta) => {
@@ -1649,10 +1775,11 @@ const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigure
     if (!node || typeof node !== 'object') return;
     if (Array.isArray(node.figures)) {
       node.figures = node.figures.map((figure) => {
-        const label = contextualBudgetLabel(figure);
-        return label ? { ...figure, label } : figure;
-      });
-      const valid = node.figures.filter((figure) => figure.source && figureValueSupported(figure.value, figure.source));
+        const contextual = contextualBudgetLabel(figure);
+        const label = threeWordFigureLabel(contextual || figure.label, figure.source || figure.text, figure.value);
+        return label ? { ...figure, label } : null;
+      }).filter(Boolean);
+      const valid = node.figures.filter((figure) => String(figure.value || '').trim() && figure.source && figureValueSupported(figure.value, figure.source));
       node.figures = valid;
       if (!valid.length && node.kind === 'figures') { node.kind = 'items'; node.items = []; }
     }
@@ -1697,6 +1824,7 @@ const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigure
     || block?.sourceTables?.some((table) => table?.rows?.some((row) => row?.some((cell) => String(cell || '').trim())))
     || block?.figures?.length
     || block?.steps?.some((step) => String(step || '').trim())
+    || block?.supporting?.some((text) => String(text || '').trim())
   );
   const representedNeedKeys = new Set(redundantFigureNeedIndexes);
   const collectRenderableNeeds = (node) => {
@@ -1744,16 +1872,77 @@ const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigure
   representedNeedKeys.clear();
   for (const key of redundantFigureNeedIndexes) representedNeedKeys.add(String(key));
   for (const visual of manifest) collectRenderableNeeds(visual.content);
-  for (const block of needBlocks) {
-    const key = String(block.sourceNeedIndex || '');
+  // Restore section content that page-level deduplication removed. Keep the
+  // sourced explanation inside the expandable visual bundle; never substitute
+  // a coverage marker for missing content.
+  for (const original of needBlocks) {
+    const key = String(original.sourceNeedIndex || '');
     if (!key || representedNeedKeys.has(key)) continue;
+    const block = structuredClone(original);
+    if (!hasNeedContent(block)) {
+      const sourceFacts = (sectionForNeed(original, data)?.facts || [])
+        .filter((fact) => fact && clean(fact.raw || fact.text))
+        .map((fact) => ({ heading: '', text: clean(fact.raw || fact.text) }));
+      if (original.type === 'proof') {
+        const requestedValues = numericTokens(original.exact_page_content_to_use || '');
+        const pageFacts = (data.facts || [])
+          .filter((fact) => fact && clean(fact.raw || fact.text))
+          .map((fact) => ({ heading: '', text: clean(fact.raw || fact.text) }));
+        const evidenceFacts = [...sourceFacts, ...pageFacts.filter((item) => !sourceFacts.some((sectionFact) => sectionFact.text === item.text))];
+        const grounded = requestedValues.map((number) => evidenceFacts.find((item) => numericTokens(item.text).includes(number)))
+          .filter((item, index, all) => item && all.findIndex((other) => other?.text === item.text) === index)
+          .slice(0, 6);
+        block.kind = 'items';
+        block.figures = undefined;
+        block.items = grounded;
+      } else {
+        block.kind = 'items';
+        block.items = sourceFacts.slice(0, 3);
+      }
+    }
+    if (!hasNeedContent(block)) continue;
     const target = manifest.find((visual) => visual.type === (block.type === 'detail' ? 'summary' : block.type))
       || manifest.find((visual) => visual.type !== 'hero');
-    if (!target?.content) continue;
-    const existing = Array.isArray(target.content.coveredNeedIndexes) ? target.content.coveredNeedIndexes : [];
-    target.content.coveredNeedIndexes = [...new Set([...existing, Number(key)])].sort((a, b) => a - b);
+    if (!target) continue;
+    const existingBlocks = target.content?.kind === 'bundle'
+      ? target.content.blocks || []
+      : target.content ? [{ ...target.content, heading: target.heading }] : [];
+    target.content = { kind: 'bundle', sourceNeedCount: existingBlocks.length + 1, blocks: [...existingBlocks, block] };
     representedNeedKeys.add(key);
   }
+  representedNeedKeys.clear();
+  for (const key of redundantFigureNeedIndexes) representedNeedKeys.add(String(key));
+  for (const visual of manifest) collectRenderableNeeds(visual.content);
+  const findNeedNode = (node, index) => {
+    if (Array.isArray(node)) { for (const value of node) { const found = findNeedNode(value, index); if (found) return found; } return null; }
+    if (!node || typeof node !== 'object') return null;
+    if (Number(node.sourceNeedIndex) === Number(index)) return node;
+    for (const value of Object.values(node)) { const found = findNeedNode(value, index); if (found) return found; }
+    return null;
+  };
+  // Keep every requested key figure in its section visual. If the figure
+  // extractor cannot safely label a value, retain the original article
+  // sentence as supporting copy rather than dropping the fact or guessing.
+  for (const original of needBlocks.filter((block) => block.type === 'proof')) {
+    const live = findNeedNode(manifest, original.sourceNeedIndex);
+    if (!live) continue;
+    const sourceNeed = pageNeeds[Number(original.sourceNeedIndex) - 1];
+    if (!sourceNeed) continue;
+    const displayedFigures = numericTokens((live.figures || []).map((figure) => figure.value).join(' '));
+    const wanted = [...new Set(numericTokens(sourceNeed.exact_page_content_to_use || ''))];
+    const missingValues = wanted.filter((number) => !displayedFigures.includes(number));
+    if (!missingValues.length) continue;
+    const evidence = sectionForNeed(sourceNeed, data)?.facts || [];
+    const support = missingValues
+      .map((number) => evidence.find((fact) => numericTokens(fact.raw || fact.text).includes(number)))
+      .filter(Boolean)
+      .map((fact) => clean(fact.raw || fact.text))
+      .filter((text, index, all) => text && all.indexOf(text) === index);
+    if (support.length) live.supporting = [...new Set([...(live.supporting || []), ...support])];
+  }
+  // Do not mark a section covered just because a destination visual exists.
+  // Coverage is counted only when renderable section content survived, or
+  // when the exact figure was already represented by an earlier visual.
   const hasRenderableContent = (content) => {
     if (!content) return false;
     const blocks = content.kind === 'bundle' ? content.blocks || [] : [content];
@@ -1764,6 +1953,7 @@ const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigure
       || block.sourceTables?.some((table) => table?.rows?.some((row) => row?.some((cell) => String(cell || '').trim())))
       || block.figures?.length
       || block.steps?.some((step) => String(step || '').trim())
+      || block.supporting?.some((text) => String(text || '').trim())
     ));
   };
   manifest.splice(0, manifest.length, ...manifest.filter((visual) => visual.type === 'hero' || hasRenderableContent(visual.content)));
@@ -1824,6 +2014,22 @@ const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigure
     visual.title = visualTitle(visual.type, visual.heading, topic, title);
     visual.caption = visualCaption(visual.type, 0, visual.heading);
   }
+  const removeUnvaluedFigures = (node) => {
+    if (Array.isArray(node)) { for (const value of node) removeUnvaluedFigures(value); return; }
+    if (!node || typeof node !== 'object') return;
+    if (Array.isArray(node.figures)) {
+      const valid = node.figures.filter((figure) => String(figure.value || '').trim() && figure.source && figure.label && figureValueSupported(figure.value, figure.source));
+      const unsupportedSources = node.figures.filter((figure) => !valid.includes(figure)).map((figure) => clean(figure.source || figure.text || '')).filter(Boolean);
+      node.figures = valid;
+      if (unsupportedSources.length) node.supporting = [...new Set([...(node.supporting || []), ...unsupportedSources])];
+      if (!valid.length && node.kind === 'figures') {
+        node.kind = 'items';
+        node.items = [...new Set([...(node.items || []).map((item) => clean(item.text || item.heading || '')), ...unsupportedSources].filter(Boolean))].map((text) => ({ heading: '', text }));
+      }
+    }
+    for (const value of Object.values(node)) if (value && typeof value === 'object') removeUnvaluedFigures(value);
+  };
+  for (const visual of manifest) removeUnvaluedFigures(visual.content);
   visualCount += manifest.length;
   await writeManifest(join(dir, 'index.json'), JSON.stringify({
     version: 11,

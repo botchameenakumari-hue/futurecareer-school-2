@@ -102,7 +102,9 @@ for (const file of walk(dist)) {
     }
   }
   if (isBlog) {
-    const visualFigures = [...body.matchAll(/<figure\b[^>]*class="[^"]*(?:article-visual|article-live-visual)[^"]*"[^>]*>[\s\S]*?<\/figure>/gi)];
+    // Authored image covers count toward the per-page visual limit just like
+    // generated live cards; their class does not contain `article-visual`.
+    const visualFigures = [...body.matchAll(/<figure\b[^>]*class="[^"]*(?:article-visual|article-live-visual|article-cover-visual|compass-cover-visual)[^"]*"[^>]*>[\s\S]*?<\/figure>/gi)];
     const liveFigures = visualFigures.filter((match) => /\barticle-live-visual\b/.test(match[0]));
     if (!route.startsWith('/blog/assessments/')) {
       if (visualFigures.length > 5) fail('blog page has more than five generated/editorial visuals', route, `${visualFigures.length} figures`);
@@ -110,7 +112,7 @@ for (const file of walk(dist)) {
       for (const match of liveFigures) {
         if (!/<h3\b/.test(match[0])) fail('live infographic heading missing', route, '');
         if (!/<figcaption\b[^>]*>\s*\S/.test(match[0])) fail('live infographic caption missing', route, '');
-        if (!/<details\b|<table\b|article-live-stat|article-live-item/.test(match[0])) fail('live infographic has no explanatory content', route, '');
+        if (!/<details\b|<table\b|article-live-stat|article-live-item|class="[^"]*article-live-answer[^"]*"[^>]*>\s*[^<\s]|class="[^"]*article-live-supporting[^"]*"[^>]*>\s*[^<\s]/.test(match[0])) fail('live infographic has no explanatory content', route, '');
       }
     }
     const spread = [...body.matchAll(/<img\b[^>]*src="\/images\/blog\/[^"]*"/g)].map((m) => m.index / body.length);

@@ -192,12 +192,51 @@ function plainText(value) {
     .trim();
 }
 
+function visualWordCount(value) {
+  return plainText(String(value || '')).split(/\s+/).filter(Boolean).length;
+}
+
+function compactVisualLabel(value) {
+  const source = plainText(String(value || '')).replace(/\([^)]*\)/g, ' ').replace(/\s+/g, ' ').trim();
+  const concisePatterns = [
+    [/^build or confirm an emergency fund\b/i, 'Emergency fund runway'],
+    [/^if you are financing a course\b/i, 'Course cost against realistic income'],
+    [/^separate\b.*\bfinancial risk\b/i, 'Career change plus financial risk'],
+    [/^confusing a growing sector with a growing role\b/i, 'Sector Growth Is Not Role Growth'],
+    [/^ignoring what AI is doing to the entry layer\b/i, 'AI Changes Entry-Level Work'],
+    [/^underestimating how long skills take to compound\b/i, 'Skill Building Takes Time'],
+  ];
+  for (const [pattern, label] of concisePatterns) if (pattern.test(source)) return label;
+  const firstSentence = source.match(/^[^.!?]*[.!?](?:\s|$)/)?.[0]?.trim() || '';
+  if (firstSentence && visualWordCount(firstSentence) <= 7) return firstSentence;
+  const cleaned = source
+    .replace(/^(?:if|when)\s+(?:you|you are|you\u2019re|you've|you have)\s+/i, '')
+    .replace(/\bI am changing fields\b/gi, 'career change')
+    .replace(/\bI am also taking on\b/gi, 'adding');
+  const stopWords = new Set(['a', 'an', 'the', 'and', 'or', 'to', 'of', 'for', 'in', 'on', 'with', 'from', 'at', 'by', 'as', 'if', 'when', 'you', 'your', 'they', 'them', 'their', 'this', 'that', 'these', 'those', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'can', 'could', 'should', 'would', 'will', 'do', 'does', 'did', 'it', 'its', 'who', 'which', 'what', 'how', 'whether', 'also', 'usually', 'just', 'only', 'very', 'more', 'most', 'some', 'any', 'before', 'after', 'while', 'because', 'not', 'then', 'than']);
+  const tokens = cleaned.match(/[₹$]?\d[\d,.]*(?:[–-]\d[\d,.]*)?%?|[\p{L}][\p{L}\p{N}'’–-]*/gu) || [];
+  const phraseTokens = tokens.slice(0, 7);
+  while (phraseTokens.length > 2 && stopWords.has(phraseTokens.at(-1).toLowerCase())) phraseTokens.pop();
+  const label = phraseTokens.join(' ').replace(/^\p{L}/u, (letter) => letter.toLocaleUpperCase());
+  return label || tokens.slice(0, 5).join(' ') || 'Key point';
+}
+
 function escapeAttr(value) {
   return String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 function escapeHtml(value) {
   return String(value ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function cleanVisualText(value) {
+  return String(value ?? '')
+    .replace(/\bthe\s+entry\s+routes?\s+you\s+start\b/gi, 'ways to qualify')
+    .replace(/\bentry\s+routes?\b/gi, (match) => /^[A-Z]/.test(match) ? 'Qualification path' : 'qualification path');
+}
+
+function escapeVisualText(value) {
+  return escapeHtml(cleanVisualText(value));
 }
 
 function categoryFiles(publicDir, category, pageSlug) {
@@ -546,50 +585,200 @@ function liveVisualKicker(type) {
   return ({ summary: 'Key ideas', matrix: 'Compare clearly', chain: 'Try the path', checklist: 'Check first', proof: 'Numbers in context', detail: 'Read the evidence' })[type] || 'Career evidence';
 }
 
-function liveVisualFigure(visual, index, className) {
+function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseState = new Set(), pageSourceText = []) {
   const content = visual.content;
   if (!content) return visualFigure(visual, '', index, className);
   const heading = plainText(visual.heading || visual.caption || 'Career evidence').replace(/[:;]+$/, '').trim();
-  const renderBlock = (block) => {
+  const normalizeHeading = (value) => plainText(value).toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+  const blocks = content.kind === 'bundle' ? Array.isArray(content.blocks) ? content.blocks : [] : [content];
+  const sourceText = [...pageSourceText, ...blocks.flatMap((block) => Array.isArray(block.figures) ? block.figures.map((item) => item.source || '') : [])]
+    .map((value) => plainText(String(value || '')).toLocaleLowerCase().replace(/[^\p{L}\p{N}₹%]+/gu, ' ').trim())
+    .filter(Boolean);
+  const remaining = blocks.slice(1);
+  const moreSummary = remaining.length ? `Explore ${remaining.length} more ${remaining.length === 1 ? 'section' : 'sections'}` : '';
+  const firstAnswer = blocks.map((block) => block.answer).find(Boolean);
+  const heroAnswerIsHeading = visual.type === 'hero' && Boolean(firstAnswer);
+  const initialHeading = heroAnswerIsHeading ? plainText(firstAnswer).replace(/[:;]+$/, '').trim() : heading;
+  const panelPhrases = new Set();
+  const phraseKeys = (value) => {
+    const words = plainText(String(value || '')).toLocaleLowerCase().match(/[\p{L}\p{N}₹%]+/gu) || [];
+    const keys = [];
+    for (let i = 0; i + 5 <= words.length; i += 1) keys.push(words.slice(i, i + 5).join(' '));
+    return keys;
+  };
+  const collidesWithEarlierPanel = (value) => phraseKeys(value).some((key) => pagePhraseState.has(key));
+  const fitHeading = (value, fallback) => {
+    const text = plainText(value || '').trim();
+    if (!collidesWithEarlierPanel(text)) return text;
+    return fallback;
+  };
+  const registerPhrases = (value) => { for (const key of phraseKeys(value)) panelPhrases.add(key); };
+  const headingFallback = ({ hero: 'A Clearer Decision', summary: 'Key Ideas to Weigh', matrix: 'Compare the Main Options', proof: 'Useful Figures', checklist: 'Questions Worth Asking', chain: 'Practical Next Steps', detail: 'Supporting Evidence' })[visual.type] || 'Career Evidence';
+  const displayHeading = fitHeading(initialHeading, headingFallback);
+  const renderBlock = (block, visible = true) => {
+    const omitAnswer = heroAnswerIsHeading && block.answer === firstAnswer;
+    const answer = block.answer && !omitAnswer ? renderCopy(block.answer, 'article-live-answer', visible) : '';
+    const supporting = Array.isArray(block.supporting) ? block.supporting.filter(Boolean).filter((text) => {
+      const normalized = plainText(String(text)).toLocaleLowerCase().replace(/[^\p{L}\p{N}₹%]+/gu, ' ').trim();
+      return normalized && !sourceText.some((source) => source === normalized || source.includes(normalized));
+    }).map((text) => renderCopy(text, 'article-live-supporting', visible)).join('') : '';
+    const steps = Array.isArray(block.steps) ? block.steps.filter(Boolean) : [];
+    const stepsHtml = steps.length ? `<ol class="article-live-items article-live-items--chain">${steps.map((step) => `<li class="article-live-item article-live-item--plain">${renderCopy(typeof step === 'string' ? step : [step.title, step.body].filter(Boolean).join(': '), 'article-live-item__text', visible)}</li>`).join('')}</ol>` : '';
     if (block.kind === 'table') {
       const tables = Array.isArray(block.tables) ? block.tables : [block];
-      const renderTable = (table) => {
+      const renderTable = (table, rows = table.rows) => {
+        const columns = Array.isArray(table.columns) ? table.columns : [];
+        rows = Array.isArray(rows) ? rows : [];
+        if (!columns.length || !rows.length) return '';
+        return `<div class="article-live-table-wrap"><table><thead><tr>${columns.map((column) => `<th scope="col">${escapeVisualText(column)}</th>`).join('')}</tr></thead><tbody>${rows.map((row) => `<tr>${columns.map((column, columnIndex) => `<td data-label="${escapeAttr(cleanVisualText(column))}">${escapeVisualText(row?.[columnIndex] ?? '')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+      };
+      const sourceTables = Array.isArray(block.sourceTables) ? block.sourceTables : [];
+      const allTables = [...tables, ...sourceTables];
+      if (!visible) return `${answer}${allTables.map((table) => renderTable(table)).join('')}${stepsHtml}${supporting}`;
+      const visibleTables = [];
+      let deferred = false;
+      for (const table of allTables) {
         const columns = Array.isArray(table.columns) ? table.columns : [];
         const rows = Array.isArray(table.rows) ? table.rows : [];
-        if (!columns.length || !rows.length) return '';
-        return `<div class="article-live-table-wrap"><table><thead><tr>${columns.map((column) => `<th scope="col">${escapeHtml(column)}</th>`).join('')}</tr></thead><tbody>${rows.map((row) => `<tr>${columns.map((column, columnIndex) => `<td data-label="${escapeAttr(column)}">${escapeHtml(row?.[columnIndex] ?? '')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
-      };
-      const compactTables = tables.map(renderTable).join('');
-      const sourceTables = Array.isArray(block.sourceTables) ? block.sourceTables : [];
-      const sourceDetails = sourceTables.map(renderTable).join('');
-      if (!sourceDetails) return compactTables;
-      if (!compactTables) return sourceDetails;
-      const extraRows = sourceTables.reduce((total, table) => total + (table.rows?.length || 0), 0);
-      return `${compactTables}<details class="article-live-source-tables"><summary>Read complete details for ${extraRows} additional comparison ${extraRows === 1 ? 'row' : 'rows'}</summary>${sourceDetails}</details>`;
+        if (!columns.length || !rows.length) continue;
+        const headerWords = visualWordCount(columns.join(' '));
+        if (visibleWordCount + headerWords + 2 > 40 || collidesWithEarlierPanel(columns.join(' '))) { deferred = true; continue; }
+        visibleWordCount += headerWords;
+        registerPhrases(columns.join(' '));
+        const visibleRows = [];
+        for (const row of rows) {
+          // Mobile renders each column name beside its cell, so include those
+          // repeated labels in the visible-word budget before adding a row.
+          const rowWords = visualWordCount((row || []).join(' ')) + visualWordCount(columns.join(' '));
+          if (visibleWordCount + rowWords > 40 || collidesWithEarlierPanel((row || []).join(' '))) { deferred = true; continue; }
+          visibleWordCount += rowWords;
+          registerPhrases((row || []).join(' '));
+          visibleRows.push(row);
+        }
+        if (visibleRows.length) visibleTables.push(renderTable(table, visibleRows));
+        if (visibleRows.length < rows.length) deferred = true;
+      }
+      const preview = visibleTables.join('') || '<p class="article-live-supporting">Open full table</p>';
+      if (!visibleTables.length) visibleWordCount += 3;
+      if (deferred) {
+        visibleWordCount += 2;
+        const complete = allTables.map((table) => renderTable(table)).join('');
+        return `${answer}${preview}<details class="article-live-source-tables"><summary>Full comparison</summary>${complete}</details>${stepsHtml}${supporting}`;
+      }
+      return `${answer}${preview}${stepsHtml}${supporting}`;
     }
     if (block.kind === 'figures') {
       const figures = Array.isArray(block.figures) ? block.figures : [];
       const sources = [...new Set(figures.map((figure) => String(figure.source || '').trim()).filter(Boolean))];
-      const sourceNotes = sources.length ? `<div class="article-live-sources">${sources.map((source) => `<p><small>${escapeHtml(source)}</small></p>`).join('')}</div>` : '';
-      return `<div class="article-live-stats">${figures.map((figure) => `<div class="article-live-stat"><strong>${escapeHtml(figure.value || '')}</strong><span>${escapeHtml(figure.label || '')}</span></div>`).join('')}</div>${sourceNotes}`;
+      const sourceNotes = sources.length ? `<details class="article-live-sources"><summary>Sources</summary>${sources.map((source) => `<p><small>${escapeVisualText(source)}</small></p>`).join('')}</details>` : '';
+      if (visible && sources.length) visibleWordCount += 1;
+      const renderFigure = (figure, compact = false, labelOverride = '') => {
+        const value = cleanVisualText(figure.value || '');
+        let label = labelOverride || cleanVisualText(figure.label || '');
+        if (compact) label = compactVisualLabel(label);
+        return `<div class="article-live-stat"><strong>${escapeVisualText(value)}</strong><span>${escapeVisualText(label)}</span></div>`;
+      };
+      const shown = [];
+      const deferred = [];
+      if (!visible) shown.push(...figures.map((figure) => ({ figure, label: cleanVisualText(figure.label || '') })));
+      else for (const figure of figures) {
+        const value = cleanVisualText(figure.value || '');
+        let label = cleanVisualText(figure.label || '');
+        if (collidesWithEarlierPanel(`${value} ${label}`)) label = compactVisualLabel(label);
+        const words = visualWordCount(value) + visualWordCount(label);
+        if (visibleWordCount + words <= 40) {
+          shown.push({ figure, label });
+          visibleWordCount += words;
+          registerPhrases(`${value} ${label}`);
+        } else deferred.push(figure);
+      }
+      if (visible && deferred.length) {
+        while (shown.length && visibleWordCount + 2 > 40) {
+          const { figure, label } = shown.pop();
+          const words = visualWordCount(figure.value || '') + visualWordCount(label || '');
+          visibleWordCount -= words;
+          deferred.unshift(figure);
+        }
+        visibleWordCount += 2;
+      }
+      const stats = shown.length ? `<div class="article-live-stats">${shown.map(({ figure, label }) => renderFigure(figure, false, label)).join('')}</div>` : '';
+      const moreStats = deferred.length ? `<details class="article-live-more-figures"><summary>More figures</summary><div class="article-live-stats">${deferred.map((figure) => renderFigure(figure, true)).join('')}</div></details>` : '';
+      return `${answer}${stats}${moreStats}${sourceNotes}${stepsHtml}${supporting}`;
     }
     const items = Array.isArray(block.items) ? block.items : [];
     const listTag = block.type === 'chain' ? 'ol' : 'ul';
     const listClass = block.type === 'checklist' ? ' article-live-items--checklist' : block.type === 'chain' ? ' article-live-items--chain' : '';
-    return `<${listTag} class="article-live-items${listClass}">${items.map((item) => `<li class="article-live-item${item.heading ? '' : ' article-live-item--plain'}">${item.heading ? `<span class="article-live-item__label">${escapeHtml(item.heading)}</span>` : ''}<span class="article-live-item__text">${escapeHtml(item.text || '')}</span></li>`).join('')}</${listTag}>`;
+    const deferredItems = [];
+    const visibleItems = items.map((item, itemIndex) => {
+      const text = cleanVisualText(item.text || '');
+      const itemHeading = cleanVisualText(item.heading || '');
+      if (!visible) return `<li class="article-live-item${itemHeading ? '' : ' article-live-item--plain'}">${itemHeading ? `<span class="article-live-item__label">${escapeVisualText(itemHeading)}</span>` : ''}<span class="article-live-item__text">${escapeVisualText(text)}</span></li>`;
+      if (visibleWordCount + visualWordCount(itemHeading) + visualWordCount(text) + 2 <= 40 && !collidesWithEarlierPanel(`${itemHeading} ${text}`)) {
+        visibleWordCount += visualWordCount(itemHeading) + visualWordCount(text);
+        registerPhrases(`${itemHeading} ${text}`);
+        return `<li class="article-live-item${itemHeading ? '' : ' article-live-item--plain'}">${itemHeading ? `<span class="article-live-item__label">${escapeVisualText(itemHeading)}</span>` : ''}<span class="article-live-item__text">${escapeVisualText(text)}</span></li>`;
+      }
+      const label = compactVisualLabel(itemHeading || text);
+      const summary = fitHeading(label, `Check ${itemIndex + 1}`);
+      if (visibleWordCount + visualWordCount(summary) + 2 <= 40) {
+        visibleWordCount += visualWordCount(summary);
+        registerPhrases(summary);
+        return `<li class="article-live-item${itemHeading ? '' : ' article-live-item--plain'}"><details class="article-live-compact-detail"><summary class="article-live-item__text">${escapeVisualText(summary)}</summary><p>${escapeVisualText(text)}</p></details></li>`;
+      }
+      deferredItems.push({ itemHeading, text });
+      return '';
+    });
+    const itemsHtml = visibleItems.some(Boolean) ? `<${listTag} class="article-live-items${listClass}">${visibleItems.join('')}</${listTag}>` : '';
+    const moreItems = deferredItems.length
+      ? `<details class="article-live-more"><summary>More ${block.type === 'checklist' ? 'checks' : block.type === 'chain' ? 'steps' : 'points'}</summary><${listTag} class="article-live-items${listClass}">${deferredItems.map(({ itemHeading, text }) => `<li class="article-live-item${itemHeading ? '' : ' article-live-item--plain'}">${itemHeading ? `<span class="article-live-item__label">${escapeVisualText(itemHeading)}</span>` : ''}<span class="article-live-item__text">${escapeVisualText(text)}</span></li>`).join('')}</${listTag}></details>`
+      : '';
+    if (deferredItems.length) visibleWordCount += 2;
+    return `${answer}${itemsHtml}${moreItems}${stepsHtml}${supporting}`;
   };
-  const blocks = content.kind === 'bundle' ? Array.isArray(content.blocks) ? content.blocks : [] : [content];
-  const first = blocks[0] ? `<div class="article-live-primary">${renderBlock(blocks[0])}</div>` : '';
-  const remaining = blocks.slice(1);
-  const more = remaining.length
-    ? `<details class="article-live-more"><summary>Explore ${remaining.length} more ${remaining.length === 1 ? 'section' : 'sections'}</summary>${remaining.map((block) => `<details class="article-live-need"><summary>${escapeHtml(block.heading || 'Section details')}</summary>${renderBlock(block)}</details>`).join('')}</details>`
-    : '';
-  const body = `<div class="article-live-bundle">${first}${more}</div>`;
   const sourceSections = content.kind === 'bundle'
     ? [...new Set((content.blocks || []).map((block) => block.sourceSectionId).filter(Boolean))]
     : [content.sourceSectionId].filter(Boolean);
   const sourceAttr = sourceSections.length ? ` data-source-sections="${escapeAttr(sourceSections.join(','))}"` : '';
-  return `<figure class="${className} article-live-visual" data-visual-type="${escapeAttr(visual.type)}"${sourceAttr} role="group" aria-label="${escapeAttr(heading)}"><div class="article-live-card"><h3>${escapeHtml(heading)}</h3>${body}</div><figcaption>${escapeHtml(visual.caption || heading)}</figcaption></figure>`;
+  const genericCaption = /^(?:career overview for|a short visual summary of|evidence card about|focused evidence about|summary of|career direction at a glance for|based on article content|more context from the article|further context for this section|key points at a glance|a starting point for comparing routes)/i;
+  const captionCandidate = plainText(visual.caption || '').replace(/[:;]+$/, '').trim();
+  const repeatsTitle = pageTitle && normalizeHeading(captionCandidate) === normalizeHeading(pageTitle);
+  const captionLead = ({ hero: 'Decision summary', summary: 'Key points', matrix: 'Compare routes', proof: 'Figures in context', checklist: 'Questions to consider', chain: 'Steps to take', detail: 'Page evidence' })[visual.type] || 'Article visual';
+  const captionTopic = heading.split(/\s+/).filter(Boolean).slice(0, 2).join(' ');
+  const caption = !captionCandidate || genericCaption.test(captionCandidate) || repeatsTitle || visualWordCount(captionCandidate) > 6
+    ? `${captionLead}: ${captionTopic || 'Career choices'}`
+    : captionCandidate;
+  const captionShortType = ({ hero: 'Decision', summary: 'Takeaways', matrix: 'Comparison', proof: 'Figures', checklist: 'Checks', chain: 'Steps', detail: 'Evidence' })[visual.type] || 'Visual';
+  const uniqueCaption = fitHeading(caption, `${captionShortType}: ${captionTopic.split(/\s+/)[0] || 'Career'}`);
+  let visibleWordCount = visualWordCount(displayHeading) + visualWordCount(uniqueCaption) + visualWordCount(moreSummary);
+  registerPhrases(displayHeading);
+  registerPhrases(uniqueCaption);
+  const renderCopy = (value, className, visible = true) => {
+    const text = cleanVisualText(value || '');
+    if (!text) return '';
+    if (!visible) return `<p class="${className}">${escapeVisualText(text)}</p>`;
+    const words = visualWordCount(text);
+    if (visibleWordCount + words <= 40 && !collidesWithEarlierPanel(text)) {
+      visibleWordCount += words;
+      registerPhrases(text);
+      return `<p class="${className}">${escapeVisualText(text)}</p>`;
+    }
+    const label = fitHeading(compactVisualLabel(text), 'Full detail');
+    visibleWordCount += visualWordCount(label);
+    registerPhrases(label);
+    return `<details class="article-live-compact-detail"><summary class="${className}">${escapeVisualText(label)}</summary><p>${escapeVisualText(text)}</p></details>`;
+  };
+  const first = blocks[0] ? `<div class="article-live-primary">${renderBlock(blocks[0])}</div>` : '';
+  const singleProofFigure = visual.type === 'proof'
+    && (first.match(/class="article-live-stat"/g) || []).length === 1
+    && !first.includes('article-live-table-wrap');
+  const more = remaining.length
+    ? `<details class="article-live-more"><summary>${escapeVisualText(moreSummary)}</summary>${remaining.map((block) => `<details class="article-live-need"><summary>${escapeVisualText(block.heading || 'Section details')}</summary>${renderBlock(block, false)}</details>`).join('')}</details>`
+    : '';
+  const body = `<div class="article-live-bundle">${first}${more}</div>`;
+  const ariaLabel = displayHeading || firstAnswer || caption;
+  const headingHtml = displayHeading ? `<h3>${escapeVisualText(displayHeading)}</h3>` : '';
+  for (const key of panelPhrases) pagePhraseState.add(key);
+  return `<figure class="${className} article-live-visual" data-visual-type="${escapeAttr(visual.type)}"${sourceAttr} role="group" aria-label="${escapeAttr(cleanVisualText(ariaLabel))}"><div class="article-live-card${singleProofFigure ? ' article-live-card--narrow' : ''}">${headingHtml}${body}</div>${uniqueCaption ? `<figcaption>${escapeVisualText(uniqueCaption)}</figcaption>` : ''}</figure>`;
 }
 function visualFigure(visual, pageTitle, index, className) {
   const image = `<img src="${visual.src}" alt="${escapeAttr(visual.alt || visual.label)}" title="${escapeAttr(visual.title || visual.label)}" width="${visual.width}" height="${visual.height}" loading="${index === 0 ? 'eager' : 'lazy'}" decoding="async"${index === 0 ? ' fetchpriority="high"' : ''}>`;
@@ -600,27 +789,42 @@ function visualFigure(visual, pageTitle, index, className) {
 function placeGeneratedVisuals(html, publicDir, generated, pageTitle, className, keywords) {
   if (!generated.length) return html;
   const visuals = generated.map((src) => visualDescriptor(src, publicDir, pageTitle));
+  const pageSourceText = visuals.flatMap((visual) => {
+    const blocks = visual.content?.kind === 'bundle' ? (visual.content.blocks || []) : [visual.content].filter(Boolean);
+    return blocks.flatMap((block) => Array.isArray(block.figures) ? block.figures.map((item) => item.source || '') : []);
+  });
   const preserveBofuHero = className === 'resource-visual' && /<figure\b[^>]*class="[^"]*\bbofu-image\b[^"]*"/i.test(html);
   const preserveBofuContext = className === 'resource-visual' && /<figure\b[^>]*class="[^"]*\bbofu-context-visual\b[^"]*"/i.test(html);
+  const coverPattern = /<figure\b[^>]*class="[^"]*\b(?:article-cover-visual|compass-cover-visual)\b[^"]*"[^>]*>[\s\S]*?<\/figure>/i;
+  const hasEditorialCover = coverPattern.test(html);
   let out = html.replace(/<figure\b[^>]*class="([^"]*)"[^>]*>[\s\S]*?<\/figure>/gi, (figure, classNames) => {
     if (!/(?:^|\s)(?:article-cover|article-visual|resource-visual|bofu-image|bofu-context-visual|compass-visual|locations-hub-visual)(?:\s|$)/i.test(classNames)) return figure;
     if (preserveBofuHero && /(?:^|\s)bofu-image(?:\s|$)/i.test(classNames)) return figure;
     if (preserveBofuContext && /(?:^|\s)bofu-context-visual(?:\s|$)/i.test(classNames)) return figure;
+    if (hasEditorialCover && /(?:^|\s)(?:article-cover-visual|compass-cover-visual)(?:\s|$)/i.test(classNames)) return figure;
     return '';
   });
   const hero = visuals.find((visual) => visual.type === 'hero') || visuals[0];
+  const hasExistingCover = hasEditorialCover || preserveBofuHero;
+  const placedVisuals = visuals.filter((visual) => visual !== hero);
+  if (hasExistingCover && hero?.content && placedVisuals.length) {
+    const mergeTarget = placedVisuals.find((visual) => visual.type === 'summary') || placedVisuals[0];
+    const asBlocks = (value) => value?.kind === 'bundle' ? value.blocks || [] : value ? [value] : [];
+    mergeTarget.content = { kind: 'bundle', blocks: [...asBlocks(hero.content), ...asBlocks(mergeTarget.content)] };
+  }
   const lead = /<p\b[^>]*class="[^"]*lead-para[^"]*"[^>]*>[\s\S]*?<\/p>/i.exec(out);
   const h1 = /<h1\b[^>]*>[\s\S]*?<\/h1>/i.exec(out);
   const at = lead ? lead.index + lead[0].length : h1 ? h1.index + h1[0].length : -1;
-  const heroHtml = visualFigure(hero, pageTitle, 0, className);
-  if (!preserveBofuHero) {
+  const pagePhraseState = new Set();
+  const heroHtml = hero.content ? liveVisualFigure(hero, 0, className, pageTitle, pagePhraseState, pageSourceText) : visualFigure(hero, pageTitle, 0, className);
+  if (!hasExistingCover) {
     if (at >= 0) out = out.slice(0, at) + '\n' + heroHtml + out.slice(at);
     else out = insertAfterHeading(out, heroHtml, [], new Set());
   }
   const used = new Set(); let index = 1;
-  for (const visual of visuals) {
+  for (const visual of hasExistingCover ? placedVisuals : visuals) {
     if (visual === hero) continue;
-    out = insertAfterHeading(out, liveVisualFigure(visual, index, className), keywords[visual.type] || keywords.detail || [], used);
+    out = insertAfterHeading(out, liveVisualFigure(visual, index, className, pageTitle, pagePhraseState, pageSourceText), keywords[visual.type] || keywords.detail || [], used);
     index += 1;
   }
   return out;
