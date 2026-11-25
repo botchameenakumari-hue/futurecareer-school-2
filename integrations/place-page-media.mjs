@@ -552,9 +552,20 @@ function liveVisualFigure(visual, index, className) {
   const heading = plainText(visual.heading || visual.caption || 'Career evidence').replace(/[:;]+$/, '').trim();
   const renderBlock = (block) => {
     if (block.kind === 'table') {
-      const columns = Array.isArray(block.columns) ? block.columns : [];
-      const rows = Array.isArray(block.rows) ? block.rows : [];
-      return `<div class="article-live-table-wrap"><table><thead><tr>${columns.map((column) => `<th scope="col">${escapeHtml(column)}</th>`).join('')}</tr></thead><tbody>${rows.map((row) => `<tr>${columns.map((column, columnIndex) => `<td data-label="${escapeAttr(column)}">${escapeHtml(row?.[columnIndex] || '—')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+      const tables = Array.isArray(block.tables) ? block.tables : [block];
+      const renderTable = (table) => {
+        const columns = Array.isArray(table.columns) ? table.columns : [];
+        const rows = Array.isArray(table.rows) ? table.rows : [];
+        if (!columns.length || !rows.length) return '';
+        return `<div class="article-live-table-wrap"><table><thead><tr>${columns.map((column) => `<th scope="col">${escapeHtml(column)}</th>`).join('')}</tr></thead><tbody>${rows.map((row) => `<tr>${columns.map((column, columnIndex) => `<td data-label="${escapeAttr(column)}">${escapeHtml(row?.[columnIndex] ?? '')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+      };
+      const compactTables = tables.map(renderTable).join('');
+      const sourceTables = Array.isArray(block.sourceTables) ? block.sourceTables : [];
+      const sourceDetails = sourceTables.map(renderTable).join('');
+      if (!sourceDetails) return compactTables;
+      if (!compactTables) return sourceDetails;
+      const extraRows = sourceTables.reduce((total, table) => total + (table.rows?.length || 0), 0);
+      return `${compactTables}<details class="article-live-source-tables"><summary>Read complete details for ${extraRows} additional comparison ${extraRows === 1 ? 'row' : 'rows'}</summary>${sourceDetails}</details>`;
     }
     if (block.kind === 'figures') {
       const figures = Array.isArray(block.figures) ? block.figures : [];
