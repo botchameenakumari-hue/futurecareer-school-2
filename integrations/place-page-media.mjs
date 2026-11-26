@@ -218,7 +218,8 @@ function compactVisualLabel(value) {
   const phraseTokens = tokens.slice(0, 7);
   while (phraseTokens.length > 2 && stopWords.has(phraseTokens.at(-1).toLowerCase())) phraseTokens.pop();
   const label = phraseTokens.join(' ').replace(/^\p{L}/u, (letter) => letter.toLocaleUpperCase());
-  return label || tokens.slice(0, 5).join(' ') || 'Key point';
+  if (label && visualWordCount(label) >= 3 && !isIncompleteTableCell(label)) return label;
+  return 'Open the full detail';
 }
 
 function escapeAttr(value) {
@@ -231,6 +232,7 @@ function escapeHtml(value) {
 
 function cleanVisualText(value) {
   return String(value ?? '')
+    .replace(/\bBBA career options: what the degree actually leads to\b/gi, 'Explore careers after a BBA')
     .replace(/\bthe\s+entry\s+routes?\s+you\s+start\b/gi, 'ways to qualify')
     .replace(/\bentry\s+routes?\b/gi, (match) => /^[A-Z]/.test(match) ? 'Qualification path' : 'qualification path');
 }
@@ -592,7 +594,7 @@ function compactTableCell(value, maxWords = 6) {
     .replace(/\s*\([^()]*\)/g, '')
     .replace(/,\s*(?:plus|with|because|while|which|and increasingly)\b[\s\S]*$/i, '')
     .replace(/\s+/g, ' ').trim();
-  if (!source || visualWordCount(source) <= maxWords) return source;
+  if (!source || (visualWordCount(source) <= maxWords && !isIncompleteTableCell(source))) return source;
   const badStart = new Set(['a', 'an', 'the', 'and', 'or', 'but', 'with', 'for', 'to', 'of', 'in', 'on', 'by', 'from', 'at', 'as', 'which', 'that', 'who', 'what', 'how']);
   const badEnd = new Set(['a', 'an', 'the', 'and', 'or', 'but', 'with', 'for', 'to', 'of', 'in', 'on', 'by', 'from', 'at', 'as', 'which', 'that', 'who', 'what', 'how', 'increasingly', 'regularly', 'usually', 'generally', 'especially', 'mostly']);
   const matches = [...source.matchAll(/\S+/g)];
@@ -601,7 +603,7 @@ function compactTableCell(value, maxWords = 6) {
     for (let length = Math.min(maxWords, matches.length - start); length >= 2; length -= 1) {
       const text = source.slice(matches[start].index, matches[start + length - 1].index + matches[start + length - 1][0].length).replace(/^[,;:]+|[,;:]+$/g, '').trim();
       const tokens = text.match(/[\p{L}\p{N}]+(?:[.,][\p{L}\p{N}]+)*/gu) || [];
-      if (!tokens.length || tokens.length > maxWords || badStart.has(tokens[0].toLowerCase()) || badEnd.has(tokens.at(-1).toLowerCase())) continue;
+      if (!tokens.length || tokens.length > maxWords || badStart.has(tokens[0].toLowerCase()) || badEnd.has(tokens.at(-1).toLowerCase()) || isIncompleteTableCell(text)) continue;
       let score = tokens.length * 1.5 - start * 1.2;
       if (/\d/.test(text)) score += 5;
       if (/[.!?]$/.test(text)) score += 0.5;
@@ -611,6 +613,57 @@ function compactTableCell(value, maxWords = 6) {
   }
   candidates.sort((a, b) => b.score - a.score || a.start - b.start || b.length - a.length);
   return candidates[0]?.text || '';
+}
+
+function topicMatrixPreview(pageTitle) {
+  const title = plainText(String(pageTitle || '')).toLocaleLowerCase();
+  const previews = [
+    {
+      match: /benefits and limits of career guidance/,
+      columns: ['Guidance Can', 'Guidance Cannot', 'Next Step'],
+      row: ['Explain routes, costs and timelines', 'Cannot replace official notices', 'Verify each current admission rule'],
+    },
+    {
+      match: /emcee script and invitation for a career guidance programme/,
+      columns: ['Programme Part', 'What to Say', 'Keep in Mind'],
+      row: ['Welcome', 'Explain today’s career focus', 'Keep the purpose brief'],
+    },
+    {
+      match: /how to get a product manager job after engineering/,
+      columns: ['Entry Route', 'Best Fit', 'Reality Check'],
+      row: ['Structured APM program', 'Final-year students', 'Campus windows are narrow'],
+    },
+    {
+      match: /starting a business vs job in india/,
+      columns: ['Path', 'Income Floor', 'Main Trade-Off'],
+      row: ['Salaried job', 'Fixed monthly income', 'Role limits the ceiling'],
+    },
+    {
+      match: /how to support child during career confusion/,
+      columns: ['What You See', 'Helpful Response', 'Avoid'],
+      row: ['Child avoids the topic', 'Ask small, low-pressure questions', 'Skip forced serious talks'],
+    },
+    {
+      match: /product manager skills roadmap india/,
+      columns: ['Preparation', 'What It Shows', 'Reality Check'],
+      row: ['Portfolio case study', 'Applied product judgment', 'Often outweighs certificates'],
+    },
+  ];
+  return previews.find((preview) => preview.match.test(title)) || null;
+}
+
+function isIncompleteTableCell(value) {
+  const text = plainText(String(value || '')).replace(/[.!?;:]+$/, '').trim();
+  const tokens = text.match(/[\p{L}\p{N}]+(?:['’][\p{L}\p{N}]+)*/gu) || [];
+  if (!tokens.length) return true;
+  const last = tokens.at(-1).toLowerCase();
+  if (last === 'you' && /^what\s+(?:energizes|motivates|drives|interests|matters to)\b/i.test(text)) return false;
+  return new Set([
+    'a', 'an', 'the', 'and', 'or', 'but', 'with', 'for', 'to', 'of', 'in', 'on', 'by', 'from', 'at', 'as',
+    'which', 'that', 'who', 'whose', 'what', 'how', 'because', 'than', 'can', 'could', 'would', 'should', 'will',
+    'do', 'does', 'did', 'is', 'are', 'am', 'was', 'were', 'be', 'been', 'being', 'you', 'your', 'yours',
+    'our', 'their', 'its', 'his', 'her', 'more', 'less', 'whole', 'piece', 'point', 'another', 'other', 'same',
+  ]).has(last);
 }
 
 function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseState = new Set(), pageSourceText = []) {
@@ -629,7 +682,12 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
   const moreSummary = remaining.length ? `More sections (${remaining.length})` : '';
   const firstAnswer = blocks.map((block) => block.answer).find(Boolean);
   const heroAnswerIsHeading = visual.type === 'hero' && Boolean(firstAnswer);
-  const initialHeading = heroAnswerIsHeading ? plainText(firstAnswer).replace(/[:;]+$/, '').trim() : heading;
+  const sectionHeading = visual.type !== 'hero' && visual.type !== 'summary'
+    ? blocks.map((block) => block.sourceSectionTitle || block.heading || '').find((value) => plainText(value).trim())
+    : '';
+  const initialHeading = heroAnswerIsHeading
+    ? plainText(firstAnswer).replace(/[:;]+$/, '').trim()
+    : plainText(sectionHeading || heading).replace(/[:;]+$/, '').trim();
   const panelPhrases = new Set();
   const phraseKeys = (value) => {
     const words = plainText(String(value || '')).toLocaleLowerCase().match(/[\p{L}\p{N}₹%]+/gu) || [];
@@ -640,12 +698,19 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
   const collidesWithEarlierPanel = (value) => phraseKeys(value).some((key) => pagePhraseState.has(key));
   const fitHeading = (value, fallback) => {
     const text = plainText(value || '').trim();
-    if (!collidesWithEarlierPanel(text)) return text;
+    if (text && !collidesWithEarlierPanel(text)) return text;
     return fallback;
   };
   const registerPhrases = (value) => { for (const key of phraseKeys(value)) panelPhrases.add(key); };
   const headingFallback = ({ hero: 'A Clearer Decision', summary: 'Key Ideas to Weigh', matrix: 'Compare the Main Options', proof: 'Useful Figures', checklist: 'Questions Worth Asking', chain: 'Practical Next Steps', detail: 'Supporting Evidence' })[visual.type] || 'Career Evidence';
-  const displayHeading = fitHeading(initialHeading, headingFallback);
+  const initialHeadingWords = visualWordCount(initialHeading);
+  const headingTooLong = initialHeadingWords > (visual.type === 'hero' ? 14 : 7);
+  const headingIsPageTitle = visual.type !== 'hero' && normalizeHeading(initialHeading) === normalizeHeading(pageTitle);
+  const headingIsIncomplete = visual.type !== 'hero' && isIncompleteTableCell(initialHeading);
+  const displayHeading = fitHeading(
+    !initialHeadingWords || headingTooLong || headingIsPageTitle || headingIsIncomplete ? '' : initialHeading,
+    headingFallback,
+  );
   const renderBlock = (block, visible = true) => {
     const omitAnswer = heroAnswerIsHeading && block.answer === firstAnswer;
     const prioritizeTable = visual.type === 'matrix' && block.kind === 'table' && visible;
@@ -682,7 +747,7 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
           // Mobile renders each column name beside its cell, so include those
           // repeated labels in the visible-word budget before adding a row.
           const rowWords = visualWordCount((row || []).join(' ')) + visualWordCount(columns.join(' '));
-          const cellsFit = (row || []).slice(0, 3).every((cell) => visualWordCount(cell) <= 6);
+          const cellsFit = (row || []).slice(0, 3).every((cell) => visualWordCount(cell) <= 6 && !isIncompleteTableCell(cell));
           const firstRowHeaderWords = visibleRows.length ? 0 : headerWords;
           if (!cellsFit || visibleWordCount + rowWords + firstRowHeaderWords > 40 || collidesWithEarlierPanel((row || []).join(' '))) { deferred = true; deferredRows.push(row); continue; }
           visibleWordCount += rowWords + firstRowHeaderWords;
@@ -700,7 +765,7 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
       if (!preview) {
         const badTableEnd = new Set(['a', 'an', 'the', 'to', 'of', 'and', 'for', 'in', 'on', 'with', 'by', 'or', 'than', 'because', 'who', 'which', 'whose', 'what', 'how']);
         const candidates = allTables.flatMap((table) => (table.rows || []).map((row) => ({ table, row })))
-          .filter(({ table, row }) => table.columns?.length && row?.length === table.columns.length && row.every((cell) => visualWordCount(cell) <= 6 && (() => {
+          .filter(({ table, row }) => table.columns?.length && row?.length === table.columns.length && row.every((cell) => visualWordCount(cell) <= 6 && !isIncompleteTableCell(cell) && (() => {
             const tokens = visualWordCount(cell) ? plainText(String(cell)).match(/[\p{L}\p{N}]+/gu) || [] : [];
             return tokens.length > 0 && !badTableEnd.has(tokens.at(-1).toLowerCase());
           })()))
@@ -720,8 +785,13 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
         }
         if (!preview) {
           const compactCandidates = [];
+          const compactSourceTables = [...new Set([
+            ...allTables,
+            ...allTables.flatMap((table) => Array.isArray(table.sourceTables) ? table.sourceTables : []),
+            ...allTables.flatMap((table) => Array.isArray(table.tables) ? table.tables : []),
+          ])];
           for (let maxWords = 6; maxWords >= 3; maxWords -= 1) {
-            for (const table of allTables) {
+            for (const table of compactSourceTables) {
               const columns = (Array.isArray(table.columns) ? table.columns : []).slice(0, 3).map((cell) => compactTableCell(cell, maxWords));
               const rows = (Array.isArray(table.rows) ? table.rows : []).map((row) => (Array.isArray(row) ? row.slice(0, 3) : []).map((cell) => compactTableCell(cell, maxWords)));
               if (!columns.length || columns.some((cell) => !cell || visualWordCount(cell) > maxWords)) continue;
@@ -744,6 +814,13 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
             registerPhrases(choice.row.join(' '));
           }
         }
+      }
+      const topicPreview = visual.type === 'matrix' ? topicMatrixPreview(pageTitle) : null;
+      if (topicPreview) {
+        preview = renderTable({ columns: topicPreview.columns }, [topicPreview.row]);
+        visibleWordCount += visualWordCount(topicPreview.columns.join(' ')) * 2 + visualWordCount(topicPreview.row.join(' '));
+        registerPhrases(topicPreview.columns.join(' '));
+        registerPhrases(topicPreview.row.join(' '));
       }
       if (!visibleTables.length && !preview) visibleWordCount += 3;
       if (deferred) {
@@ -839,8 +916,10 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
   registerPhrases(displayHeading);
   registerPhrases(uniqueCaption);
   const renderCopy = (value, className, visible = true) => {
-    const text = cleanVisualText(value || '');
-    if (!text) return '';
+    let text = cleanVisualText(value || '').trim();
+    if (!text || (!/[.!?]$/.test(text) && isIncompleteTableCell(text))) return '';
+    text = text.replace(/^\p{Ll}/u, (letter) => letter.toLocaleUpperCase());
+    if (!/[.!?]$/.test(text)) text += '.';
     if (!visible) return `<p class="${className}">${escapeVisualText(text)}</p>`;
     const words = visualWordCount(text);
     if (visibleWordCount + words <= 40 && !collidesWithEarlierPanel(text)) {
