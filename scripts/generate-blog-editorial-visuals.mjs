@@ -10,6 +10,7 @@ const DIST = 'dist';
 const OUT = 'public/images/blog/generated-r11';
 const plainLanguageEdits = new Map(Object.entries({
   '/career-skills-compass/direction/': [['entry route', 'qualification path']],
+  '/blog/career-options/career-options-after-12th-commerce/': [['You have 2–4 years of relevant work experience going in', 'You have 2–4 years of relevant work experience.'], ['The expected salary cannot realistically clear a loan within 2–3 years', 'Starting pay rarely clears the loan within 2–3 years.']],
   '/blog/career-change/mid-career-strategies-india/': [['What energizes you', 'What energizes you?']],
   '/blog/freelancing-business/how-to-start-freelancing/': [['GATE', 'Stage']],
   '/blog/career-options/library-and-information-science-career-options/': [['UGC-NET for Library Science: the Real GATE', 'UGC-NET for Library Science: the Main Qualification']],
@@ -435,8 +436,8 @@ function pageContextHeading(value, topic, slug) { return shortHeading(clean(valu
 function proofHeading(items, fallback, topic) { const figures = items.map(figureFromItem).filter(Boolean); const labels = [...new Set(figures.map((figure) => figure.label).filter(Boolean))]; const context = compactTopic(topic); return `${labels.slice(0, 2).join(' & ') || 'Key Figures'} for ${context}`; }
 function heroEditorialLabel(topic) { const value = String(topic || '').toLowerCase(); if (/salary|pay|fee|cost|income|budget|earn/.test(value)) return 'Work and Pay'; if (/course|college|degree|exam|admission|study|stream|school|mba/.test(value)) return 'Study Choices'; if (/skill|portfolio|resume|interview|job search|freelanc|business/.test(value)) return 'Skills in Practice'; if (/guidance|counsel|confusion|choose|choice|decision/.test(value)) return 'Career Decisions'; return 'Career Routes'; }function typeTopLabel(type) { return ({ hero: 'Career Snapshot', summary: 'Key Ideas', matrix: 'Compare Clearly', chain: 'Try The Path', checklist: 'Check First', proof: 'Numbers In Context', detail: 'Read The Evidence' })[type] || 'Career Evidence'; }
 function visualTitle(type, heading, topic, pageTitle) { return type === 'hero' ? clean(pageTitle) || `${compactTopic(topic)} career overview` : shortHeading(heading, topic); }
-function visualAlt(type, heading, topic) { const subject = clean(heading || compactTopic(topic)); return ({ summary: `Key takeaways: ${subject}.`, matrix: `Comparison table: ${subject}.`, chain: `Step sequence: ${subject}.`, checklist: `Checklist: ${subject}.`, proof: `Figures and labels: ${subject}.`, detail: `Evidence notes: ${subject}.` })[type] || `Career decision: ${subject}.`; }
-function heroAlt(topic, answer, pageTitle, route = '') { if (route === '/blog/career-guidance/how-to-choose-a-career-after-12th/') return 'Career choice after 12th: a role-first plan, employability context, and job-description review.'; const subjectWords = words(heroTopic(topic, route)); let answerSentence = sentence(answer, 14); if (!answerSentence) { subjectWords.splice(2); answerSentence = sentence(answer, 16); } const subject = subjectWords.join(' ') || compactTopic(topic); return answerSentence ? `Overview of ${subject}: ${answerSentence}` : `Overview of ${subject}: career routes and supporting evidence.`; }
+function visualAlt(type, heading, topic) { const subject = clean(heading || compactTopic(topic)); return ({ summary: `A summary of the main points about ${subject}.`, matrix: `A comparison table for ${subject}.`, chain: `A sequence of practical steps for ${subject}.`, checklist: `A checklist for evaluating ${subject}.`, proof: `Key figures and source labels for ${subject}.`, detail: `A concise evidence card about ${subject}.` })[type] || `A career decision visual about ${subject}.`; }
+function heroAlt(topic, answer, pageTitle, route = '') { if (route === '/blog/career-guidance/how-to-choose-a-career-after-12th/') return 'Career choice after 12th: a role-first plan, employability context, and job-description review.'; const subject = words(heroTopic(topic, route)).slice(0, 6).join(' ') || compactTopic(topic); return `Career decision graphic for ${subject}.`; }
 function threeWordFigureLabel(label, source = '', value = '') {
   const original = clean(label).replace(/\s+/g, ' ');
   const key = original.toLowerCase();
@@ -507,6 +508,9 @@ function threeWordFigureLabel(label, source = '', value = '') {
 
 function figureFromItem(item, matchIndex = 0) {
   const raw = clean(item?.raw || item?.text || '');
+  // Related-reading links contain numbers that describe another page, not
+  // evidence for the current article's infographic.
+  if (/\b(?:read also|read career advice|read next|related article)\b/i.test(raw)) return null;
   if (/\b(?:F|J)-\d+\s+students?\b/i.test(raw)) return null;
   if (/^[^:]{1,100}:\s.+\((?:primary|secondary|official) source\)$/i.test(raw)) return null;
   const selectionOdds = raw.match(/\b1\s+in\s+(\d+(?:,\d{3})*)\s*[-–—]\s*(\d+(?:,\d{3})*)\s+applicants?\b/i);
@@ -709,9 +713,57 @@ function figureFromItem(item, matchIndex = 0) {
     if (label === 'Reported Percentage') return null;
   }
   if (!hasCurrencyMarker && /candidates?\s+(?:tested|assessed|surveyed)/i.test(local)) label = 'Candidates Assessed';
+  // Classify money figures from the words attached to that specific number.
+  // The wider sentence often mentions both salaries and fees, so using it for
+  // every number in the sentence can pair a correct value with the wrong label.
+  let nearestFinancialKind = '';
+  if (hasMoney) {
+    if (/\b(?:interest|interest accrued|interest paid)\b/i.test(directNounContext)) label = 'Loan Interest';
+    else if (/\b(?:foregone|forgone|lost|missed)\s+(?:salary|income|earnings?)\b/i.test(directNounContext)) label = 'Lost Salary';
+    else if (/\b(?:family income|families earning|family earning|household income)\b/i.test(directNounContext)) label = 'Family Income';
+    else if (/\b(?:loan|borrowing|borrowed)\b/i.test(directNounContext) && !/\b(?:salary|pay|income|lpa)\b/i.test(directNounContext)) label = 'Loan Amount';
+    else if (/\b(?:salary|pay|income|earnings?|package|stipend)\b/i.test(directNounContext) || /\blpa\b/i.test(match[0])) {
+      label = /\b(?:entry|fresher|starting|starts? around)\b/i.test(directNounContext) ? 'Entry Level Pay' : 'Typical Salary Range';
+    } else if (/\b(?:tuition|fees?|cost|deposit|outlay)\b/i.test(directNounContext)) {
+      label = /\b(?:exam|registration|certification|application)\b/i.test(directNounContext) ? 'Exam Registration Fee' : /\bdeposit\b/i.test(directNounContext) ? 'Seat Acceptance Deposit' : 'Total Education Cost';
+    }
+    const financialCues = [
+      ['interest', /\binterest(?:\s+(?:accrued|paid|subvention))?\b/gi],
+      ['family-income', /\b(?:family|families|household)\s+(?:income|earning|earnings)\b/gi],
+      ['loan', /\b(?:education\s+)?(?:loan|borrowing|borrowed)\b/gi],
+      ['opportunity-cost', /\b(?:foregone|forgone|lost|missed)\s+(?:salary|income|earnings?)\b|\bopportunity\s+cost\b/gi],
+      ['salary', /\b(?:salary|pay|income|earnings?|package|stipend|remuneration|compensation)\b/gi],
+      ['education-cost', /\b(?:tuition|fees?|cost|deposit|outlay)\b/gi],
+      ['budget', /\b(?:education\s+budget|budget|allocation|allocated)\b/gi],
+    ];
+    const closestFinancialCue = financialCues.flatMap(([kind, pattern]) => [...evidenceLine.matchAll(pattern)]
+      .map((cue) => ({ kind, distance: cue.index < matchInLine ? matchInLine - (cue.index + cue[0].length) : cue.index - (matchInLine + match[0].length) }))
+      .filter((cue) => cue.distance >= 0 && cue.distance <= 40))
+      .sort((a, b) => a.distance - b.distance)[0];
+    nearestFinancialKind = closestFinancialCue?.kind || '';
+    if (closestFinancialCue) {
+      const cue = closestFinancialCue.kind;
+      if (cue === 'interest') label = 'Loan Interest';
+      else if (cue === 'family-income') label = 'Family Income';
+      else if (cue === 'loan') label = 'Loan Amount';
+      else if (cue === 'opportunity-cost') label = 'Opportunity Cost';
+      else if (cue === 'salary') label = /\blpa\b/i.test(match[0]) && /\b(?:entry|fresher|starting|starts? around)\b/i.test(nearbyBefore) ? 'Entry Level Pay' : 'Typical Salary Range';
+      else if (cue === 'education-cost') label = /\bdeposit\b/i.test(directNounContext) ? 'Seat Deposit' : /\b(?:exam|registration|certification|application)\b/i.test(directNounContext) ? 'Exam Fee' : /\bfees?\b/i.test(directNounContext) ? 'Course Fee' : 'Education Cost';
+      else if (cue === 'budget') label = 'Education Budget';
+    }
+  }
   if (!label) return null;
   const source = evidenceLine.replace(/\bRs\.?\s*/gi, '₹');
   label = threeWordFigureLabel(label, source, value);
+  if (hasMoney && nearestFinancialKind) {
+    if (nearestFinancialKind === 'interest') label = 'Loan Interest';
+    else if (nearestFinancialKind === 'family-income') label = 'Family Income';
+    else if (nearestFinancialKind === 'loan') label = 'Loan Amount';
+    else if (nearestFinancialKind === 'opportunity-cost') label = 'Opportunity Cost';
+    else if (nearestFinancialKind === 'salary') label = /\blpa\b/i.test(match[0]) && /\b(?:entry|fresher|starting|starts? around)\b/i.test(nearbyBefore) ? 'Entry Level Pay' : 'Typical Salary Range';
+    else if (nearestFinancialKind === 'education-cost') label = /\bdeposit\b/i.test(directNounContext) ? 'Seat Deposit' : /\b(?:exam|registration|certification|application)\b/i.test(directNounContext) ? 'Exam Fee' : /\bfees?\b/i.test(directNounContext) ? 'Course Fee' : 'Education Cost';
+    else if (nearestFinancialKind === 'budget') label = 'Education Budget';
+  }
   if (!label) return null;
   return { value, label, source, text: source };
 }
@@ -1100,8 +1152,8 @@ function heroVisual(answer, figures, topic, palette, size, supporting = [], rout
       }
     }
     if (!hasLowerStructure) {
-      const largeIconScale = Math.min(width === PHONE.width ? 0.76 : 0.9, (height - contentBottom - 116) / 480);
-      const largeIconY = Math.max(contentBottom + 44, height - 480 * largeIconScale - 72);
+      const largeIconScale = Math.max(0.3, Math.min(width === PHONE.width ? 0.76 : 0.9, (height - contentBottom - 144) / 480));
+      const largeIconY = contentBottom + 56;
       const largeIconX = (width - 480 * largeIconScale) / 2;
       body += topicIcon(topic, palette, largeIconX, largeIconY, largeIconScale);
     }
@@ -1126,6 +1178,7 @@ const routeDurationLabelCorrections = [
   ['/blog/career-options/pcb-career-options-with-salary/', '₹18-30 LPA', /roughly.*\bentry\b.*\bsenior\b/i, 'Senior-Level Salary Range'],
   ['/blog/college-degrees/education-loan-worth-it-india-private-college/', '5-15 years', /repayment tenures typically run 5-15 years/i, 'Loan Repayment Tenure'],
   ['/blog/college-degrees/education-loan-worth-it-india-private-college/', '7-10 year', /total repayment \(principal plus interest\)/i, 'Loan Repayment Period'],
+  ['/blog/career-options/career-options-after-12th-commerce/', '2-3 years', /starting pay rarely clears the loan within 2[-–—]3 years/i, 'Loan Payback Window'],
   ['/blog/career-change/how-to-switch-from-service-company-to-product-company/', '3-6 months', /consistent dsa and system-design preparation/i, 'Preparation Window'],
   ['/blog/freelancing-business/freelancing-vs-job-india-which-is-better/', '6-12 months', /covering 6-12 months of essential expenses/i, 'Living Expense Runway'],
   ['/blog/freelancing-business/freelancing-vs-job-india-which-is-better/', '6-12 months', /freelancing usually suits someone with 6-12 months of runway/i, 'Freelance Entry Runway'],
@@ -1258,6 +1311,31 @@ const routeDurationLabelCorrections = [
   ['/blog/government-jobs/defence-services-career-india/', '16 years', /Colonel rank \(roughly 16 years of service/i, 'Selection-Based Promotion Mark'],
   ['/blog/government-jobs/defence-services-career-india/', '3 years', /Selected cadets train for 3 years at NDA Khadakwasla across all three services together/i, 'NDA Training Period'],
 ];
+const routeFigureLabelCorrections = [
+  ['/blog/career-options/mba-after-bcom-worth-it-in-india/', '₹27.5 lakh', /IIM Ahmedabad.s total fee for the 2026-28 batch runs around (?:₹|Rs\s*)27.5 lakh/i, 'MBA Tuition Fee'],
+  ['/blog/career-options/mba-after-bcom-worth-it-in-india/', '₹27.5 lakh', /a ₹27.5 lakh fee against a ₹35 LPA average salary/i, 'MBA Tuition Fee'],
+  ['/blog/career-options/mba-after-bcom-worth-it-in-india/', '₹16-27.5 lakh', /institutes charge ₹16-27\.5 lakh/i, 'MBA Tuition Fee'],
+  ['/blog/college-degrees/best-courses-after-ba-for-good-salary-india/', '₹25,000-1.5 lakh', /bootcamp fees typically run/i, 'Bootcamp Fee Range'],
+  ['/blog/college-degrees/best-courses-after-ba-for-good-salary-india/', '6-12 months', /full post-graduate diploma can run up to/i, 'Diploma Duration'],
+  ['/blog/career-options/is-law-a-good-career-in-india/', '₹30,000', /once a seat is allotted/i, 'Seat Acceptance Deposit'],
+  ['/blog/career-options/how-to-become-a-business-analyst-entry-level-india/', '7,500 hours', /needs roughly 7,500 hours of real BA work experience/i, 'BA Experience Hours'],
+  ['/blog/career-options/data-scientist-vs-software-engineer-salary-india/', '₹14 LPA', /illustration,? not a real offer/i, 'Illustrative Offer Package'],
+  ['/blog/career-options/data-scientist-vs-software-engineer-salary-india/', '5.8 lakh', /5\.8 lakh reported salaries/i, 'Salary Reports Count'],
+  ['/blog/college-degrees/highest-package-vs-median-ctc-meaning-india/', '5 LPA', /median ctc is 5 lpa/i, 'Median CTC'],
+  ['/blog/college-degrees/iti-career-options/', '₹1 lakh', /on (?:₹|rs\.?\s*)10 lakh, that is about (?:₹|rs\.?\s*)1 lakh/i, 'Course Fee Benchmark'],
+  ['/blog/college-degrees/iti-career-options/', '₹10 lakh', /on ₹10 lakh, that is about ₹1 lakh/i, 'Education Budget Amount'],
+  ['/blog/college-degrees/education-loan-secured-or-unsecured-india/', '₹12 lakh', /degree that needs ₹12 lakh of borrowing/i, 'Education Loan Amount'],
+  ['/blog/career-options/career-after-12th-maths-without-engineering/', '₹1 crore', /captain-level officers can reach well over rs 1 crore a year/i, 'Captain-Level Pay Ceiling'],
+  ['/blog/college-degrees/career-without-degree-after-12th-india/', '₹15,000', /(?:₹|rs\.?\s*)15,000 iti course that starts placement drives/i, 'Government ITI Course Fee'],
+  ['/blog/career-options/career-options-after-12th-commerce/', '3-5 years', /curricula lag industry by 3-5 years/i, 'Curriculum Lag'],
+  ['/blog/career-options/is-biomedical-science-a-good-career/', '₹6-11 LPA', /lab or quality manager/i, 'Lab Manager Salary Range'],
+  ['/blog/career-options/career-after-ba-english-literature-india/', '₹3-5 LPA', /fresher translators/i, 'Translator Entry Pay'],
+  ['/blog/career-options/best-career-options-after-12th-with-high-salary/', '₹15,000', /rs 15,000 government seat/i, 'Government Course Fee'],
+  ['/blog/skills/skills-required-for-data-analyst-in-india/', '12 months', /analysed 12 months of sales for a local shop/i, 'Example Dataset Time Span'],
+  ['/blog/college-degrees/diploma-and-certificate-courses-for-commerce-students-india/', '₹3,000', /nism lists many exams at ₹1,500, some at ₹3,000/i, 'NISM Exam Fee'],
+  ['/blog/career-options/careers-for-people-who-love-to-teach-india/', '₹35,400', /government primary teachers \(prt\) start at a basic pay/i, 'Government PRT Basic Pay'],
+  ['/blog/government-jobs/bank-job-vs-it-job-india/', '₹40-80 LPA', /it.s ceiling is structurally higher/i, 'Senior IT Salary Ceiling'],
+];
 function applyRouteDurationLabelCorrection(route, figure) {
   const valueKey = normalizeFigureKey(figure.value);
   const source = String(figure.source || '');
@@ -1268,6 +1346,8 @@ function applyRouteDurationLabelCorrection(route, figure) {
   }
   const correction = routeDurationLabelCorrections.find(([targetRoute, targetValue, sourcePattern]) => route === targetRoute && valueKey === normalizeFigureKey(targetValue) && sourcePattern.test(source));
   if (correction) figure.label = correction[3];
+  const labelCorrection = routeFigureLabelCorrections.find(([targetRoute, targetValue, sourcePattern]) => route === targetRoute && valueKey === normalizeFigureKey(targetValue) && sourcePattern.test(source));
+  if (labelCorrection) figure.label = labelCorrection[3];
   return figure;
 }
 function figureFamily(label) {
@@ -1956,21 +2036,10 @@ const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigure
   for (const need of chosen.slice(0, 3)) { const items = take(itemsFromNeed(need, data), need.type === 'proof' ? 1 : 2, need.type === 'proof' ? 14 : 10); const figures = need.type === 'proof' ? items.map(figureFromItem).filter(Boolean).filter((figure) => figure.source && figureValueSupported(figure.value, figure.source)).slice(0, 2) : []; if ((!items.length && need.type !== 'matrix') || (need.type === 'proof' && !figures.length)) continue; const rawSectionHeading = shortHeading(need.section_title, data.headings[0] || topic); const sectionHeading = isGenericVisualHeading(rawSectionHeading) ? shortHeading(topic, topic) : rawSectionHeading; const coreHeading = need.type === 'proof' ? proofHeading(items, rawSectionHeading, topic) : need.type === 'matrix' ? (!isGenericVisualHeading(sectionHeading) ? sectionHeading : contentHeading(items[0], topic)) : contentHeading(items[0], sectionHeading); const heading = visualHeadingOverrides.get(route)?.[need.type] || uniqueVisualHeading(shortHeading(isBlog ? coreHeading : pageContextHeading(coreHeading, topic, slug), compactTopic(topic)), items[0] || { text: (matrix?.rows || []).flat().join(' ') }, topic, need.type, manifest, usedPhrases); if (need.type === 'matrix') { while (matrix.rows.length > 1 && visualWordCount([typeTopLabel('matrix'), heading, ...matrix.columns, ...matrix.rows.flat(), 'Source comparison'].join(' ')) > 40) matrix.rows.pop(); if (visualWordCount([typeTopLabel('matrix'), heading, ...matrix.columns, ...matrix.rows.flat(), 'Source comparison'].join(' ')) > 40) continue; } let body; let content; if (need.type === 'matrix') { const table = matrix; table.sourceRows.forEach((row) => row.forEach((cell) => markUsed({ text: cell, raw: cell }))); body = { desktop: tableVisual(table, palette, heading, DESKTOP), mobile: tableVisual(table, palette, heading, PHONE) }; content = { kind: 'table', columns: table.columns, rows: table.rows }; } else if (need.type === 'proof') { body = { desktop: proofVisual(items, palette, heading, DESKTOP), mobile: proofVisual(items, palette, heading, PHONE) }; content = { kind: 'figures', figures }; } else { body = { desktop: cardVisual(items, palette, need.type, heading, DESKTOP), mobile: cardVisual(items, palette, need.type, heading, PHONE) }; content = { kind: 'items', items: items.map((item) => ({ heading: '', text: item.text })) }; } const description = need.type === 'matrix' ? `Comparison table showing ${heading}.` : need.type === 'proof' ? `Figure tiles showing ${heading}: ${figures.map((item) => item.label).join(', ')}.` : need.type === 'checklist' ? `A checklist highlights ${heading}.` : need.type === 'chain' ? `A sequence outlines ${heading}.` : `An evidence card explains ${heading}.`; await add(need.type, body, { alt: description, caption: need.type === 'matrix' ? `Comparison table for ${heading}.` : need.type === 'proof' ? `Article figures about ${heading}.` : need.type === 'checklist' ? `Checklist for ${heading}.` : need.type === 'chain' ? `Steps for ${heading}.` : `Evidence about ${heading}.`, heading, content }); }
   if (manifest.length < 4) { const candidates = data.sections.filter((section) => section.facts.length); for (const section of candidates) { if (manifest.length >= 4) break; const items = take(section.facts, 2, 14); if (!items.length) continue; const coreHeading = contentHeading(items[0], isGenericVisualHeading(section.title) ? topic : section.title); const heading = uniqueVisualHeading(shortHeading(isBlog ? coreHeading : pageContextHeading(coreHeading, topic, slug), compactTopic(topic)), items[0], topic, 'detail', manifest); while (items.length > 1 && visualWordCount([typeTopLabel('detail'), heading, ...items.map((item) => item.text)].join(' ')) > 40) items.pop(); await add('detail', { desktop: cardVisual(items, palette, 'detail', heading, DESKTOP), mobile: cardVisual(items, palette, 'detail', heading, PHONE) }, { alt: `An evidence card explains ${heading}.`, caption: `Focused evidence: ${heading}.`, heading, content: { kind: 'items', items: items.map((item) => ({ heading: '', text: item.text })) } }); } }
   if (manifest.length < 4) { const pool = [...data.lists, ...data.facts]; while (manifest.length < 4) { const item = take(pool, 1)[0]; if (!item) break; const heading = uniqueVisualHeading(shortHeading(contentHeading(item, topic), compactTopic(topic)), item, topic, 'detail', manifest); await add('detail', { desktop: cardVisual([item], palette, 'detail', heading, DESKTOP), mobile: cardVisual([item], palette, 'detail', heading, PHONE) }, { alt: `An evidence card explains ${heading}.`, caption: `Evidence card: ${heading}.`, heading, content: { kind: 'items', items: [{ heading: '', text: item.text }] } }); } }
-  let needBlocks = pageNeeds.map((need, index) => ({ ...needBlock(need, data, topic), needId: `${need.type}:${index + 1}`, sourceSectionId: need.section_id || '', sourceNeedIndex: index + 1 }));
-  const nonTopicBudgetNeedIndexes = new Set();
-  for (const block of needBlocks) {
-    if (block.type !== 'proof' || !Array.isArray(block.figures) || !block.figures.length) continue;
-    const originalFigures = block.figures;
-    block.figures = originalFigures.filter(budgetFigureFitsTopic);
-    if (!block.figures.length && originalFigures.every(genericBudgetFigureLabel)
-      && ![...originalFigures].some((figure) => budgetFigureFitsTopic(figure))) {
-      nonTopicBudgetNeedIndexes.add(String(block.sourceNeedIndex));
-    }
-  }
-  if (nonTopicBudgetNeedIndexes.size) {
-    needBlocks = needBlocks.filter((block) => !nonTopicBudgetNeedIndexes.has(String(block.sourceNeedIndex)));
-    console.info(`[visual-needs] omitted ${nonTopicBudgetNeedIndexes.size} non-topic generic budget sections on ${route}`);
-  }
+  let needBlocks = pageNeeds.map((need, index) => ({ ...needBlock(need, data, topic), needId: `${need.type}:${index + 1}`, sourceSectionId: need.section_id || '', sourceSectionTitle: need.section_title || '', sourceNeedIndex: index + 1 }));
+  // The reports explicitly request every key-figure section. Keep page-local
+  // education-budget examples inside the existing expandable proof visual;
+  // only the hero selection is topic-filtered above.
   const needFigureKey = (figure) => `${normalizeFigureKey(figure?.value)}|${figureFamily(figure?.label)}`;
   const normalizeFigureSource = (value) => clean(value).toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').replace(/\s+/g, ' ').trim();
   const heroFigureSources = new Set(selectedHeroFigures.map((figure) => normalizeFigureSource(figure.source || figure.text)).filter(Boolean));
@@ -2452,6 +2521,81 @@ const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigure
     }
     if (Array.isArray(node.figures)) for (const figure of node.figures) {
       applyRouteDurationLabelCorrection(route, figure);
+      const source = String(figure.source || figure.text || '');
+      const value = normalizeFigureKey(figure.value);
+      const setLabel = (expectedValue, sourcePattern, label) => {
+        if (value === normalizeFigureKey(expectedValue) && sourcePattern.test(source)) figure.label = label;
+      };
+      if (route === '/blog/ai-future/ai-changing-digital-marketing-careers-india/') {
+        setLabel('60,000', /over 60,000 jobseekers/i, 'Jobseekers Surveyed');
+        setLabel('56%', /salary premiums up to 56%/i, 'AI-Skilled Salary Premium');
+        setLabel('54%', /fresher hiring in the sector up 54%/i, 'Fresher Hiring Growth');
+      }
+      if (route === '/blog/ai-future/ai-tools-for-career-growth-india/' && value === normalizeFigureKey('2026') && /over 90% of indian professionals plan to use ai tools/i.test(source)) {
+        figure.value = 'Over 90%';
+        figure.label = 'Professionals Planning AI Use';
+      }
+      if (route === '/blog/ai-future/top-careers-for-the-future/') {
+        setLabel('40%', /ai roles growing 40%\+/i, 'AI Role Growth');
+        setLabel('51%', /51% talent gap/i, 'AI Talent Gap');
+      }
+      if (route === '/blog/ai-future/careers-that-will-survive-ai-india/') {
+        setLabel('15 percent', /electricians at roughly 15 percent automation risk/i, 'Electrician Automation Risk');
+        setLabel('8 percent', /plumbers near 8 percent automation risk/i, 'Plumber Automation Risk');
+      }
+      if (route === '/blog/ai-future/what-to-do-if-your-job-is-replaced-by-ai-india/' && /trained roughly 350,000 employees/i.test(source)) {
+        if (value === normalizeFigureKey('350,000')) figure.label = 'TCS Employees Trained in AI';
+        if (value === normalizeFigureKey('220,000')) figure.label = 'Wipro Employees Trained in AI';
+      }
+      if (route === '/blog/career-options/engineering-career-options/') setLabel('600 percent', /growth in job postings for ai\/ml engineers and data scientists/i, 'AI and Data Job-Posting Growth');
+      if (route === '/blog/freelancing-business/creator-economy-india-career-opportunities/') setLabel('900%', /job postings tied to it have grown more than 900%/i, 'Creator-Economy Job-Posting Growth');
+      if (route === '/blog/career-options/safe-career-options-for-girls-in-india/') setLabel('29%', /29% of reported cases/i, 'Reported Harassment Cases');
+      if (route === '/blog/career-options/plant-and-agricultural-biotechnology-careers/') {
+        setLabel('19%', /kamala is reported to raise yield by around 19%/i, 'Kamala Rice Yield Increase');
+        setLabel('10-30%', /pusa dst rice 1 is reported to lift yield by roughly 10-30%/i, 'Pusa DST Rice Yield Increase');
+      }
+      if (route === '/blog/college-degrees/how-to-read-college-placement-report-india/') setLabel('35-40%', /reported ctc commonly runs 35-40% higher than actual monthly in-hand pay/i, 'CTC-to-Take-Home Gap');
+      if (route === '/blog/study-abroad/return-to-india-after-ms-abroad/') setLabel('20-40%', /reported premiums of 20-40%/i, 'Foreign MS Pay Premium');
+      if (route === '/blog/career-options/careers-for-people-who-dont-like-desk-jobs-india/') setLabel('72%', /72% reported sitting more than eight hours a day/i, 'Participants Sitting Eight-Plus Hours');
+      if (route === '/blog/parents/how-much-to-spend-on-child-education-india/') setLabel('3.93%', /3\.93% year-on-year cpi figure/i, 'Year-on-Year CPI Inflation');
+      if (route === '/blog/stream-selection/engineering-vs-other-streams-which-is-better-career-india/') setLabel('42.6%', /42\.6% of indian graduates overall were considered employable/i, 'Graduate Employability Rate');
+      if (route === '/blog/career-options/best-careers-for-introverts-in-india/') setLabel('65%', /65% of indian tech firms now prioritise demonstrated skills/i, 'Tech Firms Prioritising Skills');
+      if (route === '/blog/career-options/career-options-for-students-with-locomotor-disability-india/') {
+        setLabel('71 percent', /71 percent\) were barrier-free/i, 'Schools Reported Barrier-Free');
+        setLabel('5.73 percent', /5\.73 percent\) were fully accessible/i, 'Buses Reported Fully Accessible');
+      }
+      if (route === '/blog/career-options/bsc-agriculture-career-options/') setLabel('46 percent', /46 percent of 10,000/i, 'Markets Linked to e-NAM');
+      if (route === '/services/career-counselling-and-career-guidance/career-counselling-benefits-for-students/' || route === '/services/career-counselling-and-career-guidance/career-counselling-benefits/') {
+        setLabel('80%', /students who received (?:structured )?career counselling reported real benefit/i, 'Students Reporting Counselling Benefit');
+        setLabel('40%', /40% of indian students have never (?:spoken to|interacted with) a career counsellor/i, 'Students Without Prior Counselling');
+      }
+      if (route === '/blog/career-options/is-corporate-law-a-good-career-in-india/') {
+        setLabel('45 percent', /45 percent of those working 10 to 12 hours a day said they felt routinely stressed/i, 'Lawyers Reporting Routine Stress');
+        setLabel('18 percent', /18 percent of that group said their firms encouraged work-life balance/i, 'Firms Encouraging Work-Life Balance');
+        setLabel('80 percent', /over 80 percent of its headcount used ai/i, 'Firm Headcount Using AI');
+        setLabel('90 percent', /aimed for 90 percent or more/i, 'AI Adoption Target');
+      }
+      if (route === '/blog/career-options/career-after-electrical-engineering-in-india/') {
+        setLabel('10-15%', /battery and power-electronics roles carry a reported 10-15% premium/i, 'Battery-Role Pay Premium');
+        setLabel('20-45%', /ev-sector pay overall runs an estimated 20-45% higher/i, 'EV-Sector Pay Premium');
+      }
+      if (route === '/blog/ai-future/ai-and-human-skills-needed-india/') {
+        setLabel('24%', /24% of employers surveyed expect this to matter less/i, 'Employers Expecting Lower Demand');
+        setLabel('51%', /demand-supply gap of around 51%/i, 'AI and Data Skills Gap');
+      }
+      if (route === '/blog/job-search/skills-needed-for-first-job-india/') setLabel('80%', /80% of companies surveyed said they still struggle to find/i, 'Companies Reporting Hiring Difficulty');
+      if (route === '/blog/freelancing-business/content-creator-income-india/') setLabel('90%', /90% of digital creators cannot rely on social platforms/i, 'Creators Without Platform Income');
+      if (route === '/blog/career-options/ba-career-options/' && value === normalizeFigureKey('15') && /a list of 15 jobs hides the real decision/i.test(source)) figure.label = 'List Size, Not Job Count';
+      if (route === '/blog/career-guidance/how-to-ask-someone-for-career-advice-india/' && value === normalizeFigureKey('30 days') && /what should i try for 30 days before i commit\?/i.test(source)) figure.label = 'Suggested 30-Day Trial';
+      if (route === '/blog/career-options/career-options-after-12th-commerce/' && value === normalizeFigureKey('5-10 years') && /will this role likely grow, shrink, or transform/i.test(source)) figure.label = 'Future Outlook Horizon';
+      if (route === '/blog/career-change/career-plateau-how-to-break-through-india/' && /built a new, provable skill or taken on new scope in the last 12 months/i.test(source)) figure.label = 'Recent Skill-Building Check';
+      if (route === '/blog/career-change/career-plateau-how-to-break-through-india/' && /actual role, budget line, or promotion slot above you in the next 12-18 months/i.test(source)) figure.label = 'Promotion-Path Outlook';
+      if (route === '/blog/career-options/is-optometry-a-good-career/' && /3-4 years to a first real paycheque/i.test(source)) figure.label = 'Years to First Paycheque';
+      if (route === '/blog/government-jobs/bank-job-vs-it-job-india/' && /1-2 years of exam prep/i.test(source)) figure.label = 'Bank-Exam Preparation Runway';
+      if (route === '/blog/career-options/is-event-management-a-good-career-in-india/' && /12-16 hour event days/i.test(source)) figure.label = 'Event-Day Shift Length';
+      if (route === '/blog/career-options/supply-chain-management-career-india/' && /2-4 years it typically takes to reach manager-level compensation/i.test(source)) figure.label = 'Time to Manager-Level Pay';
+      if (route === '/blog/career-options/is-hr-a-good-career-in-india/' && /2-4 years it typically takes to reach hr generalist/i.test(source)) figure.label = 'Time to HR Generalist Pay';
+      if (route === '/blog/career-options/hr-career-path-in-india-salary-growth/' && /2-4 years it typically takes to reach hr generalist pay/i.test(source)) figure.label = 'Time to HR Generalist Pay';
     }
     if (Array.isArray(node.figures) && route === '/blog/career-change/career-change-after-5-years-india/' && node.sourceSectionId === 'faqs') {
       node.figures = node.figures.filter((figure) => {
@@ -2561,6 +2705,22 @@ const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigure
     for (const value of Object.values(node)) if (value && typeof value === 'object') applyFinalNeedHeadingOverrides(value);
   };
   for (const visual of manifest) applyFinalNeedHeadingOverrides(visual.content);
+  // Figure labels and values are corrected after the route-specific content is
+  // assembled. Re-render the hero from that final data so the raster hero and
+  // social preview cannot retain the earlier, incorrect labels.
+  const correctedHero = manifest.find((visual) => visual.type === 'hero');
+  if (correctedHero && correctedHero.content) {
+    const correctedAnswer = correctedHero.content.answer || answer;
+    const correctedFigures = correctedHero.content.figures || [];
+    const correctedSteps = correctedHero.content.steps || [];
+    const correctedSupport = correctedHero.content.supporting || [];
+    const correctedTopic = correctedHero.heading || topic;
+    const desktop = heroVisual(correctedAnswer, correctedFigures, correctedTopic, palette, DESKTOP, correctedSupport, correctedSteps, route);
+    const mobile = heroVisual(correctedAnswer, correctedFigures, correctedTopic, palette, PHONE, correctedSupport, correctedSteps, route);
+    const social = socialHeroVisual(correctedAnswer, correctedFigures, correctedTopic, palette, correctedSupport, route);
+    const refreshed = await writeVisual(dir, slug, 'hero', 0, desktop, mobile, correctedHero, social);
+    Object.assign(correctedHero, refreshed);
+  }
   visualCount += manifest.length;
   await writeManifest(join(dir, 'index.json'), JSON.stringify({
     version: 11,
@@ -2575,11 +2735,14 @@ const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigure
   // responsive HTML. Their former raster twins are not used by the page, so
   // remove any left by earlier generator versions instead of retaining dead
   // WebP files in the repository.
+  const retainedAssets = new Set([`${slug}-social.jpg`]);
   for (const visual of manifest) {
-    if (visual.type === 'hero' || !visual.content) continue;
-    for (const asset of [visual.file, visual.mobile]) {
-      if (asset) await unlink(join(dir, asset)).catch(() => {});
-    }
+    if (visual.type !== 'hero' && visual.content) continue;
+    for (const asset of [visual.file, visual.mobile]) if (asset) retainedAssets.add(asset);
+  }
+  for (const entry of await readdir(dir, { withFileTypes: true })) {
+    if (!entry.isFile() || !/\.(?:webp|jpe?g|png)$/i.test(entry.name) || retainedAssets.has(entry.name)) continue;
+    await unlink(join(dir, entry.name)).catch(() => {});
   }
 }
 console.log(`Generated ${visualCount} Round 11 visuals for ${generated} pages.`);

@@ -205,7 +205,7 @@ function plainText(value) {
 }
 
 function visualWordCount(value) {
-  return plainText(String(value || '')).split(/\s+/).filter(Boolean).length;
+  return plainText(String(value || '')).match(/[\p{L}\p{N}₹%]+(?:[’'][\p{L}\p{N}]+)?/gu)?.length || 0;
 }
 
 function compactVisualLabel(value) {
@@ -702,6 +702,7 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
   const content = visual.content;
   if (!content) return visualFigure(visual, '', index, className);
   const heading = plainText(visual.heading || visual.caption || 'Career evidence').replace(/[:;]+$/, '').trim();
+  const maxVisibleWords = 38;
   const normalizeHeading = (value) => plainText(value).toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
   const contentBlocks = content.kind === 'bundle' ? Array.isArray(content.blocks) ? content.blocks : [] : [content];
   const blocks = visual.type === 'matrix'
@@ -711,7 +712,7 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
     .map((value) => plainText(String(value || '')).toLocaleLowerCase().replace(/[^\p{L}\p{N}₹%]+/gu, ' ').trim())
     .filter(Boolean);
   const remaining = blocks.slice(1);
-  const moreSummary = remaining.length ? `More sections (${remaining.length})` : '';
+  const remainingHeading = remaining.map((block) => plainText(block.heading || block.sourceSectionTitle || '')).find(Boolean);
   const firstAnswer = blocks.map((block) => block.answer).find(Boolean);
   const heroAnswerIsHeading = visual.type === 'hero' && Boolean(firstAnswer);
   const sectionHeading = visual.type !== 'hero' && visual.type !== 'summary'
@@ -727,7 +728,7 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
     for (let i = 0; i + 5 <= words.length; i += 1) keys.push(words.slice(i, i + 5).join(' '));
     return keys;
   };
-  const collidesWithEarlierPanel = (value) => phraseKeys(value).some((key) => pagePhraseState.has(key));
+  const collidesWithEarlierPanel = (value) => phraseKeys(value).some((key) => pagePhraseState.has(key) || panelPhrases.has(key));
   const fitHeading = (value, fallback) => {
     const text = plainText(value || '').trim();
     if (text && !collidesWithEarlierPanel(text)) return text;
@@ -785,7 +786,7 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
         const rows = Array.isArray(table.rows) ? table.rows : [];
         if (!columns.length || !rows.length) continue;
         const headerWords = visualWordCount(columns.join(' '));
-        if (visibleWordCount + headerWords + 2 > 40 || collidesWithEarlierPanel(columns.join(' '))) { deferred = true; deferredTables.push(table); continue; }
+        if (visibleWordCount + headerWords + 2 > maxVisibleWords || collidesWithEarlierPanel(columns.join(' '))) { deferred = true; deferredTables.push(table); continue; }
         const visibleRows = [];
         const deferredRows = [];
         for (const row of rows) {
@@ -794,7 +795,7 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
           const rowWords = visualWordCount((row || []).join(' ')) + visualWordCount(columns.join(' '));
           const cellsFit = (row || []).slice(0, 3).every((cell) => visualWordCount(cell) <= 6 && !isIncompleteTableCell(cell));
           const firstRowHeaderWords = visibleRows.length ? 0 : headerWords;
-          if (!cellsFit || visibleWordCount + rowWords + firstRowHeaderWords > 40 || collidesWithEarlierPanel((row || []).join(' '))) { deferred = true; deferredRows.push(row); continue; }
+          if (!cellsFit || visibleWordCount + rowWords + firstRowHeaderWords > maxVisibleWords || collidesWithEarlierPanel((row || []).join(' '))) { deferred = true; deferredRows.push(row); continue; }
           visibleWordCount += rowWords + firstRowHeaderWords;
           registerPhrases((row || []).join(' '));
           visibleRows.push(row);
@@ -820,7 +821,7 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
             repeated: collidesWithEarlierPanel(candidate.row.join(' ')),
           }))
           .sort((a, b) => Number(a.repeated) - Number(b.repeated) || a.words - b.words);
-        const choice = candidates.find((candidate) => candidate.words <= 40 - visibleWordCount);
+        const choice = candidates.find((candidate) => candidate.words <= maxVisibleWords - visibleWordCount);
         if (choice) {
           preview = renderTable(choice.table, [choice.row]);
           const previewKey = JSON.stringify(choice.row);
@@ -846,7 +847,7 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
                 const candidate = { table: { ...table, columns, rows }, row, index, maxWords };
                 candidate.words = visualWordCount(columns.join(' ')) + visualWordCount(row.join(' ')) + visualWordCount(columns.join(' '));
                 candidate.repeated = collidesWithEarlierPanel(row.join(' '));
-                if (candidate.words <= 40 - visibleWordCount) compactCandidates.push(candidate);
+                if (candidate.words <= maxVisibleWords - visibleWordCount) compactCandidates.push(candidate);
               }
             }
           }
@@ -896,14 +897,14 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
         if (collidesWithEarlierPanel(`${value} ${label}`)) label = compactVisualLabel(label);
         if (collidesWithEarlierPanel(`${value} ${label}`)) { deferred.push(figure); continue; }
         const words = visualWordCount(value) + visualWordCount(label);
-        if (visibleWordCount + words <= 40) {
+        if (visibleWordCount + words <= maxVisibleWords) {
           shown.push({ figure, label });
           visibleWordCount += words;
           registerPhrases(`${value} ${label}`);
         } else deferred.push(figure);
       }
       if (visible && deferred.length) {
-        while (shown.length && visibleWordCount + 2 > 40) {
+        while (shown.length && visibleWordCount + 2 > maxVisibleWords) {
           const { figure, label } = shown.pop();
           const words = visualWordCount(figure.value || '') + visualWordCount(label || '');
           visibleWordCount -= words;
@@ -925,7 +926,7 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
       const itemHeading = cleanVisualText(item.heading || '').replace(/^\p{Ll}/u, (letter) => letter.toLocaleUpperCase());
       if (!visible) return `<li class="article-live-item${itemHeading ? '' : ' article-live-item--plain'}">${itemHeading ? `<span class="article-live-item__label">${escapeVisualText(itemHeading)}</span>` : ''}<span class="article-live-item__text">${escapeVisualText(text)}</span></li>`;
       const itemWords = visualWordCount(itemHeading) + visualWordCount(text);
-      if (visibleWordCount + itemWords + 2 <= 40 && !collidesWithEarlierPanel(`${itemHeading} ${text}`)) {
+      if (visibleWordCount + itemWords + 2 <= maxVisibleWords && !collidesWithEarlierPanel(`${itemHeading} ${text}`)) {
         visibleWordCount += visualWordCount(itemHeading) + visualWordCount(text);
         registerPhrases(`${itemHeading} ${text}`);
         return `<li class="article-live-item${itemHeading ? '' : ' article-live-item--plain'}">${itemHeading ? `<span class="article-live-item__label">${escapeVisualText(itemHeading)}</span>` : ''}<span class="article-live-item__text">${escapeVisualText(text)}</span></li>`;
@@ -969,9 +970,20 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
     detail: 'Further evidence from the article.',
   })[visual.type] || 'Additional article context.';
   const uniqueCaption = fitHeading(caption, additionalCaptionByType);
+  const compactDisclosure = compactVisualLabel(remainingHeading || 'the next section');
+  const disclosureWords = compactDisclosure.split(/\s+/).filter(Boolean);
+  const shortDisclosure = disclosureWords.length <= 4
+    ? compactDisclosure
+    : disclosureWords.slice(0, 4).join(' ').replace(/\b(?:a|an|the|and|or|but|with|for|to|of|in|on|by|from|at|as|which|that|who|what|how)$/i, '').trim();
+  const moreSummaryCandidate = `Explore ${shortDisclosure || 'the next section'}`;
+  const currentPanelPhrases = new Set([...pagePhraseState, ...phraseKeys(displayHeading), ...phraseKeys(uniqueCaption)]);
+  const moreSummary = remaining.length
+    ? (phraseKeys(moreSummaryCandidate).some((key) => currentPanelPhrases.has(key)) ? 'Explore the next section' : moreSummaryCandidate)
+    : '';
   let visibleWordCount = visualWordCount(displayHeading) + visualWordCount(uniqueCaption) + visualWordCount(moreSummary);
   registerPhrases(displayHeading);
   registerPhrases(uniqueCaption);
+  registerPhrases(moreSummary);
   const renderCopy = (value, className, visible = true, sourceBlock = null) => {
     let text = cleanVisualText(value || '').trim();
     if (!text || (!/[.!?]$/.test(text) && isIncompleteTableCell(text))) return '';
@@ -979,7 +991,7 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
     if (!/[.!?]$/.test(text)) text += '.';
     if (!visible) return `<p class="${className}">${escapeVisualText(text)}</p>`;
     const words = visualWordCount(text);
-    if (visibleWordCount + words <= 40 && !collidesWithEarlierPanel(text)) {
+    if (visibleWordCount + words <= maxVisibleWords && !collidesWithEarlierPanel(text)) {
       visibleWordCount += words;
       registerPhrases(text);
       return `<p class="${className}">${escapeVisualText(text)}</p>`;
@@ -990,7 +1002,7 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
       : 'Open the full detail';
     const label = fitHeading(usableSectionLabel, 'Open the full detail');
     const labelWords = visualWordCount(label);
-    if (visibleWordCount + labelWords > 40) return '';
+    if (visibleWordCount + labelWords > maxVisibleWords) return '';
     visibleWordCount += labelWords;
     registerPhrases(label);
     return `<details class="article-live-compact-detail"><summary class="${className}">${escapeVisualText(label)}</summary><p>${escapeVisualText(text)}</p></details>`;
