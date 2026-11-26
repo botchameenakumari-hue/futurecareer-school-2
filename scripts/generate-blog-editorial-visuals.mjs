@@ -73,6 +73,7 @@ const topicOverrides = new Map([
   ['/blog/career-options/is-engineering-still-a-good-career-in-india/', 'Engineering Career Outlook'],
   ['/blog/career-options/good-career-options-in-india/', 'Career Options in India'],
   ['/blog/career-guidance/how-to-choose-a-career-after-12th/', 'Career Choice After 12th'],
+  ['/blog/career-guidance/how-to-choose-between-two-career-options-india/', 'Career Choice Between Two Options'],
 ]);
 const heroTopicOverrides = new Map([
   ['/blog/ai-future/best-career-paths-for-the-next-10-years/', 'Career Paths for the Next Decade'],
@@ -81,6 +82,7 @@ const heroTopicOverrides = new Map([
   ['/blog/career-change/starting-a-new-career-after-50-and-60-india/', 'Career Change After 50 and 60'],
   ['/blog/career-guidance/how-to-choose-a-career-after-12th/', 'Career Choice After 12th'],
   ['/blog/career-guidance/choosing-a-career-path-during-college-india/', 'Career Choices During College'],
+  ['/blog/career-guidance/how-to-choose-between-two-career-options-india/', 'Compare Two Career Options'],
   ['/blog/career-options/bca-career-options/', 'BCA Career Options'],
   ['/career-resources/tarzan-rule-the-exact-moment-to-quit-your-job/', 'When to Leave a Job'],
   ['/career-resources/are-you-a-people-thinker-or-systems-thinker/', 'People or Systems Thinker'],
