@@ -9,6 +9,8 @@ sharp.concurrency(8);
 const DIST = 'dist';
 const OUT = 'public/images/blog/generated-r11';
 const plainLanguageEdits = new Map(Object.entries({
+  '/career-skills-compass/direction/': [['entry route', 'qualification path']],
+  '/blog/career-change/mid-career-strategies-india/': [['What energizes you', 'What energizes you?']],
   '/blog/freelancing-business/how-to-start-freelancing/': [['GATE', 'Stage']],
   '/blog/career-options/library-and-information-science-career-options/': [['UGC-NET for Library Science: the Real GATE', 'UGC-NET for Library Science: the Main Qualification']],
   '/blog/career-options/safe-career-options-for-girls-in-india/': [['The two-GATE trap (government, banking, civil services).', 'Government, banking and civil-service exams can narrow choices.']],
@@ -70,13 +72,47 @@ const topicOverrides = new Map([
   ['/blog/career-options/career-options-for-people-good-at-communication-india/', 'Communication Career Paths'],
   ['/blog/career-options/is-engineering-still-a-good-career-in-india/', 'Engineering Career Outlook'],
   ['/blog/career-options/good-career-options-in-india/', 'Career Options in India'],
+  ['/blog/career-guidance/how-to-choose-a-career-after-12th/', 'Career Choice After 12th'],
+]);
+const heroTopicOverrides = new Map([
+  ['/blog/ai-future/best-career-paths-for-the-next-10-years/', 'Career Paths for the Next Decade'],
+  ['/blog/career-options/career-options-after-12th-pcm-other-than-engineering/', 'PCM Careers Beyond Engineering'],
+  ['/blog/medical-careers/career-options-in-medical-field-other-than-doctor-india/', 'Non-Doctor Medical Careers'],
+  ['/blog/career-change/starting-a-new-career-after-50-and-60-india/', 'Career Change After 50 and 60'],
+  ['/blog/career-guidance/how-to-choose-a-career-after-12th/', 'Career Choice After 12th'],
+  ['/blog/career-guidance/choosing-a-career-path-during-college-india/', 'Career Choices During College'],
+  ['/blog/career-options/bca-career-options/', 'BCA Career Options'],
+  ['/career-resources/tarzan-rule-the-exact-moment-to-quit-your-job/', 'When to Leave a Job'],
+  ['/career-resources/are-you-a-people-thinker-or-systems-thinker/', 'People or Systems Thinker'],
+  ['/career-resources/salary-negotiation-what-to-say-and-what-never-to-say/', 'Salary Negotiation: What to Say'],
+  ['/career-resources/tech-leverage-automate-80-percent-of-your-work-reclaim-4-hours/', 'Automate Routine Work'],
+  ['/services/career-counselling-and-career-guidance/career-guidance-for-women-returning-to-work/', 'Returning to Work'],
 ]);
 const needHeadingOverrides = new Map([
+  ['/blog/career-options/is-hr-a-good-career-in-india/', { 'entry-pay': 'HR Pay by Career Entry Path' }],
+  ['/blog/career-options/career-in-space-science-india/', { 'entry-routes': 'Space Science Study and Research Routes' }],
+  ['/blog/freelancing-business/consulting-as-a-career-india-how-to-get-into-consulting/', { 'entry-routes': 'MBA or Direct Consulting Path' }],
   ['/blog/career-options/career-options-for-people-good-at-communication-india/', { currencies: 'Four Communication Skill Currencies', lanes: 'Five Communication Career Lanes', demand: 'Communication Industry Growth and Size' }],
   ['/blog/career-options/is-engineering-still-a-good-career-in-india/', { 'why-asking': 'Engineering Graduates and New Demand', 'ai-impact': 'Engineering Tasks AI Is Changing', parents: 'Questions Engineering Families Should Ask' }],
   ['/blog/career-options/good-career-options-in-india/', { paths: 'Thirteen Career Paths', 'what-makes-good': 'How to Judge Career Fit' }],
 ]);
 const visualHeadingOverrides = new Map([
+  ['/blog/ai-future/best-career-paths-for-the-next-10-years/', { hero: 'Career Paths for the Next Decade' }],
+  ['/blog/career-options/career-options-after-12th-pcm-other-than-engineering/', { hero: 'PCM Careers Beyond Engineering' }],
+  ['/blog/medical-careers/career-options-in-medical-field-other-than-doctor-india/', { hero: 'Non-Doctor Medical Careers' }],
+  ['/blog/career-change/starting-a-new-career-after-50-and-60-india/', { hero: 'Career Change After 50 and 60' }],
+  ['/blog/interviews/why-did-you-choose-accounting-as-a-career-interview-answer-india/', { detail: 'A Reliable Month-End Accounting Rhythm' }],
+  ['/career-resources/', { detail: 'Arts and Humanities Career Options' }],
+  ['/blog/career-options/what-comes-after-business-analyst-product-consulting-or-management-india/', { matrix: 'Delivery Manager Role Paths' }],
+  ['/blog/career-change/career-switch-from-it-to-management-india/', { matrix: 'IT Management Market Signals' }],
+  ['/blog/government-jobs/ssc-vs-bank-exams-which-to-prepare-india/', { summary: 'SSC vs Bank Exams' }],
+  ['/blog/career-options/commerce-career-options-with-salary/', { hero: 'Commerce Career Pay' }],
+  ['/blog/career-options/is-hr-a-good-career-in-india/', { matrix: 'HR Pay by Career Entry Path' }],
+  ['/blog/career-options/career-in-space-science-india/', { summary: 'Space Science Career at a Glance', matrix: 'Space Science Career Paths' }],
+  ['/blog/career-guidance/choosing-a-career-path-during-college-india/', { summary: 'How to Test Career Options' }],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-ca-aspirants/', { summary: 'Career Counselling for CA Aspirants' }],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-women/', { summary: 'Career Counselling for Women' }],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-neet-aspirants/', { summary: 'Career Counselling for NEET Aspirants' }],
   ['/blog/career-options/jewellery-design-and-gemology-careers-india/', { summary: 'Choose Your Jewellery Career Lane', matrix: 'Jewellery Roles and Core Skills' }],
   ['/blog/college-degrees/lateral-entry-mba-india/', { matrix: 'Lateral MBA Compared with Regular MBA' }],
   ['/blog/college-degrees/best-courses-for-bba-students/', { summary: 'Excel, SQL and Power BI First', matrix: 'BBA Courses by Timing and Cost', proof: 'BBA Course Costs and Returns' }],
@@ -87,15 +123,63 @@ const visualHeadingOverrides = new Map([
   ['/blog/career-options/career-options-for-people-good-at-communication-india/', { matrix: 'Communication Skills and Career Lanes', proof: 'Communication Career Market Figures', chain: 'Mistakes to Avoid When Choosing a Lane' }],
   ['/blog/career-options/is-engineering-still-a-good-career-in-india/', { matrix: 'Engineering Seats and Enrolment', checklist: 'Check Your Engineering Career Fit' }],
   ['/blog/career-options/good-career-options-in-india/', { proof: 'Career Route Figures', checklist: 'Questions for Comparing Career Routes' }],
-  ['/blog/career-change/career-switch-from-it-to-management-india/', { matrix: 'IT to Management: Market Signals and Role Lanes' }],
+  ['/blog/career-change/career-switch-from-it-to-management-india/', { matrix: 'IT Management Market Signals' }],
   ['/blog/career-options/career-options-after-12th-except-engineering/', { matrix: 'Career Routes Beyond Engineering' }],
 ]);
 const heroAnswerOverrides = new Map([
+  ['/services/career-counselling-and-career-guidance/', 'Make a clear career decision, then build skills and evidence for the next step.'],
+  ['/services/career-counselling-and-career-guidance/career-guidance-service/', 'Turn uncertainty into a practical direction, skill plan, and next step.'],
+  ['/services/career-counselling-and-career-guidance/career-counselling-session/', 'Use one session to make a specific career decision with evidence.'],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-study-abroad/', 'Compare country, cost, career outcomes, and return-versus-stay plans.'],
+  ['/services/career-counselling-and-career-guidance/career-guidance-for-low-board-scores/', 'Choose a course or skill path with your board score in context.'],
+  ['/services/career-counselling-and-career-guidance/career-guidance-expert-online/', 'Check an expert’s method, background, and practical career guidance.'],
+  ['/services/career-counselling-and-career-guidance/career-counselling-online/', 'Online guidance should lead to a clear decision and next-step plan.'],
+  ['/services/career-counselling-and-career-guidance/career-guidance-for-confused-students/', 'Compare options by fit, cost, skills, and realistic job paths.'],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-adults-online/', 'Map career options around your current work and income constraints.'],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-11th-class-students/', 'Choose a stream using subject fit, interests, and future options.'],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-freshers/', 'Turn first-job experience into stronger skills and a clear next move.'],
+  ['/services/career-counselling-and-career-guidance/career-counselling-after-engineering/', 'Compare your first role, skill gaps, and next career options.'],
+  ['/services/career-counselling-and-career-guidance/career-coaching-for-layoff-recovery/', 'Plan the job search and skill direction around immediate income needs.'],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-dropouts/', 'Compare returning to study, building skills, and entering work.'],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-bds-graduates/', 'Compare clinical work, specialization, and non-clinical career routes.'],
+  ['/services/career-counselling-and-career-guidance/career-coaching-for-engineering-students/', 'Test engineering roles through projects, internships, and employer evidence.'],
+  ['/services/career-counselling-and-career-guidance/virtual-career-counselling/', 'Compare career paths, skill priorities, and next steps online.'],
+  ['/services/career-counselling-and-career-guidance/career-coaching-for-freshers/', 'Build a weekly plan for skills, work samples, and job applications.'],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-nri-students/', 'Compare study and career routes across countries, costs, and work rules.'],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-upsc-aspirants/', 'Check exam fit, preparation runway, and parallel career options.'],
+  ['/services/career-counselling-and-career-guidance/career-planning-session-online/', 'Leave with a career plan, skill priorities, and specific next actions.'],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-it-professionals/', 'Choose whether to grow, specialize, or pivot using skills and market evidence.'],
+  ['/services/career-counselling-and-career-guidance/career-guidance-for-30-year-olds/', 'Compare a career pivot with your income, transferable skills, and responsibilities.'],
+  ['/services/career-counselling-and-career-guidance/career-coaching-for-entrepreneurs/', 'Turn startup experience into credible work evidence and a next role.'],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-school-students/', 'Align student interests and family priorities around a practical next choice.'],
+  ['/blog/career-guidance/choosing-a-career-path-during-college-india/', 'Test each option with a low-cost task before choosing.'],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-ca-aspirants/', 'Weigh another attempt against a finance career pivot.'],
   ['/services/career-counselling-and-career-guidance/career-counselling-for-college-students/', 'Use internships and specialization to build real proof before graduation.'],
   ['/blog/career-options/how-to-get-into-event-management-india/', 'Start with an event role; build proof before working independently.'],
+  ['/blog/government-jobs/ssc-vs-bank-exams-which-to-prepare-india/', 'Compare both fits.'],
+  ['/blog/career-options/commerce-career-options-with-salary/', 'Pay varies by route and experience.'],
   ['/blog/career-options/career-options-for-people-good-at-communication-india/', 'Name your strongest currency and build one visible proof inside the matching lane.'],
 ]);
 const heroRouteFigureOverrides = new Map([
+  ['/blog/career-guidance/how-to-choose-a-career-after-12th/', [
+    { value: '42.6%', label: 'Mercer 2024 Employability', sourceIncludes: 'Mercer Mettl India Graduate Skill Index put overall graduate employability at just 42.6%' },
+    { value: '46.2%', label: 'Employability in 2022', sourceIncludes: 'employability climbing from 46.2% in 2022' },
+    { value: '20 to 30', label: 'Job Descriptions to Review', sourceIncludes: 'Read 20 to 30 job descriptions for the role you want.' },
+  ]],
+  ['/blog/career-change/career-change-after-5-years-india/', [
+    { value: '5 years', label: 'Career Transition Timing', sourceIncludes: 'A career change after 5 years in India' },
+    { value: '0-2 years', label: 'Entry-Level Experience Band', sourceIncludes: 'Built for 0-2 years' },
+    { value: '2-3 years', label: 'Typical Job-Change Interval', sourceIncludes: 'Switching jobs every 2-3 years' },
+  ]],
+  ['/blog/career-options/video-editing-career-india-how-to-become-a-video-editor/', [
+    { value: '₹1.8L', label: 'Fresher Annual Pay', sourceIncludes: '₹1.8L a year for a fresher' },
+    { value: '₹10L+', label: 'Senior Annual Pay', sourceIncludes: 'up to ₹10L-plus for a senior editor' },
+  ]],
+  ['/blog/career-options/political-science-career-options/', [
+    { value: '₹3-5L', label: 'Entry Pay Range', sourceIncludes: 'Entry ~₹3-5L Feeds Tracks 1, 2 and 6' },
+    { value: '₹29 lakh', label: 'Average Annual Pay', sourceIncludes: 'average total pay for a Public Policy Manager role at roughly ₹29 lakh a year' },
+    { value: '₹30-60 lakh', label: 'Total Pay Range', sourceIncludes: 'total pay range around ₹30-60 lakh' },
+  ]],
   ['/blog/career-options/career-options-after-12th-except-engineering/', [
     { value: '110 days', label: 'Days Until Exam Deadlines', sourceIncludes: 'dates inside 110 days' },
     { value: '2,343', label: 'Available Course Seats' },
@@ -104,7 +188,7 @@ const heroRouteFigureOverrides = new Map([
   ['/blog/career-change/career-switch-from-it-to-management-india/', [
     { value: '$300 billion', label: 'Annual Industry Revenue', sourceIncludes: 'cross $300 billion in revenue' },
     { value: '16-20%', label: 'Reported Pay Premium', sourceIncludes: 'PMP for delivery/project management' },
-    { value: '6-18 months', label: 'Proof Milestone Window', sourceIncludes: 'first 6-18 months of a lane change' },
+    { value: '6-18 months', label: 'Income Transition Period', sourceIncludes: 'first 6-18 months of a lane change' },
   ]],
   ['/blog/career-options/commerce-career-options-with-salary/', [
     { value: '₹25,000', label: 'Monthly Pay After 3+ Years', sourceIncludes: 'median of ₹18,000 a month at entry and ₹25,000' },
@@ -127,6 +211,35 @@ const heroRouteFigureOverrides = new Map([
   ]],
 ]);
 const heroRouteLabelOverrides = new Map([
+  ['/services/career-counselling-and-career-guidance/', ['Compare Career Options', 'Build High-Value Skills', 'Show Work Evidence']],
+  ['/services/career-counselling-and-career-guidance/career-guidance-service/', ['Clarify Your Goal', 'Compare Career Options', 'Set Next Steps']],
+  ['/services/career-counselling-and-career-guidance/career-counselling-session/', ['Name One Decision', 'Compare Evidence', 'Choose a Next Step']],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-study-abroad/', ['Compare Countries', 'Model Total Costs', 'Plan Career After Study']],
+  ['/services/career-counselling-and-career-guidance/career-guidance-for-low-board-scores/', ['Review Subject Strengths', 'Compare Course Options', 'Plan Skill Proof']],
+  ['/services/career-counselling-and-career-guidance/career-guidance-expert-online/', ['Review Expertise', 'Check the Method', 'Test the Advice']],
+  ['/services/career-counselling-and-career-guidance/career-counselling-online/', ['Clarify the Decision', 'Compare Options', 'Plan the Next Step']],
+  ['/services/career-counselling-and-career-guidance/career-guidance-for-confused-students/', ['List Real Options', 'Compare Fit and Cost', 'Test One Path']],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-adults-online/', ['Map Current Skills', 'Compare Next Roles', 'Plan Income-Aware Steps']],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-11th-class-students/', ['Review Subject Fit', 'Compare Stream Routes', 'Keep Options Open']],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-freshers/', ['Review First Work', 'Choose a Skill Gap', 'Build New Proof']],
+  ['/services/career-counselling-and-career-guidance/career-counselling-after-engineering/', ['Assess Current Role', 'Map Skill Gaps', 'Choose a Next Path']],
+  ['/services/career-counselling-and-career-guidance/career-coaching-for-layoff-recovery/', ['Stabilize Income', 'Target Suitable Roles', 'Build Work Proof']],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-dropouts/', ['Assess Your Constraints', 'Compare Study and Work', 'Plan One Next Step']],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-bds-graduates/', ['Clinical Practice', 'Specialist Study', 'Non-Clinical Roles']],
+  ['/services/career-counselling-and-career-guidance/career-coaching-for-engineering-students/', ['Test a Role', 'Build Project Proof', 'Compare Employer Needs']],
+  ['/services/career-counselling-and-career-guidance/virtual-career-counselling/', ['Set a Career Goal', 'Compare Routes', 'Choose a Next Step']],
+  ['/services/career-counselling-and-career-guidance/career-coaching-for-freshers/', ['Choose a Role', 'Build Target Skills', 'Track Applications']],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-nri-students/', ['Compare Countries', 'Review Costs and Rules', 'Plan a Career Route']],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-upsc-aspirants/', ['Test Exam Fit', 'Plan Study Runway', 'Keep Parallel Options']],
+  ['/services/career-counselling-and-career-guidance/career-planning-session-online/', ['Name Your Goal', 'Prioritize Skills', 'Set Next Actions']],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-it-professionals/', ['Grow in Current Role', 'Specialize Your Skills', 'Plan a Pivot']],
+  ['/services/career-counselling-and-career-guidance/career-guidance-for-30-year-olds/', ['Map Transferable Skills', 'Compare Income Impact', 'Choose a Route']],
+  ['/services/career-counselling-and-career-guidance/career-coaching-for-entrepreneurs/', ['Translate Founder Skills', 'Build Work Evidence', 'Plan a Next Role']],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-school-students/', ['Student Interests', 'Parent Priorities', 'Shared Next Steps']],
+  ['/services/career-counselling-and-career-guidance/career-counselling-for-ca-aspirants/', ['Another Attempt', 'Articleship Balance', 'Finance Career Pivot']],
+  ['/blog/career-options/bca-career-options/', ['BCA Foundations', 'Career Options', 'High-Demand Tracks']],
+  ['/blog/career-guidance/choosing-a-career-path-during-college-india/', ['Test Options', 'Compare Evidence', 'Check Course Costs']],
+  ['/blog/government-jobs/ssc-vs-bank-exams-which-to-prepare-india/', ['SSC has one main annual cycle', 'IBPS and SBI run separate PO cycles', 'Check each notice’s age cutoff']],
   ['/services/career-counselling-and-career-guidance/locations/career-counselling-in-raipur/', ['Young State Context', 'Steel Power Mining', 'AIIMS and IIM Paths']],
   ['/blog/career-change/career-switch-tips-for-it-professionals-india/', ['Company Switch', 'Tech Stack Change', 'Move to Management']],
   ['/blog/career-change/second-career-at-40-india/', ['Consulting Path', 'Return to Work', 'Income Transition']],
@@ -139,6 +252,9 @@ const heroRouteLabelOverrides = new Map([
 // budget share, not a career outcome, so its hero must not turn it into one.
 const heroWithoutFigures = new Set([
   '/blog/career-options/how-to-get-into-event-management-india/',
+  '/blog/career-options/bca-career-options/',
+  '/blog/skills/how-long-does-it-take-to-learn-digital-marketing-india/',
+  '/blog/government-jobs/ssc-vs-bank-exams-which-to-prepare-india/',
   '/services/career-counselling-and-career-guidance/career-guidance-for-confused-students/',
 ]);
 const needsFile = process.argv.find((arg) => arg.startsWith('--needs-csv='))?.slice(12) || 'C:\\Users\\Jack Sparrow\\Downloads\\infographic_needs_v11.csv';
@@ -184,6 +300,7 @@ function applyPlainLanguageEdits(value, edits) {
 }
 const hash = (value) => { let n = 0; for (const c of value) n = (n * 31 + c.charCodeAt(0)) >>> 0; return n; };
 const badEnd = new Set(['a', 'an', 'the', 'to', 'of', 'and', 'for', 'in', 'on', 'with', 'without', 'can', 'cannot', "can't", 'won\'t', 'don\'t', 'doesn\'t', 'didn\'t', 'hasn\'t', 'haven\'t', 'hadn\'t', 'aren\'t', 'isn\'t', 'wasn\'t', 'weren\'t', 'you', 'how', 'what', 'who', 'which', 'whether', 'whose', 'is', 'are', 'not', 'just', 'only', 'usually', 'actually', 'like', 'according', 'at', 'by', 'or', 'we', 'it', 'as', 'if', 'that', 'from', 'while', 'when', 'where', 'about', 'during', 'after', 'before', 'into', 'good', 'make', 'makes', 'should', 'between', 'are', 'still', 'shows', 'suggests', 'reveals', 'means', 'matters', 'includes', 'involves']);
+badEnd.add('even');
 const badStart = new Set(['a', 'an', 'the', 'to', 'of', 'and', 'for', 'in', 'on', 'with', 'can', 'you', 'how', 'is', 'at', 'by', 'or', 'off', 'into', 'from', 'after', 'before', 'during', 'through', 'while', 'because', 'if', 'when', 'where', 'that', 'which', 'who', 'what', 'your', 'their', 'its', 'they', 'we', 'our', 'he', 'she', 'but', 'usually', 'often', 'sometimes', 'generally', 'mostly', 'simply', 'really', 'problem', 'as']);
 const clean = (value) => String(value ?? '')
   .replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&quot;|&#34;/g, '"').replace(/&#39;|&apos;|&rsquo;|&lsquo;|&#8216;|&#8217;/gi, "'").replace(/&ldquo;|&rdquo;|&#8220;|&#8221;/gi, '"').replace(/&nbsp;/g, ' ')
@@ -246,7 +363,7 @@ function safeTableCell(value) {
   return complete && visualWordCount(source) <= 10 ? titleCase(source) : '';
 }
 function csvRows(text) { const rows = []; let row = []; let cell = ''; let quote = false; for (let i = 0; i < text.length; i += 1) { const c = text[i]; if (c === '"' && text[i + 1] === '"' && quote) { cell += '"'; i += 1; continue; } if (c === '"') { quote = !quote; continue; } if (c === ',' && !quote) { row.push(cell); cell = ''; continue; } if ((c === '\n' || c === '\r') && !quote) { if (c === '\r' && text[i + 1] === '\n') i += 1; row.push(cell); if (row.some(Boolean)) rows.push(row); row = []; cell = ''; continue; } cell += c; } if (cell || row.length) { row.push(cell); rows.push(row); } return rows; }
-async function loadNeeds() { try { const rows = csvRows(await readFile(needsFile, 'utf8')); const header = rows.shift(); const map = new Map(); for (const row of rows) { const item = Object.fromEntries(header.map((key, i) => [key, row[i] || ''])); if (!item.page) continue; const type = item.infographic_needed.startsWith('COMPARISON') ? 'matrix' : item.infographic_needed.startsWith('NUMBERS') ? 'proof' : item.infographic_needed.startsWith('CHECKLIST') ? 'checklist' : item.infographic_needed.startsWith('STEP') ? 'chain' : item.infographic_needed.startsWith('TEXT') ? 'detail' : ''; if (!type) continue; if (!map.has(item.page)) map.set(item.page, []); map.get(item.page).push({ ...item, type }); } return map; } catch { return new Map(); } }
+async function loadNeeds() { try { const rows = csvRows(await readFile(needsFile, 'utf8')); const header = rows.shift(); const map = new Map(); for (const row of rows) { const item = Object.fromEntries(header.map((key, i) => [key, row[i] || ''])); if (!item.page) continue; const normalizedTitle = clean(item.section_title).toLowerCase(); const sharedBlogCtaFigure = item.page.startsWith('/blog/') && !item.section_id && normalizedTitle === 'career guidance pricing' && clean(item.exact_page_content_to_use) === '₹3000 | ₹250 | ₹29000 | ₹12000'; const repeatedCabinCrewCriteria = item.page === '/blog/career-options/is-cabin-crew-a-good-career-in-india/' && item.section_id === 'evidence'; const repeatedFiveYearCareerPoint = item.page === '/blog/career-change/career-change-after-5-years-india/' && item.section_id === 'senior-fresher-trap'; if (sharedBlogCtaFigure || repeatedCabinCrewCriteria || repeatedFiveYearCareerPoint) continue; const type = item.infographic_needed.startsWith('COMPARISON') ? 'matrix' : item.infographic_needed.startsWith('NUMBERS') ? 'proof' : item.infographic_needed.startsWith('CHECKLIST') ? 'checklist' : item.infographic_needed.startsWith('STEP') ? 'chain' : item.infographic_needed.startsWith('TEXT') ? 'detail' : ''; if (!type) continue; if (!map.has(item.page)) map.set(item.page, []); map.get(item.page).push({ ...item, type }); } return map; } catch { return new Map(); } }
 function nodeText(node) { return (node.childNodes || []).map((child) => child.nodeName === '#text' ? child.value : nodeText(child)).join(' '); }
 function collapseRepeatedOpening(value) { const parts = String(value || '').split(/\s+/); const key = (items) => items.join(' ').toLowerCase().replace(/[^a-z0-9₹$%]+/g, ' ').trim(); for (let length = Math.min(8, Math.floor(parts.length / 2)); length >= 3; length -= 1) { if (key(parts.slice(0, length)) && key(parts.slice(0, length)) === key(parts.slice(length, length * 2))) return [...parts.slice(length), ...parts.slice(length * 2)].join(' '); } return value; }
 function walk(node, fn, blocked = false) { if (!node || blocked) return; fn(node); const className = (node.attrs || []).find((attribute) => attribute.name === 'class')?.value || ''; const stop = ['aside', 'nav', 'header', 'footer'].includes(node.tagName) || /(?:article-live-visual|bofu-live-diagram)/.test(className); for (const child of node.childNodes || []) walk(child, fn, stop); }
@@ -311,12 +428,13 @@ function completeShortHeading(value, fallback) { const tokens = words(value); co
 function isGenericVisualHeading(value) { return /^(?:according to\b|evidence from|key ideas from|entry routes?\b|pay and cost\b|market signal\b|career evidence\b|(?:the )?short answer\b|the verdict\b|explore related help\b|an illustration(?:,|\s)+not a real|best if you are dealing|best if you need|these are rated|the ratings are judgement|evidence card|key figures?|limited|for the first|a low|wrong streams|useful skills|continuous career guidance|where people add value|organisational change is harder than)|\bmarket signal check\b|\s+detail$/i.test(clean(value).replace(/[.:]+$/, '')); }
 function contentHeading(item, fallback) { const raw = clean(item?.raw || item?.text || ''); const section = clean(item?.heading || ''); const candidate = section || sentence(raw, 8) || clean(fallback); const result = shortHeading(candidate, fallback); return isGenericVisualHeading(result) ? shortHeading(fallback, fallback) : result; }
 function compactTopic(topic) { const parts = words(topic).slice(0, 5); while (parts.length && badEnd.has(lastWord(parts.join(' ')))) parts.pop(); return titleCase(parts.join(' ')) || 'Career Guidance'; }
-function heroTopic(topic) { const stop = new Set(['a', 'an', 'the', 'after', 'before', 'for', 'from', 'in', 'india', 'is', 'of', 'or', 'to', 'and', 'career', 'careers', 'options', 'option', 'good', 'best', 'how']); const selected = words(clean(topic)).filter((word) => !stop.has(word.toLowerCase())).slice(0, 4); return titleCase(selected.join(' ') || words(topic).slice(0, 4).join(' ')) || 'Career Direction'; }
+function heroTopic(topic, route = '') { const override = heroTopicOverrides.get(route); if (override) return override; const stop = new Set(['a', 'an', 'the', 'after', 'before', 'for', 'from', 'in', 'india', 'is', 'of', 'or', 'to', 'and', 'career', 'careers', 'options', 'option', 'good', 'best', 'how']); const selected = words(clean(topic)).filter((word) => !stop.has(word.toLowerCase())).slice(0, 4); return titleCase(selected.join(' ') || words(topic).slice(0, 4).join(' ')) || 'Career Direction'; }
 function pageContextHeading(value, topic, slug) { return shortHeading(clean(value) || compactTopic(topic), compactTopic(topic)); }
 function proofHeading(items, fallback, topic) { const figures = items.map(figureFromItem).filter(Boolean); const labels = [...new Set(figures.map((figure) => figure.label).filter(Boolean))]; const context = compactTopic(topic); return `${labels.slice(0, 2).join(' & ') || 'Key Figures'} for ${context}`; }
 function heroEditorialLabel(topic) { const value = String(topic || '').toLowerCase(); if (/salary|pay|fee|cost|income|budget|earn/.test(value)) return 'Work and Pay'; if (/course|college|degree|exam|admission|study|stream|school|mba/.test(value)) return 'Study Choices'; if (/skill|portfolio|resume|interview|job search|freelanc|business/.test(value)) return 'Skills in Practice'; if (/guidance|counsel|confusion|choose|choice|decision/.test(value)) return 'Career Decisions'; return 'Career Routes'; }function typeTopLabel(type) { return ({ hero: 'Career Snapshot', summary: 'Key Ideas', matrix: 'Compare Clearly', chain: 'Try The Path', checklist: 'Check First', proof: 'Numbers In Context', detail: 'Read The Evidence' })[type] || 'Career Evidence'; }
 function visualTitle(type, heading, topic, pageTitle) { return type === 'hero' ? clean(pageTitle) || `${compactTopic(topic)} career overview` : shortHeading(heading, topic); }
-function visualAlt(type, heading, topic) { const subject = compactTopic(topic); return ({ hero: `Career overview for ${subject}, with article-sourced direction.`, summary: `A short visual summary of ${subject}.`, matrix: `Comparison table showing options and criteria for ${subject}.`, chain: `Planning steps for ${subject}.`, checklist: `Decision checklist for ${subject}.`, proof: `Key figures for ${subject}, with article context.`, detail: `Evidence card about ${subject}, based on article content.` })[type] || `Career visual explaining ${subject}.`; }
+function visualAlt(type, heading, topic) { const subject = clean(heading || compactTopic(topic)); return ({ summary: `Key takeaways: ${subject}.`, matrix: `Comparison table: ${subject}.`, chain: `Step sequence: ${subject}.`, checklist: `Checklist: ${subject}.`, proof: `Figures and labels: ${subject}.`, detail: `Evidence notes: ${subject}.` })[type] || `Career decision: ${subject}.`; }
+function heroAlt(topic, answer, pageTitle, route = '') { if (route === '/blog/career-guidance/how-to-choose-a-career-after-12th/') return 'Career choice after 12th: a role-first plan, employability context, and job-description review.'; const fullTitle = clean(pageTitle || topic).split(/[:.!?]/)[0]; const subjectWords = words(fullTitle); while (subjectWords.length > 12 || badEnd.has(subjectWords.at(-1)?.toLowerCase())) subjectWords.pop(); const subject = subjectWords.join(' ') || compactTopic(topic); return `Career decision visual for ${subject}.`; }
 function threeWordFigureLabel(label, source = '', value = '') {
   const original = clean(label).replace(/\s+/g, ' ');
   const key = original.toLowerCase();
@@ -388,10 +506,11 @@ function threeWordFigureLabel(label, source = '', value = '') {
 function figureFromItem(item, matchIndex = 0) {
   const raw = clean(item?.raw || item?.text || '');
   if (/\b(?:F|J)-\d+\s+students?\b/i.test(raw)) return null;
+  if (/^[^:]{1,100}:\s.+\((?:primary|secondary|official) source\)$/i.test(raw)) return null;
   const selectionOdds = raw.match(/\b1\s+in\s+(\d+(?:,\d{3})*)\s*[-–—]\s*(\d+(?:,\d{3})*)\s+applicants?\b/i);
   if (selectionOdds) return { value: `1 in ${selectionOdds[1]}–${selectionOdds[2]}`, label: 'Selection Odds Range', source: raw, text: raw };
   const number = String.raw`(?:\d{1,2}(?:,\d{2})+,\d{3}|\d+(?:,\d{3})*)(?:\.\d+)?`;
-  const pattern = new RegExp(String.raw`(?:₹|\b(?:rs\.?|inr)\b|\$)\s*${number}(?:\s*(?:[–—-]|\bto\b)\s*${number})?(?:\s*\+)?(?:\s*(?:lakh|crore|lpa|k|billion|million))?|${number}\s*(?:%|percent|lpa|lakh|crore|years?|months?|weeks?|hours?|days?|vacancies|students?|employees?|jobs?|applicants?|seats?)`, 'gi');
+  const pattern = new RegExp(String.raw`(?:₹|\b(?:rs\.?|inr)\b|\$)\s*${number}(?:\s*(?:[–—-]|\bto\b)\s*${number})?(?:\s*\+)?(?:\s*(?:lakh|crore|lpa|l|k|billion|million))?|${number}\s*(?:%|percent|lpa|lakh|crore|years?|months?|weeks?|hours?|days?|vacancies|students?|employees?|jobs?|applicants?|seats?)`, 'gi');
   const matches = [...raw.matchAll(pattern)];
   const match = matches[matchIndex];
   if (!match) return null;
@@ -454,7 +573,11 @@ function figureFromItem(item, matchIndex = 0) {
     else if (/traffic|passengers/i.test(local)) label = 'Annual Traffic Growth';
     else label = 'Reported Percentage';
   } else if (isDuration) {
-    if (/notice period|notice policy|notice requirement|shortfall|buyout/i.test(local)) label = 'Notice Period';
+    if (/\bage\s+(?:limit|range|band|bands|criteria)|\bage\s+of\b|age limits?\b|candidates?\s+aged|aged\s+\d/i.test(local)) {
+      const immediateAgeContext = nearbyBefore + ' ' + nearbyAfter;
+      label = /age groups?|year olds/i.test(local) || /age bands?/i.test(local) && /statistics|distribution|respondent/i.test(local) ? 'Age Group' : /survey|respondent|participant/i.test(immediateAgeContext) ? 'Survey Age Range' : /experienced crew/i.test(immediateAgeContext) ? 'Experienced Age Limit' : /freshers?/i.test(immediateAgeContext) ? 'Fresher Age Limit' : 'Age Limit';
+    }
+    else if (/notice period|notice policy|notice requirement|shortfall|buyout/i.test(local)) label = 'Notice Period';
     else if (/service commitment|service term|enlistment|retained afterward|\bbonds?\b/i.test(local)) label = 'Service Commitment Period';
     else if (/experience|work history|years? of depth|years?\s+(?:of\s+)?(?:leading|managing|working|building|in\b)/i.test(local)) label = 'Relevant Experience Window';
     else if (/pension/i.test(local) && /eligible service|qualify|qualifying/i.test(local)) label = 'Pension Eligibility Period';
@@ -465,7 +588,9 @@ function figureFromItem(item, matchIndex = 0) {
     else if (/course|degree|program|programme|duration|diploma|qualification|training|bootcamp|articleship/i.test(local)) label = 'Total Course Duration';
     else if (/offshore cycle|cycle from|licen[cs]e to production/i.test(local)) label = 'Typical Project Cycle';
     else if (/shift/i.test(local)) label = 'Typical Work Shift';
-    else if (/proof|portfolio|project|publish|showcase/i.test(local)) label = 'Proof Milestone Window';
+    else if (/lane change/i.test(local) && /(?:flat pay|lateral move|step down|pay cut|income)/i.test(local)) label = 'Income Transition Period';
+    else if (/\b(?:show|build|publish|complete|finish|produce)\b.{0,35}\b(?:proof|portfolio|project|showcase)\b|\b(?:proof|portfolio|project|showcase)\b.{0,35}\b(?:within|in|by)\b/i.test(local)) label = 'Proof Milestone Window';
+    else if (/project/i.test(local) && /hour/i.test(local)) label = 'Example Project Duration';
     else label = 'Estimated Time Required';
   } else if (!hasCurrencyMarker && !isDuration && /btech enrolment|enrolment (?:hit|reached)/i.test(directNounContext)) {
     label = 'BTech Enrolment';
@@ -505,7 +630,8 @@ function figureFromItem(item, matchIndex = 0) {
   else if (hasMoney && /education loan/i.test(local)) label = 'Education Loan Principal';
   else if (hasMoney && /(?:national target|2030 goal|government.?s own goal)/i.test(local)) label = 'National 2030 Goal';
   else if (hasMoney && /(?:illustration,? not a real fee|education budget example|worked example|education budget|rupee budget)/i.test(local)) {
-    if (/\b(?:a fifth|one fifth|20\s*%|20 percent)\b/i.test(stagePrefix) || /caution|warning|red flag/i.test(stageSuffix)) label = 'Budget Warning Threshold';
+    if (/caution|warning|red flag/i.test(stageSuffix)) label = 'Budget Warning Threshold';
+    else if (/\b(?:a fifth|one fifth|20\s*%|20 percent)\b/i.test(stagePrefix)) label = 'One-Fifth Budget Share';
     else if (/main course|degree fee|course fee|for the degree|for the credential/i.test(stageSuffix)) label = 'Main Course Fee Allocation';
     else if (/the rest|remaining|living costs|tools,? practice|future learning|reserve/i.test(stageSuffix)) label = 'Remaining Education Budget';
     else if (/budget/i.test(stageSuffix) || /budget/i.test(stagePrefix)) label = 'Education Budget Amount';
@@ -525,7 +651,13 @@ function figureFromItem(item, matchIndex = 0) {
   else if (hasMoney && /family income/i.test(local)) label = 'Family Income Eligibility';
   else if (hasMoney && /(?:session|counselling|counseling|consultation)/i.test(`${raw} ${heading}`)) label = 'Counselling Session Fee';
   else if (/(?:per day|day rate)/i.test(local)) label = 'Freelance Day Rate';
-  else if (/(?:stipend|internship)/i.test(local) && /(?:month|monthly)/i.test(local)) label = 'Monthly Internship Stipend';
+  else if (/(?:stipend|internship)/i.test(local) && /(?:month|monthly)/i.test(local)) {
+    if (/\b(?:jrf|srf|fellowship|phd scholar|doctoral scholar)\b/i.test(local)) label = 'Monthly Fellowship Stipend';
+    else if (/articleship/i.test(local)) label = 'Monthly Articleship Stipend';
+    else if (/internship/i.test(local)) label = 'Monthly Internship Stipend';
+    else if (/training/i.test(local)) label = 'Monthly Training Stipend';
+    else label = 'Monthly Stipend';
+  }
   else if (/allowance/i.test(local)) label = /(?:month|monthly)/i.test(local) ? 'Monthly Pay Allowance' : 'Allowance Amount Reported';
   else if (/scholarship/i.test(local) || /scholarship/i.test(heading)) label = 'Scholarship Funding Support';
   else if (hasMoney && /per paper|same subject through/i.test(local)) label = 'Exam Paper Fee';
@@ -586,7 +718,7 @@ function figuresFromItem(item) {
   const output = [];
   const number = String.raw`(?:\d{1,2}(?:,\d{2})+,\d{3}|\d+(?:,\d{3})*)(?:\.\d+)?`;
   for (const part of sentenceParts(raw)) {
-    const pattern = new RegExp(String.raw`(?:₹|\b(?:rs\.?|inr)\b|\$)\s*${number}(?:\s*(?:[–—-]|\bto\b)\s*${number})?(?:\s*\+)?(?:\s*(?:lakh|crore|lpa|k|billion|million))?|${number}\s*(?:%|percent|lpa|lakh|crore|years?|months?|weeks?|hours?|days?|vacancies|students?|employees?|jobs?|applicants?|seats?)`, 'gi');
+    const pattern = new RegExp(String.raw`(?:₹|\b(?:rs\.?|inr)\b|\$)\s*${number}(?:\s*(?:[–—-]|\bto\b)\s*${number})?(?:\s*\+)?(?:\s*(?:lakh|crore|lpa|l|k|billion|million))?|${number}\s*(?:%|percent|lpa|lakh|crore|years?|months?|weeks?|hours?|days?|vacancies|students?|employees?|jobs?|applicants?|seats?)`, 'gi');
     const matches = [...part.matchAll(pattern)];
     for (let index = 0; index < matches.length; index += 1) {
       const figure = figureFromItem({ ...item, raw: part, text: part }, index);
@@ -614,12 +746,15 @@ function topicIcon(topic, palette, x, y, scale) {
   const value = topic.toLowerCase();
   const stroke = palette[2];
   const frame = (svg) => `<g transform="translate(${x} ${y}) scale(${scale})">${svg}</g>`;
+  if (/\bca aspirants?\b|chartered accountant/.test(value)) return frame(`<path d="M115 125h260q45 0 45 45v285H160q-45 0-45-45V125zm90 0v330m-45-255h210m-210 70h210m-210 70h130" fill="none" stroke="${stroke}" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><rect x="330" y="300" width="155" height="155" rx="20" fill="#fffaf0" stroke="${palette[3]}" stroke-width="16"/><circle cx="370" cy="345" r="10" fill="${palette[4]}"/><circle cx="445" cy="345" r="10" fill="${palette[4]}"/><circle cx="370" cy="405" r="10" fill="${palette[4]}"/><circle cx="445" cy="405" r="10" fill="${palette[4]}"/>`);
+  if (/\bbca\b/.test(value)) return topicIconLegacy('computer programming', palette, x, y, scale);
   if (/\bmba\b|business|management|entrepreneur|marketing|startup/.test(value)) return frame(`<rect x="115" y="185" width="370" height="260" rx="24" fill="none" stroke="${stroke}" stroke-width="18"/><path d="M220 185v-55q0-35 35-35h90q35 0 35 35v55M115 270h370M230 330h140m-115-32v64m90-64v64" fill="none" stroke="${palette[3]}" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><circle cx="185" cy="380" r="18" fill="${palette[4]}"/><circle cx="300" cy="380" r="18" fill="${palette[3]}"/><circle cx="415" cy="380" r="18" fill="${palette[2]}"/>`);  if (/event|conference|festival|wedding|exhibition/.test(value)) return frame(`<rect x="115" y="105" width="370" height="330" rx="24" fill="none" stroke="${stroke}" stroke-width="18"/><path d="M115 190h370M180 70v75m240-75v75M180 255h85m45 0h85M180 325h85m45 0h85" fill="none" stroke="${palette[3]}" stroke-width="18" stroke-linecap="round"/><circle cx="405" cy="290" r="45" fill="${palette[4]}"/>`);
   if (/aviation|airline|aircraft|cabin crew|pilot|airport|flight/.test(value)) return frame(`<path d="M88 285l180-46 67-161c12-29 57-23 54 12l-15 132 103 54c35 18 23 62-16 55l-118-25-87 143c-18 29-60 13-47-22l42-143-147 33c-36 8-49-23-16-32z" fill="none" stroke="${stroke}" stroke-width="18" stroke-linejoin="round"/>`);
   if (/agriculture|farming|horticulture|forestry|environment|ecology/.test(value)) return frame(`<path d="M300 435V165m0 128c-100 0-155-56-155-150 95 0 155 55 155 150zm0-70c0-93 58-150 155-150 0 95-57 150-155 150zm-8 172H175m125 0h125" fill="none" stroke="${stroke}" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><path d="M300 250l-82-77m82 28 84-77" stroke="${palette[3]}" stroke-width="14"/>`);
   if (/science|chemistry|biology|laboratory|lab research|research science/.test(value)) return frame(`<path d="M230 90h140M265 90v150L145 425q-15 28 20 28h270q35 0 20-28L335 240V90M205 350h190" fill="none" stroke="${stroke}" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><circle cx="270" cy="390" r="16" fill="${palette[3]}"/><circle cx="345" cy="390" r="16" fill="${palette[4]}"/>`);
   if (/hospitality|hotel|tourism|travel|culinary|chef|restaurant/.test(value)) return frame(`<path d="M105 440V190l195-100 195 100v250M160 230h70v72h-70zm210 0h70v72h-70zM265 440V315h70v125M90 440h420" fill="none" stroke="${stroke}" stroke-width="18" stroke-linejoin="round"/><path d="M250 165h100" stroke="${palette[3]}" stroke-width="16" stroke-linecap="round"/>`);
-  if (/psychology|counsel|social work|therapy|mental health|human resources|hr career/.test(value)) return frame(`<path d="M170 380c-45-29-72-80-72-137 0-91 75-165 168-165s168 74 168 165c0 86-65 157-149 165l-70 64v-78c-17-3-32-8-45-14z" fill="none" stroke="${stroke}" stroke-width="18" stroke-linejoin="round"/><path d="M190 235h22m43 0h22m43 0h22M205 302c46 42 92 42 138 0" fill="none" stroke="${palette[3]}" stroke-width="16" stroke-linecap="round"/>`);
+  if (/career (?:counsel|guidance|coach|decisions?)|counselling/.test(value)) return frame(`<circle cx="300" cy="125" r="44" fill="none" stroke="${palette[4]}" stroke-width="17"/><path d="M300 169v68m0 0-150 105m150-105 150 105" fill="none" stroke="${stroke}" stroke-width="18" stroke-linecap="round"/><rect x="82" y="342" width="150" height="115" rx="16" fill="#fffaf0" stroke="${palette[3]}" stroke-width="15"/><rect x="368" y="342" width="150" height="115" rx="16" fill="#fffaf0" stroke="${palette[2]}" stroke-width="15"/><path d="M112 382h90m-90 35h64m132-35h90m-90 35h64" stroke="${palette[1]}" stroke-width="13" stroke-linecap="round"/>`);
+  if (/psychology|counsel|social work|therapy|mental health|human resources|hr career/.test(value)) return frame(`<path d="M160 405V275q0-55 55-55h45v-70q0-60 60-60h90q60 0 60 60v30" fill="none" stroke="${stroke}" stroke-width="18" stroke-linecap="round"/><circle cx="160" cy="430" r="32" fill="${palette[3]}"/><circle cx="415" cy="150" r="32" fill="${palette[4]}"/><rect x="285" y="250" width="205" height="170" rx="18" fill="#fffaf0" stroke="${palette[2]}" stroke-width="16"/><path d="M325 305h125m-125 52h90" stroke="${palette[1]}" stroke-width="14" stroke-linecap="round"/>`);
   if (/design|animation|illustration|fashion|creative|media|photography|visual arts|graphic/.test(value)) return frame(`<path d="M145 390l245-245 75 75-245 245-90 25zM365 170l75 75M175 360l75 75" fill="none" stroke="${stroke}" stroke-width="18" stroke-linejoin="round"/><circle cx="190" cy="160" r="42" fill="none" stroke="${palette[3]}" stroke-width="16"/><path d="M330 105l16-35m75 90 35-16" stroke="${palette[4]}" stroke-width="15" stroke-linecap="round"/>`);
   if (/sport|fitness|athlete|physical education/.test(value)) return frame(`<circle cx="300" cy="260" r="190" fill="none" stroke="${stroke}" stroke-width="18"/><path d="M245 80l-45 110 100 70 100-70-45-110M200 190L110 300l105 120m185-230 90 110-105 120m-190-120h190l70 120H225z" fill="none" stroke="${palette[3]}" stroke-width="16" stroke-linejoin="round"/>`);
   if (/^(?:medicine|medical|health|doctor|nursing|clinical|pharmacy|law|legal|advocate|court|literature|writing|journalism|language|english|humanities|publishing|education|teaching|abroad|overseas|foreign|study|bank|finance|insurance|account|commerce|economics|investment|it|software|data|ai|technology|coding|developer|computer|engineering)\b/.test(value)) return topicIconLegacy(topic, palette, x, y, scale);
@@ -638,6 +773,7 @@ function heroAnswerFromFacts(facts, topic, usedAnswers = new Set(), reservedPhra
 function heroRouteLabels(sections, topic, answer, supporting, route = '') {
   const override = heroRouteLabelOverrides.get(route);
   if (override) return override;
+  if (/^\/services\/career-counselling-and-career-guidance\/locations\/career-counselling-in-[^/]+\/$/.test(route)) return ['Local Study Options', 'Course Costs', 'Hiring Evidence'];
   // Article section headings are not dependable pathway steps. Turning them
   // into two-word labels produced false sequences such as “Week Route / At
   // Not / Paying Money”. Keep only the route labels explicitly curated above.
@@ -669,10 +805,10 @@ function heroRouteLabels(sections, topic, answer, supporting, route = '') {
 }
 function headingsSharePhrase(left, right) { const a = String(left || '').toLowerCase().match(/[\p{L}\p{N}]+/gu) || []; const b = String(right || '').toLowerCase().match(/[\p{L}\p{N}]+/gu) || []; if (a.join(' ') === b.join(' ')) return true; if (Math.min(a.length, b.length) < 4) return false; const set = new Set(); for (let i = 0; i <= a.length - 4; i += 1) set.add(a.slice(i, i + 4).join(' ')); for (let i = 0; i <= b.length - 4; i += 1) if (set.has(b.slice(i, i + 4).join(' '))) return true; return false; }
 function uniqueVisualHeading(candidate, item, topic, type, manifest, usedPhrases = new Set()) { const candidateHeading = type === "matrix" ? shortHeading(candidate, compactTopic(topic)) : ""; if (candidateHeading && !manifest.some((visual) => headingsSharePhrase(candidateHeading, visual.heading)) && !phraseKeys(candidateHeading).some((key) => usedPhrases.has(key))) return candidateHeading; const previous = manifest.map((visual) => visual.heading).filter(Boolean); const source = clean(item?.text || item?.raw || ''); const priorContent = manifest.map((visual) => [visual.heading, visual.alt, ...(visual.content?.answer ? [visual.content.answer] : []), ...(visual.content?.items || []).flatMap((entry) => [entry.heading, entry.text]), ...(visual.content?.columns || []), ...(visual.content?.rows || []).flat(), ...(visual.content?.figures || []).flatMap((figure) => [figure.value, figure.label, figure.source]), ...(visual.content?.steps || []), ...(visual.content?.steps || [])].join(' ')); const repeatsFiveWords = (value) => { const keys = phraseKeys(value); return priorContent.some((text) => keys.some((key) => phraseKeys(text).includes(key))); }; const incomplete = (value) => /[,;:]\s*$/.test(value) || (badEnd.has(lastWord(value)) && !/\bIT[\s"'”’)!?]*$/u.test(value)) || /\b(?:can|could|may|might|will|would|should)\s+\w+ly$/i.test(value); const isUsable = (value) => value && !incomplete(value) && !isGenericVisualHeading(value) && !previous.some((heading) => headingsSharePhrase(value, heading)) && !repeatsFiveWords(value); if (isUsable(candidate)) { const bounded = shortHeading(candidate, compactTopic(topic)); if (!previous.some((heading) => headingsSharePhrase(bounded, heading))) return bounded; } const alternatives = [quotedLead(source), groundedHeading(source), item?.heading, sentence(source, 8), phrase(source, 7), words(source).slice(0, 5).join(' ')]; for (const value of alternatives) { const option = shortHeading(value, compactTopic(topic)); if (isUsable(option)) return option; } const sourceWords = words(source); for (let length = 4; length >= 3; length -= 1) for (let start = 0; start <= sourceWords.length - length; start += 1) { const option = titleCase(sourceWords.slice(start, start + length).map((word) => word.replace(/^[^\p{L}\p{N}]+|[^\p{L}\p{N}]+$/gu, '')).join(' ')); if (!incomplete(option) && !badStart.has(words(option)[0]?.toLowerCase()) && !badEnd.has(lastWord(option)) && !/\b(?:and|or|to|for|with)\s+(?:a|an|the)\b/i.test(option) && !isGenericVisualHeading(option) && !previous.some((heading) => headingsSharePhrase(option, heading))) return option; } const fallback = ({ summary: 'What Matters Before Choosing', matrix: 'Compare the Practical Paths', chain: 'A Sequence to Try', checklist: 'Questions to Check First', proof: 'Numbers in Context', detail: 'What the Evidence Shows' })[type] || 'A Clear Next Step'; return !repeatsFiveWords(fallback) && !previous.some((heading) => headingsSharePhrase(fallback, heading)) ? fallback : `${titleCase(type)} Evidence`; }
-function baseSvg(body, palette, topLabel, heading, size, isHero = false) {
+function baseSvg(body, palette, topLabel, heading, size, isHero = false, route = '') {
   const { width, height } = size;
   const margin = 72;
-  const heroHeading = isHero ? heroTopic(heading) : heading;
+  const heroHeading = isHero ? heroTopic(heading, route) : heading;
   const headingLines = wrap(titleCase(heroHeading), isHero ? 22 : 15);
   const headingSize = isHero ? (width === PHONE.width ? 52 : 58) : (width === PHONE.width ? 56 : 62);
   const lineHeight = headingSize * 1.08;
@@ -711,7 +847,7 @@ function compactTableHeader(value, index) {
   if (/^test by$/i.test(source)) return 'Test Source';
   if (/^issued by$/i.test(source)) return 'Issuer';
   if (/^leads to$/i.test(source)) return 'Outcome';
-  if (/^door in$/i.test(source)) return 'Entry Route';
+  if (/^door in$/i.test(source)) return 'Where to Start';
   if (/^share of$/i.test(source)) return 'Share';
   if (/^median of$/i.test(source)) return 'Median';
   if (/^skills to$/i.test(source)) return 'Skills';
@@ -818,7 +954,7 @@ function compactTableHeader(value, index) {
     ['leads to', 'Outcome'], ['part of', 'Category'], ['leans to', 'Recommendation'], ['physics plus', 'Physics'],
     ['growth and', 'Growth'], ['vacant on', 'Open Roles'], ['test or', 'Assessment'], ['body or', 'Credential'],
     ['rule for', 'Rule'], ['fork and', 'Career Track'], ['result to', 'Outcome'], ['job from', 'Role'],
-    ['entry and', 'Entry Route'], ['test by', 'Assessment'], ['quadrant and', 'Quadrant'], ['issued by', 'Issuer'],
+    ['entry and', 'Where to Start'], ['test by', 'Assessment'], ['quadrant and', 'Quadrant'], ['issued by', 'Issuer'],
     ['money and', 'Cost'], ['pressure from', 'Pressure'], ['example of', 'Example'], ['dates and', 'Dates'],
     ['package for', 'Pay Package'], ['column to', 'Comparison'], ['focus on', 'Focus'], ['years to', 'Time Horizon'],
     ['pcm or', 'Stream'], ['rule and', 'Rule'], ['link to', 'Next Step'], ['level and', 'Level'],
@@ -868,7 +1004,7 @@ function figureTiles(figures, palette, size, tileY, tileHeight, includeSource = 
     const rowHeight = (tileHeight - gap * (count - 1)) / count;
     const cardWidth = width - 144;
     const valueColumn = cardWidth * 0.62;
-    const valueFont = width === PHONE.width ? 80 : 88;
+      const valueFont = count === 3 ? 64 : width === PHONE.width ? 80 : 88;
       const labelFont = width === PHONE.width ? 38 : 38;
     figures.slice(0, count).forEach((item, index) => {
       const y = tileY + index * (rowHeight + gap);
@@ -926,29 +1062,29 @@ function heroRouteMap(labels, palette, size, y) {
   }
   return body;
 }
-function heroVisual(answer, figures, topic, palette, size, supporting = [], routeLabels = []) {
+function heroVisual(answer, figures, topic, palette, size, supporting = [], routeLabels = [], route = '') {
   const { width, height } = size;
   const font = width === PHONE.width ? 60 : 66;
   const answerLines = wrap(answer, 17);
   const answerY = 315;
   const answerEnd = answerY + (answerLines.length - 1) * font * 1.12 + font;
   let body = `<text x="72" y="${answerY}" font-family="Georgia,Times New Roman,serif" font-size="${font}" font-weight="700" fill="${palette[1]}">${answerLines.map((line, i) => `<tspan x="72" dy="${i ? font * 1.12 : 0}">${esc(line)}</tspan>`).join('')}</text>`;
+  const labels = routeLabels.slice(0, 3);
+  const hasLowerStructure = figures.length > 0 || labels.length >= 2;
   const iconScale = width === PHONE.width ? 0.38 : 0.42;
   const iconY = 310;
   const iconX = width - 280;
-  const iconBottom = iconY + 480 * iconScale;
-  body += topicIcon(topic, palette, iconX, iconY, iconScale);
-  let contentBottom = Math.max(answerEnd, iconBottom);
+  if (hasLowerStructure) body += topicIcon(topic, palette, iconX, iconY, iconScale);
+  let contentBottom = answerEnd;
   if (figures.length) {
     const tileY = Math.max(765, answerEnd + 48);
     const tileHeight = Math.max(360, height - tileY - 64);
     body += figureTiles(figures, palette, size, tileY, tileHeight, false, 0.24, 0.64);
     contentBottom = tileY + tileHeight;
   } else {
-    const labels = routeLabels.slice(0, 3);
     while (labels.length >= 2 && answerEnd + 48 + labels.length * 120 + (labels.length - 1) * 12 > height - 64) labels.pop();
     if (labels.length >= 2) {
-      const routeY = Math.max(765, answerEnd + 48);
+      const routeY = Math.max(650, answerEnd + 48);
       body += heroRouteMap(labels, palette, size, routeY);
       contentBottom = routeY + labels.length * 120 + (labels.length - 1) * 12;
     } else if (supporting.length) {
@@ -961,15 +1097,177 @@ function heroVisual(answer, figures, topic, palette, size, supporting = [], rout
         contentBottom = supportY + lines.length * fontSize * 1.16;
       }
     }
+    if (!hasLowerStructure) {
+      const largeIconScale = Math.min(width === PHONE.width ? 0.76 : 0.9, (height - contentBottom - 116) / 480);
+      const largeIconY = Math.max(contentBottom + 44, height - 480 * largeIconScale - 72);
+      const largeIconX = (width - 480 * largeIconScale) / 2;
+      body += topicIcon(topic, palette, largeIconX, largeIconY, largeIconScale);
+    }
   }
-  return baseSvg(body, palette, heroEditorialLabel(topic), heroTopic(topic), size, true);
+  return baseSvg(body, palette, heroEditorialLabel(topic), heroTopic(topic, route), size, true, route);
 }
-function socialHeroVisual(answer, figures, topic, palette, supporting = []) { const size = { width: 1200, height: 630 }; const t = heroTopic(topic); const titleLines = wrap(t, 24); const answerLines = wrap(answer, 40); let body = `<rect width="1200" height="630" fill="${palette[0]}"/><path d="M0 106H1200" stroke="${palette[4]}" stroke-width="7"/><text x="64" y="90" font-family="Arial,Helvetica,sans-serif" font-size="24" font-weight="700" letter-spacing="1" fill="${palette[1]}">${esc(heroEditorialLabel(topic).toUpperCase())}</text>${titleLines.map((line,i)=>`<text x="64" y="${148+i*55}" font-family="Georgia,Times New Roman,serif" font-size="48" font-weight="600" fill="${palette[1]}">${esc(line)}</text>`).join('')}${answerLines.map((line,i)=>`<text x="64" y="${248+i*40}" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="${palette[1]}">${esc(line)}</text>`).join('')}`; body += topicIcon(topic,palette,865,118,0.48); if(figures.length){body+=figureTiles(figures,palette,size,420,160,false,0.22,0.75)}else if(supporting.length){const lines=wrap(supporting[0].text,68).slice(0,2);body+=lines.map((line,i)=>`<text x="64" y="${Math.min(570,330+i*32)}" font-family="Arial,Helvetica,sans-serif" font-size="25" fill="${palette[1]}">${esc(line)}</text>`).join('')} return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">${body}</svg>`; }
+function socialHeroVisual(answer, figures, topic, palette, supporting = [], route = '') { const size = { width: 1200, height: 630 }; const t = heroTopic(topic, route); const titleLines = wrap(t, 24); const answerLines = wrap(answer, 40); let body = `<rect width="1200" height="630" fill="${palette[0]}"/><path d="M0 106H1200" stroke="${palette[4]}" stroke-width="7"/><text x="64" y="90" font-family="Arial,Helvetica,sans-serif" font-size="24" font-weight="700" letter-spacing="1" fill="${palette[1]}">${esc(heroEditorialLabel(topic).toUpperCase())}</text>${titleLines.map((line,i)=>`<text x="64" y="${148+i*55}" font-family="Georgia,Times New Roman,serif" font-size="48" font-weight="600" fill="${palette[1]}">${esc(line)}</text>`).join('')}${answerLines.map((line,i)=>`<text x="64" y="${248+i*40}" font-family="Arial,Helvetica,sans-serif" font-size="34" font-weight="700" fill="${palette[1]}">${esc(line)}</text>`).join('')}`; body += topicIcon(topic,palette,865,118,0.48); if(figures.length){body+=figureTiles(figures,palette,size,420,160,false,0.22,0.75)}else if(supporting.length){const lines=wrap(supporting[0].text,68).slice(0,2);body+=lines.map((line,i)=>`<text x="64" y="${Math.min(570,330+i*32)}" font-family="Arial,Helvetica,sans-serif" font-size="25" fill="${palette[1]}">${esc(line)}</text>`).join('')} return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">${body}</svg>`; }
 function proofVisual(items, palette, heading, size) { const figures = items.map(figureFromItem).filter(Boolean); let body = topicIcon(heading, palette, size.width === PHONE.width ? 540 : 570, 145, size.width === PHONE.width ? 0.58 : 0.66); body += figureTiles(figures, palette, size, 300, 950, true); return baseSvg(body, palette, typeTopLabel('proof'), heading, size); }
 function keyFor(item) { return clean(item?.text || item?.raw || item || '').toLowerCase().replace(/\W+/g, ' ').trim(); }
 function phraseKeys(value) { const tokens = String(value || '').toLowerCase().match(/[\p{L}\p{N}]+/gu) || []; const keys = []; for (let i = 0; i <= tokens.length - 5; i += 1) keys.push(tokens.slice(i, i + 5).join(' ')); return keys; }
 function numericTokens(value) { return (String(value || '').match(/(?:\d{1,2}(?:,\d{2})+,\d{3}|\d+(?:,\d{3})*)(?:\.\d+)?/g) || []).map((token) => Number(token.replaceAll(',', ''))); }
 function normalizeFigureKey(value) { return String(value || '').toLowerCase().replace(/(?:₹|\b(?:rs\.?|inr)\b|\$)/gi, '').replace(/,/g, '').replace(/[–—−]/g, '-').replace(/\b(lakhs?|crores?|years?|months?|weeks?|days?|hours?)\b/g, (unit) => unit.replace(/s$/, '').replace(/^lakh$/, 'lakh').replace(/^crore$/, 'crore')).replace(/\bpercent\b/g, '%').replace(/\s+/g, '').trim(); }
+const routeDurationLabelCorrections = [
+  ['/blog/government-jobs/government-exam-preparation-while-working-india/', '8-10 hours', /8-10 hours a day full-time aspirants describe/i, 'Daily Study Hours'],
+  ['/blog/career-guidance/i-am-confused-about-my-career-after-10th/', '24 hours', /open 24 hours a day/i, 'Helpline Availability'],
+  ['/blog/career-options/careers-for-people-who-dont-like-desk-jobs-india/', '10 hours', /people sitting around 10 hours a day/i, 'Daily Sitting Time'],
+  ['/blog/career-options/careers-for-people-who-dont-like-desk-jobs-india/', '1 hour', /those sitting about 1 hour a day/i, 'Daily Sitting Time'],
+  ['/blog/career-options/is-ethical-hacking-a-good-career-in-india/', '1 hour', /limits the attack machine to 1 hour a day/i, 'Daily Free-Plan Limit'],
+  ['/blog/career-options/pcb-career-options-with-salary/', '₹1.8-3 LPA', /roughly rs 1\.8-3 lpa to start/i, 'Entry Level Pay'],
+  ['/blog/career-options/pcb-career-options-with-salary/', '₹4-6 LPA', /roughly rs 4-6 lpa with allowances/i, 'Salary Range Including Allowances'],
+  ['/blog/career-options/pcb-career-options-with-salary/', '₹3-6 LPA', /roughly.*\bentry\b.*\bsenior\b/i, 'Entry Level Pay'],
+  ['/blog/career-options/pcb-career-options-with-salary/', '₹18-30 LPA', /roughly.*\bentry\b.*\bsenior\b/i, 'Senior-Level Salary Range'],
+  ['/blog/college-degrees/education-loan-worth-it-india-private-college/', '5-15 years', /repayment tenures typically run 5-15 years/i, 'Loan Repayment Tenure'],
+  ['/blog/college-degrees/education-loan-worth-it-india-private-college/', '7-10 year', /total repayment \(principal plus interest\)/i, 'Loan Repayment Period'],
+  ['/blog/career-change/how-to-switch-from-service-company-to-product-company/', '3-6 months', /consistent dsa and system-design preparation/i, 'Preparation Window'],
+  ['/blog/freelancing-business/freelancing-vs-job-india-which-is-better/', '6-12 months', /covering 6-12 months of essential expenses/i, 'Living Expense Runway'],
+  ['/blog/freelancing-business/freelancing-vs-job-india-which-is-better/', '6-12 months', /freelancing usually suits someone with 6-12 months of runway/i, 'Freelance Entry Runway'],
+  ['/blog/skills/what-are-life-skills-examples-and-how-to-build-them-india/', '30 days', /track expenses for 30 days/i, 'Expense Tracking Period'],
+  ['/blog/career-options/is-software-testing-a-good-career/', '4-6 years', /pay gap: manual testers plateau/i, 'Experience Pay Comparison'],
+  ['/blog/career-change/it-to-non-it-career-switch-india/', '6-12 months', /emergency fund covering at least 6-12 months/i, 'Emergency Fund Coverage'],
+  ['/blog/career-change/it-to-non-it-career-switch-india/', '6-12 month', /a 6-12 month emergency fund/i, 'Emergency Fund Coverage'],
+  ['/blog/career-options/is-trading-a-good-career-in-india/', '6-12 months', /6-12 months of full living expenses set aside/i, 'Living Expense Runway'],
+  ['/blog/freelancing-business/starting-a-business-vs-job-india-which-is-better/', '12-18 months', /12-18 months of personal living expenses saved/i, 'Personal Savings Runway'],
+  ['/blog/freelancing-business/starting-a-business-vs-job-india-which-is-better/', '12 months', /at least 12 months of personal living expenses/i, 'Personal Savings Runway'],
+  ['/blog/freelancing-business/starting-a-business-vs-job-india-which-is-better/', '18 months', /ideally 18 months/i, 'Personal Savings Runway'],
+  ['/blog/freelancing-business/starting-a-business-vs-job-india-which-is-better/', '3-6 months', /3-6 months commonly suggested for ordinary job loss/i, 'Job-Loss Fund Baseline'],
+  ['/blog/career-options/is-merchant-navy-a-good-career/', '4-9 month', /continuous stretches at sea/i, 'Sea Assignment Length'],
+  ['/blog/resume/resume-tips-for-freshers-india/', '6 weeks', /managed the company.s instagram content calendar for 6 weeks/i, 'Example Project Duration'],
+  ['/blog/career-change/career-change-at-30-india/', '3-6 month', /3-6 month emergency fund minimum/i, 'Emergency Fund Coverage'],
+  ['/blog/career-change/career-change-at-30-india/', '3-6 months', /baseline emergency fund, rising to 6-9 months/i, 'Emergency Fund Baseline'],
+  ['/blog/career-change/career-change-at-30-india/', '12 months', /12 months if you are moving toward freelancing/i, 'Variable-Income Runway'],
+  ['/blog/career-change/career-change-after-5-years-india/', '6 months', /budget for at least 6 months of expenses/i, 'Transition Runway Minimum'],
+  ['/blog/government-jobs/banking-sector-career-india/', '3-5 years', /move into a senior relationship or branch-head role in 3-5 years/i, 'Promotion Timeline'],
+  ['/blog/government-jobs/defence-services-career-india/', '4 years', /tenure is fixed at 4 years rather than an open-ended career/i, 'Agnipath Service Tenure'],
+  ['/blog/government-jobs/defence-services-career-india/', '10-14 years', /fixed tenure, commonly 10-14 years/i, 'Service Tenure Range'],
+  ['/blog/government-jobs/ssc-vs-bank-exams-which-to-prepare-india/', '1-2 years', /financial runway cannot absorb 1-2 years of exam-focused prep/i, 'Exam Preparation Runway'],
+  ['/blog/career-options/is-doctor-a-good-career-in-india/', '3 years', /further NEET-SS exam and 3-year super-specialisation/i, 'Super-Specialty Training'],
+  ['/blog/career-options/is-doctor-a-good-career-in-india/', '8.5-9.5 years', /still not reached a settled, specialist-level income/i, 'Time to Specialist Income'],
+  ['/blog/career-options/is-doctor-a-good-career-in-india/', '9-10 years', /settled, specialist-level income roughly 9-10 years/i, 'Time to Specialist Income'],
+  ['/blog/career-options/is-doctor-a-good-career-in-india/', '12-13 years', /stretches the total timeline past 12-13 years from Class 12/i, 'Specialist Path Duration'],
+  ['/blog/career-options/is-doctor-a-good-career-in-india/', '10 years', /realistic income timeline that can stretch past 10 years/i, 'Income Timeline Estimate'],
+  ['/blog/career-options/career-in-navy-after-12th-science/', '16.5 to 19.5 years', /age eligibility mirrors NDA/i, 'Age Eligibility Range'],
+  ['/blog/career-options/career-in-navy-after-12th-science/', '5 days', /SSB.*runs over roughly 5 days/i, 'SSB Assessment Length'],
+  ['/blog/career-options/career-in-navy-after-12th-science/', '3 years', /Selected cadets train for 3 years at NDA Khadakwasla/i, 'NDA Training Period'],
+  ['/blog/career-options/career-options-after-12th-for-girls-in-india/', '4-5 year', /commit to a 4-5 year runway with a demanding exam structure/i, 'Exam Preparation Runway'],
+  ['/blog/career-options/career-options-after-12th-for-girls-in-india/', '4-6 year', /Compressing a 4-6 year path into an unrealistic timeline/i, 'Route Duration Range'],
+  ['/blog/career-options/is-service-company-job-worth-it-for-freshers/', '35 days', /effectively caps it near 35 days a year/i, 'Annual Bench-Time Cap'],
+  ['/blog/career-options/is-service-company-job-worth-it-for-freshers/', '1.5-2.5 year', /first serious external job search around the 1.5-2.5 year mark/i, 'External Job-Search Window'],
+  ['/blog/career-options/is-service-company-job-worth-it-for-freshers/', '2-3 month', /structured onboarding program/i, 'Onboarding Program Length'],
+  ['/blog/career-options/is-service-company-job-worth-it-for-freshers/', '1-3 year', /treat this as a 1-3 year runway, not a destination/i, 'First-Role Time Box'],
+  ['/blog/career-options/is-service-company-job-worth-it-for-freshers/', '2-3 years', /move toward client-facing, architecture, or AI-oversight work within their first 2-3 years/i, 'Skills Transition Window'],
+  ['/blog/career-options/sales-career-growth-path-india/', '2-3 years', /income that moves month to month.*first 2-3 years/i, 'Early Sales Income Window'],
+  ['/blog/ai-future/best-career-paths-for-the-next-10-years/', '12–18 months', /adjacent crossover path is often achievable in 12–18 months/i, 'Skill-Building Window'],
+  ['/blog/ai-future/best-career-paths-for-the-next-10-years/', '6–18 months', /Realistic switch timeline 6–18 months/i, 'Career Switch Timeline'],
+  ['/blog/ai-future/best-career-paths-for-the-next-10-years/', '8–16 months', /Realistic switch timeline 8–16 months/i, 'Career Switch Timeline'],
+  ['/blog/ai-future/best-career-paths-for-the-next-10-years/', '3 months', /Learn SQL and Python basics \(3 months\)/i, 'SQL Learning Window'],
+  ['/blog/ai-future/best-career-paths-for-the-next-10-years/', '12–24 months', /while still employed, learning evenings and weekends, typically takes 12–24 months/i, 'Employed Switch Timeline'],
+  ['/blog/ai-future/best-career-paths-for-the-next-10-years/', '8–18 months', /Realistic switch timeline 8–18 months/i, 'Career Switch Timeline'],
+  ['/blog/ai-future/best-career-paths-for-the-next-10-years/', '3–5 year', /fastest income jumps happen at the 3–5 year mark/i, 'Experience Pay Window'],
+  ['/blog/ai-future/best-career-paths-for-the-next-10-years/', '10 years', /best career paths for the next 10 years/i, 'Career Planning Horizon'],
+  ['/blog/career-options/career-in-investment-banking-india-how-to-start/', '2-5 years', /other three realistically take 2-5 years/i, 'Route Entry Timeline'],
+  ['/blog/career-options/career-in-investment-banking-india-how-to-start/', '1-2 year', /fund or get aid for a 1-2 year program/i, 'Program Duration Range'],
+  ['/blog/career-options/career-in-investment-banking-india-how-to-start/', '2-4 years', /making the jump within 2-4 years before the profile ages out/i, 'Lateral Entry Window'],
+  ['/blog/career-options/career-in-investment-banking-india-how-to-start/', '3 years', /loans that eat your first 3 years of salary/i, 'Debt Payback Burden'],
+  ['/blog/career-options/career-in-investment-banking-india-how-to-start/', '2-3 year', /2-3 year credential-building stop/i, 'Credential-Building Window'],
+  ['/blog/government-jobs/government-jobs-after-engineering-india/', '12-18 months', /12-18 months of ESE-level prep with uncertain income/i, 'Exam Preparation Runway'],
+  ['/blog/government-jobs/government-jobs-after-engineering-india/', '3 months', /forums love a .*cleared it in 3 months.* success story/i, 'Unverified Forum Claim'],
+  ['/blog/career-options/best-mba-specialization-for-engineers/', '2-4 years', /spent 2-4 years first as an engineer, analyst/i, 'Pre-MBA Role Experience'],
+  ['/blog/career-options/best-mba-specialization-for-engineers/', '2-4 years', /ideal work-experience range for flagship MBA programs/i, 'MBA Applicant Experience'],
+  ['/blog/career-options/best-mba-specialization-for-engineers/', '30-36 month', /30-36 month window, as the ideal work-experience range/i, 'MBA Applicant Experience'],
+  ['/blog/freelancing-business/content-creator-income-india/', '12 months', /valid public watch hours in the last 12 months/i, 'Platform Eligibility Window'],
+  ['/blog/career-options/career-after-civil-engineering-in-india/', '8-12 months', /score takes real, structured preparation, usually 8-12 months/i, 'GATE Preparation Window'],
+  ['/blog/career-options/career-after-civil-engineering-in-india/', '8-12 month', /same 8-12 month structured window as GATE-PSU prep/i, 'GATE Preparation Window'],
+  ['/blog/college-degrees/best-mba-specializations-india/', '5-10 year', /earning Rs 15-35 LPA at the 5-10 year mark/i, 'Mid-Career Experience Band'],
+  ['/blog/college-degrees/best-diploma-courses-after-12th/', '5-8 year', /5-8 year climb through operations into management/i, 'Management Progression Window'],
+  ['/blog/college-degrees/best-diploma-courses-after-12th/', '1-3 years', /diploma commits you to a specific daily rhythm for 1-3 years/i, 'Study Routine Commitment'],
+  ['/blog/resume/good-career-objective-for-resume/', '6 years', /6 years of classroom experience/i, 'Classroom Experience'],
+  ['/blog/resume/good-career-objective-for-resume/', '2 years', /Content writer with 2 years producing SEO-optimised articles/i, 'Content Writing Experience'],
+  ['/blog/career-options/mba-after-bcom-worth-it-in-india/', '3-5 years', /3-5 years of salary just to break even/i, 'Salary Payback Period'],
+  ['/blog/career-options/mba-after-bcom-worth-it-in-india/', '10-16 months', /payback period of roughly 10-16 months/i, 'MBA ROI Payback Period'],
+  ['/blog/college-degrees/diploma-and-certificate-courses-for-commerce-students-india/', '3 years', /certificates are valid for 3 years/i, 'Certificate Validity Period'],
+  ['/blog/medical-careers/health-information-management-career-india/', '6-12 month', /6-12 month HIM diploma/i, 'HIM Diploma Duration'],
+  ['/blog/college-degrees/best-mba-specializations-india/', '5-10 year', /at the 5-10 year mark/i, 'Mid-Career Experience Band'],
+  ['/blog/college-degrees/professional-courses-for-commerce-students/', '4 years', /Foundation registration is valid for 4 years/i, 'Foundation Validity Period'],
+  ['/blog/college-degrees/professional-courses-for-commerce-students/', '5 years', /Intermediate is valid for 5 years/i, 'Intermediate Validity Period'],
+  ['/blog/college-degrees/professional-courses-for-commerce-students/', '10 years', /Final is valid for 10 years/i, 'Final Validity Period'],
+  ['/blog/college-degrees/professional-courses-for-commerce-students/', '4,000 hours', /4,000 hours of work over at least 36 months/i, 'Required Work Experience'],
+  ['/blog/study-abroad/canada-vs-germany-for-masters-india/', '21 months', /21 months with B1 German under the EU Blue Card route/i, 'PR Eligibility Timeline'],
+  ['/blog/study-abroad/canada-vs-germany-for-masters-india/', '18-24 months', /first 18-24 months in either country as a real test period/i, 'Study-Abroad Test Period'],
+  ['/blog/study-abroad/canada-vs-germany-for-masters-india/', '1-2 years', /reaching B1 German while also studying and job-hunting/i, 'German Learning Window'],
+  ['/blog/study-abroad/canada-vs-germany-for-masters-india/', '12-24 months', /12-24 months of actual living costs/i, 'Living-Cost Coverage Period'],
+  ['/blog/career-options/career-after-12th-maths-without-engineering/', '3 years', /CS Executive and CS Professional stages over roughly 3 years/i, 'CS Qualification Timeline'],
+  ['/blog/career-options/career-after-12th-maths-without-engineering/', '4-5 years', /4-5 years total if cleared on schedule/i, 'Qualification Timeline'],
+  ['/blog/career-options/career-after-12th-maths-without-engineering/', '2-4 years', /first 2-4 years are trainee pay while you clear exams/i, 'Trainee Pay Window'],
+  ['/blog/career-options/career-after-12th-maths-without-engineering/', '5 to 8 years', /Full qualification typically takes 5 to 8 years/i, 'Qualification Timeline'],
+  ['/blog/college-degrees/certificate-courses-for-bcom-students/', '12 months', /renew the certificate free every 12 months/i, 'Certificate Renewal Cycle'],
+  ['/blog/college-degrees/certificate-courses-for-bcom-students/', '2 years', /SEBI Investor Awareness Test.*valid for only 2 years/i, 'SEBI Test Validity'],
+  ['/blog/college-degrees/certificate-courses-for-bcom-students/', '3 years', /NISM certificate lasts 3 years/i, 'NISM Certificate Validity'],
+  ['/blog/career-options/is-hotel-management-a-good-career-in-india/', '1-3 years', /modest starting salary.*first 1-3 years/i, 'Early-Career Pay Window'],
+  ['/blog/career-options/is-physiotherapy-a-good-career-in-india/', '1-3 years', /modest starting salary.*first 1-3 years/i, 'Early-Career Pay Window'],
+  ['/blog/career-options/best-paying-jobs-for-humanities-students-india/', '5 years', /CLAT rank plus college tier decides almost everything for the first 5 years/i, 'Early-Career Outcome Window'],
+  ['/blog/career-options/best-paying-jobs-for-humanities-students-india/', '8-10 years', /path you cannot sustain for 8-10 years/i, 'Career Sustainability Window'],
+  ['/blog/career-options/best-paying-jobs-for-humanities-students-india/', '2-3 years', /plan your first 2-3 years around the entry band/i, 'Entry-Level Experience Window'],
+  ['/blog/career-options/best-paying-jobs-for-humanities-students-india/', '5-7 years', /even after 5-7 years without a deliberate pivot/i, 'Experience Pay Window'],
+  ['/blog/career-options/best-paying-jobs-for-humanities-students-india/', '8-15 years', /within 8-15 years/i, 'Time to Senior Pay Ceiling'],
+  ['/blog/career-options/btech-biotechnology-career-options/', '4 years', /BTech Biotechnology \(JEE-admitted, 4 years/i, 'BTech Degree Duration'],
+  ['/blog/career-options/btech-biotechnology-career-options/', '3 years', /BSc Biotechnology \(3 years, pure science\)/i, 'BSc Degree Duration'],
+  ['/blog/career-options/actuarial-science-careers/', '4 to 6 years', /get through the examinations in 4 to 6 years on average/i, 'Exam Completion Window'],
+  ['/blog/career-options/actuarial-science-careers/', '7-10 years', /7-10 years from your first exam to Fellowship/i, 'Fellowship Qualification Timeline'],
+  ['/blog/stream-selection/career-chart-after-10th/', '1 to 3 years', /Work-first routes \(ITI and diploma\) reach full-time work in 1 to 3 years/i, 'Time to First Work'],
+  ['/blog/stream-selection/career-chart-after-10th/', '1 to 2 years', /ITI trade course 1 to 2 years to work/i, 'ITI-to-Work Timeline'],
+  ['/blog/stream-selection/career-chart-after-10th/', '1 to 3 years', /Skill-first stack beside school 1 to 3 years to work/i, 'Skill-to-Work Timeline'],
+  ['/blog/stream-selection/career-chart-after-10th/', '2 to 3 years', /Open schooling \(NIOS and state open schools\) 2 to 3 years to work/i, 'Open-School-to-Work Timeline'],
+  ['/blog/stream-selection/career-chart-after-10th/', '5 to 6 years', /5 to 6 years to first full-time work/i, 'Education-to-Work Timeline'],
+  ['/blog/stream-selection/career-chart-after-10th/', '5 to 7 years', /5 to 7 years to first full-time work/i, 'Education-to-Work Timeline'],
+  ['/blog/stream-selection/career-chart-after-10th/', '3 years', /usually 3 years.*about 3 years to first full-time work/i, 'Degree-to-Work Timeline'],
+  ['/blog/stream-selection/career-chart-after-10th/', '1 to 2 years', /1 or 2 years, depending on the trade.*first full-time work/i, 'Trade-to-Work Timeline'],
+  ['/blog/career-options/is-food-technology-a-good-career-in-india/', '2-3 years', /modest starting salary.*first 2-3 years/i, 'Early-Career Pay Window'],
+  ['/blog/study-abroad/opt-after-ms-in-usa-for-indian-students/', '12 months', /standard post-completion OPT/i, 'Standard OPT Duration'],
+  ['/blog/study-abroad/opt-after-ms-in-usa-for-indian-students/', '36 months', /total work authorization to up to 36 months/i, 'STEM OPT Maximum Duration'],
+  ['/blog/study-abroad/opt-after-ms-in-usa-for-indian-students/', '12 months', /Most explanations of OPT stop at/i, 'Standard OPT Duration'],
+  ['/blog/career-options/career-options-after-ma-in-india/', '3-6 years', /A PhD typically runs 3-6 years/i, 'PhD Program Duration'],
+  ['/blog/career-guidance/first-job-vs-higher-studies-india/', '24 to 36 months', /24 to 36 months considered close to ideal/i, 'MBA Work-Experience Window'],
+  ['/blog/career-guidance/first-job-vs-higher-studies-india/', '6 months', /under 6 months usually gets zero points/i, 'Minimum Work-Experience Threshold'],
+  ['/blog/career-guidance/first-job-vs-higher-studies-india/', '1-2 years', /1-2 years of directly related work/i, 'Relevant Work-Experience Window'],
+  ['/blog/career-options/dairy-science-career-options/', '2-3 years', /first 2-3 years while you build the specialisation/i, 'Early-Career Pay Window'],
+  ['/blog/career-options/dairy-science-career-options/', '12-18 years', /senior plant leadership or R&D specialists reach/i, 'Time to Senior Compensation'],
+  ['/blog/career-change/career-change-at-30-india/', '6-9 month', /funded 6-9 month runway/i, 'Funded Transition Runway'],
+  ['/blog/career-options/project-manager-career-india-pmp-certification-worth-it/', '36 months', /PMP requires 36 months of documented project-leading experience/i, 'PMP Experience Requirement'],
+  ['/blog/career-options/project-manager-career-india-pmp-certification-worth-it/', '60 months', /PMP requires 36 months of documented project-leading experience/i, 'PMP Experience Requirement'],
+  ['/blog/college-degrees/certificate-courses-for-bcom-students/', '3 years', /NISM exams\. Valid for 3 years from the exam date/i, 'NISM Certificate Validity'],
+  ['/blog/career-change/career-change-at-30-india/', '6-9 months', /up to 6-9 months if you are moving into freelancing/i, 'Variable-Income Runway'],
+  ['/blog/career-change/career-change-at-30-india/', '6-9 months', /rising to 6-9 months if you are about to take a pay cut or gap/i, 'Pay-Dip Transition Runway'],
+  ['/blog/career-options/best-paying-jobs-for-humanities-students-india/', '8-15 years', /ceiling numbers in this article take 8-15 years to reach/i, 'Time to Senior Pay Ceiling'],
+  ['/blog/study-abroad/is-ms-in-usa-worth-it-india/', '12 months', /Optional Practical Training gives 12 months of work authorization/i, 'OPT Work Authorization'],
+  ['/blog/study-abroad/postgraduate-diploma-courses-in-canada-for-international-students/', '24 hours', /24 hours a week off campus/i, 'Weekly Work-Hour Limit'],
+  ['/blog/career-options/hotel-management-career-india-scope-and-salary/', '2-3 years', /first 2-3 years involve modest pay and genuinely long/i, 'Early-Career Pay Window'],
+  ['/blog/career-options/hotel-management-career-india-scope-and-salary/', '2-3 years', /first 2-3 years will be physically and socially demanding/i, 'Early-Career Pay Window'],
+  ['/blog/career-options/hotel-management-career-india-scope-and-salary/', '15 years', /GM-level pay after roughly 15 years/i, 'GM-Level Pay Timeline'],
+  ['/blog/career-options/hotel-management-career-india-scope-and-salary/', '22-26 weeks', /mandatory industry internship \(usually 22-26 weeks\)/i, 'Industry Internship Duration'],
+  ['/blog/government-jobs/defence-services-career-india/', '16.5 to 19.5 years', /roughly 16.5 to 19.5 years old/i, 'Age Eligibility Range'],
+  ['/blog/government-jobs/defence-services-career-india/', '17.5 to 21 years', /roughly 17.5 to 21 years old/i, 'Age Eligibility Range'],
+  ['/blog/government-jobs/defence-services-career-india/', '13 years', /13 years of commissioned service move to the Lieutenant Colonel rank/i, 'Promotion Timeline'],
+  ['/blog/government-jobs/defence-services-career-india/', '16 years', /Colonel rank \(roughly 16 years of service/i, 'Selection-Based Promotion Mark'],
+  ['/blog/government-jobs/defence-services-career-india/', '3 years', /Selected cadets train for 3 years at NDA Khadakwasla across all three services together/i, 'NDA Training Period'],
+];
+function applyRouteDurationLabelCorrection(route, figure) {
+  const valueKey = normalizeFigureKey(figure.value);
+  const source = String(figure.source || '');
+  if (/^(?:budget warning threshold|one-fifth budget share)$/i.test(figure.label || '')) {
+    const fifthAmount = source.match(/\b(?:a fifth|one fifth) is\s*((?:₹|rs\.?\s*)?\s*[\d,.]+\s*(?:lakh|crore)?)/i)?.[1]?.trim().replace(/[.,]+$/, '');
+    if (fifthAmount && valueKey === normalizeFigureKey(fifthAmount)) figure.label = /(?:serious caution|warning threshold|red flag)/i.test(source) ? 'Budget Warning Threshold' : 'One-Fifth Budget Share';
+    else if (/(?:programme|program|course).{0,80}far above that fifth|far above that fifth.{0,80}(?:programme|program|course)/i.test(source)) figure.label = 'Course Fee Above Budget Share';
+  }
+  const correction = routeDurationLabelCorrections.find(([targetRoute, targetValue, sourcePattern]) => route === targetRoute && valueKey === normalizeFigureKey(targetValue) && sourcePattern.test(source));
+  if (correction) figure.label = correction[3];
+  return figure;
+}
 function figureFamily(label) {
   const normalized = clean(label).toLowerCase().replace(/\s+by\s+20\d{2}\b/g, '').replace(/^projected\s+/, '');
   if (/^(?:annual industry revenue|pr industry revenue)$/.test(normalized)) return 'industry revenue';
@@ -979,15 +1277,15 @@ function figureFamily(label) {
 function expandFigureValue(value, raw) {
   const targets = numericTokens(value);
   if (targets.length !== 1) return value;
-  const requestedUnit = String(value || '').match(/(?:lpa|lakhs?|crores?|thousand|million|billion|k|%|percent|years?|months?|weeks?|days?|hours?)\s*$/i)?.[0]?.trim();
+  const requestedUnit = String(value || '').match(/(?:lpa|lakhs?|crores?|l|thousand|million|billion|k|%|percent|years?|months?|weeks?|days?|hours?)\s*$/i)?.[0]?.trim();
   const number = String.raw`(?:\d{1,2}(?:,\d{2})+,\d{3}|\d+(?:,\d{3})*)(?:\.\d+)?`;
-  const range = new RegExp(String.raw`(?:₹|\b(?:rs\.?|inr)\b|\$)?\s*(${number})\s*(?:[-–—]|\bto\b)\s*(${number})(?:\s*(lpa|lakhs?|crores?|%|percent|years?|months?|weeks?|days?|hours?))?`, 'gi');
+  const range = new RegExp(String.raw`(?:₹|\b(?:rs\.?|inr)\b|\$)?\s*(${number})\s*(?:[-–—]|\bto\b)\s*(${number})(?:\s*(lpa|lakhs?|crores?|l|%|percent|years?|months?|weeks?|days?|hours?))?`, 'gi');
   for (const match of String(raw || '').matchAll(range)) {
     if (requestedUnit && normalizeFigureKey(requestedUnit) !== normalizeFigureKey(match[3] || '')) continue;
     const yearPercentMismatch = /%|percent/i.test(match[3] || '') && Number(match[1]) >= 1900 && Number(match[1]) <= 2100;
     if (!yearPercentMismatch && [match[1], match[2]].some((endpoint) => Number(endpoint.replaceAll(',', '')) === targets[0])) return match[0].trim();
   }
-  const amount = new RegExp(String.raw`(?:₹|\b(?:rs\.?|inr)\b|\$)?\s*(${number})\s*(lpa|lakhs?|crores?|thousand|million|billion|k|%|percent|years?|months?|weeks?|days?|hours?)?`, 'gi');
+  const amount = new RegExp(String.raw`(?:₹|\b(?:rs\.?|inr)\b|\$)?\s*(${number})\s*(lpa|lakhs?|crores?|l|thousand|million|billion|k|%|percent|years?|months?|weeks?|days?|hours?)?`, 'gi');
   for (const match of String(raw || '').matchAll(amount)) {
     if (Number(match[1].replaceAll(',', '')) !== targets[0] || !match[2]) continue;
     if (requestedUnit && normalizeFigureKey(requestedUnit) !== normalizeFigureKey(match[2])) continue;
@@ -1072,7 +1370,7 @@ function figureValueSupported(value, raw) {
   const source = numericTokens(raw);
   if (target.length === 1) {
     const number = String.raw`(?:\d{1,2}(?:,\d{2})+,\d{3}|\d+(?:,\d{3})*)(?:\.\d+)?`;
-    const range = new RegExp(String.raw`(?:₹|\b(?:rs\.?|inr)\b|\$)?\s*(${number})\s*(?:[-–—]|\bto\b)\s*(${number})(?:\s*(lpa|lakhs?|crores?|%|percent|years?|months?|weeks?|days?|hours?))?`, 'gi');
+    const range = new RegExp(String.raw`(?:₹|\b(?:rs\.?|inr)\b|\$)?\s*(${number})\s*(?:[-–—]|\bto\b)\s*(${number})(?:\s*(lpa|lakhs?|crores?|l|%|percent|years?|months?|weeks?|days?|hours?))?`, 'gi');
     for (const match of String(raw || '').matchAll(range)) {
       const values = [Number(match[1].replaceAll(',', '')), Number(match[2].replaceAll(',', ''))];
       if (values.includes(target[0])) return false;
@@ -1080,7 +1378,7 @@ function figureValueSupported(value, raw) {
   }
   const hasContiguousNumbers = target.length > 0 && source.some((_, index) => target.every((number, offset) => source[index + offset] === number));
   if (!hasContiguousNumbers) return false;
-  const unit = String(value || '').match(/%|\bpercent\b|\blpa\b|\blakhs?\b|\bcrores?\b|\byears?\b|\bmonths?\b|\bweeks?\b|\bdays?\b|\bhours?\b|\bvacancies\b|\bstudents?\b|\bjobs?\b|\bapplicants?\b|\bseats?\b/i)?.[0]?.toLowerCase();
+  const unit = String(value || '').match(/%|\bpercent\b|\blpa\b|\bl\b|\blakhs?\b|\bcrores?\b|\byears?\b|\bmonths?\b|\bweeks?\b|\bdays?\b|\bhours?\b|\bvacancies\b|\bstudents?\b|\bjobs?\b|\bapplicants?\b|\bseats?\b/i)?.[0]?.toLowerCase();
   if (unit) {
     const unitPattern = unit === '%' || unit === 'percent' ? /%|\bpercent\b/i
       : unit === 'lpa' || unit.startsWith('lakh') ? /\blpa\b|\blakhs?\b|\blakh\s+per\s+annum\b/i
@@ -1216,7 +1514,8 @@ function needBlock(need, data, topic = 'Career Guidance') {
         label = year ? `Projected PR Industry Revenue by ${year}` : 'Projected PR Industry Revenue';
       } else if (currencyValue && /public relations|\bpr industry\b/i.test(figureContext) && /revenue|crossed|reach(?:ed)?|grew|industry alone/i.test(figureContext)) label = 'PR Industry Revenue';
       if (currencyValue && /\bbudget\b/i.test(source)) {
-        if (/\b(?:a fifth|one fifth|20\s*%|20 percent)\b/i.test(immediateBefore) || /caution|warning|red flag/i.test(immediateAfter)) label = 'Budget Warning Threshold';
+        if (/caution|warning|red flag/i.test(immediateAfter)) label = 'Budget Warning Threshold';
+        else if (/\b(?:a fifth|one fifth|20\s*%|20 percent)\b/i.test(immediateBefore)) label = 'One-Fifth Budget Share';
         else if (/main course|degree fee|course fee|for the degree|for the credential/i.test(immediateAfter)) label = 'Main Course Fee Allocation';
         else if (/the rest|remaining|living costs|tools,? practice|future learning|reserve/i.test(immediateAfter)) label = 'Remaining Education Budget';
         else if (/education budget|rupee budget/i.test(immediateAfter) || /education budget/i.test(immediateBefore)) label = 'Education Budget Amount';
@@ -1312,7 +1611,7 @@ function needBlock(need, data, topic = 'Career Guidance') {
       .map((figure) => {
         if (!/^(?:typical salary range|reported amount|total job count)$/i.test(figure.label || '')) return figure;
         const contextLabel = clean(figure.source
-          .replace(/(?:₹|\b(?:rs\.?|inr)\b|\$)\s*[\d,.]+(?:\s*[-–—]\s*[\d,.]+)?\s*(?:lpa|lakhs?|crores?|thousand|million|billion)?/gi, ' ')
+          .replace(/(?:₹|\b(?:rs\.?|inr)\b|\$)\s*[\d,.]+(?:\s*[-–—]\s*[\d,.]+)?\s*(?:lpa|lakhs?|crores?|l|thousand|million|billion)?/gi, ' ')
           .replace(/\s+/g, ' ')
           .replace(/^[,.:;\s]+|[,.:;\s]+$/g, ''));
         return words(contextLabel).length > 0 && words(contextLabel).length <= 7
@@ -1332,7 +1631,7 @@ function needBlock(need, data, topic = 'Career Guidance') {
       .map((figure) => {
         if (!/^(?:typical salary range|reported amount|total job count)$/i.test(figure.label || '')) return figure;
         const contextLabel = clean(figure.source
-          .replace(/(?:₹|\b(?:rs\.?|inr)\b|\$)\s*[\d,.]+(?:\s*[-–—]\s*[\d,.]+)?\s*(?:lpa|lakhs?|crores?|thousand|million|billion)?/gi, ' ')
+          .replace(/(?:₹|\b(?:rs\.?|inr)\b|\$)\s*[\d,.]+(?:\s*[-–—]\s*[\d,.]+)?\s*(?:lpa|lakhs?|crores?|l|thousand|million|billion)?/gi, ' ')
           .replace(/\s+/g, ' ')
           .replace(/^[,.:;\s]+|[,.:;\s]+$/g, ''));
         return words(contextLabel).length > 0 && words(contextLabel).length <= 7
@@ -1558,7 +1857,7 @@ const pageNeeds = applyPlainLanguageEdits(needs.get(route) || [], edits); const 
   const add = async (type, body, meta) => {
     const index = manifest.filter((item) => item.type === type).length;
     const headingOverride = visualHeadingOverrides.get(route)?.[type];
-    const displayHeading = type === 'hero' ? meta.heading : headingOverride || completeShortHeading(shortHeading(balancedHeading(meta.heading || ''), compactTopic(topic)), compactTopic(topic));
+    const displayHeading = type === 'hero' ? headingOverride || heroTopic(meta.heading || topic, route) : headingOverride || completeShortHeading(shortHeading(balancedHeading(meta.heading || ''), compactTopic(topic)), compactTopic(topic));
     const captions = {
       summary: `Summary of ${displayHeading}.`,
       matrix: `Comparison of options covered in ${displayHeading}.`,
@@ -1568,7 +1867,7 @@ const pageNeeds = applyPlainLanguageEdits(needs.get(route) || [], edits); const 
       detail: `Focused evidence about ${displayHeading}.`,
     };
     const displayMeta = { ...meta, heading: displayHeading, ...(captions[type] ? { caption: captions[type] } : {}) };
-    const result = await writeVisual(dir, slug, type, index, body.desktop, body.mobile, { ...displayMeta, type, alt: uniqueAlt(visualAlt(type, displayHeading, topic), altUsed), title: displayMeta.title || visualTitle(type, displayHeading, topic, title), ...(displayMeta.content ? { content: displayMeta.content } : {}) }, body.social || null);
+    const result = await writeVisual(dir, slug, type, index, body.desktop, body.mobile, { ...displayMeta, type, alt: uniqueAlt(displayMeta.alt || visualAlt(type, displayHeading, topic), altUsed), title: displayMeta.title || visualTitle(type, displayHeading, topic, title), ...(displayMeta.content ? { content: displayMeta.content } : {}) }, body.social || null);
     manifest.push(result);
     for (const key of phraseKeys(displayHeading || '')) usedPhrases.add(key);
   };
@@ -1578,16 +1877,21 @@ const pageNeeds = applyPlainLanguageEdits(needs.get(route) || [], edits); const 
     .map((item) => ({ item, text: sentenceParts(clean(item.raw || item.text)).find((part) => /[.!]$/.test(part) && words(part).length >= 5 && words(part).length <= 14 && !badEnd.has(lastWord(part))) || '' }))
     .find(({ item, text }) => text && item !== heroAnswer.item && !isSharedPromoCopy(text) && !phraseKeys(text).some((key) => usedPhrases.has(key)));
   const answerItem = heroAnswer.text && words(heroAnswer.text).length <= 14 ? heroAnswer.item : shortAnswer?.item || null;
-  const answer = heroAnswerOverrides.get(route) || (heroAnswer.text && words(heroAnswer.text).length <= 14 ? heroAnswer.text : shortAnswer?.text || '');
+  const locationSlug = route.match(/^\/services\/career-counselling-and-career-guidance\/locations\/career-counselling-in-([^/]+)\/$/)?.[1];
+  const locationName = locationSlug ? titleCase(locationSlug.replaceAll('-', ' ')) : '';
+  const locationAnswer = locationName ? `Compare ${locationName} options using course costs and hiring evidence.` : '';
+  const answer = heroAnswerOverrides.get(route) || locationAnswer || (heroAnswer.text && words(heroAnswer.text).length <= 14 ? heroAnswer.text : shortAnswer?.text || '');
   if (answer) usedHeroAnswers.add(normalizeHeroAnswer(answer));
   if (answerItem && answer) markUsed({ ...answerItem, text: answer });
-const supportedHeroFigureLabels = new Set(['Entry Level Pay', 'Post MBA Pay', 'Typical Salary Range', 'Freelance Day Rate', 'Monthly Internship Stipend', 'Total Education Cost', 'Education Budget Example', 'Illustrative Education Budget', 'Education Budget Amount', 'Education Budget Share', 'Budget Warning Threshold', 'Exam Registration Fee', 'Exam Paper Fee', 'Total Course Duration', 'Qualification Time Window', 'Estimated Time Required', 'Relevant Experience Window', 'Proof Milestone Window', 'Platform Eligibility Window', 'Service Commitment Period', 'Notice Period', 'Pension Eligibility Period', 'MBA Pivot Intent', 'Post Study Work', 'Earning Decision Window', 'Hiring Transition Window', 'Available Course Seats', 'Course Seat Share', 'Reserved Vacancy Share', 'Vacancy Rate', 'Benchmark Eligibility Threshold', 'Interest Rate Concession', 'Education Loan Interest Rate', 'Reported Percentage', 'Total Exam Applicants', 'Exam Candidate Count', 'Registered Enterprise Count', 'Available Job Vacancies', 'Total Job Count', 'Annual Industry Revenue', 'PR Industry Revenue', 'Annual Export Value', 'Total Market Size', 'National 2030 Goal', 'Minimum Exam Marks', 'Exam Pass Rate', 'Graduate Employability Rate', 'Qualification Success Rate', 'Selection Funnel Rate', 'Fresher Share', 'Survey Response Share', 'Annual Traffic Growth', 'Hiring Demand Decline', 'Role Growth Rate', 'Industry Growth Rate', 'PR Industry Growth', 'Regional Market Share', 'Annual Staff Attrition', 'Skills Demand Gap', 'Additional Annual Income', 'Typical Deal Value', 'Education Loan Principal']);
+const supportedHeroFigureLabels = new Set(['Entry Level Pay', 'Senior-Level Salary Range', 'Salary Range Including Allowances', 'Daily Study Hours', 'Daily Sitting Time', 'Helpline Availability', 'Daily Free-Plan Limit', 'Post MBA Pay', 'Typical Salary Range', 'Freelance Day Rate', 'Monthly Internship Stipend', 'Monthly Fellowship Stipend', 'Monthly Articleship Stipend', 'Monthly Training Stipend', 'Monthly Stipend', 'Total Education Cost', 'Education Budget Example', 'Illustrative Education Budget', 'Education Budget Amount', 'Education Budget Share', 'One-Fifth Budget Share', 'Course Fee Above Budget Share', 'Budget Warning Threshold', 'Exam Registration Fee', 'Exam Paper Fee', 'Total Course Duration', 'Qualification Time Window', 'Estimated Time Required', 'Relevant Experience Window', 'Age Limit', 'Age Group', 'Fresher Age Limit', 'Experienced Age Limit', 'Survey Age Range', 'Proof Milestone Window', 'Income Transition Period', 'Example Project Duration', 'Platform Eligibility Window', 'Service Commitment Period', 'Notice Period', 'Pension Eligibility Period', 'MBA Pivot Intent', 'Post Study Work', 'Earning Decision Window', 'Hiring Transition Window', 'Available Course Seats', 'Course Seat Share', 'Reserved Vacancy Share', 'Vacancy Rate', 'Benchmark Eligibility Threshold', 'Interest Rate Concession', 'Education Loan Interest Rate', 'Reported Percentage', 'Total Exam Applicants', 'Exam Candidate Count', 'Registered Enterprise Count', 'Available Job Vacancies', 'Total Job Count', 'Annual Industry Revenue', 'PR Industry Revenue', 'Annual Export Value', 'Total Market Size', 'National 2030 Goal', 'Minimum Exam Marks', 'Exam Pass Rate', 'Graduate Employability Rate', 'Qualification Success Rate', 'Selection Funnel Rate', 'Fresher Share', 'Survey Response Share', 'Annual Traffic Growth', 'Hiring Demand Decline', 'Role Growth Rate', 'Industry Growth Rate', 'PR Industry Growth', 'Regional Market Share', 'Annual Staff Attrition', 'Skills Demand Gap', 'Additional Annual Income', 'Typical Deal Value', 'Education Loan Principal']);
 const heroFigureIsSupported = (figure) => supportedHeroFigureLabels.has(figure.label) || /^(?:(?:TCS|Infosys|Wipro|HCLTech|Accenture|Cognizant|Capgemini|Tech Mahindra) (?:Employee Count|Staff Change)|Employees in Reskilling|Employee Count Reported|Staff Change Reported)$/.test(figure.label);
 const budgetFigureTopic = `${title} ${slug}`;
 const educationSpendContext = /education|course|college|degree|tuition|study abroad|mba|professional course|after graduation/i.test(budgetFigureTopic);
 const explicitSpendTopic = /\b(?:cost|fees?|tuition|loan|budget|afford(?:ability)?|scholarships?|price|spending|spend|expensive)\b/i.test(budgetFigureTopic);
 const budgetTopicExplicitlyExcludesFees = /not (?:a |the )?course fee|course fees? (?:are )?not/i.test(budgetFigureTopic);
-const genericBudgetFigureLabel = (figure) => /^(?:Education Budget Example|Illustrative Education Budget|Education Loan Principal|Education Budget Amount|Education Budget Share|Budget Warning Threshold|Remaining Education Budget|Main Course Fee Allocation|Caution Threshold)$/i.test(figure.label)
+const genericBudgetFigureLabel = (figure) => /\ban illustration,? not a real fee\b/i.test(figure.source || '')
+  || /^(?:Education Budget Example|Illustrative Education Budget|Education Loan Principal|Education Budget Amount|Education Budget Share|Budget Warning Threshold|Remaining Education Budget|Main Course Fee Allocation|Caution Threshold)$/i.test(figure.label)
+  || (figure.label === 'Course Fee Allocation' && /(?:total|full) education budget/i.test(figure.source || '') && /(?:₹|rs\.?\s*)\s*10\s*lakh/i.test(figure.source || '') && /(?:₹|rs\.?\s*)\s*1\s*lakh/i.test(figure.source || ''))
   || (figure.label === 'Total Education Cost' && /education budget|illustration,? not a real fee|education budget example|worked example/i.test(figure.source || ''));
 const budgetFigureFitsTopic = (figure) => !genericBudgetFigureLabel(figure) || (educationSpendContext && explicitSpendTopic && !budgetTopicExplicitlyExcludesFees);
 const heroFigurePool = [...data.numberFacts, ...data.facts, ...data.sections.flatMap((section) => section.facts)].flatMap(figuresFromItem);
@@ -1596,19 +1900,29 @@ const routeHeroFigures = heroRouteFigureOverrides.get(route)?.map((override) => 
   const expectedNumbers = numericTokens(override.sourceValue || override.value).join('|');
   const normalizeSourceMatch = (value) => String(value || '').toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').replace(/\s+/g, ' ').trim();
   const phrase = normalizeSourceMatch(override.sourceIncludes);
+  const sourceMatch = heroFigurePool.find((candidate) => candidate.source && (!phrase || normalizeSourceMatch(candidate.source).includes(phrase)) && expectedNumbers.split('|').every((token) => numericTokens(candidate.source).includes(Number(token))));
   const figure = heroFigurePool.find((candidate) => numericTokens(candidate.value).join('|') === expectedNumbers && candidate.source && (!phrase || normalizeSourceMatch(candidate.source).includes(phrase)));
-  return figure ? { ...figure, value: override.value, label: override.label } : null;
+  const source = figure?.source || sourceMatch?.source;
+  return source ? { ...(figure || {}), value: override.value, label: override.label, source, text: source } : null;
 }).filter(Boolean).filter(budgetFigureFitsTopic) || null;
 const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigures || heroNumberFacts.filter((figure) => figure.source !== clean(answerItem?.raw || answerItem?.text || '') && ![figure.value, figure.label, figure.source].some((text) => phraseKeys(text).some((key) => usedPhrases.has(key)))).slice(0, 3);
-  const figures = selectedHeroFigures;
-  for (const figure of figures) markUsed({ raw: figure.source, text: figure.source });
-  let heroSupport = take(data.facts.filter((item) => item !== answerItem && !/[?]/.test(item.raw || item.text || '') && !figures.some((figure) => figure.text && item.raw.includes(figure.text))), 1, 9);
+  const figures = selectedHeroFigures.filter((figure) => {
+    const source = String(figure.source || '');
+    if (route === '/blog/career-options/career-after-civil-engineering-in-india/' && normalizeFigureKey(figure.value) === normalizeFigureKey('8-12 month') && /same 8-12 month structured window as GATE-PSU prep/i.test(source)) return false;
+    if (route === '/blog/government-jobs/government-jobs-after-engineering-india/' && normalizeFigureKey(figure.value) === normalizeFigureKey('3 months') && /forums love a .*cleared it in 3 months.* success story/i.test(source)) return false;
+    return true;
+  });
+  for (const figure of figures) {
+    applyRouteDurationLabelCorrection(route, figure);
+    markUsed({ raw: figure.source, text: figure.source });
+  }
+  let heroSupport = take(data.facts.filter((item) => item !== answerItem && !/[?]/.test(item.raw || item.text || '') && !/^(?:the focus here is on how to decide|real decisions are more specific)\.?$/i.test(clean(item.text || item.raw || '')) && !figures.some((figure) => figure.text && item.raw.includes(figure.text))), 1, 9);
   // heroRouteLabels already removes generic headings and labels that duplicate
   // the topic, answer, or support sentence. Filtering against every source
   // heading here rejected the very labels generated from those headings and
   // left most hero canvases with an unused lower half.
   const routeLabels = heroRouteLabels(data.headings.map((title) => ({ title })), topic, answer, heroSupport, route);
-  const heroWordCount = () => visualWordCount([typeTopLabel('hero'), topic, answer, ...figures.flatMap((figure) => [figure.value, figure.label]), ...heroSupport.map((item) => item.text), ...routeLabels].join(' '));
+  const heroWordCount = () => visualWordCount([typeTopLabel('hero'), topic, answer, ...figures.flatMap((figure) => [figure.value, figure.label]), ...heroSupport.map((item) => item.text), ...(figures.length ? [] : routeLabels)].join(' '));
   while (heroWordCount() > 40 && heroSupport.length) heroSupport.pop();
   while (heroWordCount() > 40 && routeLabels.length) routeLabels.pop();
   while (heroWordCount() > 40 && figures.length > 1) figures.pop();
@@ -1623,8 +1937,8 @@ const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigure
       const previous = JSON.parse(await readFile(join(dir, 'index.json'), 'utf8'));
       const previousHero = (previous.visuals || []).find((visual) => visual.type === 'hero');
       if (previousHero) manifest.push(previousHero);
-      else await add('hero', { desktop: heroVisual(answer, figures, topic, palette, DESKTOP, heroSupport, routeLabels), mobile: heroVisual(answer, figures, topic, palette, PHONE, heroSupport, routeLabels), social: socialHeroVisual(answer, figures, topic, palette, heroSupport) }, { alt: `A career pathway visual for ${compactTopic(topic)}.`, caption: `Career direction at a glance for ${compactTopic(topic)}.`, heading: topic, ...(heroContent ? { content: heroContent } : {}) });
-    } else await add('hero', { desktop: heroVisual(answer, figures, topic, palette, DESKTOP, heroSupport, routeLabels), mobile: heroVisual(answer, figures, topic, palette, PHONE, heroSupport, routeLabels), social: socialHeroVisual(answer, figures, topic, palette, heroSupport) }, { alt: `A career pathway visual for ${compactTopic(topic)}.`, caption: `Career direction at a glance for ${compactTopic(topic)}.`, heading: topic, ...(heroContent ? { content: heroContent } : {}) });
+      else await add('hero', { desktop: heroVisual(answer, figures, topic, palette, DESKTOP, heroSupport, routeLabels, route), mobile: heroVisual(answer, figures, topic, palette, PHONE, heroSupport, routeLabels, route), social: socialHeroVisual(answer, figures, topic, palette, heroSupport, route) }, { alt: heroAlt(topic, answer, title, route), caption: `Career direction at a glance for ${compactTopic(topic)}.`, heading: topic, ...(heroContent ? { content: heroContent } : {}) });
+    } else await add('hero', { desktop: heroVisual(answer, figures, topic, palette, DESKTOP, heroSupport, routeLabels, route), mobile: heroVisual(answer, figures, topic, palette, PHONE, heroSupport, routeLabels, route), social: socialHeroVisual(answer, figures, topic, palette, heroSupport, route) }, { alt: heroAlt(topic, answer, title, route), caption: `Career direction at a glance for ${compactTopic(topic)}.`, heading: topic, ...(heroContent ? { content: heroContent } : {}) });
     if (onlyHero) {
       const manifestPath = join(dir, 'index.json');
       const previous = JSON.parse(await readFile(manifestPath, 'utf8'));
@@ -1640,8 +1954,24 @@ const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigure
   for (const need of chosen.slice(0, 3)) { const items = take(itemsFromNeed(need, data), need.type === 'proof' ? 1 : 2, need.type === 'proof' ? 14 : 10); const figures = need.type === 'proof' ? items.map(figureFromItem).filter(Boolean).filter((figure) => figure.source && figureValueSupported(figure.value, figure.source)).slice(0, 2) : []; if ((!items.length && need.type !== 'matrix') || (need.type === 'proof' && !figures.length)) continue; const rawSectionHeading = shortHeading(need.section_title, data.headings[0] || topic); const sectionHeading = isGenericVisualHeading(rawSectionHeading) ? shortHeading(topic, topic) : rawSectionHeading; const coreHeading = need.type === 'proof' ? proofHeading(items, rawSectionHeading, topic) : need.type === 'matrix' ? (!isGenericVisualHeading(sectionHeading) ? sectionHeading : contentHeading(items[0], topic)) : contentHeading(items[0], sectionHeading); const heading = visualHeadingOverrides.get(route)?.[need.type] || uniqueVisualHeading(shortHeading(isBlog ? coreHeading : pageContextHeading(coreHeading, topic, slug), compactTopic(topic)), items[0] || { text: (matrix?.rows || []).flat().join(' ') }, topic, need.type, manifest, usedPhrases); if (need.type === 'matrix') { while (matrix.rows.length > 1 && visualWordCount([typeTopLabel('matrix'), heading, ...matrix.columns, ...matrix.rows.flat(), 'Source comparison'].join(' ')) > 40) matrix.rows.pop(); if (visualWordCount([typeTopLabel('matrix'), heading, ...matrix.columns, ...matrix.rows.flat(), 'Source comparison'].join(' ')) > 40) continue; } let body; let content; if (need.type === 'matrix') { const table = matrix; table.sourceRows.forEach((row) => row.forEach((cell) => markUsed({ text: cell, raw: cell }))); body = { desktop: tableVisual(table, palette, heading, DESKTOP), mobile: tableVisual(table, palette, heading, PHONE) }; content = { kind: 'table', columns: table.columns, rows: table.rows }; } else if (need.type === 'proof') { body = { desktop: proofVisual(items, palette, heading, DESKTOP), mobile: proofVisual(items, palette, heading, PHONE) }; content = { kind: 'figures', figures }; } else { body = { desktop: cardVisual(items, palette, need.type, heading, DESKTOP), mobile: cardVisual(items, palette, need.type, heading, PHONE) }; content = { kind: 'items', items: items.map((item) => ({ heading: '', text: item.text })) }; } const description = need.type === 'matrix' ? `Comparison table showing ${heading}.` : need.type === 'proof' ? `Figure tiles showing ${heading}: ${figures.map((item) => item.label).join(', ')}.` : need.type === 'checklist' ? `A checklist highlights ${heading}.` : need.type === 'chain' ? `A sequence outlines ${heading}.` : `An evidence card explains ${heading}.`; await add(need.type, body, { alt: description, caption: need.type === 'matrix' ? `Comparison table for ${heading}.` : need.type === 'proof' ? `Article figures about ${heading}.` : need.type === 'checklist' ? `Checklist for ${heading}.` : need.type === 'chain' ? `Steps for ${heading}.` : `Evidence about ${heading}.`, heading, content }); }
   if (manifest.length < 4) { const candidates = data.sections.filter((section) => section.facts.length); for (const section of candidates) { if (manifest.length >= 4) break; const items = take(section.facts, 2, 14); if (!items.length) continue; const coreHeading = contentHeading(items[0], isGenericVisualHeading(section.title) ? topic : section.title); const heading = uniqueVisualHeading(shortHeading(isBlog ? coreHeading : pageContextHeading(coreHeading, topic, slug), compactTopic(topic)), items[0], topic, 'detail', manifest); while (items.length > 1 && visualWordCount([typeTopLabel('detail'), heading, ...items.map((item) => item.text)].join(' ')) > 40) items.pop(); await add('detail', { desktop: cardVisual(items, palette, 'detail', heading, DESKTOP), mobile: cardVisual(items, palette, 'detail', heading, PHONE) }, { alt: `An evidence card explains ${heading}.`, caption: `Focused evidence: ${heading}.`, heading, content: { kind: 'items', items: items.map((item) => ({ heading: '', text: item.text })) } }); } }
   if (manifest.length < 4) { const pool = [...data.lists, ...data.facts]; while (manifest.length < 4) { const item = take(pool, 1)[0]; if (!item) break; const heading = uniqueVisualHeading(shortHeading(contentHeading(item, topic), compactTopic(topic)), item, topic, 'detail', manifest); await add('detail', { desktop: cardVisual([item], palette, 'detail', heading, DESKTOP), mobile: cardVisual([item], palette, 'detail', heading, PHONE) }, { alt: `An evidence card explains ${heading}.`, caption: `Evidence card: ${heading}.`, heading, content: { kind: 'items', items: [{ heading: '', text: item.text }] } }); } }
-  const needBlocks = pageNeeds.map((need, index) => ({ ...needBlock(need, data, topic), needId: `${need.type}:${index + 1}`, sourceSectionId: need.section_id || '', sourceNeedIndex: index + 1 }));
+  let needBlocks = pageNeeds.map((need, index) => ({ ...needBlock(need, data, topic), needId: `${need.type}:${index + 1}`, sourceSectionId: need.section_id || '', sourceNeedIndex: index + 1 }));
+  const nonTopicBudgetNeedIndexes = new Set();
+  for (const block of needBlocks) {
+    if (block.type !== 'proof' || !Array.isArray(block.figures) || !block.figures.length) continue;
+    const originalFigures = block.figures;
+    block.figures = originalFigures.filter(budgetFigureFitsTopic);
+    if (!block.figures.length && originalFigures.every(genericBudgetFigureLabel)
+      && ![...originalFigures].some((figure) => budgetFigureFitsTopic(figure))) {
+      nonTopicBudgetNeedIndexes.add(String(block.sourceNeedIndex));
+    }
+  }
+  if (nonTopicBudgetNeedIndexes.size) {
+    needBlocks = needBlocks.filter((block) => !nonTopicBudgetNeedIndexes.has(String(block.sourceNeedIndex)));
+    console.info(`[visual-needs] omitted ${nonTopicBudgetNeedIndexes.size} non-topic generic budget sections on ${route}`);
+  }
   const needFigureKey = (figure) => `${normalizeFigureKey(figure?.value)}|${figureFamily(figure?.label)}`;
+  const normalizeFigureSource = (value) => clean(value).toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').replace(/\s+/g, ' ').trim();
+  const heroFigureSources = new Set(selectedHeroFigures.map((figure) => normalizeFigureSource(figure.source || figure.text)).filter(Boolean));
   const seenNeedFigures = new Set(selectedHeroFigures.map(needFigureKey));
   const redundantFigureNeedIndexes = new Set();
   for (const block of needBlocks) {
@@ -1649,6 +1979,8 @@ const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigure
     const originalFigures = block.figures;
     const uniqueFigures = originalFigures.filter((figure) => {
       const key = needFigureKey(figure);
+      const sourceKey = normalizeFigureSource(figure.source || figure.text);
+      if (sourceKey && heroFigureSources.has(sourceKey)) return false;
       if (!key || seenNeedFigures.has(key)) return false;
       seenNeedFigures.add(key);
       return true;
@@ -1776,7 +2108,8 @@ const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigure
       if (/starting benchmark|suggestion|recommended|keep.{0,28}(?:near|under|within)|target share/.test(nearby)) return 'Education Budget Share';
       return /caution|warning|red flag|spending above|above roughly|serious caution/.test(nearby) ? 'Budget Warning Threshold' : 'Education Budget Share';
     }
-    if (/\ba fifth\b|\bone fifth\b/.test(before) || /caution|warning|red flag/.test(after)) return 'Budget Warning Threshold';
+    if (/caution|warning|red flag/.test(after)) return 'Budget Warning Threshold';
+    if (/\ba fifth\b|\bone fifth\b/.test(before)) return 'One-Fifth Budget Share';
     if (/main course|degree fee|course fee|for the degree|for the credential/.test(after)) return 'Main Course Fee Allocation';
     if (/the rest|remaining|living costs|tools,? practice|future learning|reserve/.test(after)) return 'Remaining Education Budget';
     if (/education budget|rupee budget/.test(after)) return 'Education Budget Amount';
@@ -1785,6 +2118,51 @@ const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigure
   const validateFigureTree = (node) => {
     if (Array.isArray(node)) { for (const item of node) validateFigureTree(item); return; }
     if (!node || typeof node !== 'object') return;
+    if (Array.isArray(node.figures) && route === '/blog/freelancing-business/starting-a-business-vs-job-india-which-is-better/') {
+      node.figures = node.figures.filter((figure) => !(normalizeFigureKey(figure.value) === normalizeFigureKey('3-6 months') && /Most people underestimate how much runway a business needs/i.test(String(figure.source || ''))));
+    }
+    if (Array.isArray(node.figures) && route === '/blog/career-change/career-change-at-30-india/') {
+      node.figures = node.figures.filter((figure) => !(normalizeFigureKey(figure.value) === normalizeFigureKey('12 month') && /Finnovate: Emergency Fund in India, the 3-6-12 Rule/i.test(String(figure.source || ''))));
+    }
+    if (Array.isArray(node.figures) && route === '/blog/career-options/best-mba-specialization-for-engineers/') {
+      node.figures = node.figures.filter((figure) => !(normalizeFigureKey(figure.value) === normalizeFigureKey('2-4 years') && /ideal work-experience range for flagship MBA programs/i.test(String(figure.source || ''))));
+    }
+    if (Array.isArray(node.figures) && route === '/blog/ai-future/best-career-paths-for-the-next-10-years/') {
+      node.figures = node.figures.filter((figure) => {
+        const source = String(figure.source || '');
+        const questionOnlyHorizon = normalizeFigureKey(figure.value) === normalizeFigureKey('10 years') && /^Does the degree I choose now limit my options for the next 10 years\?$/i.test(source);
+        const negatedTransition = normalizeFigureKey(figure.value) === normalizeFigureKey('4 years') && /not 4 years/i.test(source);
+        return !questionOnlyHorizon && !negatedTransition;
+      });
+    }
+    if (Array.isArray(node.figures) && route === '/blog/career-options/career-after-civil-engineering-in-india/') {
+      node.figures = node.figures.filter((figure) => !(normalizeFigureKey(figure.value) === normalizeFigureKey('8-12 month') && /same 8-12 month structured window as GATE-PSU prep/i.test(String(figure.source || ''))));
+    }
+    if (Array.isArray(node.figures) && route === '/blog/career-options/career-in-navy-after-12th-science/') {
+      node.figures = node.figures.filter((figure) => !(normalizeFigureKey(figure.value) === normalizeFigureKey('3 years') && /Selected cadets train for 3 years at NDA Khadakwasla alongside Army and Air Force cadets, then move to the Indian Naval Academy, Ezhimala for 1 more year of specialised naval training before commissioning as Sub-Lieutenant\.$/i.test(String(figure.source || ''))));
+    }
+    if (Array.isArray(node.figures) && route === '/blog/government-jobs/defence-services-career-india/') {
+      node.figures = node.figures.filter((figure) => !(normalizeFigureKey(figure.value) === normalizeFigureKey('3 years') && /Selected cadets train for 3 years at NDA Khadakwasla across all three services together, then move to their respective service academy for 1 more year of specialised training before commissioning as an officer\.$/i.test(String(figure.source || ''))));
+    }
+    if (Array.isArray(node.figures) && route === '/blog/career-options/hotel-management-career-india-scope-and-salary/') {
+      node.figures = node.figures.filter((figure) => !(normalizeFigureKey(figure.value) === normalizeFigureKey('2-3 years') && /Graduates who know the first 2-3 years will be physically and socially demanding/i.test(String(figure.source || ''))));
+    }
+    if (Array.isArray(node.figures) && route === '/blog/government-jobs/government-jobs-after-engineering-india/') {
+      node.figures = node.figures.filter((figure) => !(normalizeFigureKey(figure.value) === normalizeFigureKey('3 months') && /forums love a .*cleared it in 3 months.* success story/i.test(String(figure.source || ''))));
+    }
+    if (Array.isArray(node.figures) && route === '/blog/study-abroad/canada-vs-germany-for-masters-india/') {
+      node.figures = node.figures.filter((figure) => !(normalizeFigureKey(figure.value) === normalizeFigureKey('21 months') && /Canada has the clearer, faster path on paper/i.test(String(figure.source || ''))));
+    }
+    if (Array.isArray(node.figures) && ['/blog/career-options/is-physiotherapy-a-good-career-in-india/', '/blog/career-options/is-food-technology-a-good-career-in-india/'].includes(route)) {
+      const seenEarlyPayWindow = new Set();
+      node.figures = node.figures.filter((figure) => {
+        if (!/early.career pay window/i.test(String(figure.label || ''))) return true;
+        const key = normalizeFigureKey(figure.value);
+        if (seenEarlyPayWindow.has(key)) return false;
+        seenEarlyPayWindow.add(key);
+        return true;
+      });
+    }
     if (Array.isArray(node.figures)) {
       node.figures = node.figures.map((figure) => {
         const contextual = contextualBudgetLabel(figure);
@@ -1793,7 +2171,11 @@ const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigure
         const label = curated?.label || threeWordFigureLabel(contextual || figure.label, figure.source || figure.text, figure.value);
         return label ? { ...figure, ...(curated?.value ? { value: curated.value } : {}), label } : null;
       }).filter(Boolean);
-      const valid = node.figures.filter((figure) => String(figure.value || '').trim() && figure.source && figureValueSupported(figure.value, figure.source));
+      // The repeated education-budget example is useful only on pages whose
+      // subject is explicitly about education spending. Keep it out of proof
+      // cards for unrelated career topics even when a shared article paragraph
+      // happens to contain those figures.
+      const valid = node.figures.filter((figure) => budgetFigureFitsTopic(figure) && String(figure.value || '').trim() && figure.source && figureValueSupported(figure.value, figure.source));
       node.figures = valid;
       if (!valid.length && node.kind === 'figures') { node.kind = 'items'; node.items = []; }
     }
@@ -1852,11 +2234,17 @@ const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigure
   const missingRenderableNeeds = needBlocks.filter((block) => block.sourceNeedIndex && !representedNeedKeys.has(String(block.sourceNeedIndex)));
   for (const original of missingRenderableNeeds) {
     const block = structuredClone(original);
+    if (Array.isArray(block.figures)) {
+      block.figures = block.figures.filter(budgetFigureFitsTopic);
+      if (!block.figures.length) { block.figures = undefined; block.kind = 'items'; block.items = []; }
+    }
     if (!hasNeedContent(block)) {
       const sourceSection = sectionForNeed(original, data);
       const groundedItems = (sourceSection?.facts || [])
         .map((fact) => clean(fact.raw || fact.text))
-        .filter((text) => text && (original.type !== 'proof' || /(?:₹|\b(?:rs\.?|inr)\b|\$)\s*[\d,.]+|\d+(?:,\d{3})*(?:\.\d+)?\s*(?:%|percent|lpa|lakh|crore|years?|months?|weeks?|hours?|days?)/i.test(text)))
+        .filter((text) => text
+          && (!/\ban illustration,? not a real fee\b/i.test(text) || (educationSpendContext && explicitSpendTopic && !budgetTopicExplicitlyExcludesFees))
+          && (original.type !== 'proof' || /(?:₹|\b(?:rs\.?|inr)\b|\$)\s*[\d,.]+|\d+(?:,\d{3})*(?:\.\d+)?\s*(?:%|percent|lpa|lakh|crore|years?|months?|weeks?|hours?|days?)/i.test(text)))
         .slice(0, 3);
       if (groundedItems.length) {
         block.kind = 'items';
@@ -2031,6 +2419,10 @@ const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigure
   const removeUnvaluedFigures = (node) => {
     if (Array.isArray(node)) { for (const value of node) removeUnvaluedFigures(value); return; }
     if (!node || typeof node !== 'object') return;
+    if (route === '/blog/government-jobs/ssc-vs-bank-exams-which-to-prepare-india/' && Array.isArray(node.steps) && node.steps.length) {
+      // The article body already links both official notices; keep the hero focused on the comparison.
+      node.supporting = [];
+    }
     if (Array.isArray(node.figures)) {
       const valid = node.figures.filter((figure) => String(figure.value || '').trim() && figure.source && figure.label && figureValueSupported(figure.value, figure.source));
       const unsupportedSources = node.figures.filter((figure) => !valid.includes(figure)).map((figure) => clean(figure.source || figure.text || '')).filter(Boolean);
@@ -2047,7 +2439,34 @@ const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigure
   const applyVerifiedContentCorrections = (node) => {
     if (Array.isArray(node)) { for (const value of node) applyVerifiedContentCorrections(value); return; }
     if (!node || typeof node !== 'object') return;
+    if (Array.isArray(node.figures)) {
+      const seenExactFigureEvidence = new Set();
+      node.figures = node.figures.filter((figure) => {
+        const key = `${normalizeFigureKey(figure.value)}|${clean(figure.source || '').toLowerCase()}`;
+        if (seenExactFigureEvidence.has(key)) return false;
+        seenExactFigureEvidence.add(key);
+        return true;
+      });
+    }
     if (Array.isArray(node.figures)) for (const figure of node.figures) {
+      applyRouteDurationLabelCorrection(route, figure);
+    }
+    if (Array.isArray(node.figures) && route === '/blog/career-change/career-change-after-5-years-india/' && node.sourceSectionId === 'faqs') {
+      node.figures = node.figures.filter((figure) => {
+        const source = String(figure.source || '').trim();
+        const questionOnly = normalizeFigureKey(figure.value) === normalizeFigureKey('5 years') && /^Is 5 years too early to change careers in India\?$/i.test(source);
+        const duplicateTenure = normalizeFigureKey(figure.value) === normalizeFigureKey('18 months') && /^Recruiters read a clean, well-reasoned move at year 5/i.test(source);
+        return !questionOnly && !duplicateTenure;
+      });
+    }
+    if (Array.isArray(node.figures)) for (const figure of node.figures) {
+      const figureValue = String(figure.value || '');
+      const figureSource = String(figure.source || '');
+      if (/\byears?\b/i.test(figureValue) && /\bage\s+(?:limit|range|band|bands|criteria)|\bage\s+of\b|age limits?\b|candidates?\s+aged|aged\s+\d/i.test(figureSource)) {
+        const valueAt = figureSource.toLowerCase().indexOf(figureValue.toLowerCase());
+        const afterValue = valueAt >= 0 ? figureSource.slice(valueAt + figureValue.length, valueAt + figureValue.length + 32) : '';
+        if (!/^(?:IBPS|SBI) PO Age Limit$/i.test(figure.label || '')) figure.label = /age groups?|year olds/i.test(figureSource) || /age bands?/i.test(figureSource) && /statistics|distribution|respondent/i.test(figureSource) ? 'Age Group' : /survey|respondent|participant/i.test(figureSource) ? 'Survey Age Range' : /experienced crew/i.test(afterValue) ? 'Experienced Age Limit' : /freshers?/i.test(afterValue) ? 'Fresher Age Limit' : 'Age Limit';
+      }
       if (route === '/blog/career-options/career-options-after-12th-except-engineering/' && normalizeFigureKey(figure.value) === normalizeFigureKey('₹3,83,00,000')) figure.label = 'Implied Education Budget';
       if (route === '/blog/career-options/career-options-after-graduation/' && normalizeFigureKey(figure.value) === normalizeFigureKey('₹9 lakh')) figure.label = 'Remaining Education Budget';
       if (route === '/blog/career-options/how-to-get-into-event-management-india/' && normalizeFigureKey(figure.value) === normalizeFigureKey('10-20%') && /total event budget/i.test(figure.source || '')) figure.label = 'Total Event Budget Share';
@@ -2055,7 +2474,25 @@ const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigure
       if (route === '/blog/career-options/commerce-career-options-with-salary/' && normalizeFigureKey(figure.value) === normalizeFigureKey('₹5.60 lakh')) figure.label = 'PayScale BBA Profile Average';
       if (route === '/blog/career-options/commerce-career-options-with-salary/' && normalizeFigureKey(figure.value) === normalizeFigureKey('₹18,000')) figure.label = 'Median Monthly Entry Pay';
       if (route === '/blog/career-options/commerce-career-options-with-salary/' && normalizeFigureKey(figure.value) === normalizeFigureKey('₹25,000')) figure.label = 'Monthly Pay After 3+ Years';
+      if (route === '/blog/career-change/career-change-after-5-years-india/' && normalizeFigureKey(figure.value) === normalizeFigureKey('5 years') && /specific bind|at 5 years|career change after 5 years|five years is exactly when/i.test(figure.source || '')) figure.label = 'Career Transition Timing';
+      if (route === '/blog/career-change/career-change-after-5-years-india/' && normalizeFigureKey(figure.value) === normalizeFigureKey('0-2 years') && /built for 0-2 years/i.test(figure.source || '')) figure.label = 'Entry-Level Experience Band';
+      if (route === '/blog/career-change/career-change-after-5-years-india/' && normalizeFigureKey(figure.value) === normalizeFigureKey('2-3 years') && /switching jobs every 2-3 years/i.test(figure.source || '')) figure.label = 'Typical Job-Change Interval';
+      if (route === '/blog/career-change/career-change-after-5-years-india/' && node.sourceSectionId === 'faqs') {
+        if (normalizeFigureKey(figure.value) === normalizeFigureKey('18 months') && /tenure at each stop/i.test(figure.source || '')) figure.label = 'Minimum Tenure per Role';
+        if (normalizeFigureKey(figure.value) === normalizeFigureKey('3-6 month') && /existing 3-6 month emergency fund/i.test(figure.source || '')) figure.label = 'Emergency Fund Duration';
+        if (normalizeFigureKey(figure.value) === normalizeFigureKey('1-3 year') && /retention bonus tied to a 1-3 year lock-in/i.test(figure.source || '')) figure.label = 'Retention Bonus Lock-In';
+        if (normalizeFigureKey(figure.value) === normalizeFigureKey('12 months') && /expenses set aside/i.test(figure.source || '')) figure.label = 'Expense Runway';
+        if (normalizeFigureKey(figure.value) === normalizeFigureKey('3-4 years') && /3-4 years head start/i.test(figure.source || '')) figure.label = 'Experience Head Start';
+      }
       if (route === '/blog/career-change/career-switch-from-it-to-management-india/' && normalizeFigureKey(figure.value) === normalizeFigureKey('3-6 months') && /emergency fund/i.test(figure.source || '')) figure.label = 'Emergency Fund Coverage';
+    }
+    if (Array.isArray(node.figures) && route === '/blog/medical-careers/bsc-nursing-scope-abroad/') node.figures = node.figures.filter((figure) => !/^F1 Jobs: November 2026 Visa Bulletin explained/i.test(String(figure.source || '')));
+    if (Array.isArray(node.figures) && route === '/blog/career-options/video-editing-career-india-how-to-become-a-video-editor/') {
+      const sourceFigure = node.figures.find((figure) => /Video editor pay in India spans roughly/i.test(String(figure.source || '')));
+      if (sourceFigure) node.figures = [ { ...sourceFigure, value: '₹1.8L', label: 'Fresher Annual Pay' }, { ...sourceFigure, value: '₹10L+', label: 'Senior Annual Pay' } ];
+    }
+    if (Array.isArray(node.figures) && route === '/blog/career-options/political-science-career-options/') for (const figure of node.figures) {
+      if (/^Entry\s*~?\s*₹3-5L\b/i.test(String(figure.source || ''))) { figure.value = '₹3-5L'; figure.label = 'Entry Pay Range'; }
     }
     for (const value of Object.values(node)) if (value && typeof value === 'object') applyVerifiedContentCorrections(value);
   };
@@ -2113,6 +2550,15 @@ const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigure
       if (first) first.heading = 'Compare Routes by Eligibility';
     }
   }
+  const finalNeedHeadingOverrides = needHeadingOverrides.get(route) || {};
+  const applyFinalNeedHeadingOverrides = (node) => {
+    if (Array.isArray(node)) { for (const value of node) applyFinalNeedHeadingOverrides(value); return; }
+    if (!node || typeof node !== 'object') return;
+    const override = finalNeedHeadingOverrides[node.sourceSectionId];
+    if (override) node.heading = override;
+    for (const value of Object.values(node)) if (value && typeof value === 'object') applyFinalNeedHeadingOverrides(value);
+  };
+  for (const visual of manifest) applyFinalNeedHeadingOverrides(visual.content);
   visualCount += manifest.length;
   await writeManifest(join(dir, 'index.json'), JSON.stringify({
     version: 11,

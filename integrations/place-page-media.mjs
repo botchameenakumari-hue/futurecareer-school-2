@@ -199,6 +199,10 @@ function visualWordCount(value) {
 function compactVisualLabel(value) {
   const source = plainText(String(value || '')).replace(/\([^)]*\)/g, ' ').replace(/\s+/g, ' ').trim();
   const concisePatterns = [
+    [/^turnkey platforms like livspace and homelane have created\b/i, 'Turnkey Platforms Create New Jobs'],
+    [/^smart-metering rollouts and ai-assisted scada tools have already changed\b/i, 'Smart Metering and SCADA Change Junior Work'],
+    [/^at the same time,? india has just over 600 qualified actuaries\b/i, 'India Has a Shortage of Qualified Actuaries'],
+    [/^architecture with registration:? a practice has\b/i, 'Registered Architects Can Build a Practice'],
     [/^build or confirm an emergency fund\b/i, 'Emergency fund runway'],
     [/^if you are financing a course\b/i, 'Course cost against realistic income'],
     [/^separate\b.*\bfinancial risk\b/i, 'Career change plus financial risk'],
@@ -208,7 +212,7 @@ function compactVisualLabel(value) {
   ];
   for (const [pattern, label] of concisePatterns) if (pattern.test(source)) return label;
   const firstSentence = source.match(/^[^.!?]*[.!?](?:\s|$)/)?.[0]?.trim() || '';
-  if (firstSentence && visualWordCount(firstSentence) <= 7) return firstSentence;
+  if (firstSentence && visualWordCount(firstSentence) <= 9) return firstSentence;
   const cleaned = source
     .replace(/^(?:if|when)\s+(?:you|you are|you\u2019re|you've|you have)\s+/i, '')
     .replace(/\bI am changing fields\b/gi, 'career change')
@@ -218,7 +222,11 @@ function compactVisualLabel(value) {
   const phraseTokens = tokens.slice(0, 7);
   while (phraseTokens.length > 2 && stopWords.has(phraseTokens.at(-1).toLowerCase())) phraseTokens.pop();
   const label = phraseTokens.join(' ').replace(/^\p{L}/u, (letter) => letter.toLocaleUpperCase());
-  if (label && visualWordCount(label) >= 3 && !isIncompleteTableCell(label)) return label;
+  const sourceOffset = source.toLocaleLowerCase().indexOf(label.toLocaleLowerCase());
+  const remainder = sourceOffset >= 0 ? source.slice(sourceOffset + label.length).trim() : '';
+  const stopsBeforeUnit = /(?:₹|\$|\b(?:rs\.?|inr)\b)?\s*\d[\d,.]*$/i.test(label)
+    && /^(?:lakh|lakhs|crore|crores|lpa|percent|%|per month|a month|per year|a year|years?|months?)\b/i.test(remainder);
+  if (label && visualWordCount(label) >= 3 && !isIncompleteTableCell(label) && !stopsBeforeUnit) return label;
   return 'Open the full detail';
 }
 
@@ -596,7 +604,7 @@ function compactTableCell(value, maxWords = 6) {
     .replace(/\s+/g, ' ').trim();
   if (!source || (visualWordCount(source) <= maxWords && !isIncompleteTableCell(source))) return source;
   const badStart = new Set(['a', 'an', 'the', 'and', 'or', 'but', 'with', 'for', 'to', 'of', 'in', 'on', 'by', 'from', 'at', 'as', 'which', 'that', 'who', 'what', 'how']);
-  const badEnd = new Set(['a', 'an', 'the', 'and', 'or', 'but', 'with', 'for', 'to', 'of', 'in', 'on', 'by', 'from', 'at', 'as', 'which', 'that', 'who', 'what', 'how', 'increasingly', 'regularly', 'usually', 'generally', 'especially', 'mostly']);
+  const badEnd = new Set(['a', 'an', 'the', 'and', 'or', 'but', 'with', 'for', 'to', 'of', 'in', 'on', 'by', 'from', 'at', 'as', 'which', 'that', 'who', 'what', 'how', 'whether', 'if', 'unless', 'even', 'while', 'when', 'although', 'since', 'including', 'increasingly', 'regularly', 'usually', 'generally', 'especially', 'mostly']);
   const matches = [...source.matchAll(/\S+/g)];
   const candidates = [];
   for (let start = 0; start < matches.length; start += 1) {
@@ -630,7 +638,7 @@ function topicMatrixPreview(pageTitle) {
     },
     {
       match: /how to get a product manager job after engineering/,
-      columns: ['Entry Route', 'Best Fit', 'Reality Check'],
+      columns: ['Hiring Path', 'Best Fit', 'Reality Check'],
       row: ['Structured APM program', 'Final-year students', 'Campus windows are narrow'],
     },
     {
@@ -660,9 +668,20 @@ function isIncompleteTableCell(value) {
   if (last === 'you' && /^what\s+(?:energizes|motivates|drives|interests|matters to)\b/i.test(text)) return false;
   return new Set([
     'a', 'an', 'the', 'and', 'or', 'but', 'with', 'for', 'to', 'of', 'in', 'on', 'by', 'from', 'at', 'as',
-    'which', 'that', 'who', 'whose', 'what', 'how', 'because', 'than', 'can', 'could', 'would', 'should', 'will',
+    'which', 'that', 'who', 'whose', 'what', 'how', 'because', 'than', 'whether', 'if', 'unless', 'even', 'while', 'when', 'although', 'since', 'including', 'can', 'could', 'would', 'should', 'will', 'have', 'has', 'had',
     'do', 'does', 'did', 'is', 'are', 'am', 'was', 'were', 'be', 'been', 'being', 'you', 'your', 'yours',
     'our', 'their', 'its', 'his', 'her', 'more', 'less', 'whole', 'piece', 'point', 'another', 'other', 'same',
+  ]).has(last);
+}
+
+function isIncompleteVisualHeading(value) {
+  if (isIncompleteTableCell(value)) return true;
+  const tokens = plainText(String(value || '')).match(/[\p{L}\p{N}]+(?:['’][\p{L}\p{N}]+)*/gu) || [];
+  const last = tokens.at(-1)?.toLowerCase();
+  return new Set([
+    'into', 'onto', 'upon', 'through', 'throughout', 'within', 'without', 'across', 'around', 'between',
+    'under', 'over', 'before', 'after', 'during', 'until', 'toward', 'towards', 'against', 'among',
+    'this', 'that', 'these', 'those', 'one', 'whether', 'only', 'just', 'not', 'because', 'although',
   ]).has(last);
 }
 
@@ -706,7 +725,7 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
   const initialHeadingWords = visualWordCount(initialHeading);
   const headingTooLong = initialHeadingWords > (visual.type === 'hero' ? 14 : 7);
   const headingIsPageTitle = visual.type !== 'hero' && normalizeHeading(initialHeading) === normalizeHeading(pageTitle);
-  const headingIsIncomplete = visual.type !== 'hero' && isIncompleteTableCell(initialHeading);
+  const headingIsIncomplete = visual.type !== 'hero' && isIncompleteVisualHeading(initialHeading);
   const displayHeading = fitHeading(
     !initialHeadingWords || headingTooLong || headingIsPageTitle || headingIsIncomplete ? '' : initialHeading,
     headingFallback,
@@ -714,8 +733,20 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
   const renderBlock = (block, visible = true) => {
     const omitAnswer = heroAnswerIsHeading && block.answer === firstAnswer;
     const prioritizeTable = visual.type === 'matrix' && block.kind === 'table' && visible;
-    const answer = block.answer && !omitAnswer && !prioritizeTable ? renderCopy(block.answer, 'article-live-answer', visible) : '';
-    const supporting = !prioritizeTable && Array.isArray(block.supporting) ? block.supporting.filter(Boolean).filter((text) => {
+    const prioritizeFigures = visual.type === 'proof' && block.kind === 'figures' && visible;
+    const hasHeroSteps = visual.type === 'hero' && Array.isArray(block.steps) && block.steps.length > 0;
+    const answer = block.answer && !omitAnswer && !prioritizeTable && !prioritizeFigures ? renderCopy(block.answer, 'article-live-answer', visible) : '';
+    const renderSupporting = () => !prioritizeTable && !prioritizeFigures && !hasHeroSteps && Array.isArray(block.supporting) ? block.supporting.map((text) => {
+      let copy = plainText(String(text || ''));
+      for (const item of Array.isArray(block.items) ? block.items : []) {
+        const repeatedLead = plainText(String(item.text || '')).replace(/[.!?]+$/, '');
+        if (!repeatedLead || !copy.toLocaleLowerCase().startsWith(repeatedLead.toLocaleLowerCase())) continue;
+        const next = copy.slice(repeatedLead.length);
+        if (!/^[.!?,;:\s]/u.test(next)) continue;
+        copy = next.replace(/^[.!?,;:\s–—-]+/u, '').trim();
+      }
+      return copy;
+    }).filter((text) => {
       const normalized = plainText(String(text)).toLocaleLowerCase().replace(/[^\p{L}\p{N}₹%]+/gu, ' ').trim();
       return normalized && !sourceText.some((source) => source === normalized || source.includes(normalized));
     }).map((text) => renderCopy(text, 'article-live-supporting', visible)).join('') : '';
@@ -727,11 +758,12 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
         const columns = Array.isArray(table.columns) ? table.columns.slice(0, 3) : [];
         rows = Array.isArray(rows) ? rows : [];
         if (!columns.length || !rows.length) return '';
-        return `<div class="article-live-table-wrap"><table><thead><tr>${columns.map((column) => `<th scope="col">${escapeVisualText(column)}</th>`).join('')}</tr></thead><tbody>${rows.map((row) => `<tr>${columns.map((column, columnIndex) => `<td data-label="${escapeAttr(cleanVisualText(column))}">${escapeVisualText(row?.[columnIndex] ?? '')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+        const cellText = (value) => String(value ?? '').replace(/^\p{Ll}/u, (letter) => letter.toLocaleUpperCase());
+        return `<div class="article-live-table-wrap"><table><thead><tr>${columns.map((column) => `<th scope="col">${escapeVisualText(cellText(column))}</th>`).join('')}</tr></thead><tbody>${rows.map((row) => `<tr>${columns.map((column, columnIndex) => `<td data-label="${escapeAttr(cleanVisualText(column))}">${escapeVisualText(cellText(row?.[columnIndex]))}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
       };
       const sourceTables = Array.isArray(block.sourceTables) ? block.sourceTables : [];
       const allTables = [...tables, ...sourceTables];
-      if (!visible) return `${answer}${allTables.map((table) => renderTable(table)).join('')}${stepsHtml}${supporting}`;
+      if (!visible) return `${answer}${allTables.map((table) => renderTable(table)).join('')}${stepsHtml}${renderSupporting()}`;
       const visibleTables = [];
       const deferredTables = [];
       let deferred = false;
@@ -763,7 +795,7 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
       }
       let preview = visibleTables.join('');
       if (!preview) {
-        const badTableEnd = new Set(['a', 'an', 'the', 'to', 'of', 'and', 'for', 'in', 'on', 'with', 'by', 'or', 'than', 'because', 'who', 'which', 'whose', 'what', 'how']);
+        const badTableEnd = new Set(['a', 'an', 'the', 'to', 'of', 'and', 'for', 'in', 'on', 'with', 'by', 'or', 'than', 'because', 'who', 'which', 'whose', 'what', 'how', 'whether', 'if', 'unless', 'even', 'while', 'when', 'although', 'since', 'including']);
         const candidates = allTables.flatMap((table) => (table.rows || []).map((row) => ({ table, row })))
           .filter(({ table, row }) => table.columns?.length && row?.length === table.columns.length && row.every((cell) => visualWordCount(cell) <= 6 && !isIncompleteTableCell(cell) && (() => {
             const tokens = visualWordCount(cell) ? plainText(String(cell)).match(/[\p{L}\p{N}]+/gu) || [] : [];
@@ -826,9 +858,9 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
       if (deferred) {
         visibleWordCount += 2;
         const remaining = deferredTables.map((table) => renderTable(table)).join('');
-        return `${answer}${preview}<details class="article-live-source-tables"><summary>More rows</summary>${remaining}</details>${stepsHtml}${supporting}`;
+        return `${answer}${preview}<details class="article-live-source-tables"><summary>More rows</summary>${remaining}</details>${stepsHtml}${renderSupporting()}`;
       }
-      return `${answer}${preview}${stepsHtml}${supporting}`;
+      return `${answer}${preview}${stepsHtml}${renderSupporting()}`;
     }
     if (block.kind === 'figures') {
       const figures = Array.isArray(block.figures) ? block.figures : [];
@@ -848,6 +880,7 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
         const value = cleanVisualText(figure.value || '');
         let label = cleanVisualText(figure.label || '');
         if (collidesWithEarlierPanel(`${value} ${label}`)) label = compactVisualLabel(label);
+        if (collidesWithEarlierPanel(`${value} ${label}`)) { deferred.push(figure); continue; }
         const words = visualWordCount(value) + visualWordCount(label);
         if (visibleWordCount + words <= 40) {
           shown.push({ figure, label });
@@ -866,17 +899,19 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
       }
       const stats = shown.length ? `<div class="article-live-stats">${shown.map(({ figure, label }) => renderFigure(figure, false, label)).join('')}</div>` : '';
       const moreStats = deferred.length ? `<details class="article-live-more-figures"><summary>More figures</summary><div class="article-live-stats">${deferred.map((figure) => renderFigure(figure, true)).join('')}</div></details>` : '';
-      return `${answer}${stats}${moreStats}${sourceNotes}${stepsHtml}${supporting}`;
+      return `${answer}${stats}${moreStats}${sourceNotes}${stepsHtml}${renderSupporting()}`;
     }
     const items = Array.isArray(block.items) ? block.items : [];
     const listTag = block.type === 'chain' ? 'ol' : 'ul';
     const listClass = block.type === 'checklist' ? ' article-live-items--checklist' : block.type === 'chain' ? ' article-live-items--chain' : '';
     const deferredItems = [];
     const visibleItems = items.map((item, itemIndex) => {
-      const text = cleanVisualText(item.text || '');
-      const itemHeading = cleanVisualText(item.heading || '');
+      let text = cleanVisualText(item.text || '').replace(/^\p{Ll}/u, (letter) => letter.toLocaleUpperCase());
+      if (text && !/[.!?]$/.test(text)) text += '.';
+      const itemHeading = cleanVisualText(item.heading || '').replace(/^\p{Ll}/u, (letter) => letter.toLocaleUpperCase());
       if (!visible) return `<li class="article-live-item${itemHeading ? '' : ' article-live-item--plain'}">${itemHeading ? `<span class="article-live-item__label">${escapeVisualText(itemHeading)}</span>` : ''}<span class="article-live-item__text">${escapeVisualText(text)}</span></li>`;
-      if (visibleWordCount + visualWordCount(itemHeading) + visualWordCount(text) + 2 <= 40 && !collidesWithEarlierPanel(`${itemHeading} ${text}`)) {
+      const itemWords = visualWordCount(itemHeading) + visualWordCount(text);
+      if (itemWords <= 9 && visibleWordCount + itemWords + 2 <= 40 && !collidesWithEarlierPanel(`${itemHeading} ${text}`)) {
         visibleWordCount += visualWordCount(itemHeading) + visualWordCount(text);
         registerPhrases(`${itemHeading} ${text}`);
         return `<li class="article-live-item${itemHeading ? '' : ' article-live-item--plain'}">${itemHeading ? `<span class="article-live-item__label">${escapeVisualText(itemHeading)}</span>` : ''}<span class="article-live-item__text">${escapeVisualText(text)}</span></li>`;
@@ -896,7 +931,7 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
       ? `<details class="article-live-more"><summary>More ${block.type === 'checklist' ? 'checks' : block.type === 'chain' ? 'steps' : 'points'}</summary><${listTag} class="article-live-items${listClass}">${deferredItems.map(({ itemHeading, text }) => `<li class="article-live-item${itemHeading ? '' : ' article-live-item--plain'}">${itemHeading ? `<span class="article-live-item__label">${escapeVisualText(itemHeading)}</span>` : ''}<span class="article-live-item__text">${escapeVisualText(text)}</span></li>`).join('')}</${listTag}></details>`
       : '';
     if (deferredItems.length) visibleWordCount += 2;
-    return `${answer}${itemsHtml}${moreItems}${stepsHtml}${supporting}`;
+    return `${answer}${itemsHtml}${moreItems}${stepsHtml}${renderSupporting()}`;
   };
   const sourceSections = content.kind === 'bundle'
     ? [...new Set((content.blocks || []).map((block) => block.sourceSectionId).filter(Boolean))]
@@ -905,13 +940,28 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
   const genericCaption = /^(?:career overview for|a short visual summary of|evidence card about|focused evidence about|summary of|career direction at a glance for|based on article content|more context from the article|further context for this section|key points at a glance|a starting point for comparing routes|compare the listed options)/i;
   const captionCandidate = plainText(visual.caption || '').replace(/[:;]+$/, '').trim();
   const repeatsTitle = pageTitle && normalizeHeading(captionCandidate) === normalizeHeading(pageTitle);
-  const captionLead = ({ hero: 'Decision summary', summary: 'Key points', matrix: 'Compare routes', proof: 'Figures in context', checklist: 'Questions to consider', chain: 'Steps to take', detail: 'Page evidence' })[visual.type] || 'Article visual';
-  const captionTopic = heading.split(/\s+/).filter(Boolean).slice(0, 2).join(' ');
-  const caption = !captionCandidate || genericCaption.test(captionCandidate) || repeatsTitle || visualWordCount(captionCandidate) > 6
-    ? visual.type === 'matrix' ? 'Compare routes' : `${captionLead}: ${captionTopic || 'Career choices'}`
+  const captionByType = ({
+    hero: 'Career direction at a glance.',
+    summary: 'Key ideas from the article.',
+    matrix: 'Compare the options side by side.',
+    proof: 'Figures and their source notes.',
+    checklist: 'Questions to consider before choosing.',
+    chain: 'Practical steps in sequence.',
+    detail: 'Evidence from the article.',
+  })[visual.type] || 'Context from the article.';
+  const caption = !captionCandidate || genericCaption.test(captionCandidate) || repeatsTitle || visualWordCount(captionCandidate) > 6 || isIncompleteVisualHeading(captionCandidate)
+    ? captionByType
     : captionCandidate;
-  const captionShortType = ({ hero: 'Decision', summary: 'Takeaways', matrix: 'Comparison', proof: 'Figures', checklist: 'Checks', chain: 'Steps', detail: 'Evidence' })[visual.type] || 'Visual';
-  const uniqueCaption = fitHeading(caption, `${captionShortType}: ${captionTopic.split(/\s+/)[0] || 'Career'}`);
+  const additionalCaptionByType = ({
+    hero: 'Career direction, clearly summarized.',
+    summary: 'A concise article summary.',
+    matrix: 'A side-by-side options comparison.',
+    proof: 'Evidence with its source context.',
+    checklist: 'A practical set of decision questions.',
+    chain: 'The next steps in order.',
+    detail: 'Further evidence from the article.',
+  })[visual.type] || 'Additional article context.';
+  const uniqueCaption = fitHeading(caption, additionalCaptionByType);
   let visibleWordCount = visualWordCount(displayHeading) + visualWordCount(uniqueCaption) + visualWordCount(moreSummary);
   registerPhrases(displayHeading);
   registerPhrases(uniqueCaption);
@@ -922,13 +972,16 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
     if (!/[.!?]$/.test(text)) text += '.';
     if (!visible) return `<p class="${className}">${escapeVisualText(text)}</p>`;
     const words = visualWordCount(text);
-    if (visibleWordCount + words <= 40 && !collidesWithEarlierPanel(text)) {
+    const maxVisibleWords = className === 'article-live-answer' ? 14 : 9;
+    if (words <= maxVisibleWords && visibleWordCount + words <= 40 && !collidesWithEarlierPanel(text)) {
       visibleWordCount += words;
       registerPhrases(text);
       return `<p class="${className}">${escapeVisualText(text)}</p>`;
     }
     const label = fitHeading(compactVisualLabel(text), 'Full detail');
-    visibleWordCount += visualWordCount(label);
+    const labelWords = visualWordCount(label);
+    if (visibleWordCount + labelWords > 40) return '';
+    visibleWordCount += labelWords;
     registerPhrases(label);
     return `<details class="article-live-compact-detail"><summary class="${className}">${escapeVisualText(label)}</summary><p>${escapeVisualText(text)}</p></details>`;
   };
@@ -972,15 +1025,24 @@ function placeGeneratedVisuals(html, publicDir, generated, pageTitle, className,
   const hero = visuals.find((visual) => visual.type === 'hero') || visuals[0];
   const hasExistingCover = hasEditorialCover || preserveBofuHero;
   const placedVisuals = visuals.filter((visual) => visual !== hero);
-  if (hero?.content && placedVisuals.length) {
-    const mergeTarget = placedVisuals.find((visual) => visual.type === 'summary') || placedVisuals[0];
-    const asBlocks = (value) => value?.kind === 'bundle' ? value.blocks || [] : value ? [value] : [];
-    mergeTarget.content = { kind: 'bundle', blocks: [...asBlocks(hero.content), ...asBlocks(mergeTarget.content)] };
+  const pagePhraseState = new Set();
+  if (hero?.content) {
+    const heroBlocks = hero.content.kind === 'bundle' ? hero.content.blocks || [] : [hero.content];
+    const heroCopy = heroBlocks.flatMap((block) => [
+      block.answer,
+      ...(block.figures || []).map((figure) => `${figure.value || ''} ${figure.label || ''}`),
+      ...(block.items || []).flatMap((item) => [item.heading, item.text]),
+      ...(block.steps || []).flatMap((step) => typeof step === 'string' ? [step] : [step.title, step.body]),
+      ...(block.supporting || []),
+    ]).filter(Boolean);
+    for (const text of heroCopy) {
+      const words = plainText(String(text)).toLocaleLowerCase().match(/[\p{L}\p{N}₹%]+/gu) || [];
+      for (let i = 0; i + 5 <= words.length; i += 1) pagePhraseState.add(words.slice(i, i + 5).join(' '));
+    }
   }
   const lead = /<p\b[^>]*class="[^"]*lead-para[^"]*"[^>]*>[\s\S]*?<\/p>/i.exec(out);
   const h1 = /<h1\b[^>]*>[\s\S]*?<\/h1>/i.exec(out);
   const at = lead ? lead.index + lead[0].length : h1 ? h1.index + h1[0].length : -1;
-  const pagePhraseState = new Set();
   const heroHtml = visualFigure(hero, pageTitle, 0, className);
   if (!hasExistingCover) {
     if (at >= 0) out = out.slice(0, at) + '\n' + heroHtml + out.slice(at);
