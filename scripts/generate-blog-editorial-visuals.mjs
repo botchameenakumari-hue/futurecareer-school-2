@@ -259,7 +259,6 @@ const heroWithoutFigures = new Set([
 ]);
 const needsFile = process.argv.find((arg) => arg.startsWith('--needs-csv='))?.slice(12) || 'C:\\Users\\Jack Sparrow\\Downloads\\infographic_needs_v11.csv';
 const metadataOnly = process.argv.includes('--metadata-only');
-const altOnly = process.argv.includes('--alt-only');
 const allServicePages = process.argv.includes('--all-service-pages');
 const shard = Number(process.argv.find((arg) => arg.startsWith('--shard='))?.slice(8) || 0);
 const shards = Number(process.argv.find((arg) => arg.startsWith('--shards='))?.slice(9) || 1);
@@ -435,7 +434,7 @@ function proofHeading(items, fallback, topic) { const figures = items.map(figure
 function heroEditorialLabel(topic) { const value = String(topic || '').toLowerCase(); if (/salary|pay|fee|cost|income|budget|earn/.test(value)) return 'Work and Pay'; if (/course|college|degree|exam|admission|study|stream|school|mba/.test(value)) return 'Study Choices'; if (/skill|portfolio|resume|interview|job search|freelanc|business/.test(value)) return 'Skills in Practice'; if (/guidance|counsel|confusion|choose|choice|decision/.test(value)) return 'Career Decisions'; return 'Career Routes'; }function typeTopLabel(type) { return ({ hero: 'Career Snapshot', summary: 'Key Ideas', matrix: 'Compare Clearly', chain: 'Try The Path', checklist: 'Check First', proof: 'Numbers In Context', detail: 'Read The Evidence' })[type] || 'Career Evidence'; }
 function visualTitle(type, heading, topic, pageTitle) { return type === 'hero' ? clean(pageTitle) || `${compactTopic(topic)} career overview` : shortHeading(heading, topic); }
 function visualAlt(type, heading, topic) { const subject = clean(heading || compactTopic(topic)); return ({ summary: `Key takeaways: ${subject}.`, matrix: `Comparison table: ${subject}.`, chain: `Step sequence: ${subject}.`, checklist: `Checklist: ${subject}.`, proof: `Figures and labels: ${subject}.`, detail: `Evidence notes: ${subject}.` })[type] || `Career decision: ${subject}.`; }
-function heroAlt(topic, answer, pageTitle, route = '') { if (route === '/blog/career-guidance/how-to-choose-a-career-after-12th/') return 'Career choice after 12th: a role-first plan, employability context, and job-description review.'; const subjectWords = words(heroTopic(topic, route)); let answerSentence = sentence(answer, 14); if (!answerSentence) { subjectWords.splice(2); answerSentence = sentence(answer, 16); } const subject = subjectWords.join(' ') || compactTopic(topic); return answerSentence ? `Overview of ${subject}: ${answerSentence}` : `Overview of ${subject}: career routes and supporting evidence.`; }
+function heroAlt(topic, answer, pageTitle, route = '') { if (route === '/blog/career-guidance/how-to-choose-a-career-after-12th/') return 'Career choice after 12th: a role-first plan, employability context, and job-description review.'; const fullTitle = clean(pageTitle || topic).split(/[:.!?]/)[0]; const subjectWords = words(fullTitle); while (subjectWords.length > 12 || badEnd.has(subjectWords.at(-1)?.toLowerCase())) subjectWords.pop(); const subject = subjectWords.join(' ') || compactTopic(topic); return `Career decision visual for ${subject}.`; }
 function threeWordFigureLabel(label, source = '', value = '') {
   const original = clean(label).replace(/\s+/g, ' ');
   const key = original.toLowerCase();
@@ -1848,21 +1847,12 @@ function altSentence(value) { const source = clean(value); const parts = sentenc
 function uniqueAlt(value, used) { const base = altSentence(value).replace(/[.!?]+$/, '') || 'Editorial career visual'; let result = `${base}.`; let i = 2; while (used.has(result.toLowerCase())) result = `${base} (${i++}).`; used.add(result.toLowerCase()); return result; }
 function liveSentence(value) { const source = clean(value).replace(/[:;,]+\s*$/, '').trim(); if (!source) return ''; return /[.!?]$/.test(source) ? source : `${source}.`; }
 
-const needs = altOnly ? new Map() : await loadNeeds(); const files = []; async function walkFiles(dir) { for (const entry of await readdir(dir, { withFileTypes: true })) { const full = join(dir, entry.name); if (entry.isDirectory()) await walkFiles(full); else if (entry.name === 'index.html') files.push(full); } } await walkFiles(DIST);
+const needs = await loadNeeds(); const files = []; async function walkFiles(dir) { for (const entry of await readdir(dir, { withFileTypes: true })) { const full = join(dir, entry.name); if (entry.isDirectory()) await walkFiles(full); else if (entry.name === 'index.html') files.push(full); } } await walkFiles(DIST);
 const selected = files.sort().filter((_, i) => i % shards === shard); let generated = 0; let visualCount = 0; const usedHeroAnswers = new Set();
 for (const file of selected) {
   const route = `/${file.slice(DIST.length + 1).replaceAll('\\', '/').replace(/index\.html$/, '')}`; if (routeFilter && route !== routeFilter) continue; if (routeFilters.size && !routeFilters.has(route)) continue; const isBlog = /^\/blog\/[^/]+\/[^/]+\/$/.test(route); if (isBlog && excludedBlogRoutes.has(route)) continue; if (excludeAssessmentPages && route.startsWith('/services/assessments/')) continue; const isService = route.startsWith('/services/'); const isOther = route.startsWith('/career-resources/') || route.startsWith('/career-skills-compass/'); if (!isBlog && !(allServicePages && (isService || isOther))) continue;
   const html = await readFile(file, 'utf8'); if (html.includes('Redirecting from <code>') && html.includes('</body>')) continue; const parts = route.split('/').filter(Boolean); const slug = parts.at(-1); const category = isBlog ? parts[1] : parts.slice(0, -1).join('-'); const title = clean((html.match(/<h1\b[^>]*>([\s\S]*?)<\/h1>/i) || [, 'Career guide'])[1]); const edits = plainLanguageEdits.get(route) || []; const data = applyPlainLanguageEdits(pageData(html, isBlog), edits); attachSectionIds(data, html); const palette = palettes[hash(slug) % palettes.length]; const topic = topicOverrides.get(route) || topicFrom(title, slug); const dir = join(OUT, String(hash(`${category}/${slug}`)).padStart(10, '0'));
   await mkdir(dir, { recursive: true });
-  if (altOnly) {
-    const manifestPath = join(dir, 'index.json');
-    const existing = JSON.parse(await readFile(manifestPath, 'utf8'));
-    const hero = existing.visuals?.find((visual) => visual.type === 'hero');
-    if (hero) hero.alt = heroAlt(topic, hero.content?.answer || '', title, route);
-    await writeFile(manifestPath, `${JSON.stringify(existing, null, 2)}\n`);
-    generated += 1;
-    continue;
-  }
 const pageNeeds = applyPlainLanguageEdits(needs.get(route) || [], edits); const used = new Set(); const usedPhrases = new Set(); const manifest = []; const altUsed = new Set(); const phraseKeysFor = (item) => [...phraseKeys(item?.text || item), ...phraseKeys(item?.raw || '')]; const markUsed = (item) => { used.add(keyFor(item)); for (const key of phraseKeysFor(item)) usedPhrases.add(key); }; for (const need of pageNeeds.filter((item) => item.type === 'matrix')) for (const row of fullTableRows(need.exact_page_content_to_use || '', Infinity)) for (const cell of row) for (const key of phraseKeys(cell)) usedPhrases.add(key); const take = (values, limit = 1, maxWords = 24) => values.map((value) => typeof value === 'string' ? { text: value, raw: value } : value).map((value) => ({ ...value, text: shortSentence(value.raw || value.text, maxWords) })).filter((value) => value?.text && words(value.text).length >= 5 && !isSharedPromoCopy(value.raw || value.text) && !used.has(keyFor(value)) && !phraseKeysFor(value).some((key) => usedPhrases.has(key))).filter((value, i, arr) => arr.findIndex((other) => keyFor(other) === keyFor(value)) === i).slice(0, limit).map((value) => { markUsed(value); return value; });
   const add = async (type, body, meta) => {
     const index = manifest.filter((item) => item.type === type).length;
