@@ -585,17 +585,48 @@ function liveVisualKicker(type) {
   return ({ summary: 'Key ideas', matrix: 'Compare clearly', chain: 'Try the path', checklist: 'Check first', proof: 'Numbers in context', detail: 'Read the evidence' })[type] || 'Career evidence';
 }
 
+function compactTableCell(value, maxWords = 6) {
+  const source = cleanVisualText(value)
+    .replace(/\bworking knowledge of\b/gi, '')
+    .replace(/^(?:its|their|our|your)\s+(?:own\s+)?/i, '')
+    .replace(/\s*\([^()]*\)/g, '')
+    .replace(/,\s*(?:plus|with|because|while|which|and increasingly)\b[\s\S]*$/i, '')
+    .replace(/\s+/g, ' ').trim();
+  if (!source || visualWordCount(source) <= maxWords) return source;
+  const badStart = new Set(['a', 'an', 'the', 'and', 'or', 'but', 'with', 'for', 'to', 'of', 'in', 'on', 'by', 'from', 'at', 'as', 'which', 'that', 'who', 'what', 'how']);
+  const badEnd = new Set(['a', 'an', 'the', 'and', 'or', 'but', 'with', 'for', 'to', 'of', 'in', 'on', 'by', 'from', 'at', 'as', 'which', 'that', 'who', 'what', 'how', 'increasingly', 'regularly', 'usually', 'generally', 'especially', 'mostly']);
+  const matches = [...source.matchAll(/\S+/g)];
+  const candidates = [];
+  for (let start = 0; start < matches.length; start += 1) {
+    for (let length = Math.min(maxWords, matches.length - start); length >= 2; length -= 1) {
+      const text = source.slice(matches[start].index, matches[start + length - 1].index + matches[start + length - 1][0].length).replace(/^[,;:]+|[,;:]+$/g, '').trim();
+      const tokens = text.match(/[\p{L}\p{N}]+(?:[.,][\p{L}\p{N}]+)*/gu) || [];
+      if (!tokens.length || tokens.length > maxWords || badStart.has(tokens[0].toLowerCase()) || badEnd.has(tokens.at(-1).toLowerCase())) continue;
+      let score = tokens.length * 1.5 - start * 1.2;
+      if (/\d/.test(text)) score += 5;
+      if (/[.!?]$/.test(text)) score += 0.5;
+      if (/^(?:a|an|the|very|widely|roughly|about|approximately)\b/i.test(text)) score -= 2;
+      candidates.push({ text, score, start, length });
+    }
+  }
+  candidates.sort((a, b) => b.score - a.score || a.start - b.start || b.length - a.length);
+  return candidates[0]?.text || '';
+}
+
 function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseState = new Set(), pageSourceText = []) {
   const content = visual.content;
   if (!content) return visualFigure(visual, '', index, className);
   const heading = plainText(visual.heading || visual.caption || 'Career evidence').replace(/[:;]+$/, '').trim();
   const normalizeHeading = (value) => plainText(value).toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
-  const blocks = content.kind === 'bundle' ? Array.isArray(content.blocks) ? content.blocks : [] : [content];
+  const contentBlocks = content.kind === 'bundle' ? Array.isArray(content.blocks) ? content.blocks : [] : [content];
+  const blocks = visual.type === 'matrix'
+    ? [...contentBlocks.filter((block) => block.kind === 'table'), ...contentBlocks.filter((block) => block.kind !== 'table')]
+    : contentBlocks;
   const sourceText = [...pageSourceText, ...blocks.flatMap((block) => Array.isArray(block.figures) ? block.figures.map((item) => item.source || '') : [])]
     .map((value) => plainText(String(value || '')).toLocaleLowerCase().replace(/[^\p{L}\p{N}₹%]+/gu, ' ').trim())
     .filter(Boolean);
   const remaining = blocks.slice(1);
-  const moreSummary = remaining.length ? `Explore ${remaining.length} more ${remaining.length === 1 ? 'section' : 'sections'}` : '';
+  const moreSummary = remaining.length ? `More sections (${remaining.length})` : '';
   const firstAnswer = blocks.map((block) => block.answer).find(Boolean);
   const heroAnswerIsHeading = visual.type === 'hero' && Boolean(firstAnswer);
   const initialHeading = heroAnswerIsHeading ? plainText(firstAnswer).replace(/[:;]+$/, '').trim() : heading;
@@ -617,8 +648,9 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
   const displayHeading = fitHeading(initialHeading, headingFallback);
   const renderBlock = (block, visible = true) => {
     const omitAnswer = heroAnswerIsHeading && block.answer === firstAnswer;
-    const answer = block.answer && !omitAnswer ? renderCopy(block.answer, 'article-live-answer', visible) : '';
-    const supporting = Array.isArray(block.supporting) ? block.supporting.filter(Boolean).filter((text) => {
+    const prioritizeTable = visual.type === 'matrix' && block.kind === 'table' && visible;
+    const answer = block.answer && !omitAnswer && !prioritizeTable ? renderCopy(block.answer, 'article-live-answer', visible) : '';
+    const supporting = !prioritizeTable && Array.isArray(block.supporting) ? block.supporting.filter(Boolean).filter((text) => {
       const normalized = plainText(String(text)).toLocaleLowerCase().replace(/[^\p{L}\p{N}₹%]+/gu, ' ').trim();
       return normalized && !sourceText.some((source) => source === normalized || source.includes(normalized));
     }).map((text) => renderCopy(text, 'article-live-supporting', visible)).join('') : '';
@@ -627,7 +659,7 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
     if (block.kind === 'table') {
       const tables = Array.isArray(block.tables) ? block.tables : [block];
       const renderTable = (table, rows = table.rows) => {
-        const columns = Array.isArray(table.columns) ? table.columns : [];
+        const columns = Array.isArray(table.columns) ? table.columns.slice(0, 3) : [];
         rows = Array.isArray(rows) ? rows : [];
         if (!columns.length || !rows.length) return '';
         return `<div class="article-live-table-wrap"><table><thead><tr>${columns.map((column) => `<th scope="col">${escapeVisualText(column)}</th>`).join('')}</tr></thead><tbody>${rows.map((row) => `<tr>${columns.map((column, columnIndex) => `<td data-label="${escapeAttr(cleanVisualText(column))}">${escapeVisualText(row?.[columnIndex] ?? '')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
@@ -636,34 +668,88 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
       const allTables = [...tables, ...sourceTables];
       if (!visible) return `${answer}${allTables.map((table) => renderTable(table)).join('')}${stepsHtml}${supporting}`;
       const visibleTables = [];
+      const deferredTables = [];
       let deferred = false;
       for (const table of allTables) {
-        const columns = Array.isArray(table.columns) ? table.columns : [];
+        const columns = Array.isArray(table.columns) ? table.columns.slice(0, 3) : [];
         const rows = Array.isArray(table.rows) ? table.rows : [];
         if (!columns.length || !rows.length) continue;
         const headerWords = visualWordCount(columns.join(' '));
-        if (visibleWordCount + headerWords + 2 > 40 || collidesWithEarlierPanel(columns.join(' '))) { deferred = true; continue; }
-        visibleWordCount += headerWords;
-        registerPhrases(columns.join(' '));
+        if (visibleWordCount + headerWords + 2 > 40 || collidesWithEarlierPanel(columns.join(' '))) { deferred = true; deferredTables.push(table); continue; }
         const visibleRows = [];
+        const deferredRows = [];
         for (const row of rows) {
           // Mobile renders each column name beside its cell, so include those
           // repeated labels in the visible-word budget before adding a row.
           const rowWords = visualWordCount((row || []).join(' ')) + visualWordCount(columns.join(' '));
-          if (visibleWordCount + rowWords > 40 || collidesWithEarlierPanel((row || []).join(' '))) { deferred = true; continue; }
-          visibleWordCount += rowWords;
+          const cellsFit = (row || []).slice(0, 3).every((cell) => visualWordCount(cell) <= 6);
+          const firstRowHeaderWords = visibleRows.length ? 0 : headerWords;
+          if (!cellsFit || visibleWordCount + rowWords + firstRowHeaderWords > 40 || collidesWithEarlierPanel((row || []).join(' '))) { deferred = true; deferredRows.push(row); continue; }
+          visibleWordCount += rowWords + firstRowHeaderWords;
           registerPhrases((row || []).join(' '));
           visibleRows.push(row);
         }
-        if (visibleRows.length) visibleTables.push(renderTable(table, visibleRows));
+        if (visibleRows.length) {
+          visibleTables.push(renderTable(table, visibleRows));
+          registerPhrases(columns.join(' '));
+        }
+        if (deferredRows.length) deferredTables.push({ ...table, rows: deferredRows });
         if (visibleRows.length < rows.length) deferred = true;
       }
-      const preview = visibleTables.join('') || '<p class="article-live-supporting">Open full table</p>';
-      if (!visibleTables.length) visibleWordCount += 3;
+      let preview = visibleTables.join('');
+      if (!preview) {
+        const badTableEnd = new Set(['a', 'an', 'the', 'to', 'of', 'and', 'for', 'in', 'on', 'with', 'by', 'or', 'than', 'because', 'who', 'which', 'whose', 'what', 'how']);
+        const candidates = allTables.flatMap((table) => (table.rows || []).map((row) => ({ table, row })))
+          .filter(({ table, row }) => table.columns?.length && row?.length === table.columns.length && row.every((cell) => visualWordCount(cell) <= 6 && (() => {
+            const tokens = visualWordCount(cell) ? plainText(String(cell)).match(/[\p{L}\p{N}]+/gu) || [] : [];
+            return tokens.length > 0 && !badTableEnd.has(tokens.at(-1).toLowerCase());
+          })()))
+          .map((candidate) => ({
+            ...candidate,
+            words: visualWordCount(candidate.table.columns.join(' ')) + visualWordCount(candidate.row.join(' ')) + visualWordCount(candidate.table.columns.join(' ')),
+            repeated: collidesWithEarlierPanel(candidate.row.join(' ')),
+          }))
+          .sort((a, b) => Number(a.repeated) - Number(b.repeated) || a.words - b.words);
+        const choice = candidates.find((candidate) => candidate.words <= 40 - visibleWordCount);
+        if (choice) {
+          preview = renderTable(choice.table, [choice.row]);
+          const previewKey = JSON.stringify(choice.row);
+          for (const deferredTable of deferredTables) {
+            deferredTable.rows = (deferredTable.rows || []).filter((row) => JSON.stringify(row) !== previewKey);
+          }
+        }
+        if (!preview) {
+          const compactCandidates = [];
+          for (let maxWords = 6; maxWords >= 3; maxWords -= 1) {
+            for (const table of allTables) {
+              const columns = (Array.isArray(table.columns) ? table.columns : []).slice(0, 3).map((cell) => compactTableCell(cell, maxWords));
+              const rows = (Array.isArray(table.rows) ? table.rows : []).map((row) => (Array.isArray(row) ? row.slice(0, 3) : []).map((cell) => compactTableCell(cell, maxWords)));
+              if (!columns.length || columns.some((cell) => !cell || visualWordCount(cell) > maxWords)) continue;
+              for (let index = 0; index < rows.length; index += 1) {
+                const row = rows[index];
+                if (row.length < 2 || row.some((cell) => !cell || visualWordCount(cell) > maxWords)) continue;
+                const candidate = { table: { ...table, columns, rows }, row, index, maxWords };
+                candidate.words = visualWordCount(columns.join(' ')) + visualWordCount(row.join(' ')) + visualWordCount(columns.join(' '));
+                candidate.repeated = collidesWithEarlierPanel(row.join(' '));
+                if (candidate.words <= 40 - visibleWordCount) compactCandidates.push(candidate);
+              }
+            }
+          }
+          compactCandidates.sort((a, b) => b.maxWords - a.maxWords || Number(a.repeated) - Number(b.repeated) || a.index - b.index || a.words - b.words);
+          const choice = compactCandidates[0];
+          if (choice) {
+            preview = renderTable(choice.table, [choice.row]);
+            visibleWordCount += choice.words;
+            registerPhrases(choice.table.columns.join(' '));
+            registerPhrases(choice.row.join(' '));
+          }
+        }
+      }
+      if (!visibleTables.length && !preview) visibleWordCount += 3;
       if (deferred) {
         visibleWordCount += 2;
-        const complete = allTables.map((table) => renderTable(table)).join('');
-        return `${answer}${preview}<details class="article-live-source-tables"><summary>Full comparison</summary>${complete}</details>${stepsHtml}${supporting}`;
+        const remaining = deferredTables.map((table) => renderTable(table)).join('');
+        return `${answer}${preview}<details class="article-live-source-tables"><summary>More rows</summary>${remaining}</details>${stepsHtml}${supporting}`;
       }
       return `${answer}${preview}${stepsHtml}${supporting}`;
     }
@@ -739,13 +825,13 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
     ? [...new Set((content.blocks || []).map((block) => block.sourceSectionId).filter(Boolean))]
     : [content.sourceSectionId].filter(Boolean);
   const sourceAttr = sourceSections.length ? ` data-source-sections="${escapeAttr(sourceSections.join(','))}"` : '';
-  const genericCaption = /^(?:career overview for|a short visual summary of|evidence card about|focused evidence about|summary of|career direction at a glance for|based on article content|more context from the article|further context for this section|key points at a glance|a starting point for comparing routes)/i;
+  const genericCaption = /^(?:career overview for|a short visual summary of|evidence card about|focused evidence about|summary of|career direction at a glance for|based on article content|more context from the article|further context for this section|key points at a glance|a starting point for comparing routes|compare the listed options)/i;
   const captionCandidate = plainText(visual.caption || '').replace(/[:;]+$/, '').trim();
   const repeatsTitle = pageTitle && normalizeHeading(captionCandidate) === normalizeHeading(pageTitle);
   const captionLead = ({ hero: 'Decision summary', summary: 'Key points', matrix: 'Compare routes', proof: 'Figures in context', checklist: 'Questions to consider', chain: 'Steps to take', detail: 'Page evidence' })[visual.type] || 'Article visual';
   const captionTopic = heading.split(/\s+/).filter(Boolean).slice(0, 2).join(' ');
   const caption = !captionCandidate || genericCaption.test(captionCandidate) || repeatsTitle || visualWordCount(captionCandidate) > 6
-    ? `${captionLead}: ${captionTopic || 'Career choices'}`
+    ? visual.type === 'matrix' ? 'Compare routes' : `${captionLead}: ${captionTopic || 'Career choices'}`
     : captionCandidate;
   const captionShortType = ({ hero: 'Decision', summary: 'Takeaways', matrix: 'Comparison', proof: 'Figures', checklist: 'Checks', chain: 'Steps', detail: 'Evidence' })[visual.type] || 'Visual';
   const uniqueCaption = fitHeading(caption, `${captionShortType}: ${captionTopic.split(/\s+/)[0] || 'Career'}`);
@@ -807,7 +893,7 @@ function placeGeneratedVisuals(html, publicDir, generated, pageTitle, className,
   const hero = visuals.find((visual) => visual.type === 'hero') || visuals[0];
   const hasExistingCover = hasEditorialCover || preserveBofuHero;
   const placedVisuals = visuals.filter((visual) => visual !== hero);
-  if (hasExistingCover && hero?.content && placedVisuals.length) {
+  if (hero?.content && placedVisuals.length) {
     const mergeTarget = placedVisuals.find((visual) => visual.type === 'summary') || placedVisuals[0];
     const asBlocks = (value) => value?.kind === 'bundle' ? value.blocks || [] : value ? [value] : [];
     mergeTarget.content = { kind: 'bundle', blocks: [...asBlocks(hero.content), ...asBlocks(mergeTarget.content)] };
@@ -816,14 +902,13 @@ function placeGeneratedVisuals(html, publicDir, generated, pageTitle, className,
   const h1 = /<h1\b[^>]*>[\s\S]*?<\/h1>/i.exec(out);
   const at = lead ? lead.index + lead[0].length : h1 ? h1.index + h1[0].length : -1;
   const pagePhraseState = new Set();
-  const heroHtml = hero.content ? liveVisualFigure(hero, 0, className, pageTitle, pagePhraseState, pageSourceText) : visualFigure(hero, pageTitle, 0, className);
+  const heroHtml = visualFigure(hero, pageTitle, 0, className);
   if (!hasExistingCover) {
     if (at >= 0) out = out.slice(0, at) + '\n' + heroHtml + out.slice(at);
     else out = insertAfterHeading(out, heroHtml, [], new Set());
   }
   const used = new Set(); let index = 1;
-  for (const visual of hasExistingCover ? placedVisuals : visuals) {
-    if (visual === hero) continue;
+  for (const visual of placedVisuals) {
     out = insertAfterHeading(out, liveVisualFigure(visual, index, className, pageTitle, pagePhraseState, pageSourceText), keywords[visual.type] || keywords.detail || [], used);
     index += 1;
   }

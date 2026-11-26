@@ -58,8 +58,13 @@ const plainLanguageEdits = new Map(Object.entries({
   '/blog/parents/how-to-support-child-during-career-confusion/': [['Name what you notice ("you seem stuck on this"), let your child describe the confusion in their own words without you correcting or redirecting, and', 'Name what you notice, then let your child describe the confusion in their own words.']],
   '/blog/parents/how-to-guide-child-in-career-selection-india/': [['Start conversations early (class 8-9 is not too soon), ask open questions instead of stating conclusions, use a free assessment as one input rather than the final word, a', 'Start early, ask open questions, and treat assessments as one input.']],
   '/blog/career-options/career-in-home-science/': [['Use the same four steps every time you compare two serious tracks from .', 'Use four questions to compare serious home science career tracks.']],
+  '/blog/career-change/career-switch-from-it-to-management-india/': [['Pure coding depth without a advantage skill on top', 'Pure coding depth without a complementary skill on top']],
   '/blog/college-degrees/best-courses-after-bcom-for-high-salary/': [['The four questions narrows it down fast.', 'Four questions narrow BCom course choices.']],
   '/blog/college-degrees/best-courses-after-ba-for-good-salary-india/': [['The four questions narrows it down fast.', 'Four questions narrow BA course choices.']],
+  '/blog/college-degrees/best-courses-for-bba-students/': [
+    ['NISM certification (for example, mutual fund distributor)', 'NISM mutual fund distributor exam'],
+    ['Graduation in any discipline other than Fine Arts allows direct registration for Intermediate', 'Any degree except Fine Arts'],
+  ],
 }));
 const topicOverrides = new Map([
   ['/blog/career-options/career-options-for-people-good-at-communication-india/', 'Communication Career Paths'],
@@ -72,10 +77,18 @@ const needHeadingOverrides = new Map([
   ['/blog/career-options/good-career-options-in-india/', { paths: 'Thirteen Career Paths', 'what-makes-good': 'How to Judge Career Fit' }],
 ]);
 const visualHeadingOverrides = new Map([
+  ['/blog/career-options/jewellery-design-and-gemology-careers-india/', { summary: 'Choose Your Jewellery Career Lane', matrix: 'Jewellery Roles and Core Skills' }],
+  ['/blog/college-degrees/lateral-entry-mba-india/', { matrix: 'Lateral MBA Compared with Regular MBA' }],
+  ['/blog/college-degrees/best-courses-for-bba-students/', { summary: 'Excel, SQL and Power BI First', matrix: 'BBA Courses by Timing and Cost', proof: 'BBA Course Costs and Returns' }],
+  ['/blog/parents/how-much-to-spend-on-child-education-india/', { matrix: 'Education Costs by Stage', detail: 'How Much to Spend on Education' }],
+  ['/blog/career-options/finance-business-partner-career-path-india/', { summary: 'What an FBP Does Across a Month', matrix: 'Finance Partner Monthly Review Cycle' }],
+  ['/blog/career-options/career-options-after-graduation/', { matrix: 'Career Routes by Time and Proof' }],
   ['/blog/college-degrees/best-courses-after-bcom-for-high-salary/', { matrix: 'BCom Courses Ranked by Real ROI' }],
   ['/blog/career-options/career-options-for-people-good-at-communication-india/', { matrix: 'Communication Skills and Career Lanes', proof: 'Communication Career Market Figures', chain: 'Mistakes to Avoid When Choosing a Lane' }],
   ['/blog/career-options/is-engineering-still-a-good-career-in-india/', { matrix: 'Engineering Seats and Enrolment', checklist: 'Check Your Engineering Career Fit' }],
   ['/blog/career-options/good-career-options-in-india/', { proof: 'Career Route Figures', checklist: 'Questions for Comparing Career Routes' }],
+  ['/blog/career-change/career-switch-from-it-to-management-india/', { matrix: 'IT to Management: Market Signals and Role Lanes' }],
+  ['/blog/career-options/career-options-after-12th-except-engineering/', { matrix: 'Career Routes Beyond Engineering' }],
 ]);
 const heroAnswerOverrides = new Map([
   ['/services/career-counselling-and-career-guidance/career-counselling-for-college-students/', 'Use internships and specialization to build real proof before graduation.'],
@@ -83,6 +96,26 @@ const heroAnswerOverrides = new Map([
   ['/blog/career-options/career-options-for-people-good-at-communication-india/', 'Name your strongest currency and build one visible proof inside the matching lane.'],
 ]);
 const heroRouteFigureOverrides = new Map([
+  ['/blog/career-options/career-options-after-12th-except-engineering/', [
+    { value: '110 days', label: 'Days Until Exam Deadlines', sourceIncludes: 'dates inside 110 days' },
+    { value: '2,343', label: 'Available Course Seats' },
+    { value: '257', label: 'Available Course Seats' },
+  ]],
+  ['/blog/career-change/career-switch-from-it-to-management-india/', [
+    { value: '$300 billion', label: 'Annual Industry Revenue', sourceIncludes: 'cross $300 billion in revenue' },
+    { value: '16-20%', label: 'Reported Pay Premium', sourceIncludes: 'PMP for delivery/project management' },
+    { value: '6-18 months', label: 'Proof Milestone Window', sourceIncludes: 'first 6-18 months of a lane change' },
+  ]],
+  ['/blog/career-options/commerce-career-options-with-salary/', [
+    { value: '₹25,000', label: 'Monthly Pay After 3+ Years', sourceIncludes: 'median of ₹18,000 a month at entry and ₹25,000' },
+    { value: '₹50,000', label: 'Monthly Pay Threshold', sourceIncludes: 'only 9.6% of those formal workers' },
+    { value: '₹5.53 lakh', label: 'PayScale BCom Average', sourceIncludes: 'PayScale prints ₹5.53 lakh for BCom' },
+  ]],
+  ['/blog/career-options/career-options-after-graduation/', [
+    { value: '10%', label: 'Education Budget Share', sourceIncludes: 'total education budget' },
+    { sourceValue: '15 to 29 year', value: '15–29 years', label: 'Age Group' },
+    { value: '20%', label: 'Graduate Unemployment, Ages 25–29', sourceIncludes: 'those aged 25 to 29' },
+  ]],
   ['/blog/college-degrees/lateral-entry-mba-india/', [
     { value: '50%', label: 'Minimum Exam Marks' },
     { value: '2 to 5 years', label: 'Relevant Experience Window' },
@@ -181,60 +214,36 @@ function phrase(value, max = 8) { const picked = words(clean(value).split(/[.!?]
 function wrap(value, maxChars) { const out = []; let line = ''; for (const word of words(value)) { if (line && `${line} ${word}`.length > maxChars) { out.push(line); line = word; } else line = `${line} ${word}`.trim(); } if (line) out.push(line); return out; }
 function visualWordCount(value) { const normalized = String(value || '').replace(/(?<=\p{L})\.(?=\p{L})/gu, '').replace(/(?:₹|\$|\bRs\.?\s*|\bINR\s*)?\d[\d,]*(?:\.\d+)?(?:\s*[-–—]\s*(?:₹|\$)?\d[\d,]*(?:\.\d+)?)?/gi, ' NUM '); return (normalized.match(/[\p{L}\p{N}]+(?:[’'-][\p{L}\p{N}]+)*(?:&[\p{L}\p{N}]+)*/gu) || []).length; }
 function textLines(value, x, y, size, maxChars, fill, maxLines = 4, weight = 600, anchor = 'start', maxWidth = Infinity) { const lines = wrap(value, maxChars); if (lines.length > maxLines) return ''; const longest = Math.max(1, ...lines.map((line) => line.length)); const fittedSize = Math.min(size, Number.isFinite(maxWidth) ? maxWidth / (longest * 0.55) : size); return lines.map((line, i) => `<text x="${x}" y="${y + (i * fittedSize * 1.16)}" text-anchor="${anchor}" font-family="Arial,Helvetica,sans-serif" font-size="${fittedSize}" font-weight="${weight}" fill="${fill}">${esc(line)}</text>`).join(''); }
-function shortCell(value) {
+function shortCell(value, maxWords = 10) {
   const source = clean(value).replace(/[\s,;:]+$/, '').replace(/^(?:is|are|was|were)\s+(?:this|that)\s+/i, '').replace(/^(?:the|a|an)\s+/i, '');
   const capitalize = (text) => text.replace(/^([a-z])/, (_, c) => c.toUpperCase());
-  const danglingVerb = /^(?:charges?|pays?|needs?|requires?|wants?|builds?|chooses?|offers?|opens?|leads?|gives?|provides?|covers?|includes?|teaches?|shows?|means?|creates?|makes?|delivers?|supports?|connects?|depends?|asks?|allows?|helps?)$/i;
+  const danglingVerb = /^(?:charges?|pays|needs?|requires?|wants?|builds?|chooses?|offers?|opens?|leads?|gives?|provides?|covers?|includes?|teaches?|shows?|means?|creates?|makes?|delivers?|supports?|connects?|depends?|asks?|allows?|helps?)$/i;
   const incomplete = (text) => { const last = lastWord(text); return badEnd.has(last) || danglingVerb.test(last || '') || /\b(?:a|an|the)\s+[\p{L}-]+$/iu.test(text) || /\b(?:and|or)\s+[\p{L}-]+$/iu.test(text); };
-  const finish = (text, minimum = 2) => { const picked = words(text); while (picked.length && badStart.has(picked[0].toLowerCase().replace(/[^a-z]/g, ''))) picked.shift(); while (picked.length && incomplete(picked.join(' '))) picked.pop(); const result = picked.join(' ').replace(/[,;:]+$/, ''); return visualWordCount(result) >= minimum && visualWordCount(result) <= 6 && !incomplete(result) ? capitalize(result) : ''; };
+  const finish = (text, minimum = 2) => { const picked = words(text); while (picked.length && badStart.has(picked[0].toLowerCase().replace(/[^a-z]/g, ''))) picked.shift(); while (picked.length && incomplete(picked.join(' '))) picked.pop(); const result = picked.join(' ').replace(/[,;:]+$/, ''); return visualWordCount(result) >= minimum && visualWordCount(result) <= maxWords && !incomplete(result) ? capitalize(result) : ''; };
   const firstSentence = sentenceParts(source)[0] || '';
-  if (/[.!?]$/.test(firstSentence) && visualWordCount(firstSentence) <= 6 && !incomplete(firstSentence)) return capitalize(firstSentence.replace(/[.!?]+$/, ''));
-  if (visualWordCount(source) <= 6 && !incomplete(source)) return capitalize(source);
+  if (/[.!?]$/.test(firstSentence) && visualWordCount(firstSentence) <= maxWords && !incomplete(firstSentence)) return capitalize(firstSentence.replace(/[.!?]+$/, ''));
+  if (visualWordCount(source) <= maxWords && !incomplete(source)) return capitalize(source);
   const normalized = source.replace(/^\d+[.)]\s*/, '').replace(/\(([^)]*)\)/g, (_, inner) => ` ${inner.replace(/\s+\/\s+/g, ' or ')} `).replace(/\s*\([^)]*$/, '').replace(/^Then\s+/i, '').trim();
-  if (visualWordCount(normalized) <= 6 && !incomplete(normalized)) return capitalize(normalized);
+  if (visualWordCount(normalized) <= maxWords && !incomplete(normalized)) return capitalize(normalized);
   const mainClause = normalized.split(/(?<=[.!?])\s+|\s*;\s*/)[0];
   // Do not treat thousands separators such as ₹30,000 as phrase boundaries.
   const chunks = mainClause.split(/,\s+/).map(clean).filter(Boolean);
   const shortList = chunks.length >= 3 && chunks.slice(0, 4).every((part) => visualWordCount(part) <= 2);
-  if (shortList) return finish(phrase(mainClause, 6));
-  for (const chunk of chunks) { const selected = visualWordCount(chunk) <= 6 ? chunk : phrase(chunk, 6); const result = finish(selected); if (result) return result; }
-  return finish(phrase(mainClause, 6));
+  if (shortList) return finish(phrase(mainClause, maxWords));
+  for (const chunk of chunks) { const selected = visualWordCount(chunk) <= maxWords ? chunk : phrase(chunk, maxWords); const result = finish(selected); if (result) return result; }
+  return finish(phrase(mainClause, maxWords));
 }
 function safeTableCell(value) {
   const source = clean(value);
   if (!source) return '';
-  const danglingTableEnd = /^(?:keep|find|run|make|take|use|build|work|require|requires|include|includes|offer|offers|lead|leads|need|needs|want|wants|show|shows|see|sees|choose|chooses|earn|earns|pay|pays|apply|applies|follow|follows|grow|grows|help|helps|serve|serves|start|starts|support|supports|handle|handles|manage|manages|deliver|delivers|improve|improves|change|changes|create|creates|provide|provides|cover|covers|connect|connects|depend|depends|matter|matters|decide|decides|consider|considers|compare|compares|ask|asks|hold|holds|design|designs|write|writes|teach|teaches|learn|learns|carry|carries|allow|allows|prevent|prevents|protect|protects|prepare|prepares|focus|focuses|acquire|acquires|demonstrate|demonstrates|verify|verifies|check|checks|reduce|reduces|increase|increases|fall|falls|rise|rises)$/i;
-  const isComplete = (candidate) => {
-    const text = clean(candidate);
-    const last = lastWord(text);
-    const opens = (text.match(/[([{]/g) || []).length;
-    const closes = (text.match(/[)\]}]/g) || []).length;
-    const count = visualWordCount(text);
-    return Boolean(text)
-      && count <= 6
-      && (!badEnd.has(last) || count === 1)
-      && (count === 1 || !danglingTableEnd.test(last))
-      && !/\b(?:to|between|from)\s+\d+(?:\.\d+)?$/i.test(text)
-      && !/[,;:/\-–—]$/.test(text)
-      && opens <= closes;
-  };
-  if (isComplete(source) && visualWordCount(source) <= 6) return titleCase(source);
-  const variants = [
-    source,
-    source.replace(/\s*\([^)]*\)/g, ' ').replace(/\s*\([^)]*$/g, ' '),
-    source.replace(/\b(?:roughly|approximately|about|often|usually|generally|typically|currently|established)\b/gi, ' '),
-    source.replace(/\s*\([^)]*\)/g, ' ').replace(/\s*\([^)]*$/g, ' ').replace(/\b(?:roughly|approximately|about|often|usually|generally|typically|currently|established|with)\b/gi, ' '),
-  ];
-  for (const variant of variants) {
-    const compact = shortCell(variant);
-    if (isComplete(compact)) return titleCase(compact);
-    const segments = variant.split(/(?:[.!?;:]\s+|,\s+(?!\d))/).map(clean).filter(Boolean);
-    for (const segment of segments) {
-      const candidate = shortCell(segment);
-      if (isComplete(candidate)) return titleCase(candidate);
-    }
-  }
-  return '';
+  const last = lastWord(source);
+  const opens = (source.match(/[([{]/g) || []).length;
+  const closes = (source.match(/[)\]}]/g) || []).length;
+  const danglingTableEnd = /^(?:they|them|their|this|these|those|some|many|keep|find|run|make|take|use|build|work|require|requires|include|includes|offer|offers|lead|leads|need|needs|want|wants|show|shows|see|sees|choose|chooses|earn|earns|pays|apply|applies|follow|follows|grow|grows|help|helps|serve|serves|start|starts|support|supports|handle|handles|manage|manages|deliver|delivers|improve|improves|change|changes|create|creates|provide|provides|cover|covers|connect|connects|depend|depends|matter|matters|decide|decides|consider|considers|compare|compares|ask|asks|hold|holds|design|designs|write|writes|teach|teaches|learn|learns|carry|carries|allow|allows|prevent|prevents|protect|protects|prepare|prepares|focus|focuses|acquire|acquires|demonstrate|demonstrates|verify|verifies|check|checks|reduce|reduces|increase|increases|fall|falls|rise|rises)$/i;
+  const complete = !badEnd.has(last) && !danglingTableEnd.test(last || '') && !/[,;:/\-–—]$/.test(source) && opens <= closes;
+  // Preserve the article wording. Long cells are deferred to the expandable
+  // full table instead of being shortened into potentially misleading text.
+  return complete && visualWordCount(source) <= 10 ? titleCase(source) : '';
 }
 function csvRows(text) { const rows = []; let row = []; let cell = ''; let quote = false; for (let i = 0; i < text.length; i += 1) { const c = text[i]; if (c === '"' && text[i + 1] === '"' && quote) { cell += '"'; i += 1; continue; } if (c === '"') { quote = !quote; continue; } if (c === ',' && !quote) { row.push(cell); cell = ''; continue; } if ((c === '\n' || c === '\r') && !quote) { if (c === '\r' && text[i + 1] === '\n') i += 1; row.push(cell); if (row.some(Boolean)) rows.push(row); row = []; cell = ''; continue; } cell += c; } if (cell || row.length) { row.push(cell); rows.push(row); } return rows; }
 async function loadNeeds() { try { const rows = csvRows(await readFile(needsFile, 'utf8')); const header = rows.shift(); const map = new Map(); for (const row of rows) { const item = Object.fromEntries(header.map((key, i) => [key, row[i] || ''])); if (!item.page) continue; const type = item.infographic_needed.startsWith('COMPARISON') ? 'matrix' : item.infographic_needed.startsWith('NUMBERS') ? 'proof' : item.infographic_needed.startsWith('CHECKLIST') ? 'checklist' : item.infographic_needed.startsWith('STEP') ? 'chain' : item.infographic_needed.startsWith('TEXT') ? 'detail' : ''; if (!type) continue; if (!map.has(item.page)) map.set(item.page, []); map.get(item.page).push({ ...item, type }); } return map; } catch { return new Map(); } }
@@ -677,7 +686,7 @@ function baseSvg(body, palette, topLabel, heading, size, isHero = false) {
 }
 function cardVisual(items, palette, type, heading, size) { const { width, height } = size; const accent = [palette[2], palette[3], palette[4]]; const bodyTop = 285; const gap = 24; const columns = 1; const cardW = width - 144; const font = width === PHONE.width ? 44 : 48; const maxChars = 34; const headingLines = wrap(titleCase(heading), 15); const bodyShift = Math.max(0, (headingLines.length - 2) * 58); const cardHeight = Math.floor((height - bodyTop - bodyShift - 80 - gap * (Math.min(items.length, 4) - 1)) / Math.min(items.length, 4)); let body = ''; items.slice(0, 4).forEach((item, index) => { const x = 72; const y = bodyTop + index * (cardHeight + gap); body += `<rect x="${x}" y="${y}" width="${cardW}" height="${cardHeight}" rx="22" fill="#fffaf0" stroke="${accent[index % accent.length]}" stroke-width="5"/>`; body += `<circle cx="${x + 48}" cy="${y + 50}" r="30" fill="${accent[index % accent.length]}"/><text x="${x + 48}" y="${y + 61}" text-anchor="middle" font-family="Arial" font-size="38" font-weight="700" fill="#fffaf0">${String(index + 1).padStart(2, '0')}</text>`; const lines = wrap(item.text, maxChars); const textY = y + cardHeight / 2 - ((lines.length - 1) * font * 1.16) / 2; body += textLines(item.text, x + 28, textY, font, maxChars, palette[1], 6, 600); }); return baseSvg(body, palette, typeTopLabel(type), heading, size); }
 function tableColumns(content, limit = 3) { const values = (content.match(/^Columns:\s*([^|]+(?:\|[^|]+)*)\s*\|\|/i)?.[1] || '').split('|').map((value) => clean(value)).filter(Boolean); return Number.isFinite(limit) ? values.slice(0, limit) : values; }
-function fullTableRows(content, limit = 3) { const columns = tableColumns(content, limit); const part = content.split(/\|\|\s*Rows:\s*/i)[1] || ''; return part.split(/\s*##\s*/).map((raw) => { const normalized = raw.replace(/\(([^()]*)\)/g, (_, inner) => `(${inner.replace(/\s+\/\s+/g, ' or ')})`).replace(/\b(BMLT|B\.MLS?|BSc|BTech|MSc|MTech|MBA|BBA|BCA|BCom|LLB|BA|PhD)\s+\/\s+(?=(?:BMLT|B\.MLS?|BSc|BTech|MSc|MTech|MBA|BBA|BCA|BCom|LLB|BA|PhD)\b)/gi, '$1 or '); const cells = normalized.split(/\s+\/\s+/).map((value) => clean(value).replace(/[:;,]+\s*$/, '').trim()); if (!columns.length) return cells.filter(Boolean); const expected = columns.length; while (cells.length > expected) cells[0] = `${cells[0]} / ${cells.splice(1, 1)[0]}`; const aligned = [...cells]; while (aligned.length < expected) aligned.push(''); return aligned.slice(0, expected); }).filter((row) => row.some(Boolean)); }
+function fullTableRows(content, limit = 3) { const columns = tableColumns(content, limit); const part = content.split(/\|\|\s*Rows:\s*/i)[1] || ''; return part.split(/\s*##\s*/).map((raw) => { const normalized = raw.replace(/\(([^()]*)\)/g, (_, inner) => `(${inner.replace(/\s+\/\s+/g, ' or ')})`).replace(/\b(BMLT|B\.MLS?|BSc|BTech|MSc|MTech|MBA|BBA|BCA|BCom|LLB|BA|PhD)\s+\/\s+(?=(?:BMLT|B\.MLS?|BSc|BTech|MSc|MTech|MBA|BBA|BCA|BCom|LLB|BA|PhD)\b)/gi, '$1 or ').replace(/(\b\d[\d,.]*\s*)\/\s*(?=\d[\d,.]*\s*=)/g, '$1÷ '); const cells = normalized.split(/\s+\/\s+/).map((value) => clean(value).replace(/[:;,]+\s*$/, '').trim()); if (!columns.length) return cells.filter(Boolean); const expected = columns.length; while (cells.length > expected) cells[0] = `${cells[0]} / ${cells.splice(1, 1)[0]}`; const aligned = [...cells]; while (aligned.length < expected) aligned.push(''); return aligned.slice(0, expected); }).filter((row) => row.some(Boolean)); }
 function tableRows(content, rowLimit = 2) { const columns = tableColumns(content); const rows = fullTableRows(content).map((row) => row.map((cell) => shortCell(cell))).slice(0, rowLimit); return { columns, rows }; }
 function compactTableHeader(value, index) {
   let source = clean(value).replace(/\s*\([^)]*\)/g, '').replace(/[,:;]+$/, '');
@@ -1572,7 +1581,7 @@ const pageNeeds = applyPlainLanguageEdits(needs.get(route) || [], edits); const 
   const answer = heroAnswerOverrides.get(route) || (heroAnswer.text && words(heroAnswer.text).length <= 14 ? heroAnswer.text : shortAnswer?.text || '');
   if (answer) usedHeroAnswers.add(normalizeHeroAnswer(answer));
   if (answerItem && answer) markUsed({ ...answerItem, text: answer });
-const supportedHeroFigureLabels = new Set(['Entry Level Pay', 'Post MBA Pay', 'Typical Salary Range', 'Freelance Day Rate', 'Monthly Internship Stipend', 'Total Education Cost', 'Education Budget Example', 'Illustrative Education Budget', 'Education Budget Amount', 'Education Budget Share', 'Budget Warning Threshold', 'Exam Registration Fee', 'Exam Paper Fee', 'Total Course Duration', 'Qualification Time Window', 'Estimated Time Required', 'Relevant Experience Window', 'Proof Milestone Window', 'Platform Eligibility Window', 'Service Commitment Period', 'Notice Period', 'Pension Eligibility Period', 'MBA Pivot Intent', 'Post Study Work', 'Earning Decision Window', 'Hiring Transition Window', 'Available Course Seats', 'Course Seat Share', 'Reserved Vacancy Share', 'Vacancy Rate', 'Benchmark Eligibility Threshold', 'Interest Rate Concession', 'Reported Percentage', 'Total Exam Applicants', 'Exam Candidate Count', 'Registered Enterprise Count', 'Available Job Vacancies', 'Total Job Count', 'Annual Industry Revenue', 'PR Industry Revenue', 'Annual Export Value', 'Total Market Size', 'National 2030 Goal', 'Minimum Exam Marks', 'Exam Pass Rate', 'Graduate Employability Rate', 'Qualification Success Rate', 'Selection Funnel Rate', 'Fresher Share', 'Survey Response Share', 'Annual Traffic Growth', 'Hiring Demand Decline', 'Role Growth Rate', 'Industry Growth Rate', 'PR Industry Growth', 'Regional Market Share', 'Annual Staff Attrition', 'Skills Demand Gap', 'Additional Annual Income', 'Typical Deal Value', 'Education Loan Principal']);
+const supportedHeroFigureLabels = new Set(['Entry Level Pay', 'Post MBA Pay', 'Typical Salary Range', 'Freelance Day Rate', 'Monthly Internship Stipend', 'Total Education Cost', 'Education Budget Example', 'Illustrative Education Budget', 'Education Budget Amount', 'Education Budget Share', 'Budget Warning Threshold', 'Exam Registration Fee', 'Exam Paper Fee', 'Total Course Duration', 'Qualification Time Window', 'Estimated Time Required', 'Relevant Experience Window', 'Proof Milestone Window', 'Platform Eligibility Window', 'Service Commitment Period', 'Notice Period', 'Pension Eligibility Period', 'MBA Pivot Intent', 'Post Study Work', 'Earning Decision Window', 'Hiring Transition Window', 'Available Course Seats', 'Course Seat Share', 'Reserved Vacancy Share', 'Vacancy Rate', 'Benchmark Eligibility Threshold', 'Interest Rate Concession', 'Education Loan Interest Rate', 'Reported Percentage', 'Total Exam Applicants', 'Exam Candidate Count', 'Registered Enterprise Count', 'Available Job Vacancies', 'Total Job Count', 'Annual Industry Revenue', 'PR Industry Revenue', 'Annual Export Value', 'Total Market Size', 'National 2030 Goal', 'Minimum Exam Marks', 'Exam Pass Rate', 'Graduate Employability Rate', 'Qualification Success Rate', 'Selection Funnel Rate', 'Fresher Share', 'Survey Response Share', 'Annual Traffic Growth', 'Hiring Demand Decline', 'Role Growth Rate', 'Industry Growth Rate', 'PR Industry Growth', 'Regional Market Share', 'Annual Staff Attrition', 'Skills Demand Gap', 'Additional Annual Income', 'Typical Deal Value', 'Education Loan Principal']);
 const heroFigureIsSupported = (figure) => supportedHeroFigureLabels.has(figure.label) || /^(?:(?:TCS|Infosys|Wipro|HCLTech|Accenture|Cognizant|Capgemini|Tech Mahindra) (?:Employee Count|Staff Change)|Employees in Reskilling|Employee Count Reported|Staff Change Reported)$/.test(figure.label);
 const budgetFigureTopic = `${title} ${slug}`;
 const educationSpendContext = /education|course|college|degree|tuition|study abroad|mba|professional course|after graduation/i.test(budgetFigureTopic);
@@ -1584,7 +1593,10 @@ const budgetFigureFitsTopic = (figure) => !genericBudgetFigureLabel(figure) || (
 const heroFigurePool = [...data.numberFacts, ...data.facts, ...data.sections.flatMap((section) => section.facts)].flatMap(figuresFromItem);
 const heroNumberFacts = heroFigurePool.filter((figure) => figure?.source && heroFigureIsSupported(figure) && budgetFigureFitsTopic(figure)).filter((figure, index, all) => all.findIndex((other) => other.value.replace(/[\s,]/g, '').toLowerCase() === figure.value.replace(/[\s,]/g, '').toLowerCase()) === index);
 const routeHeroFigures = heroRouteFigureOverrides.get(route)?.map((override) => {
-  const figure = heroFigurePool.find((candidate) => normalizeFigureKey(candidate.value) === normalizeFigureKey(override.value) && candidate.source);
+  const expectedNumbers = numericTokens(override.sourceValue || override.value).join('|');
+  const normalizeSourceMatch = (value) => String(value || '').toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').replace(/\s+/g, ' ').trim();
+  const phrase = normalizeSourceMatch(override.sourceIncludes);
+  const figure = heroFigurePool.find((candidate) => numericTokens(candidate.value).join('|') === expectedNumbers && candidate.source && (!phrase || normalizeSourceMatch(candidate.source).includes(phrase)));
   return figure ? { ...figure, value: override.value, label: override.label } : null;
 }).filter(Boolean).filter(budgetFigureFitsTopic) || null;
 const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigures || heroNumberFacts.filter((figure) => figure.source !== clean(answerItem?.raw || answerItem?.text || '') && ![figure.value, figure.label, figure.source].some((text) => phraseKeys(text).some((key) => usedPhrases.has(key)))).slice(0, 3);
@@ -1776,8 +1788,10 @@ const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigure
     if (Array.isArray(node.figures)) {
       node.figures = node.figures.map((figure) => {
         const contextual = contextualBudgetLabel(figure);
-        const label = threeWordFigureLabel(contextual || figure.label, figure.source || figure.text, figure.value);
-        return label ? { ...figure, label } : null;
+        const normalizedSource = (value) => String(value || '').toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu, ' ').replace(/\s+/g, ' ').trim();
+        const curated = (heroRouteFigureOverrides.get(route) || []).find((override) => numericTokens(override.sourceValue || override.value).join('|') === numericTokens(figure.value).join('|') && (!override.sourceIncludes || normalizedSource(figure.source || figure.text).includes(normalizedSource(override.sourceIncludes))));
+        const label = curated?.label || threeWordFigureLabel(contextual || figure.label, figure.source || figure.text, figure.value);
+        return label ? { ...figure, ...(curated?.value ? { value: curated.value } : {}), label } : null;
       }).filter(Boolean);
       const valid = node.figures.filter((figure) => String(figure.value || '').trim() && figure.source && figureValueSupported(figure.value, figure.source));
       node.figures = valid;
@@ -2030,6 +2044,75 @@ const selectedHeroFigures = heroWithoutFigures.has(route) ? [] : routeHeroFigure
     for (const value of Object.values(node)) if (value && typeof value === 'object') removeUnvaluedFigures(value);
   };
   for (const visual of manifest) removeUnvaluedFigures(visual.content);
+  const applyVerifiedContentCorrections = (node) => {
+    if (Array.isArray(node)) { for (const value of node) applyVerifiedContentCorrections(value); return; }
+    if (!node || typeof node !== 'object') return;
+    if (Array.isArray(node.figures)) for (const figure of node.figures) {
+      if (route === '/blog/career-options/career-options-after-12th-except-engineering/' && normalizeFigureKey(figure.value) === normalizeFigureKey('₹3,83,00,000')) figure.label = 'Implied Education Budget';
+      if (route === '/blog/career-options/career-options-after-graduation/' && normalizeFigureKey(figure.value) === normalizeFigureKey('₹9 lakh')) figure.label = 'Remaining Education Budget';
+      if (route === '/blog/career-options/how-to-get-into-event-management-india/' && normalizeFigureKey(figure.value) === normalizeFigureKey('10-20%') && /total event budget/i.test(figure.source || '')) figure.label = 'Total Event Budget Share';
+      if (route === '/blog/college-degrees/education-loan-worth-it-india-private-college/' && normalizeFigureKey(figure.value) === normalizeFigureKey('10-14%') && /education loan interest rates/i.test(figure.source || '')) figure.label = 'Education Loan Interest Rate';
+      if (route === '/blog/career-options/commerce-career-options-with-salary/' && normalizeFigureKey(figure.value) === normalizeFigureKey('₹5.60 lakh')) figure.label = 'PayScale BBA Profile Average';
+      if (route === '/blog/career-options/commerce-career-options-with-salary/' && normalizeFigureKey(figure.value) === normalizeFigureKey('₹18,000')) figure.label = 'Median Monthly Entry Pay';
+      if (route === '/blog/career-options/commerce-career-options-with-salary/' && normalizeFigureKey(figure.value) === normalizeFigureKey('₹25,000')) figure.label = 'Monthly Pay After 3+ Years';
+      if (route === '/blog/career-change/career-switch-from-it-to-management-india/' && normalizeFigureKey(figure.value) === normalizeFigureKey('3-6 months') && /emergency fund/i.test(figure.source || '')) figure.label = 'Emergency Fund Coverage';
+    }
+    for (const value of Object.values(node)) if (value && typeof value === 'object') applyVerifiedContentCorrections(value);
+  };
+  for (const visual of manifest) applyVerifiedContentCorrections(visual.content);
+  if (route === '/blog/career-change/career-switch-from-it-to-management-india/') {
+    const matrix = manifest.find((visual) => visual.type === 'matrix');
+    if (matrix?.content?.blocks) {
+      const first = matrix.content.blocks.find((block) => Number(block.sourceNeedIndex) === 1);
+      const second = matrix.content.blocks.find((block) => Number(block.sourceNeedIndex) === 2);
+      if (first) {
+        first.heading = 'Market Signals for Mid-Career IT Professionals';
+        first.columns = ['Market Signal', 'What It Means'];
+        first.rows = [
+          ['~3,400 mid-tier exits in one quarter', 'Legacy maintenance roles face more automation exposure.'],
+          ['Only ~16% of IT professionals are AI-skilled', 'Add AI literacy to technical depth before switching.'],
+          ['GCCs are hiring in three Indian hubs', 'Business-facing roles can create an adjacent management path.'],
+          ['MBA pivot intent fell from 58% to 42%', 'Use role-specific proof alongside any degree.'],
+        ];
+        first.tables = [{ columns: first.columns, rows: first.rows }];
+      }
+      if (second) {
+        second.heading = 'Four IT-to-Management Role Lanes';
+        second.columns = ['Lane', 'Pay and Timeline', 'Proof That Helps'];
+        second.rows = [
+          ['Business analyst', '₹4–7 LPA freshers; ₹6–10 LPA at 2–5 years', 'SQL, Python and BFSI domain depth'],
+          ['Scrum master or product owner', '₹5–10 LPA entry; ₹15 LPA+ with certification', 'CSM or CSPO; product-company experience'],
+          ['Delivery or project manager', 'Often grows with tenure; 3–6 years to junior PM', 'PMP, planning and stakeholder ownership'],
+          ['Product manager', '₹12–22 LPA associate; ₹20–40 LPA mid-level', 'Technical, analytics and AI/ML fluency'],
+        ];
+        second.tables = [{ columns: second.columns, rows: second.rows }];
+      }
+    }
+  }
+  if (route === '/blog/career-options/commerce-career-options-with-salary/') {
+    const matrix = manifest.find((visual) => visual.type === 'matrix');
+    const first = matrix?.content?.blocks?.find((block) => Number(block.sourceNeedIndex) === 2);
+    if (first) {
+      first.heading = 'Commerce Pay by Route';
+      first.columns = ['Route', 'Early Pay', 'Later Pay'];
+      first.rows = [
+        ['Finance and data roles', '₹3.88 lakh average total pay under 1 year (418 salaries)', '₹5.56 lakh at 1–4 years (579 salaries)'],
+        ['Digital marketing manager', '₹3.09 lakh average total pay under 1 year (77 salaries)', '₹4.79 lakh at 1–4 years (146 salaries)'],
+        ['Accountant', '₹2.29 lakh average total pay under 1 year (247 salaries)', '₹2.91 lakh at 1–4 years (605 salaries)'],
+        ['Chartered accountant', 'ICAI reports ₹12–13 lakh average for new CAs', 'No comparable year-three sample found'],
+        ['Company secretary', 'ICSI publishes no current average we found', 'No reliable salary sample found'],
+      ];
+      first.tables = [{ columns: first.columns, rows: first.rows }];
+    }
+  }
+  if (route === '/blog/career-options/career-options-after-12th-except-engineering/') {
+    const matrix = manifest.find((visual) => visual.type === 'matrix');
+    if (matrix) {
+      matrix.heading = 'Career Routes Beyond Engineering';
+      const first = matrix.content?.blocks?.find((block) => Number(block.sourceNeedIndex) === 1);
+      if (first) first.heading = 'Compare Routes by Eligibility';
+    }
+  }
   visualCount += manifest.length;
   await writeManifest(join(dir, 'index.json'), JSON.stringify({
     version: 11,
