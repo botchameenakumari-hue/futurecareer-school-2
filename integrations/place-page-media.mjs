@@ -683,6 +683,7 @@ function isIncompleteTableCell(value) {
     'which', 'that', 'who', 'whose', 'what', 'how', 'because', 'than', 'whether', 'if', 'unless', 'even', 'while', 'when', 'although', 'since', 'including', 'can', 'could', 'would', 'should', 'will', 'have', 'has', 'had',
     'do', 'does', 'did', 'is', 'are', 'am', 'was', 'were', 'be', 'been', 'being', 'you', 'your', 'yours',
     'our', 'their', 'its', 'his', 'her', 'more', 'less', 'whole', 'piece', 'point', 'another', 'other', 'same',
+    'consider', 'requires', 'require', 'needs', 'need', 'offers', 'offer', 'provides', 'provide', 'includes', 'include',
   ]).has(last);
 }
 
@@ -747,7 +748,7 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
     const prioritizeTable = visual.type === 'matrix' && block.kind === 'table' && visible;
     const prioritizeFigures = visual.type === 'proof' && block.kind === 'figures' && visible;
     const hasHeroSteps = visual.type === 'hero' && Array.isArray(block.steps) && block.steps.length > 0;
-    const answer = block.answer && !omitAnswer && !prioritizeTable && !prioritizeFigures ? renderCopy(block.answer, 'article-live-answer', visible) : '';
+    const answer = block.answer && !omitAnswer && !prioritizeTable && !prioritizeFigures ? renderCopy(block.answer, 'article-live-answer', visible, block) : '';
     const renderSupporting = () => !prioritizeTable && !prioritizeFigures && !hasHeroSteps && Array.isArray(block.supporting) ? block.supporting.map((text) => {
       let copy = plainText(String(text || ''));
       for (const item of Array.isArray(block.items) ? block.items : []) {
@@ -761,9 +762,9 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
     }).filter((text) => {
       const normalized = plainText(String(text)).toLocaleLowerCase().replace(/[^\p{L}\p{N}₹%]+/gu, ' ').trim();
       return normalized && !sourceText.some((source) => source === normalized || source.includes(normalized));
-    }).map((text) => renderCopy(text, 'article-live-supporting', visible)).join('') : '';
+    }).map((text) => renderCopy(text, 'article-live-supporting', visible, block)).join('') : '';
     const steps = Array.isArray(block.steps) ? block.steps.filter(Boolean) : [];
-    const stepsHtml = steps.length ? `<ol class="article-live-items article-live-items--chain">${steps.map((step) => `<li class="article-live-item article-live-item--plain">${renderCopy(typeof step === 'string' ? step : [step.title, step.body].filter(Boolean).join(': '), 'article-live-item__text', visible)}</li>`).join('')}</ol>` : '';
+    const stepsHtml = steps.length ? `<ol class="article-live-items article-live-items--chain">${steps.map((step) => `<li class="article-live-item article-live-item--plain">${renderCopy(typeof step === 'string' ? step : [step.title, step.body].filter(Boolean).join(': '), 'article-live-item__text', visible, block)}</li>`).join('')}</ol>` : '';
     if (block.kind === 'table') {
       const tables = Array.isArray(block.tables) ? block.tables : [block];
       const renderTable = (table, rows = table.rows) => {
@@ -918,23 +919,16 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
     const listTag = block.type === 'chain' ? 'ol' : 'ul';
     const listClass = block.type === 'checklist' ? ' article-live-items--checklist' : block.type === 'chain' ? ' article-live-items--chain' : '';
     const deferredItems = [];
-    const visibleItems = items.map((item, itemIndex) => {
+    const visibleItems = items.map((item) => {
       let text = cleanVisualText(item.text || '').replace(/^\p{Ll}/u, (letter) => letter.toLocaleUpperCase());
       if (text && !/[.!?]$/.test(text)) text += '.';
       const itemHeading = cleanVisualText(item.heading || '').replace(/^\p{Ll}/u, (letter) => letter.toLocaleUpperCase());
       if (!visible) return `<li class="article-live-item${itemHeading ? '' : ' article-live-item--plain'}">${itemHeading ? `<span class="article-live-item__label">${escapeVisualText(itemHeading)}</span>` : ''}<span class="article-live-item__text">${escapeVisualText(text)}</span></li>`;
       const itemWords = visualWordCount(itemHeading) + visualWordCount(text);
-      if (itemWords <= 9 && visibleWordCount + itemWords + 2 <= 40 && !collidesWithEarlierPanel(`${itemHeading} ${text}`)) {
+      if (visibleWordCount + itemWords + 2 <= 40 && !collidesWithEarlierPanel(`${itemHeading} ${text}`)) {
         visibleWordCount += visualWordCount(itemHeading) + visualWordCount(text);
         registerPhrases(`${itemHeading} ${text}`);
         return `<li class="article-live-item${itemHeading ? '' : ' article-live-item--plain'}">${itemHeading ? `<span class="article-live-item__label">${escapeVisualText(itemHeading)}</span>` : ''}<span class="article-live-item__text">${escapeVisualText(text)}</span></li>`;
-      }
-      const label = compactVisualLabel(itemHeading || text);
-      const summary = fitHeading(label, `Check ${itemIndex + 1}`);
-      if (visibleWordCount + visualWordCount(summary) + 2 <= 40) {
-        visibleWordCount += visualWordCount(summary);
-        registerPhrases(summary);
-        return `<li class="article-live-item${itemHeading ? '' : ' article-live-item--plain'}"><details class="article-live-compact-detail"><summary class="article-live-item__text">${escapeVisualText(summary)}</summary><p>${escapeVisualText(text)}</p></details></li>`;
       }
       deferredItems.push({ itemHeading, text });
       return '';
@@ -978,20 +972,23 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
   let visibleWordCount = visualWordCount(displayHeading) + visualWordCount(uniqueCaption) + visualWordCount(moreSummary);
   registerPhrases(displayHeading);
   registerPhrases(uniqueCaption);
-  const renderCopy = (value, className, visible = true) => {
+  const renderCopy = (value, className, visible = true, sourceBlock = null) => {
     let text = cleanVisualText(value || '').trim();
     if (!text || (!/[.!?]$/.test(text) && isIncompleteTableCell(text))) return '';
     text = text.replace(/^\p{Ll}/u, (letter) => letter.toLocaleUpperCase());
     if (!/[.!?]$/.test(text)) text += '.';
     if (!visible) return `<p class="${className}">${escapeVisualText(text)}</p>`;
     const words = visualWordCount(text);
-    const maxVisibleWords = className === 'article-live-answer' ? 14 : 9;
-    if (words <= maxVisibleWords && visibleWordCount + words <= 40 && !collidesWithEarlierPanel(text)) {
+    if (visibleWordCount + words <= 40 && !collidesWithEarlierPanel(text)) {
       visibleWordCount += words;
       registerPhrases(text);
       return `<p class="${className}">${escapeVisualText(text)}</p>`;
     }
-    const label = fitHeading(compactVisualLabel(text), 'Full detail');
+    const sectionLabel = plainText(sourceBlock?.sourceSectionTitle || sourceBlock?.heading || visual.heading || '').trim();
+    const usableSectionLabel = sectionLabel && visualWordCount(sectionLabel) <= 7 && !isIncompleteVisualHeading(sectionLabel)
+      ? sectionLabel
+      : 'Open the full detail';
+    const label = fitHeading(usableSectionLabel, 'Open the full detail');
     const labelWords = visualWordCount(label);
     if (visibleWordCount + labelWords > 40) return '';
     visibleWordCount += labelWords;
