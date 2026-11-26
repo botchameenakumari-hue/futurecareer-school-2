@@ -169,13 +169,25 @@ function setMeta(html, property, content) {
 
 function fixSocialImage(html, publicDir) {
   const og = (html.match(/<meta property="og:image" content="([^"]*)"/) || [])[1];
-  if (!og || !og.endsWith('.svg')) return html;
-  const body = html.slice(html.indexOf('<body'));
-  const match = body.match(/<img\b[^>]*\ssrc="(\/images\/blog\/[^\"]+\.(?:webp|jpe?g|png))"/);
-  if (!match) return html;
-  const size = imageSize(publicDir, match[1]);
-  let out = setMeta(html, 'og:image', SITE + match[1]);
-  out = setMeta(out, 'twitter:image', SITE + match[1]);
+  if (!og) return html;
+  let imageSrc;
+  try {
+    const parsed = new URL(og, SITE);
+    if (parsed.origin !== new URL(SITE).origin) return html;
+    imageSrc = parsed.pathname;
+  } catch {
+    return html;
+  }
+  let out = html;
+  if (imageSrc.endsWith('.svg')) {
+    const body = html.slice(html.indexOf('<body'));
+    const match = body.match(/<img\b[^>]*\ssrc="(\/images\/blog\/[^\"]+\.(?:webp|jpe?g|png))"/);
+    if (!match) return html;
+    imageSrc = match[1];
+    out = setMeta(out, 'og:image', SITE + imageSrc);
+    out = setMeta(out, 'twitter:image', SITE + imageSrc);
+  }
+  const size = imageSize(publicDir, imageSrc);
   if (size) {
     out = setMeta(out, 'og:image:width', size.w);
     out = setMeta(out, 'og:image:height', size.h);
