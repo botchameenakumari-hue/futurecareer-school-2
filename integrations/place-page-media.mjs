@@ -871,7 +871,8 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
         const value = cleanVisualText(figure.value || '');
         let label = labelOverride || cleanVisualText(figure.label || '');
         if (compact) label = compactVisualLabel(label);
-        return `<div class="article-live-stat"><strong>${escapeVisualText(value)}</strong><span>${escapeVisualText(label)}</span></div>`;
+        const valueTokens = value.split(/(\s+)/).map((token) => /^\s+$/.test(token) ? token : `<span class="article-live-stat__value${token.length > 7 ? ' article-live-stat__value--compact' : ''}">${escapeVisualText(token)}</span>`).join('');
+        return `<div class="article-live-stat"><strong>${valueTokens}</strong><span>${escapeVisualText(label)}</span></div>`;
       };
       const shown = [];
       const deferred = [];
