@@ -30,3 +30,7 @@ git diff --check
 | All blog images clustered after the article | 0 (fixed 2026-10-08) | 0 |
 
 Manual checks (the script cannot do these): open one page from each category at 390 px and 1280 px; confirm no horizontal overflow, text inside images readable without zoom, captions wrap, one eager hero only; read every statistic on an infographic against the article text and its cited source.
+
+## Current visual-count rule
+
+The table above records the October 2026 baseline. The later Round 10/11 audit policy and current `scripts/audit-images.mjs` gate use **4–5 editorial visuals per blog page total, including the hero**. Treat the older “hero + 5 images” baseline as historical; do not flag a page with 4 or 5 visuals on count alone. The current gate also excludes `/blog/assessments/` from that count check.
