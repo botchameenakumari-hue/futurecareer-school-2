@@ -83,8 +83,8 @@ for (const file of walk(dist)) {
       if (!info.exists) fail('og:image file missing', route, ogPath);
       else {
         if (info.w !== 1200 || info.h !== 630) fail('og:image is not 1200x630', route, `${ogPath} is ${info.w || '?'}x${info.h || '?'}`);
-        const width = Number((html.match(/property="og:image:width" content="(\\d+)"/) || [])[1]);
-        const height = Number((html.match(/property="og:image:height" content="(\\d+)"/) || [])[1]);
+        const width = Number((html.match(/property="og:image:width" content="(\d+)"/) || [])[1]);
+        const height = Number((html.match(/property="og:image:height" content="(\d+)"/) || [])[1]);
         if (width !== info.w || height !== info.h) fail('og:image dimensions metadata mismatch', route, `${ogPath} file ${info.w || '?'}x${info.h || '?'} metadata ${width || '?'}x${height || '?'}`);
       }
     } else fail('og:image is not a local project image', route, og);
