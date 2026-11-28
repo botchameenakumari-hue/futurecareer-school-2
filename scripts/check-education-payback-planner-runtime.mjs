@@ -33,10 +33,17 @@ try {
     for (const [field, value] of Object.entries(values)) await page.locator(`[data-epp="${field}"]`).fill(value);
     await page.getByRole('button', { name: 'Show my result' }).click();
 
-    const expected = { direct: '₹3,40,000', opportunity: '₹1,20,000', exposure: '₹4,60,000', surplus: '₹20,000' };
-    for (const [result, value] of Object.entries(expected)) {
-      const actual = await page.locator('.epp-results').textContent();
-      if (!actual.includes(value)) throw new Error(`${result} expected ${value}, received ${actual}`);
+    const expected = [
+      ['Spent on the course', '₹3,40,000'],
+      ['Pay given up while studying', '₹1,20,000'],
+      ['Total to compare', '₹4,60,000'],
+      ['Left each month after essentials', '₹20,000'],
+    ];
+    const cards = await page.locator('.epp-grid > div').allTextContents();
+    for (const [label, value] of expected) {
+      if (!cards.some((card) => card.includes(label) && card.includes(value))) {
+        throw new Error(`${label} expected ${value}, received ${cards.join(' | ')}`);
+      }
     }
     await page.getByRole('button', { name: 'Clear' }).click();
     if (await page.locator('.epp-results').isVisible()) throw new Error('Reset did not hide the results.');
