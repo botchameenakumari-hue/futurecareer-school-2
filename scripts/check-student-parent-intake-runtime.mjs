@@ -31,7 +31,9 @@ try {
     await page.locator('[data-spi="nextStep"]').fill('Open the official source cards together');
     const summary = page.locator('.spi-summary');
     if (!(await summary.textContent()).includes('evidence-led next step')) throw new Error('Completed intake summary was missing.');
-    if (await summary.locator('a').getAttribute('href') !== '/tools/course-entrance-exam-finder/') throw new Error('Course routing was incorrect.');
+    const courseHref = await summary.locator('a').getAttribute('href');
+    const courseUrl = courseHref ? new URL(courseHref, baseUrl) : null;
+    if (courseUrl?.origin !== 'https://futurecareerschool.com' || courseUrl.pathname !== '/tools/course-entrance-exam-finder/') throw new Error('Course routing was incorrect.');
     await page.locator('#student-parent-career-intake').getByRole('button', { name: 'Save in this browser' }).click();
     if (!(await page.locator('#spi-status').textContent()).includes('Saved')) throw new Error('Local save status was missing.');
   } finally { await browser.close(); }
