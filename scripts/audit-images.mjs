@@ -72,6 +72,23 @@ for (const file of walk(dist)) {
   const imgs = [...body.matchAll(/<img\b[^>]*>/g)].map((m) => m[0]).filter((t) => /src="\/images\//.test(t) && !/\/images\/authors\//.test(t));
   const og = (html.match(/property="og:image" content="([^"]*)"/) || [])[1] || '';
   if (isBlog && (og.endsWith('.svg') || !og)) fail('og:image is the generic SVG or missing', route, og);
+  if (isBlog && og && !og.endsWith('.svg')) {
+    let ogPath = '';
+    try {
+      const parsed = new URL(og, 'https://futurecareerschool.com');
+      if (parsed.origin === 'https://futurecareerschool.com') ogPath = decodeURIComponent(parsed.pathname);
+    } catch { /* malformed metadata is reported as a missing local image below */ }
+    if (ogPath.startsWith('/images/')) {
+      const info = imageSize(ogPath);
+      if (!info.exists) fail('og:image file missing', route, ogPath);
+      else {
+        if (info.w !== 1200 || info.h !== 630) fail('og:image is not 1200x630', route, `${ogPath} is ${info.w || '?'}x${info.h || '?'}`);
+        const width = Number((html.match(/property="og:image:width" content="(\\d+)"/) || [])[1]);
+        const height = Number((html.match(/property="og:image:height" content="(\\d+)"/) || [])[1]);
+        if (width !== info.w || height !== info.h) fail('og:image dimensions metadata mismatch', route, `${ogPath} file ${info.w || '?'}x${info.h || '?'} metadata ${width || '?'}x${height || '?'}`);
+      }
+    } else fail('og:image is not a local project image', route, og);
+  }
   let articleVisuals = 0;
   for (const tag of imgs) {
     const src = attr(tag, 'src');
