@@ -877,7 +877,36 @@ function liveVisualFigure(visual, index, className, pageTitle = '', pagePhraseSt
       return `${answer}${preview}${stepsHtml}${renderSupporting()}`;
     }
     if (block.kind === 'figures') {
-      const figures = Array.isArray(block.figures) ? block.figures : [];
+      const normalizeFigureIdentity = (value) => plainText(String(value || '')).toLocaleLowerCase()
+        .replace(/(?:₹|\b(?:rs\.?|inr)\b|\$)/giu, ' ')
+        .replace(/[^\p{L}\p{N}%]+/gu, ' ')
+        .replace(/\s+/gu, ' ')
+        .trim();
+      const figureSourceSimilarity = (left, right) => {
+        const stop = new Set(['the', 'and', 'for', 'with', 'from', 'that', 'this', 'not', 'are', 'is', 'was', 'were', 'a', 'an', 'of', 'to', 'on', 'in', 'as', 'it', 'can', 'be']);
+        const a = new Set(normalizeFigureIdentity(left).split(' ').filter((word) => word.length > 2 && !stop.has(word)));
+        const b = new Set(normalizeFigureIdentity(right).split(' ').filter((word) => word.length > 2 && !stop.has(word)));
+        if (!a.size || !b.size) return 0;
+        const overlap = [...a].filter((word) => b.has(word)).length;
+        return overlap / new Set([...a, ...b]).size;
+      };
+      const rawFigures = Array.isArray(block.figures) ? block.figures : [];
+      const seenFigureIdentity = new Set();
+      const figures = rawFigures.filter((figure) => {
+        const value = normalizeFigureIdentity(figure.value);
+        const source = normalizeFigureIdentity(figure.source || figure.text);
+        const label = normalizeFigureIdentity(figure.label);
+        if (!value) return true;
+        const genericBudget = (candidate) => /^education budget(?: example)?$/.test(normalizeFigureIdentity(candidate.label));
+        if (genericBudget(figure) && rawFigures.some((other) => other !== figure
+          && normalizeFigureIdentity(other.value) === value
+          && !genericBudget(other)
+          && figureSourceSimilarity(figure.source || figure.text, other.source || other.text) >= 0.68)) return false;
+        const identity = value + '|' + (source || label);
+        if (seenFigureIdentity.has(identity)) return false;
+        seenFigureIdentity.add(identity);
+        return true;
+      });
       const sources = [...new Set(figures.map((figure) => String(figure.source || '').trim()).filter(Boolean))];
       const sourceNotes = sources.length ? `<details class="article-live-sources"><summary>Sources</summary>${sources.map((source) => `<p><small>${escapeVisualText(source)}</small></p>`).join('')}</details>` : '';
       if (visible && sources.length) visibleWordCount += 1;
